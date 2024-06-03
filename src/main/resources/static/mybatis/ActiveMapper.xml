@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="life.wewu.web.service.active.ActiveDao">
+
+	<!-- 활동 resultMap -->
+	<resultMap type="life.wewu.web.domain.active.Active" id="ActiveResultMap">
+		<result column="active_no" property="activeNo" jdbcType="INTEGER" />
+		<result column="group_no" property="groupNo" jdbcType="INTEGER" />
+		<result column="active_name" property="activeName" jdbcType="VARCHAR" />
+		<result column="leader_nick" property="leaderNick" jdbcType="VARCHAR" />
+		<result column="active_start_date" property="activeStartDate" jdbcType="DATE" />
+		<result column="active_end_date" property="activeEndDate" jdbcType="DATE" />
+		<result column="active_x" property="activeX" jdbcType="VARCHAR" />
+		<result column="active_y" property="activeY" jdbcType="VARCHAR" />
+		<result column="active_start_time" property="activeStartTime" jdbcType="VARCHAR" />
+		<result column="active_end_time" property="activeEndTime" jdbcType="VARCHAR" />
+		<result column="active_info" property="activeInfo" jdbcType="VARCHAR" />
+		<result column="active_local" property="activeLocal" jdbcType="VARCHAR" />
+		<result column="active_reg_date" property="activeRegDate" jdbcType="DATE" />
+		<result column="state_falg" property="stateFlag" jdbcType="VARCHAR" />
+		<result column="active_url" property="activeUrl" jdbcType="VARCHAR" />
+		<result column="active_short_url" property="activeShortUrl" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 활동 등록 -->
+	<insert id="addActive" parameterType="life.wewu.web.domain.active.Active" useGeneratedKeys="true" keyProperty="activeNo" >
+	
+		INSERT INTO active
+		(group_no, active_name, active_start_date, active_end_date, active_x, active_y, 
+		active_start_time, active_end_time, active_info, active_local, active_reg_date,
+		state_flag, active_url, active_short_url)
+		VALUES (
+			#{groupNo}, #{activeName}, #{activeStartDate}, #{activeEndDate}, #{activeX}, #{activeY},
+			#{activeStartTime}, #{activeEndTime}, #{activeInfo}, #{activeLocal}, #{activeRegDate}, #{stateFlag}, 
+			#{activeUrl}, #{activeShortUrl}
+		)
+		
+	</insert>
+	
+	<!-- 활동 상세 조회 -->
+	<select id="getActive" parameterType="int" resultMap="ActiveResultMap" >
+	
+		SELECT * FROM active
+		<where>
+			active_no = #{activeNo}
+		</where>
+	
+	</select>
+	
+	<!-- 활동 수정 -->
+	<update id="updateActive" parameterMap="life.wewu.web.domain.active.Active">
+	
+		UPDATE active
+		<set>
+			active_name = #{activeName}, 
+			active_start_date = #{activeStartDate}, 
+			active_end_date = #{activeEndDate}, 
+			active_x = #{activeX}, 
+			active_y = #{activeY}, 
+			active_start_time = #{activeStartTime}, 
+			active_end_time = #{activeEndTime}, 
+			active_info = #{activeInfo}, 
+			active_local = #{activeLocal}, 
+			active_reg_date = curdate(),
+			state_flag = #{stateFlag}, 
+			active_url = #{activeUrl}, 
+			active_short_url = #{activeShortUrl}
+			
+		</set>
+		<where>
+			active_no = #{activeNo}
+		</where>
+	
+	</update>
+	
+	<!-- 해쉬태그 추가 -->
+	<insert id="life.wewu.web.domain.active.ActiveHash" parameterType="String">
+	
+		INSERT INTO active_hash
+		(active_no, hash_name)
+		VALUES (
+			#{activeNo}, #{hashName}
+		)
+	
+	</insert>
+	
+	<!-- 활동 해쉬태그 가져오기 -->
+	<select id="getActiveHashList" parameterType="int">
+	
+		SELECT * FROM active_hash
+		<where>
+			active_no = #{activeNo}
+		</where>
+	
+	</select>
+	
+	<!-- 활동 해쉬태그 삭제 -->
+	<delete id="deleteActiveHash" parameterType="int">
+	
+		DELETE FROM active_hash
+		<where>
+			active_no = #{activeNo}
+		</where>
+	
+	</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
