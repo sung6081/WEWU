@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace = "MyPlantMapper">
+	
+	<resultMap id="myPlantSelectMap" type="myPlant" >
+		<result property="myPlantNo" 		column="my_plant_no" 		jdbcType="INTEGER"/>
+		<result property="myPlantState"		column="my_plant_state" 	jdbcType="VARCHAR" />
+		<result property="myPlantName" 		column="my_plant_name" 		jdbcType="VARCHAR" />
+		<result property="myPlantExp" 		column="my_plant_exp" 		jdbcType="INTEGER" />
+		<result property="plantStartDate" 	column="plant_start_date" 	jdbcType="DATE" />
+		<result property="plantEndDate"		column="plant_end_date"		jdbcType="DATE"/>
+		<result property="weatherNo"		column="weather_no"			jdbcType="INTEGER"/>
+		<result property="weatherImg"		column="weather_img"		jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- GET RANDOM MYPLANT -->
+	<select id="newMyPlant" parameterType="myPlant">
+		SELECT * FROM plant
+		WHERE plant_no IN ( SELECT plant_no
+							FROM plant_levl
+							WHERE plant_levl = '새싹')
+		ORDER BY RAND()
+		limit 1
+	</select>
+	
+	<!-- GET MYPLANTliST -->
+	<select id="getMyPlantList" parameterType = "map" >
+		SELECT 
+			m.my_plant_no, m.my_plant_state , m.plant_start_date, m.plant_end_date , le.plant_levl , le.levl_Img , u.nickname, le.plant_max_exp,le.plant_min_exp
+    	FROM 
+    		my_plant m , plant_levl le , user u
+  	 	WHERE m.plant_no = le.plant_no
+   		AND u.nickname = m.nickname
+   		AND my_plant_exp between #{plant_min_exp} and #{plant_max_exp};
+   		
+			<if test = "my_plant_state != null and my_plant_state == 'Y'">
+				AND m.my_plant_state = 'Y'	
+			</if>
+				
+			<if test = "my_plant_state != null and my_plant_state == 'N'">
+				AND m.my_plant_state = 'N'
+			</if>
+	</select>
+	
+	<update id="updateMyPlant" parameterType="String">
+		UPDATE myplant
+	   	<set>
+	   		my_plant_name = #{myPlantName} 
+	   	</set>
+	   	WHERE my_Plant_no = #{myPlantNo}
+	 </update>
+	 
+	 <update id="deleteMyPlant" parameterType="">
+	 	UPDATE myPlant
+	 	<set>	
+	 		my_plant_state = 'N'
+	 	</set>
+	 	WHERE my_plant_no = #{myPlantNo}
+	 </update>
+	
+	
+	<update id="useItemAndExpIncrease"  parameterType="int">
+		UPDATE item_purchase
+		<set>
+			item_stock = item_stock - 1
+		</set>
+			WHERE item_purchase_no = #{itemPurchaseNo} AND item_stock > 0;
+		
+		UPDATE my_plant
+        <set>
+        	my_plant_exp = my_plant_exp + item_effect
+        </set> 
+        WHERE my_plant_no = #{myPlantNo};
+	
+	</update>
+	
+	
+</mapper>
