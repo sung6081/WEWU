@@ -11,7 +11,7 @@ import life.wewu.web.service.plant.PlantService;
 
 @Transactional
 @SpringBootTest
-public class PlantServiceTest {
+public class QuestServiceTest {
 
 	@Autowired
 	@Qualifier("plantService")
