@@ -17,14 +17,14 @@
       <result property="itemRegdate"    				column="item_regdate"       				jdbcType="DATE" />
    </resultMap>
 	
-	<!-- SQL : INSERT --> 
-	<insert id="addItem" parameterType="item" >
+	<!-- SQL : INSERT 판매 아이템 등록--> 
+	<insert id="addItem" parameterType="item" useGeneratedKeys="true" keyProperty="itemNo ">      
 	 	INSERT
-		INTO item ( item_no , item_category , item_name, item_effect , item_img, item_price, item_regdate ) 
-		VALUES(	#{itemNo:INT}, #{itemCategory:VARCHAR}, #{itemName:VARCHAR}, #{itemEffect:VARCHAR}, #{itemImg:VARCHAR}, #{itemPrice:INT}, #{itemRegdate:DATE})
+		INTO item (item_category , item_name, item_effect , item_img, item_price, item_regdate ) 
+		VALUES(	#{itemCategory:VARCHAR}, #{itemName:VARCHAR}, #{itemEffect:VARCHAR}, #{itemImg:VARCHAR}, #{itemPrice:INT}, #{itemRegdate:DATE})
 	</insert>
 	
-    <!-- SQL : SELECT -->
+    <!-- SQL : SELECT 아이템 상세정보조회-->
 	<select id="getItem" parameterType="int" resultMap="itemSelectMap">
 		SELECT
 		item_no , item_category , item_name, item_effect , item_img, item_price
@@ -32,7 +32,7 @@
 		WHERE item_no = #{value}
 	</select>
 	
-	<!-- SQL : SELECT -->
+	<!-- SQL : SELECT 아이템 목록조회-->
 	<select id="getItemList" parameterType="int" resultMap="itemSelectMap">
 		SELECT
 		item_no , item_category , item_name, item_img, item_price
@@ -40,7 +40,7 @@
 		WHERE item_no = #{value}
 	</select>
 	
-	<!-- SQL : UPDATE -->
+	<!-- SQL : UPDATE 판매 아이템 정보 수정-->
 	<update id="updateItem" parameterType="item">
 		UPDATE item
 		<set>
@@ -55,14 +55,14 @@
 		WHERE item_no = #{itemNo}
 	</update>
 	
-	<!-- SQL : DELETE -->
-	 <delete	id="deleteItem" 	parameterType="int" >
+	<!-- SQL : DELETE 판매 아이템 삭제-->
+	 <delete	id="deleteItem" 	parameterType="item" >
 	 	DELETE 
 		FROM item 
 		WHERE item_no = #{value}
 	 </delete>
 		
-	<!-- SQL : SELECT LIST -->
+	<!-- SQL : SELECT 아이템 검색 결과-->
 	<select  id="getItemSearch"  parameterType="search"	resultMap="itemSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
@@ -97,18 +97,15 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT prod_no , prod_name , prod_detail
-						FROM product
+	  	FROM(	SELECT item_no , item_category , item_name, item_effect , item_img, item_price
+						FROM item
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-					 			prod_no LIKE '%'||#{searchKeyword}||'%'
+					 			item_name LIKE '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		prod_name LIKE '%'||#{searchKeyword}||'%'
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-				 				price = #{searchKeyword}
+						 		item_category LIKE '%'||#{searchKeyword}||'%'
 								</if>
 							</where>
 						</if> ) countTable						

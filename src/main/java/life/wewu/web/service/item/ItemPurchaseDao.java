@@ -2,7 +2,7 @@ package life.wewu.web.service.item;
 
 import java.util.List;
 
-import life.wewu.web.domain.ItemPurchase;
+import life.wewu.web.domain.item.ItemPurchase;
 
 public interface ItemPurchaseDao {
 	

@@ -9,37 +9,28 @@ import life.wewu.web.domain.user.User;
 
 public interface UserDao {
 	
-	public void addUser(User user);
+	public void addUser(User user) throws Exception;
 	
-	public void updateUser(User user);
+	public void updateUser(User user) throws Exception;
 	
-	public void deleteUser(String userId);
+	public void deleteUser(String userId) throws Exception;
 	
-	public  List<User> getUserList();
+	public  List<User> getUserList() throws Exception;
 	
-	public User getUser(String userId);
+	public User getUser(String userId) throws Exception;
 	
-	public User authUser(String userId, String password);
+	public void updateAdmin(User user) throws Exception;
 	
-	public void updateAdmin(User user);
+	public String findUserId(String phoneNum) throws Exception;
 	
-	public String findUserId(String email);
-	
-    public String findUserPwd(String userId);
+    public String findUserPwd(String userId) throws Exception;
     
-    public void quitUser(String userId);
+    public boolean checkUserId(String userId) throws Exception;
     
-    public boolean checkUserId(String userId);
+    public boolean checkNickName(String nickname) throws Exception;
     
-    public boolean checkNickName(String nickname);
-    
-    public boolean checkErrorUserId(String userId);
-    
-    public boolean checkErrorNickName(String nickname);
-    
-    public boolean checkSecUserPwd(String userId, String securityPwd);
-    
-    public boolean checkSameUserPwd(String userId, String password);
+    public User authUser(String userId, String password) throws Exception;
+
 }
 
 

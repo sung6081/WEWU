@@ -13,6 +13,16 @@
 	</settings>	
 	
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
+	
+	<typeAliases>
+		<typeAlias alias="board" type="life.wewu.web.domain.board.Board" />
+		<typeAlias alias="boardFile" type="life.wewu.web.domain.board.BoardFile" />
+		<typeAlias alias="bookmark" type="life.wewu.web.domain.board.Bookmark" />
+		<typeAlias alias="comment" type="life.wewu.web.domain.board.Comment" />
+		<typeAlias alias="donation" type="life.wewu.web.domain.board.Donation" />
+		<typeAlias alias="question" type="life.wewu.web.domain.board.Question" />
+	</typeAliases>
+	
 	<!-- 
 	<typeAliases>
 		<typeAlias alias="user" type="spring.domain.User" />
@@ -22,6 +32,14 @@
 	 <!-- SQL Definition :: file include -->
 
 	<mappers>
-		<mapper resource="mybatis/ActiveMapper.xml"/>
+		<mapper resource="static/mybatis/ActiveMapper.xml"/>
+		
+		<mapper resource="static/mybatis/BoardMapper.xml"/>
+		<mapper resource="static/mybatis/QuestionMapper.xml"/>
+		<mapper resource="static/mybatis/DonationMapper.xml"/>
+		
+		<mapper resource="static/mybatis/ItemMapper.xml"/>
+        <mapper resource="static/mybatis/ItemPurchaseMapper.xml"/>
+        <mapper resource="static/mybatis/ShoppingCartMapper.xml"/>
 	</mappers>
 </configuration>

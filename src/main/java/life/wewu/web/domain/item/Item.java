@@ -6,6 +6,8 @@
 package life.wewu.web.domain.item;
 
 import lombok.Data;
+import lombok.Builder;
+
 import java.sql.Date;
 
 public class Item {

@@ -4,10 +4,10 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ItemMapper">
+<mapper namespace="ItemPurchaseMapper">
  	
  	
-	<resultMap id="itemSelectMap" type="item">
+	<resultMap id="itemPurchaseSelectMap" type="itemPurchase">
       <result property="itemPurchaseNo"          	column="item_purchase_no"          	jdbcType="INT" />
       <result property="itemNo"          			column="item_no"          			jdbcType="INT" />
       <result property="buyerNickname"   			column="buyer_nickname"    			jdbcType="VARCHAR" />
@@ -23,87 +23,102 @@
       <result property="refundPoint"          		column="refund_point"       		jdbcType="INT" />
    </resultMap>
 	
-	<!-- SQL : INSERT --> 
-	<insert id="addProduct" parameterType="item" >
-	 	INSERT
-		INTO product ( prod_no , prod_name , prod_detail, manufacture_day , price, image_file, reg_date ) 
-		VALUES(	seq_product_prod_no.nextval, #{prodName}, #{prodDetail:VARCHAR}, #{manufactureDay:VARCHAR}, #{price:NUMERIC}, #{imageFile:VARCHAR}, SYSDATE )
-	</insert>
 	
-	<select id="getProduct" parameterType="int" resultMap="productSelectMap">
-		SELECT
-		prod_no , prod_name , prod_detail, manufacture_day , price, image_file, reg_date
-		FROM product
-		WHERE prod_no = #{value}
-	</select>
+	<!-- SQL : INSERT 아이템 구매하기 -->    <!-- parameterType는 매개변수 쓸 때만 넣음. 안 쓸 땐 안 넣음.
+	resultMap은 도메인이랑 같이 가져가는 게 맞음.  -->
 	
-	<update id="updateProduct" parameterType="item">
-		UPDATE product 
-		<set>
-			<if test="prodName != null"> prod_name = #{prodName} , </if>
-			<if test="prodDetail != null"> prod_detail = #{prodDetail} , </if>
-			<if test="manufactureDay != null"> manufacture_day = #{manufactureDay} , </if>
-			<if test="price != null"> price = #{price} , </if>
-			<if test="imageFile != null"> image_file = #{imageFile} , </if>
-		</set>
-		WHERE prod_no = #{prodNo}
-	</update>
+	<insert id="addPurchase" parameterType="itempurchase" useGeneratedKeys="true" keyProperty="itemPurchaseNo">
+	     INSERT 
+	     INTO item_purchase ( item_no, item_name, buyer_nickname, item_cnt, item_purchase_date, item_price ) 
+	     VALUES (
+	     #{item_purchase_no}, #{item_no}, #{item_name}, #{buyer_nickname}, 
+	     #{item_cnt}, #{item_purchase_date}, #{item_price} )
+    </insert>
 	
-	
-	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT *
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				prod_no LIKE '%'||#{searchKeyword}||'%'
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_name LIKE '%'||#{searchKeyword}||'%'
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				price = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY prod_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	<!-- SQL : SELECT 아이템 환불내역 목록조회 -->
+	 <select id="getRefundPointList"  resultMap="itemPurchaseSelectMap"> 
+		  SELECT 
+		  item_purchase_no, refund_compdate, item_name, refund_point //이너조인
+		  FROM item_purchase
+		  WHERE refund_askdate IS NOT NULL
 	 </select>
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
+   	
+   	<!-- SQL : SELECT 아이템 환불내역 상세정보조회 -->
+     <select id="getRefundPoint"  resultMap="itemPurchaseSelectMap">   //이너조인
+	      SELECT
+	      item_purchase_no, refund_compdate, refund_askdate, refund_flag, item_name, item_cnt, item_price, refund_point, before_refundpoint, after_refundpoint
+	      FROM item_purchase
+	      WHERE refund_askdate IS NOT NULL
+    </select>
+    
+    <!-- SQL : SELECT 아이템 판매내역 목록조회 -->
+	<select id="getItemSalesHistoryList" parameterType="int" resultMap="itemPurchaseSelectMap">
+        SELECT
+        item_purchase_no, item_purchase_date, item_name, item_cnt, item_price       //이너조인
+        FROM item_purchase
+        WHERE item_purchase_no = #{value}
+    </select>
 	
+	<!-- SQL : SELECT 아이템 판매내역 상세정보조회 -->
+	<select id="getItemSalesHistory" parameterType="int" resultMap="itemPurchaseSelectMap">
+        SELECT
+        item_purchase_no, item_purchase_date, item_name, item_cnt, item_price, buyer_nickname //이너조인    
+        FROM item_purchase
+        WHERE item_purchase_no = #{value}
+    </select>
 	
-	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT prod_no , prod_name , prod_detail
-						FROM product
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-					 			prod_no LIKE '%'||#{searchKeyword}||'%'
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		prod_name LIKE '%'||#{searchKeyword}||'%'
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-				 				price = #{searchKeyword}
-								</if>
-							</where>
-						</if> ) countTable						
-	 </select>
+	<!-- SQL : SELECT 아이템 구매내역 목록조회 -->
+	<select id="getItemPurchaseHistoryList" parameterType="String" resultMap="itemPurchaseSelectMap">
+        SELECT
+        item_purchase_no, item_purchase_date, item_name, item_cnt, item_price, buyer_nickname       //이너조인 
+        FROM item_purchase
+        WHERE buyer_nickname  = #{value}
+    </select>
+    
+    <!-- SQL : SELECT 아이템 구매내역 상세정보조회 -->
+    <select id="getItemPurchaseHistory" parameterType="String" resultMap="itemPurchaseSelectMap">
+        SELECT
+        item_purchase_no, item_purchase_date, item_name, item_cnt, item_price, buyer_nickname //이너조인 
+        FROM item_purchase
+        WHERE buyer_nickname  = #{value}
+    </select>
+    
+    <!-- SQL : DELETE 아이템 구매 취소-->
+	 <delete	id="deletePurchase" 	parameterType="itempurchase" >
+	 	DELETE 
+		FROM item_purchase 
+		WHERE item_purchase_no = #{value}
+	 </delete>
+   
+    <!-- SQL : SELECT 포인트 충전내역 목록 가져오기 -->  <!-- table 위치랑 mapper 상관 없음. pay에서 가져오는 거 맞음. -->
+    <select id="getPointChargeList" parameterType="int" resultMap="itemPurchaseSelectMap">
+        SELECT
+        pay_no, pay_date, pay_amount, pay_flag
+        FROM pay
+        WHERE pay_no = #{value}
+    </select>
+    
+    <!-- SQL : SELECT 포인트 충전내역 상세조회 가져오기 -->
+    <select id="getPointCharge" parameterType="int" resultMap="itemPurchaseSelectMap">
+        SELECT
+        pay_no, pay_date, pay_amount, after_charge_point, pay_option, pay_flag
+        FROM pay
+        WHERE pay_no = #{value}    
+    </select>
+    
+     <!-- SQL : DELETE 포인트 충전 취소-->
+     <delete id="deletePointCharge" parameterType="int">
+        DELETE 
+        FROM pay
+        WHERE pay_no = #{value}
+     </delete>
+     
+     <!-- SQL : INSERT 포인트 충전 --> 
+     <insert id="addPointCharge" parameterType="itempurchase">
+        INSERT 
+        INTO pay ( pay_no, pay_amount, current_point, pay_option) 
+        VALUES (#{pay_amount}, #{current_point}, #{pay_option})
+     </insert>
 	
 	
 </mapper>

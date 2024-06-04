@@ -2,6 +2,7 @@ package life.wewu.web.service.active.impl;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.service.active.ActiveService;
 
@@ -118,6 +120,29 @@ public class ActiveServiceTest {
 		active = activeService.getActive(3);
 		
 		System.out.println(active);
+		
+	}
+	
+	//목록 조회 테스트
+	@Test
+	public void testGetActiveList() {
+		
+		System.out.println("getActiveList");
+		
+		Search search = new Search();
+		
+		search.setCurrentPage(1);
+		//search.setCurrentPage(2);
+		
+		//search.setSearchKeyword("도봉");
+		
+		List<Active> list = activeService.getActiveList(search);
+		
+		for(Active record : list) {
+			
+			System.out.println("record : "+record);
+			
+		}
 		
 	}
 	

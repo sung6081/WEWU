@@ -3,7 +3,7 @@ package life.wewu.web.service.item;
 import java.util.List;
 
 import life.wewu.web.common.Search;
-import life.wewu.web.domain.Item;
+import life.wewu.web.domain.item.Item;
 
 public interface ItemDao {
 	
