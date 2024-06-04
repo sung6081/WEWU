@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.micrometer.core.instrument.search.Search;
 import life.wewu.web.domain.active.Active;
@@ -24,11 +25,12 @@ public class ActiveServiceImpl implements ActiveService {
 	//메소드
 	//활동과 해쉬태그 모두 등록
 	@Override
+	@Transactional
 	public void addActive(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		Active active = (Active)map.get("active");
 		
-		System.out.println(active);
+		//System.out.println(active);
 		
 		activeDao.addActive(active);
 		
@@ -50,7 +52,13 @@ public class ActiveServiceImpl implements ActiveService {
 	public Active getActive(int activeNo) {
 		// TODO Auto-generated method stub
 		
+		//System.out.println(activeNo);
+		
 		Active active = activeDao.getActive(activeNo);
+		
+		if(active == null) {
+			return null;
+		}
 		
 		active.setHashList(activeDao.getActiveHashList(activeNo));
 		
@@ -58,6 +66,7 @@ public class ActiveServiceImpl implements ActiveService {
 	}
 
 	@Override
+	@Transactional
 	public void updateActive(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		
@@ -81,6 +90,7 @@ public class ActiveServiceImpl implements ActiveService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteActive(Active active) {
 		// TODO Auto-generated method stub
 		active.setStateFlag("D");
