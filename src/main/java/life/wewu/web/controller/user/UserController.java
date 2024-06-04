@@ -31,5 +31,15 @@ public class UserController {
         // 로그인 실패 시 처리 (예: 로그인 페이지로 리다이렉트)
         return "redirect:/login.jsp";
     }
+    
+	@RequestMapping( value="logout", method=RequestMethod.GET )
+	public String logout(HttpSession session ) throws Exception{
+		
+		System.out.println("/user/logout : POST");
+		
+		session.invalidate();
+		
+		return "redirect:/index.jsp";
+	}
 }
 
