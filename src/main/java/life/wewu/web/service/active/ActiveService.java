@@ -12,10 +12,10 @@ public interface ActiveService {
 	
 	public Active getActive(int activeNo); //활동 상세 조회
 	
-	public void updateActive(Active active); //활동 수정
+	public void updateActive(Map<String, Object> map); //활동 수정
 	
-	public void deleteActive(String stateFlag); //활동 삭제
+	public void deleteActive(Active active); //활동 삭제
 	
-	public List<Active> getActiveList(); //활동 목록
+	public List<Active> getActiveList(Map<String, Object> map); //활동 목록
 	
 }

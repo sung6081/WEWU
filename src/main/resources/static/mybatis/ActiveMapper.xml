@@ -77,8 +77,18 @@
 	
 	</update>
 	
+	<!-- 활동 목록 조회 -->
+	<select id="getActiveList" parameterType="java.util.Map" resultMap="ActiveResultMap">
+	
+		SELECT * FROM active, active_hash
+		<where>
+			
+		</where>
+		
+	</select>
+	
 	<!-- 해쉬태그 추가 -->
-	<insert id="life.wewu.web.domain.active.ActiveHash" parameterType="String">
+	<insert id="addActiveHash" parameterType="String">
 	
 		INSERT INTO active_hash
 		(active_no, hash_name)
@@ -92,6 +102,16 @@
 	<select id="getActiveHashList" parameterType="int">
 	
 		SELECT * FROM active_hash
+		<where>
+			active_no = #{activeNo}
+		</where>
+	
+	</select>
+	
+	<!-- 해쉬태그 개수 가져오기 -->
+	<select id="getActiveHashCount" parameterType="int">
+	
+		SELECT COUNT(*) FROM active_hash
 		<where>
 			active_no = #{activeNo}
 		</where>
