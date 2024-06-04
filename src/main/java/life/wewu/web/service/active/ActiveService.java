@@ -3,7 +3,7 @@ package life.wewu.web.service.active;
 import java.util.List;
 import java.util.Map;
 
-import io.micrometer.core.instrument.search.Search;
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
 

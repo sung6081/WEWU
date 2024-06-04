@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.micrometer.core.instrument.search.Search;
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
 import life.wewu.web.service.active.ActiveDao;
@@ -103,12 +103,6 @@ public class ActiveServiceImpl implements ActiveService {
 	public List<Active> getActiveList(Search search) {
 		// TODO Auto-generated method stub
 		List<Active> activeList = activeDao.getActiveList(search);
-		
-		for(Active active : activeList) {
-			
-			active.setHashList(activeDao.getActiveHashList(active.getActiveNo()));
-			
-		}
 		
 		return activeList;
 	}
