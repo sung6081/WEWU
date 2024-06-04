@@ -5,12 +5,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import io.micrometer.core.instrument.search.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
 import life.wewu.web.service.active.ActiveDao;
 import life.wewu.web.service.active.ActiveService;
 
+@Service("activeServiceImpl")
 public class ActiveServiceImpl implements ActiveService {
 	
 	//필드
@@ -18,11 +22,15 @@ public class ActiveServiceImpl implements ActiveService {
 	@Qualifier("activeDao")
 	ActiveDao activeDao; //activeDao injection
 
+	//메소드
 	//활동과 해쉬태그 모두 등록
 	@Override
+	@Transactional
 	public void addActive(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		Active active = (Active)map.get("active");
+		
+		//System.out.println(active);
 		
 		activeDao.addActive(active);
 		
@@ -44,7 +52,13 @@ public class ActiveServiceImpl implements ActiveService {
 	public Active getActive(int activeNo) {
 		// TODO Auto-generated method stub
 		
+		//System.out.println(activeNo);
+		
 		Active active = activeDao.getActive(activeNo);
+		
+		if(active == null) {
+			return null;
+		}
 		
 		active.setHashList(activeDao.getActiveHashList(activeNo));
 		
@@ -52,21 +66,51 @@ public class ActiveServiceImpl implements ActiveService {
 	}
 
 	@Override
-	public void updateActive(Active active) {
+	@Transactional
+	public void updateActive(Map<String, Object> map) {
 		// TODO Auto-generated method stub
+		
+		Active active = (Active)map.get("active");
+		
+		activeDao.updateActive(active);
+		
+		activeDao.deleteActiveHash(active.getActiveNo());
+		
+		String[] hashList = map.get("hash").toString().split(",");
+		
+		for(int i = 0; i < hashList.length; i++) {
+			ActiveHash activeHash = ActiveHash.builder()
+					.activeNo(active.getActiveNo())
+					.hashName(hashList[i])
+					.build();
+			
+			activeDao.addActiveHash(activeHash);
+		}
 		
 	}
 
 	@Override
-	public void deleteActive(String stateFlag) {
+	@Transactional
+	public void deleteActive(Active active) {
 		// TODO Auto-generated method stub
+		active.setStateFlag("D");
+		
+		activeDao.updateActive(active);
 		
 	}
 
 	@Override
-	public List<Active> getActiveList() {
+	public List<Active> getActiveList(Search search) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Active> activeList = activeDao.getActiveList(search);
+		
+		for(Active active : activeList) {
+			
+			active.setHashList(activeDao.getActiveHashList(active.getActiveNo()));
+			
+		}
+		
+		return activeList;
 	}
 
 	
