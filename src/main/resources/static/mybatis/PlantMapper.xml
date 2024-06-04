@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace = "PlantMapper">
+	
+	<resultMap id="PlantSelectMap" type="plant" >
+		<result property="plantNo" 			column="plant_no" 		jdbcType="INTEGER"/>
+		<result property="plantName"		column="plant_name" 	jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="PlantLevlSelectMap" type="plantLevl" >
+		<result property="plantLevlNo" 		column="my_plant_no" 		jdbcType="INTEGER"/>
+		<result property="myPlantState"		column="my_plant_state" 	jdbcType="VARCHAR" />
+		<result property="myPlantName" 		column="my_plant_name" 		jdbcType="VARCHAR" />
+		<result property="myPlantExp" 		column="my_plant_exp" 		jdbcType="INTEGER" />
+		<result property="plantStartDate" 	column="plant_start_date" 	jdbcType="DATE" />
+		<result property="plantEndDate"		column="plant_end_date"		jdbcType="DATE"/>
+	</resultMap>
+	
+	
+	
+	<insert id="addPlant" useGeneratedKeys="true" keyProperty="plantNo">
+        INSERT INTO wewu.plant (plant_name)
+        VALUES (#{plantName})
+    </insert>
+
+    <!-- plant_levl 테이블에 데이터 삽입 -->
+    <insert id="addPlantLevl">
+        INSERT INTO wewu.plant_levl (plant_no, plant_levl, plant_min_exp, plant_max_exp, plant_final_levl, levl_img)
+        VALUES (#{plantNo}, #{plantLevl}, #{plantMinExp}, #{plantMaxExp}, #{plantFinalLevl}, #{levlImg})
+    </insert>
+	
+	
+	<!-- ADD PLANT -->
+	<insert id="addPlant" parameterType="plant">
+		INSERT INTO plant()
+	</insert>
+	
+	<!-- UPDATE PLANT -->
+	<update id="updatePlant">
+		UPDATE plant	
+		<set>
+			plant_name = #{plant_name}
+			ddd
+		</set>
+	</update>
+	
+	<!-- DELETE PLANT -->
+	<delete id="deletePlant">
+		DELETE FROM plant
+		WHERE plant_no = #{plant_no}
+	</delete>
+	
+	<select id="getPlant">
+		SELECT * FROM plant
+		WHERE plnat_no = #{plant_no}
+	</select>
+	
+	
+	
+</mapper>
+			

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace = "QuestMapper">
+
+	<resultMap id="questSelectMap" type="quest">
+		<result property="questNo" 			column="quest_no" 			jdbcType="INTEGER"/>
+		<result property="questContents"	column="quest_contents" 	jdbcType="VARCHAR" />
+		<result property="questTarget" 		column="quest_target" 		jdbcType="VARCHAR" />
+		<result property="questTargetCnt" 	column="quest_targer_cnt" 	jdbcType="VARCHAR" />
+		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- ADD QUEST -->
+	<insert id="addQuest" parameterType ="quest">
+	INSERT 
+	INTO quest(quest_no, quest_contents, quest_target, quest_target_cnt,quest_reward) 
+	VALUE (seq_quest_quest_no.nextval, #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}) 
+	</insert>
+
+	<!-- UPDATE QUTES -->
+	<update	id="updateQuest" parameterType="quest" >
+	   	UPDATE Quest
+	   	<set>
+	   		quest_contents = #{questContents}
+			quest_target = #{questTarget}
+			quest_target_cnt = #{questTargetCnt}
+			quest_reward = #{questReward}
+	   	</set>
+	   	WHERE quest_no = #{questNo}
+	 </update>
+
+	<!-- GET QUESTLIST -->
+	<select  id="getQuestList"  parameterType="int" resultMap="questSelectMap">
+	  	SELECT * FROM quest	 
+	</select>
+	 
+	 
+	 
+
+</mapper>
