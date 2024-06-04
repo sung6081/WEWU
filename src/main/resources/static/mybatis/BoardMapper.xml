@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardMapper">
+
+	<resultMap id="boardSelectMap" type="board">
+		<result property="boardNo" 				column="board_no" 		jdbcType="NUMERIC" />
+		<result property="boardType" column="type_no" jdbcType="NUMERIC" />
+		<result property="memberNo" column="member_no" jdbcType="NUMERIC" />
+		<result property="title" 			column="title" 			jdbcType="NUMERIC"/>
+		<result property="file"	column="" 	jdbcType="VARCHAR" />
+		<result property="contents" 	column="contents" 		jdbcType="VARCHAR" />
+		
+		<result property="nickName" 	column="image_file" 		jdbcType="VARCHAR" />
+		<result property="regDate" 			column="reg_date" 		jdbcType="DATE" />
+		<result property="thumnail" 			column="" 			jdbcType="NUMERIC"/>
+		<result property="bookmarkCnt"	column="bookmark_cnt" 	jdbcType="VARCHAR" />
+		<result property="bookmarkFlag" 	column="" 		jdbcType="VARCHAR" />
+		<result property="views" column="views" jdbcType="VARCHAR" />
+		<result property="commentCnt" 	column="comments_cnt" 		jdbcType="NUMERIC" />
+		<result property="comment" 	column="" 		jdbcType="VARCHAR" />
+		
+		
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="insertBoard" parameterType="board" useGeneratedKeys="true" keyProperty="boardNo">
+	 	INSERT INTO board (type_no, member_no, nickname,
+	 	 title, contents, reg_date,
+	 	 bookmark_cnt, views, comments_cnt)
+        VALUES (#{typeNo}, #{memberNo}, #{nickname}, 
+        #{title}, #{contents}, #{regDate}, 
+        0, 0, 0)
+    </insert>
+    
+    <!-- SQL : SELECT ONE -->
+    <!-- Select a board by board_no -->
+    <select id="getBoard" parameterType="int" resultType="boardSelectMap">
+        SELECT board_no,type_no, member_no, nickname, title, contents, reg_date, bookmark_cnt, views, comments_cnt 
+        FROM board
+         WHERE board_no = #{boardNo}
+    </select>
+    
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateBoard"	parameterType="boardSelectMap" >
+	   	UPDATE board
+	   	<set>
+	   		type_no = #{typeNo},
+            member_no = #{memberNo},
+            nickname = #{nickname},
+            title = #{title},
+            contents = #{contents},
+            reg_date = SYSDATE,
+            bookmark_cnt = #{bookmarkCnt},
+            views = #{views},
+            comments_cnt = #{commentsCnt}
+	   	</set>
+	   	board_no = #{boardNo}
+	 </update>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getBoardList"  parameterType="search"	resultMap="boardSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	select p.*, trim(t.TRAN_STATUS_CODE) as proTranCode, t.tran_no as tranNo from product p, transaction t 
+	  									WHERE p.prod_no = t.prod_no(+)
+											<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				and p.prod_no like '%'||#{searchKeyword}||'%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				and p.prod_name like '%'||#{searchKeyword}||'%'
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+														and p.price like '%'||#{searchKeyword}||'%'
+													</if>
+												
+											</if>
+											ORDER BY p.prod_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT prod_no , prod_name , price
+						FROM product
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			prod_no like '%'||#{searchKeyword}||'%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		prod_name like '%'||#{searchKeyword}||'%'
+								</if>
+								<if test="searchCondition == 2 and searchKeyword !='' ">
+								price like '%'||#{searchKeyword}||'%'
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
+</mapper>
