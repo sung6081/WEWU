@@ -78,12 +78,18 @@
 	</update>
 	
 	<!-- 활동 목록 조회 -->
-	<select id="getActiveList" parameterType="java.util.Map" resultMap="ActiveResultMap">
+	<select id="getActiveList" parameterType="life.wewu.web.common.Search" resultMap="ActiveResultMap">
 	
-		SELECT * FROM active, active_hash
+		SELECT DISTINCT a.* FROM active a
+		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>
-			
+			<if test="searchKeyword 1= null">
+				INSTR(active_name, #{searchKeyword}) > 0 OR INSTR(hash_name, #{searchKeyword})
+			</if>
 		</where>
+		ORDER BY a.active_no
+		LIMIT 10 
+		<if test="currentPage > 1"> OFFSET #{currentPage - 1} * 10 </if>
 		
 	</select>
 	

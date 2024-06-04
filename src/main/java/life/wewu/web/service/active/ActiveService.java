@@ -3,6 +3,7 @@ package life.wewu.web.service.active;
 import java.util.List;
 import java.util.Map;
 
+import io.micrometer.core.instrument.search.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
 
@@ -16,6 +17,6 @@ public interface ActiveService {
 	
 	public void deleteActive(Active active); //활동 삭제
 	
-	public List<Active> getActiveList(Map<String, Object> map); //활동 목록
+	public List<Active> getActiveList(Search search); //활동 목록
 	
 }

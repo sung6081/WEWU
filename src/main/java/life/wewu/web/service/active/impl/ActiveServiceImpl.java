@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+import io.micrometer.core.instrument.search.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
 import life.wewu.web.service.active.ActiveDao;
 import life.wewu.web.service.active.ActiveService;
 
+@Service("activeServiceImpl")
 public class ActiveServiceImpl implements ActiveService {
 	
 	//필드
@@ -18,11 +21,14 @@ public class ActiveServiceImpl implements ActiveService {
 	@Qualifier("activeDao")
 	ActiveDao activeDao; //activeDao injection
 
+	//메소드
 	//활동과 해쉬태그 모두 등록
 	@Override
 	public void addActive(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		Active active = (Active)map.get("active");
+		
+		System.out.println(active);
 		
 		activeDao.addActive(active);
 		
@@ -84,11 +90,17 @@ public class ActiveServiceImpl implements ActiveService {
 	}
 
 	@Override
-	public List<Active> getActiveList(Map<String, Object> map) {
+	public List<Active> getActiveList(Search search) {
 		// TODO Auto-generated method stub
+		List<Active> activeList = activeDao.getActiveList(search);
 		
+		for(Active active : activeList) {
+			
+			active.setHashList(activeDao.getActiveHashList(active.getActiveNo()));
+			
+		}
 		
-		return null;
+		return activeList;
 	}
 
 	
