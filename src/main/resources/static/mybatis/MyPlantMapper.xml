@@ -12,10 +12,12 @@
 		<result property="myPlantExp" 		column="my_plant_exp" 		jdbcType="INTEGER" />
 		<result property="plantStartDate" 	column="plant_start_date" 	jdbcType="DATE" />
 		<result property="plantEndDate"		column="plant_end_date"		jdbcType="DATE"/>
+		<result property="weatherNo"		column="weather_no"			jdbcType="INTEGER"/>
+		<result property="weatherImg"		column="weather_img"		jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- GET RANDOM MYPLANT -->
-	<select id="getMyPlant" parameterType="myPlant">
+	<select id="newMyPlant" parameterType="myPlant">
 		SELECT * FROM plant
 		WHERE plant_no IN ( SELECT plant_no
 							FROM plant_levl
@@ -35,27 +37,45 @@
    		AND my_plant_exp between #{plant_min_exp} and #{plant_max_exp};
    		
 			<if test = "my_plant_state != null and my_plant_state == 'Y'">
-				AND m.my_plant_state = 'Y'
-				
+				AND m.my_plant_state = 'Y'	
 			</if>
 				
 			<if test = "my_plant_state != null and my_plant_state == 'N'">
 				AND m.my_plant_state = 'N'
-				
 			</if>
-
 	</select>
 	
 	<update id="updateMyPlant" parameterType="String">
 		UPDATE myplant
 	   	<set>
-	   		my_plant_name 	= #{myPlantName} 
+	   		my_plant_name = #{myPlantName} 
 	   	</set>
 	   	WHERE my_Plant_no = #{myPlantNo}
 	 </update>
+	 
+	 <update id="deleteMyPlant" parameterType="">
+	 	UPDATE myPlant
+	 	<set>	
+	 		my_plant_state = 'N'
+	 	</set>
+	 	WHERE my_plant_no = #{myPlantNo}
+	 </update>
 	
 	
+	<update id="useItemAndExpIncrease"  parameterType="int">
+		UPDATE item_purchase
+		<set>
+			item_stock = item_stock - 1
+		</set>
+			WHERE item_purchase_no = #{itemPurchaseNo} AND item_stock > 0;
+		
+		UPDATE my_plant
+        <set>
+        	my_plant_exp = my_plant_exp + item_effect
+        </set> 
+        WHERE my_plant_no = #{myPlantNo};
 	
+	</update>
 	
 	
 </mapper>
