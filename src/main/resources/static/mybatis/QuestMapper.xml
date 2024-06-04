@@ -22,7 +22,7 @@
 
 	<!-- UPDATE QUTES -->
 	<update	id="updateQuest" parameterType="quest" >
-	   	UPDATE Quest
+	   	UPDATE quest
 	   	<set>
 	   		quest_contents = #{questContents}
 			quest_target = #{questTarget}
@@ -34,9 +34,17 @@
 
 	<!-- GET QUESTLIST -->
 	<select  id="getQuestList"  parameterType="int" resultMap="questSelectMap">
-	  	SELECT * FROM quest	 
+	  	SELECT * FROM quest	
+	  	WHERE quest_no = #{questNo} 
 	</select>
-	 
+	
+	<update id = "completeQuest" parameterType="quest">
+		UPDATE quest
+		<set>
+			quest_state = 'N'
+		</set>
+		WHERE quest_no = #{questNo}
+	</update>
 	 
 	 
 

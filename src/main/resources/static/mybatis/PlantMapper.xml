@@ -6,46 +6,51 @@
 <mapper namespace = "PlantMapper">
 	
 	<resultMap id="PlantSelectMap" type="plant" >
-		<result property="plantNo" 			column="plant_no" 		jdbcType="INTEGER"/>
-		<result property="plantName"		column="plant_name" 	jdbcType="VARCHAR" />
-	</resultMap>
-	
-	<resultMap id="PlantLevlSelectMap" type="plantLevl" >
-		<result property="plantLevlNo" 		column="my_plant_no" 		jdbcType="INTEGER"/>
-		<result property="myPlantState"		column="my_plant_state" 	jdbcType="VARCHAR" />
-		<result property="myPlantName" 		column="my_plant_name" 		jdbcType="VARCHAR" />
-		<result property="myPlantExp" 		column="my_plant_exp" 		jdbcType="INTEGER" />
-		<result property="plantStartDate" 	column="plant_start_date" 	jdbcType="DATE" />
-		<result property="plantEndDate"		column="plant_end_date"		jdbcType="DATE"/>
+		<result property="plantNo" 			column="plant_no" 			jdbcType="INTEGER"/>
+		<result property="plantName"		column="plant_name" 		jdbcType="VARCHAR" />
+		<result property="plantLevlNo"		column="plant_levl_no" 		jdbcType="VARCHAR" />
+		<result property="plantLevl"		column="plant_levl" 		jdbcType="VARCHAR" />
+		<result property="plantMinExp"		column="plant_min_exp" 		jdbcType="INTEGER" />
+		<result property="plantMaxExp"		column="plant_max_exp" 		jdbcType="INTEGER" />
+		<result property="plantFinalLevl"	column="plant_final_levl" 	jdbcType="VARCHAR" />
+		<result property="levlImg"			column="levl_img" 			jdbcType="VARCHAR" />
 	</resultMap>
 	
 	
-	
+	<!-- ADD PLANT -->
 	<insert id="addPlant" useGeneratedKeys="true" keyProperty="plantNo">
-        INSERT INTO wewu.plant (plant_name)
+        INSERT INTO plant (plant_name)
         VALUES (#{plantName})
     </insert>
 
     <!-- plant_levl 테이블에 데이터 삽입 -->
     <insert id="addPlantLevl">
-        INSERT INTO wewu.plant_levl (plant_no, plant_levl, plant_min_exp, plant_max_exp, plant_final_levl, levl_img)
+        INSERT INTO plant_levl (plant_no, plant_levl, plant_min_exp, plant_max_exp, plant_final_levl, levl_img)
         VALUES (#{plantNo}, #{plantLevl}, #{plantMinExp}, #{plantMaxExp}, #{plantFinalLevl}, #{levlImg})
     </insert>
 	
-	
-	<!-- ADD PLANT -->
-	<insert id="addPlant" parameterType="plant">
-		INSERT INTO plant()
-	</insert>
-	
 	<!-- UPDATE PLANT -->
 	<update id="updatePlant">
-		UPDATE plant	
+		UPDATE plant
 		<set>
-			plant_name = #{plant_name}
-			ddd
+			plant_no = #{plant_name}
 		</set>
+			WHERE plant_no = #{plantNo}
 	</update>
+	
+	<!-- UPDATE PLANTLEVL -->
+	<update id="updatePlantLevl">
+		UPDATE plant_levl	
+		<set>
+			plant_levl = #{plantLevl}
+			plant_min_exp = #{plant_min_exp}
+			plant_max_exp = #{plant_max_exp}
+			plant_final_levl = #{plant_final_levl}
+			levl_img = #{levl_img}
+		</set>
+		
+	</update>
+	
 	
 	<!-- DELETE PLANT -->
 	<delete id="deletePlant">
@@ -54,6 +59,11 @@
 	</delete>
 	
 	<select id="getPlant">
+		SELECT * FROM plant
+		WHERE plnat_no = #{plant_no}
+	</select>
+	
+	<select id="getPlantList">
 		SELECT * FROM plant
 		WHERE plnat_no = #{plant_no}
 	</select>
