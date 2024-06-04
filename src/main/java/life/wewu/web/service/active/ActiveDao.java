@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
 
@@ -17,7 +18,7 @@ public interface ActiveDao {
 	
 	public void updateActive(Active active); //활동 수정
 	
-	public List<Active> getActiveList(); //활동 목록
+	public List<Active> getActiveList(Search search); //활동 목록
 	
 	public void addActiveHash(ActiveHash activeHash); //해쉬 태그 등록
 	
