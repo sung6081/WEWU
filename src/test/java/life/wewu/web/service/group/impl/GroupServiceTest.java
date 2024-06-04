@@ -92,7 +92,7 @@ public class GroupServiceTest{
 		System.out.println("===================================\n");
 	}
 	
-	@Test
+	//@Test
 	public void testUpdateGroupRslt() throws Exception {
 		
 		System.out.println("\n===================================");

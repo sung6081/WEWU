@@ -54,7 +54,7 @@ public class PlantServiceTest {
 	public void updatePlant() throws Exception{
 		
 		Plant plant = 
-		plant.setPlantName("")
+		plant.setPlantName("dddd")
 			
 	}
 	
