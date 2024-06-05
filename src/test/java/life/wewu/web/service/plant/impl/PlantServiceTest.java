@@ -17,13 +17,27 @@ public class PlantServiceTest {
 	@Qualifier("plantService")
 	private PlantService plantService;
 	
-	//@Test
-	public void testAddPlant() throws Exception{
+	@Test
+	public void testAddPlantName() throws Exception{
 		System.out.println("============");
 		
 		Plant plant = Plant.builder()
 				.plantNo(1)
 				.plantName("빨간열매나무")
+				.build();
+		
+		System.out.println(plant);
+		
+		System.out.println("=============");
+		
+	}
+	
+	//@Test
+	public void testAddPlantLevl() throws Exception{
+		System.out.println("============");
+		
+		Plant plant = Plant.builder()
+				.plantNo(1)
 				.plantMinExp(0)
 				.plantMaxExp(10)
 				.plantLevl("새싹")
@@ -53,12 +67,10 @@ public class PlantServiceTest {
 	//@Test
 	public void updatePlant() throws Exception{
 		
-		Plant plant = 
-		plant.setPlantName("dddd")
-			
+		Plant plant = plantService.getPlant(1);
+		plant.setPlantName("노란열매나무");			
 	}
-	
-	
-	
-	
 }
+	
+	
+	

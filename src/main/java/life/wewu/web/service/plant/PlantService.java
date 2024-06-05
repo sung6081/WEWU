@@ -3,6 +3,7 @@ package life.wewu.web.service.plant;
 import java.util.List;
 import java.util.Map;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.Quest;
@@ -16,7 +17,7 @@ public interface PlantService {
 	
 	public void updateQuest(Quest quest) throws Exception;
 	
-	public Map<String,Object> getQuest(Quest quest) throws Exception;
+	public Map<String,Object> getQuest(Search search) throws Exception;
 	
 	public void completeQuest(int questNo) throws Exception; 
 	
@@ -29,7 +30,7 @@ public interface PlantService {
 	
 	public Plant getPlant(int PlantNo) throws Exception;
 	
-	public Map<String,Object> getPlantList(Plant plant) throws Exception;
+	public Map<String,Object> getPlantList(Search search) throws Exception;
 	
 	
 	public MyPlant selectRandomPlant(MyPlant myPlant) throws Exception;
@@ -38,7 +39,7 @@ public interface PlantService {
 	
 	public MyPlant getMyPlant(MyPlant myPlant) throws Exception;
 	
-	public Map<String,Object> getMyPlantList(MyPlant myPlant) throws Exception;
+	public Map<String,Object> getMyPlantList(Search search) throws Exception;
 	
 	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
 	

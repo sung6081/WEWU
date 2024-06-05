@@ -2,11 +2,13 @@ package life.wewu.web.service.plant;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.Quest;
 
-
+@Mapper
 public interface PlantDao {
 	
 	public void addQuest(Quest quest) throws Exception;
