@@ -58,7 +58,7 @@ public class ActiveServiceTest {
 //	}
 	
 	//등록 테스트 (+파일 업로드 + short url)
-	@Test
+	//@Test
 	public void testAddActive() {
 		
 		System.out.println("addActive");
@@ -179,6 +179,34 @@ public class ActiveServiceTest {
 		//search.setSearchKeyword("도봉");
 		
 		List<Active> list = activeService.getActiveList(search);
+		
+		for(Active record : list) {
+			
+			System.out.println("record : "+record);
+			
+		}
+		
+	}
+	
+	//모임 활동 목록 조회 테스트
+	@Test
+	public void testGetGroupActiveList() {
+		
+		System.out.println("getActiveList");
+		
+		Search search = new Search();
+		
+		search.setCurrentPage(1);
+		//search.setCurrentPage(2);
+		
+		//search.setSearchKeyword("도봉");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("groupNo", new Integer(1));
+		
+		List<Active> list = activeService.getGroupActiveList(map);
 		
 		for(Active record : list) {
 			

@@ -1,6 +1,7 @@
 package life.wewu.web.service.active.impl;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,6 +126,12 @@ public class ActiveServiceImpl implements ActiveService {
 		return activeList;
 	}
 
-	
+	@Override
+	public List<Active> getGroupActiveList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<Active> activeList = activeDao.getGroupActiveList(map);
+		
+		return activeList;
+	}
 	
 }
