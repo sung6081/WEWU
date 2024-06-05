@@ -40,13 +40,6 @@ public class ActiveController {
 	@Qualifier("activeServiceImpl")
 	ActiveService activeService;
 	
-	@Value("${short.clientId}")
-	private String clientId;
-	
-	@Value("$"
-			+ "{short.clientSecret}")
-	private String clientSecret;
-	
 	//메소드
 	//활동 등록 페이지 네비 GET
 	@RequestMapping(value="addActive", method=RequestMethod.GET)

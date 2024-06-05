@@ -1,5 +1,6 @@
 package life.wewu.web.service.active.impl;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ public class ActiveServiceImpl implements ActiveService {
 	ActiveDao activeDao; //activeDao injection
 	
 	@Autowired
+	@Qualifier("s3RepositoryImpl")
 	S3Repository s3;
 
 	//메소드
@@ -38,9 +40,15 @@ public class ActiveServiceImpl implements ActiveService {
 		//System.out.println(active);
 		
 		//파일 업로드
-		MultipartFile file = (MultipartFile)map.get("file");
+		map.put("folderName", "active");
 		
-		active.setActiveUrl(s3.uplodaFile(file));
+		active.setActiveUrl(s3.uplodaFile(map)); 
+		
+		try {
+			active.setActiveShortUrl(s3.getShortUrl(active.getActiveUrl()));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		activeDao.addActive(active);
 		
