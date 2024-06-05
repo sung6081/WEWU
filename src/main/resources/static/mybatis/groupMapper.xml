@@ -196,5 +196,5 @@
 		</if>
 			
   	</select>
-  	<!-- UPDATE 매핑구문 (update SQL 등록) :: update element -->
+  	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  
 </mapper>
