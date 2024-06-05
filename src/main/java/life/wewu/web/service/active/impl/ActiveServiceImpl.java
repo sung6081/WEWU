@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
+import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.active.ActiveDao;
 import life.wewu.web.service.active.ActiveService;
 
@@ -21,6 +23,9 @@ public class ActiveServiceImpl implements ActiveService {
 	@Autowired
 	@Qualifier("activeDao")
 	ActiveDao activeDao; //activeDao injection
+	
+	@Autowired
+	S3Repository s3;
 
 	//메소드
 	//활동과 해쉬태그 모두 등록
@@ -31,6 +36,11 @@ public class ActiveServiceImpl implements ActiveService {
 		Active active = (Active)map.get("active");
 		
 		//System.out.println(active);
+		
+		//파일 업로드
+		MultipartFile file = (MultipartFile)map.get("file");
+		
+		active.setActiveUrl(s3.uplodaFile(file));
 		
 		activeDao.addActive(active);
 		
