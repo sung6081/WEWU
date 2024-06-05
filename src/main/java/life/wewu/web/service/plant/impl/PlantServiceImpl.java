@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.Quest;
@@ -36,8 +37,7 @@ public class PlantServiceImpl implements PlantService{
 
 	@Override
 	public void deleteQuest(int questNo) throws Exception {
-		
-		
+		plantDao.deleteQuest(questNo);
 	}
 
 	@Override
@@ -46,15 +46,14 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public Map<String, Object> getQuest(Quest quest) throws Exception {
-		// TODO Auto-generated method stub
+	public Map<String, Object> getQuest(Search search) throws Exception {
+		List<Quest> list = plantDao.getQuest(search);
 		return null;
 	}
 
 	@Override
 	public void completeQuest(int questNo) throws Exception {
-		// TODO Auto-generated method stub
-		
+		plantDao.completeQuest(questNo);
 	}
 
 	@Override
@@ -82,7 +81,7 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public Map<String, Object> getPlantList(Plant plant) throws Exception {
+	public Map<String, Object> getPlantList(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -106,7 +105,7 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public Map<String, Object> getMyPlantList(MyPlant myPlant) throws Exception {
+	public Map<String, Object> getMyPlantList(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
