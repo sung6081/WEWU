@@ -4,8 +4,11 @@
  */
 package life.wewu.web.service.group;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.group.Group;
 
 @Mapper
@@ -25,4 +28,6 @@ public interface GroupDao {
 	public void updateGroup(Group group) throws Exception;
 	
 	public String getGroupRanking(int groupNo) throws Exception;
+	
+	public List<Group> getGroupList(Search search) throws Exception;
 }
