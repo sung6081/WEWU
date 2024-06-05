@@ -3,6 +3,7 @@
 package life.wewu.web.service.user;
 
 import java.util.List;
+import java.util.Map;
 
 import life.wewu.web.domain.user.User;
 
@@ -31,11 +32,13 @@ public interface UserService {
 	public void updateAdmin(User user) throws Exception;
     
 	//사용자 아이디 찾기
-	public String findUserId(String phoneNum) throws Exception;
+	public User findUserId(String userName, String phoneNum) throws Exception;
     
 	//사용자 비밀번호 찾기
-	public String findUserPwd(String userId) throws Exception;
-    
+    public User findUserPwd(String userId, String phone) throws Exception;
+
+	public void updatePassword(String userId, String newPassword) throws Exception;
+
 	//회원가입시 사용자 아이디 중복체크
 	public boolean checkUserId(String userId) throws Exception;
     

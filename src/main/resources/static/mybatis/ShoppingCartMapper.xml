@@ -15,17 +15,46 @@
    </resultMap>
 	
 	<!-- SQL : INSERT 장바구니에 아이템 담기--> 
+	<!--  
 	<insert id="addShoppingCart" parameterType="shoppingCart" useGeneratedKeys="true" keyProperty="shoppingCartNo">
-        INSERT INTO shopping_cart ( nickname, item_no, item_name, item_cnt, item_price, item_img)   //이너조인
+        INSERT INTO shopping_cart ( nickname, item_no, item_name, item_cnt, item_price, item_img)   
         VALUES(	#{nickname:VARCHAR}, #{item_no:INT}, #{item_name:VARCHAR}, #{item_cnt:INT}, #{item_price:INT}, #{item_img:VARCHAR})
 	</insert>
+	-->
+	<insert id="addShoppingCart" parameterType="shoppingCart" useGeneratedKeys="true" keyProperty="shoppingCartNo">
+    INSERT INTO shopping_cart (nickname, item_no, item_name, item_cnt, item_price, item_img)
+    SELECT 
+        u.nickname,
+        i.item_no,
+        i.item_name,
+        #{itemCnt},
+        i.item_price,
+        i.item_img
+    FROM users u
+    INNER JOIN item i ON i.item_no = #{itemNo}
+    WHERE u.nickname = #{nickname}
+	</insert>
+	
         
     <!-- SQL : SELECT 장바구니 목록조회-->
+    <!--  
 	<select id="getShoppingCartList" parameterType="int" resultMap="shoppingCartSelectMap">
 		SELECT
-		shopping_cart_no, item_name, item_cnt, item_price, item_img  //이너조인
+		shopping_cart_no, item_name, item_cnt, item_price, item_img  
 		FROM shopping_cart
 		WHERE shopping_cart_no = #{value}
+	</select>
+	-->
+	<select id="getShoppingCartList" parameterType="int" resultMap="shoppingCartSelectMap">
+    SELECT
+        sc.shopping_cart_no, 
+        i.item_name, 
+        sc.item_cnt, 
+        i.item_price, 
+        i.item_img
+    FROM shopping_cart sc
+    INNER JOIN item i ON sc.item_no = i.item_no
+    WHERE sc.item_no = #{value}
 	</select>
        
 	<!-- SQL : DELETE 장바구니에 담은 아이템 삭제-->

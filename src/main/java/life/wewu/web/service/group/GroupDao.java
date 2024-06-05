@@ -30,4 +30,5 @@ public interface GroupDao {
 	public String getGroupRanking(int groupNo) throws Exception;
 	
 	public List<Group> getGroupList(Search search) throws Exception;
+	
 }

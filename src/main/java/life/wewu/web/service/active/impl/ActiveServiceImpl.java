@@ -1,5 +1,7 @@
 package life.wewu.web.service.active.impl;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.ActiveHash;
+import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.active.ActiveDao;
 import life.wewu.web.service.active.ActiveService;
 
@@ -21,6 +25,10 @@ public class ActiveServiceImpl implements ActiveService {
 	@Autowired
 	@Qualifier("activeDao")
 	ActiveDao activeDao; //activeDao injection
+	
+	@Autowired
+	@Qualifier("s3RepositoryImpl")
+	S3Repository s3;
 
 	//메소드
 	//활동과 해쉬태그 모두 등록
@@ -31,6 +39,17 @@ public class ActiveServiceImpl implements ActiveService {
 		Active active = (Active)map.get("active");
 		
 		//System.out.println(active);
+		
+		//파일 업로드
+		map.put("folderName", "active");
+		
+		active.setActiveUrl(s3.uplodaFile(map)); 
+		
+		try {
+			active.setActiveShortUrl(s3.getShortUrl(active.getActiveUrl()));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		activeDao.addActive(active);
 		
@@ -107,6 +126,12 @@ public class ActiveServiceImpl implements ActiveService {
 		return activeList;
 	}
 
-	
+	@Override
+	public List<Active> getGroupActiveList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<Active> activeList = activeDao.getGroupActiveList(map);
+		
+		return activeList;
+	}
 	
 }

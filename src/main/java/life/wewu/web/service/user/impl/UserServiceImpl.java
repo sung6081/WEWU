@@ -10,7 +10,9 @@ import life.wewu.web.domain.user.User;
 import life.wewu.web.service.user.UserDao;
 import life.wewu.web.service.user.UserService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //==> 회원관리 서비스 구현
 @Service("userServiceImpl")
@@ -73,12 +75,22 @@ public class UserServiceImpl implements UserService {
         userDao.updateAdmin(user);
     }
 
-    public String findUserId(String phonNum) throws Exception{
-        return userDao.findUserId(phonNum);
+	public User findUserId(String userName, String phoneNum) throws Exception{
+		   Map<String, Object> params = new HashMap<>();
+	        params.put("name", userName);
+	        params.put("phone", phoneNum);
+	        return userDao.findUserId(params);
+	    }
+
+    public User findUserPwd(String userId, String phone) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", userId);
+        params.put("phone", phone);
+        return userDao.findUserPwd(params);
     }
 
-    public String findUserPwd(String userId) throws Exception{
-        return userDao.findUserPwd(userId);
+    public void updatePassword(String userId, String newPassword) throws Exception {
+    	userDao.updatePassword(userId, newPassword);
     }
 
     //사용자 아이디 중복체크

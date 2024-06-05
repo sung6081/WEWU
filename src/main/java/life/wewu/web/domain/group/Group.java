@@ -6,6 +6,7 @@ package life.wewu.web.domain.group;
 
 import java.sql.Date;
 
+import life.wewu.web.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
 
