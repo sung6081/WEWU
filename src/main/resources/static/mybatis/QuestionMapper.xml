@@ -6,17 +6,17 @@
 
 <mapper namespace="QuestionMapper">
 	
-	<!-- board 테이블 -->
+	<!-- question 테이블 -->
 	  <resultMap id="QuestionResultMap" type="com.example.domain.Question">
-        <id property="question_no" column="question_no" />
-        <result property="nickname" column="nickname" />
-        <result property="question_type" column="question_type" />
-        <result property="question_category" column="question_category" />
+        <result property="question_no" column="questionNo" />
+        <result property="nickname" column="nickName" />
+        <result property="question_type" column="questionType" />
+        <result property="question_category" column="questionCategory" />
         <result property="title" column="title" />
         <result property="contents" column="contents" />
-        <result property="reg_date" column="reg_date" />
-        <result property="comment" column="comment" />
-        <result property="comment_date" column="comment_date" />
+        <result property="reg_date" column="regDate" />
+        <result property="reply" column="reply" />
+        <result property="reply_date" column="comment_date" />
         <result property="question_state" column="question_state" />
     </resultMap>
 	
@@ -24,180 +24,18 @@
 	
 	<!-- Question : INSERT( 북마크 추가 하기 ) -->
 	<insert id="addQuestion" parameterType="question" useGeneratedKeys="true" keyProperty="questionNo">
-		 INSERT INTO Questions (nickname, question_type, question_category, title, contents, reg_date, comment, comment_date, question_state)
+		 INSERT INTO questions (nickname, question_type, question_category, title, contents, reg_date, comment, comment_date, question_state)
         VALUES (#{nickname}, #{question_type}, #{question_category}, #{title}, #{contents}, now() , #{comment}, #{comment_date}, #{question_state})
 
 	</insert>
 	
 	<!-- Bookmark : DELETE( 북마크 삭제 하기) -->
 	<delete id="deleteBookmark" parameterType="int">
-		DELETE FROM bookmark
+		DELETE FROM questions
 		WHERE bookmark_no = #{bookmarkNo}
 	</delete>
 	
-	<!-- Bookmark : SELECT LIST( 북마크 리스트 찾기 ) -->
-	<!-- 게시판 카테고리와 사용자 닉네임을 조건으로 리스트 찾음 -->
-	<select id="getBookmarkList" parameterType="map" resultMap="boardSelectMap">
-		SELECT * FROM board
-		WHERE board_no in
-			(SELECT m.board_no
-			FROM bookmark AS m JOIN board AS b
-			ON m.board_no = b.board_no
-			WHERE b.type_no = #{board.boardType} 
-			AND m.nickname = {#nickname})
-		ORDER BY board_no;
-	</select>
 	
-	<!-- Bookmark : SELECT CNT( 북마크 개수 ) -->
-	<!-- 게시판 번호별로 북마크 개수 찾음 -->
-	<select id="getBookmarkCnt" parameterType="int" resultType="int">
-		SELECT COUNT(bookmark_no)
-		FROM bookmark
-		WHERE board_no= #{board_no}
-	</select>
-	
-	
-	<!-- =========================Boardfile================================== -->
-	<!-- Boardfile : INSERT ( 파일 추가하기 ) -->
-	<insert id="addBoardFile" parameterType="boardFile" useGeneratedKeys="true" keyProperty="file_no">
-        INSERT INTO boardfile (board_no, file_name, file_uuid, file_ext)
-        VALUES (#{boardNo}, #{fileName}, #{fileUUID}, #{fileExt})
-    </insert>
-	
-	<!-- Boardfile : DELETE ( 파일 삭제하기 ) -->
-	<delete id="deleteBoardFile" parameterType="int">
-        DELETE FROM boardfile 
-        WHERE file_no = #{fileNo}
-    </delete>
-	
-	<!-- Boardfile : UPDATE ( 파일 수정하기 ) -->
-	<update id="updateBoardFile" parameterType="boardFile">
-        UPDATE boardfile
-        SET file_name = #{fileName},
-            file_uuid = #{fileUUID},
-            file_ext = #{fileExt}
-        WHERE file_no = #{fileNo}
-    </update>
-	
-	<!-- Boardfile : SELECT LIST ( 게시판별 파일 리스트 찾기 ) -->
-	<!-- 조건: 게시판 번호 -->
-	<select id="getBoardFileList" parameterType="map" resultMap="boardfileSelectMap">
-		SELECT * FROM boardfile 
-		WHERE board_no = #{board_no}
-		ORDER BY board_no;
-	</select>
-	
-	<!-- Boardfile : SELECT ( 게시판별 썸네일 찾기 )-->
-	<!-- 게시판에 업로드된 첫번째 파일 가져옴 -->
-	<select id="getBoardFile" parameterType="int" resultType="int">
-		SELECT f1.file_no
-        FROM boardfile f1
-        	JOIN (
-            	SELECT board_no, MIN(file_no) AS min_file_no
-            	FROM boardfile
-            	GROUP BY board_no
-        		) f2 
-        	ON f1.board_no = f2.board_no AND f1.file_no = f2.min_file_no
-		where f1.board_no = #{boardNo};
-	</select>
-	
-	<!-- =========================Comment================================== -->
-	<!-- Comment : INSERT ( 댓글 추가하기 ) -->
-	<insert id="addComment" parameterType="comment" useGeneratedKeys="true" keyProperty="comment_no">
-        INSERT INTO comment (board_no, comment_nickname, comment_contents, comment_date)
-        VALUES (#{boardNo}, #{commentNickName}, #{commentContents}, now())
-    </insert>
-    
-    <!-- Comment : DELETE ( 댓글 삭제하기 ) -->
-	<delete id="deleteComment" parameterType="int">
-        DELETE FROM comment 
-        WHERE comment_no = #{commentNo}
-    </delete>
-    
-    <!-- Comment : UPDATE ( 댓글 수정하기 ) -->
-	<update id="updateComment" parameterType="comment">
-        UPDATE comment
-        SET comment_nickname = #{commentNickName},
-        	comment_contents = #{commentContents},
-            comment_date = #{commentDate}
-        WHERE comment_no = #{commentNo}
-    </update>
-    
-    <!-- Comment : SELECT LIST ( 게시글별 댓글 찾기 ) -->
-	<!-- 조건: 게시판 번호 -->
-	<select id="getCommentListByBoard" parameterType="int" resultMap="boardfileSelectMap">
-		SELECT * FROM comment 
-		WHERE board_no = #{boardNo}
-		ORDER BY comment_no;
-	</select>
-	
-	<!-- Comment : SELECT LIST ( 작성자별 댓글 찾기 ) -->
-	<!-- 조건: 작성자 닉네임 -->
-	<select id="getCommentListByNic" parameterType="String" resultMap="boardfileSelectMap">
-		SELECT * FROM comment 
-		WHERE comment_nickname = #{commentNickName}
-		ORDER BY comment_date;
-	</select>
-	
-	<!-- =========================Board================================== -->
-	<!-- Board : INSERT ( 게시글 등록 ) -->
-	<insert id="addBoard" parameterType="board" useGeneratedKeys="true" keyProperty="boardNo">
-	 	INSERT INTO board (type_no, member_no, nickname,
-	 	 title,user_group_no, contents, reg_date,
-	 	 bookmark_cnt, views, comments_cnt)
-        VALUES (#{typeNo}, #{memberNo}, #{nickname}, 
-        #{title}, #{userGroupNo}, #{contents}, now(), 
-        0, 0, 0)
-    </insert>
-    
-    <!-- Board : DELETE ( 게시글 삭제 ) -->
-    <delete id="deleteBoard" parameterType="int">
-        DELETE FROM board 
-        WHERE board_no = #{boardNo}
-    </delete>
-    
-    <!-- Board : UPDATE ( 게시글 수정하기 ) -->
-	 <update	id="updateBoard" parameterType="boardSelectMap" >
-	   	UPDATE board
-	   	<set>
-	   		type_no = #{typeNo},
-            member_no = #{memberNo},
-            nickname = #{nickname},
-            title = #{title},
-            user_group_no = #{userGroupNo},
-            contents = #{contents},
-            reg_date = now()
-	   	</set>
-	   	WHERE board_no = #{boardNo}
-	 </update>
-    
-    <!-- Board : UPDATE VIEWS ( 조회수 수정 ) -->
-    <update id="updateViews" parameterType="int">
-    	UPDATE board
-    	<set>
-    		views = #{views}
-    	</set>
-    	WHERE board_no = #{boardNo}
-    </update>
-    
-    <!-- Board : UPDATE bookmark_cnt ( 즐겨찾기 수 수정 ) -->
-    <update id="updateBookmarkCnt" parameterType="int">
-    	UPDATE board
-    	<set>
-    		bookmark_cnt = #{bookmarkCnt}
-    	</set>
-    	WHERE board_no = #{boardNo}
-    </update>
-    
-    <!-- Board : UPDATE comments_cnt ( 댓글 수 수정 ) -->
-    <update id="updateCommentCnt" parameterType="int">
-    	UPDATE board
-    	<set>
-    		comments_cnt = #{commentCnt}
-    	</set>
-    	WHERE board_no = #{boardNo}
-    </update>
-    
     <!-- Board : SELECT getBoard ( 게시글 하나 찾기 ) -->
     <select id="getBoard" parameterType="int" resultType="boardSelectMap">
         SELECT board_no,type_no, member_no, nickname, title,user_group_no, contents, reg_date, bookmark_cnt, views, comments_cnt 

@@ -3,10 +3,13 @@
 package life.wewu.web.service.user;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
 
 import life.wewu.web.domain.user.User;
 
-
+@Mapper
 public interface UserDao {
 	
 	public void addUser(User user) throws Exception;
@@ -21,9 +24,13 @@ public interface UserDao {
 	
 	public void updateAdmin(User user) throws Exception;
 	
-	public String findUserId(String phoneNum) throws Exception;
+	public User findUserId(Map<String, Object> params) throws Exception;
 	
     public String findUserPwd(String userId) throws Exception;
+    
+    public User findUserPwd(Map<String, Object> params) throws Exception;
+    
+    public void updatePassword(String userId, String newPassword) throws Exception;
     
     public boolean checkUserId(String userId) throws Exception;
     
