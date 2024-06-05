@@ -1,14 +1,8 @@
 package life.wewu.web.service.item;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-
-import life.wewu.web.domain.item.Item;
 import life.wewu.web.domain.item.ItemPurchase;
 
-@Mapper
-public interface ItemPurchaseDao {
+public interface ItemPurchaseService {
 	
 	public void addPurchase(ItemPurchase itemPurchase) throws Exception;
 
@@ -33,22 +27,7 @@ public interface ItemPurchaseDao {
     public void deletePointCharge(int payNo) throws Exception;
     
     public void addPointCharge(ItemPurchase itemPurchase) throws Exception;
-       
+    
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 
