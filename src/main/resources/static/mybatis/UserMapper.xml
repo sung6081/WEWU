@@ -7,7 +7,7 @@
 	24.06.03 작성
   -->
   
-<mapper namespace="com.example.UserMapper">
+<mapper namespace="life.wewu.web.service.user.UserDao">
 
     <resultMap id="UserResultMap" type="User">
         <id property="userId" 				column="user_id" 		jdbcType="VARCHAR"/>
@@ -79,9 +79,9 @@
     </select> -->
 
     <select id="findUserId" parameterType="String" resultType="String">
-        SELECT user_id
-        FROM user
-        WHERE phone_num = #{phoneNum} and userName =#{user
+ 		SELECT user_name
+        FROM Users
+        WHERE user_name = #{userName} AND phone_num = #{phoneNum}
     </select>
 
     <select id="findUserPwd" parameterType="String" resultType="String">
