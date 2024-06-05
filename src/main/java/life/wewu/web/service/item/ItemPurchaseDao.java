@@ -30,7 +30,7 @@ public interface ItemPurchaseDao {
     
     public ItemPurchase getPointCharge(int payNo) throws Exception;
     
-    public void deletePointCharge(int payNo) throws Exception;
+    public void updatePointCharge(int payNo) throws Exception;
     
     public void addPointCharge(ItemPurchase itemPurchase) throws Exception;
        
