@@ -4,6 +4,9 @@
  */
 package life.wewu.web.service.group;
 
+import java.util.List;
+
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.group.Group;
 
 public interface GroupService {
@@ -23,4 +26,14 @@ public interface GroupService {
 	public Group updateGroupRslt(Group group) throws Exception;
 	
 	public String getGroupRanking(int GroupNo) throws Exception;
+	
+	public List<Group> getGroupList(Search search) throws Exception;
+	
+	public List<Group> getGroupRankingList(Search search) throws Exception;
+	
+	public Group getApplJoin(int GroupNo) throws Exception;
+	
+	public List<Group> getApplJoinList(Search search) throws Exception;
+	
+	public Group updateApplJoinForm(Group group) throws Exception;
 }

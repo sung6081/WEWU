@@ -4,58 +4,29 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="BoardMapper">
+<mapper namespace="QuestionMapper">
 	
 	<!-- board 테이블 -->
-	<resultMap type="board" id="boardSelectMap">
-		<result property="boardNo" 				column="board_no" 		jdbcType="NUMERIC" />
-		<result property="boardType" column="type_no" jdbcType="NUMERIC" />
-		<result property="memberNo" column="member_no" jdbcType="NUMERIC" />
-		<result property="title" 			column="title" 			jdbcType="NUMERIC"/>
-<!-- 	<result property="file"	column="" 	jdbcType="VARCHAR" /> -->
-		<result property="contents" 	column="contents" 		jdbcType="VARCHAR" />		
-		<result property="nickName" 	column="nickname" 		jdbcType="VARCHAR" />
-		<result property="regDate" 			column="reg_date" 		jdbcType="DATE" />
-<!--  	<result property="thumnail" 			column="" 			jdbcType="NUMERIC"/> -->
-		<result property="bookmarkCnt"	column="bookmark_cnt" 	jdbcType="VARCHAR" />
-<!--	<result property="bookmarkFlag" 	column="" 		jdbcType="VARCHAR" />  -->
-		<result property="views" column="views" jdbcType="VARCHAR" />
-		<result property="commentCnt" 	column="comments_cnt" 		jdbcType="NUMERIC" />
-<!-- 	<result property="comment" 	column="" 		jdbcType="VARCHAR" />			 -->		
-	</resultMap>
-	
-	<!-- comment 테이블 -->
-	<resultMap type="comment" id="commentSelectMap">
-		<result property="commentNo" column="comment_no" jdbcType="NUMERIC"/>
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="commentNickName" column="comment_nickname" jdbcType="VARCHAR"/>
-		<result property="commentContents" column="comment_contents" jdbcType="VARCHAR"/>
-		<result property="commentDate" column="comment_date" jdbcType="VARCHAR"/>
-	</resultMap>
-	
-	<!-- bookmark 테이블 -->
-	<resultMap type="bookmark" id="bookmarkSelectMap">
-		<result property="bookmarkNo" column="bookmark_no" jdbcType="NUMERIC"/>
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="nickName" column="nickname" jdbcType="VARCHAR"/>
-	</resultMap>
-	
-	<!-- boardfile 테이블 -->
-	<resultMap type="boardFile" id="boardfileSelectMap">
-		<result property="fileNo" column="file_no" jdbcType="NUMERIC"/>
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="fileName" column="file_name" jdbcType="VARCHAR"/>
-		<result property="fileUUID" column="file_uuid" jdbcType="VARCHAR"/>
-		<result property="fileExt" column="file_ext" jdbcType="VARCHAR"/>
-	</resultMap>
+	  <resultMap id="QuestionResultMap" type="com.example.domain.Question">
+        <id property="question_no" column="question_no" />
+        <result property="nickname" column="nickname" />
+        <result property="question_type" column="question_type" />
+        <result property="question_category" column="question_category" />
+        <result property="title" column="title" />
+        <result property="contents" column="contents" />
+        <result property="reg_date" column="reg_date" />
+        <result property="comment" column="comment" />
+        <result property="comment_date" column="comment_date" />
+        <result property="question_state" column="question_state" />
+    </resultMap>
 	
 	<!-- =========================SQL쿼리문=================================== -->
 	
-	<!-- =========================Bookmark================================== -->
-	<!-- Bookmark : INSERT( 북마크 추가 하기 ) -->
-	<insert id="addBookmark" parameterType="bookmark" useGeneratedKeys="true" keyProperty="bookmarkNo">
-		INSERT INTO bookmark(board_no, nickname)
-		VALUES (#{boardNo},#{nickName})
+	<!-- Question : INSERT( 북마크 추가 하기 ) -->
+	<insert id="addQuestion" parameterType="question" useGeneratedKeys="true" keyProperty="questionNo">
+		 INSERT INTO Questions (nickname, question_type, question_category, title, contents, reg_date, comment, comment_date, question_state)
+        VALUES (#{nickname}, #{question_type}, #{question_category}, #{title}, #{contents}, now() , #{comment}, #{comment_date}, #{question_state})
+
 	</insert>
 	
 	<!-- Bookmark : DELETE( 북마크 삭제 하기) -->
