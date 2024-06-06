@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.Quest;
@@ -17,7 +18,9 @@ public interface PlantDao {
 	
 	public void updateQuest(Quest quest) throws Exception;
 	
-	public List<Quest> getQuest(Quest quest) throws Exception;
+	public Quest getQuest(int questNo) throws Exception;
+	
+	public List<Quest> getQuestList(Search search) throws Exception;
 	
 	public void completeQuest(int questNo) throws Exception; 
 	
@@ -32,26 +35,26 @@ public interface PlantDao {
 	
 	public Plant getPlant(int PlantNo) throws Exception;
 	
-	public List<Plant> getPlantList(Plant plant) throws Exception;
+	public List<Plant> getPlantList(Search search) throws Exception;
 	
 	
-	public MyPlant selectRandomPlant(MyPlant myPlant) throws Exception;
+	public MyPlant selectRandomPlant(String myPlantName) throws Exception;
 	
 	public void updateMyPlant(MyPlant myPlant) throws Exception;
 	
-	public MyPlant getMyPlant(MyPlant myPlant) throws Exception;
+	public MyPlant getMyPlant(int myPlantNo) throws Exception;
 	
-	public List<MyPlant> getMyPlantList(MyPlant myPlant) throws Exception;
+	public List<MyPlant> getMyPlantList(Search search) throws Exception;
 	
 	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
 	
 	public void donatePlant(int plantNo ,String nickname) throws Exception;
 	
-	public String getWeather(String location) throws Exception;
-	
 	public void useItemAndExpIncrease(int itemNo) throws Exception;
 	     
 	public void fileUpload(String filePath) throws Exception;
+
+	public String getWeather(String location);
 	
 	 
 	

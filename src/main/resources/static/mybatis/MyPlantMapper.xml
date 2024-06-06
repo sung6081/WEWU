@@ -3,9 +3,9 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		
-<mapper namespace = "MyPlantMapper">
+<mapper namespace = "life.wewu.web.service.plant.PlantDao">
 	
-	<resultMap id="myPlantSelectMap" type="myPlant" >
+	<resultMap id="myPlantSelectMap" type="life.wewu.web.domain.plant.MyPlant" >
 		<result property="myPlantNo" 		column="my_plant_no" 		jdbcType="INTEGER"/>
 		<result property="myPlantState"		column="my_plant_state" 	jdbcType="VARCHAR" />
 		<result property="myPlantName" 		column="my_plant_name" 		jdbcType="VARCHAR" />
@@ -17,24 +17,30 @@
 	</resultMap>
 	
 	<!-- GET RANDOM MYPLANT -->
-	<select id="newMyPlant" parameterType="myPlant">
-		SELECT * FROM plant
-		WHERE plant_no IN ( SELECT plant_no
-							FROM plant_levl
-							WHERE plant_levl = '새싹')
+	<select id="selectRandomPlant" parameterType="life.wewu.web.domain.plant.MyPlant">
+		SELECT le.levl_img, p.plant_no
+		FROM plant_levl le, plant p
+		WHERE p.plant_no IN ( SELECT le2.plant_no
+				FROM plant_levl le2
+				WHERE le2.plant_levl = '새싹')
 		ORDER BY RAND()
 		limit 1
 	</select>
 	
+	<insert id="addRandomPlant" parameterType="life.wewu.web.domain.plant.MyPlant">
+		INSERT INTO my_plant (myPlant_no,my_plant_state,my_plant_name,my_plant_exp,plant_start_date)
+		VALUE (AUTO_INCREMENT,'Y',#{myPlantName},0,CURRENT_TIMESTAMP)
+	</insert>
+	
 	<!-- GET MYPLANTliST -->
-	<select id="getMyPlantList" parameterType = "map" >
+	<select id="getMyPlantList" parameterType = "life.wewu.web.common.Search" >
 		SELECT 
-			m.my_plant_no, m.my_plant_state , m.plant_start_date, m.plant_end_date , le.plant_levl , le.levl_Img , u.nickname, le.plant_max_exp,le.plant_min_exp
+			m.my_plant_no, m.my_plant_state , m.plant_start_date, m.plant_end_date , le.plant_levl , le.levl_Img , m.nickname, le.plant_max_exp,le.plant_min_exp
     	FROM 
-    		my_plant m , plant_levl le , user u
+    		my_plant m , plant_levl le
   	 	WHERE m.plant_no = le.plant_no
-   		AND u.nickname = m.nickname
-   		AND my_plant_exp between #{plant_min_exp} and #{plant_max_exp};
+  	 	AND m.nickname = #{nickname}
+   		AND #{myPlantExp} between #{plant_min_exp} and #{plant_max_exp};
    		
 			<if test = "my_plant_state != null and my_plant_state == 'Y'">
 				AND m.my_plant_state = 'Y'	
@@ -45,16 +51,16 @@
 			</if>
 	</select>
 	
-	<update id="updateMyPlant" parameterType="String">
-		UPDATE myplant
+	<update id="updateMyPlant" parameterType="int">
+		UPDATE my_plant
 	   	<set>
 	   		my_plant_name = #{myPlantName} 
 	   	</set>
 	   	WHERE my_Plant_no = #{myPlantNo}
 	 </update>
 	 
-	 <update id="deleteMyPlant" parameterType="">
-	 	UPDATE myPlant
+	 <update id="deleteMyPlant" parameterType="int">
+	 	UPDATE my_plant
 	 	<set>	
 	 		my_plant_state = 'N'
 	 	</set>
@@ -71,11 +77,14 @@
 		
 		UPDATE my_plant
         <set>
-        	my_plant_exp = my_plant_exp + item_effect
+        	my_plant_exp = my_plant_exp + (SELECT item_effect FROM item WHERE item_no = #{itemNo})
         </set> 
         WHERE my_plant_no = #{myPlantNo};
-	
 	</update>
+	
+	
+	
+	
 	
 	
 </mapper>
