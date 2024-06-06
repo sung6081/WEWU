@@ -69,6 +69,11 @@ public class S3RepositoryImpl implements S3Repository {
 		
 		//File uploadFile = (File)map.get("uploadFile");
 		
+		//이미지 파일이 없다면 null return
+		if(file == null) {
+			return null;
+		}
+		
 		String folderName = map.get("folderName").toString();
 		
 		final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
