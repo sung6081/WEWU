@@ -1,6 +1,7 @@
 package life.wewu.web.service.active;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,6 +20,8 @@ public interface ActiveDao {
 	public void updateActive(Active active); //활동 수정
 	
 	public List<Active> getActiveList(Search search); //활동 목록
+	
+	public List<Active> getGroupActiveList(Map<String, Object> map); //모임 활동 목록
 	
 	public void addActiveHash(ActiveHash activeHash); //해쉬 태그 등록
 	

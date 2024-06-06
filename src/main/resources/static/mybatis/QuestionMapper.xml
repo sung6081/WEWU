@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="QuestionMapper">
+	
+	<!-- question 테이블 -->
+	  <resultMap id="QuestionResultMap" type="com.example.domain.Question">
+        <result property="question_no" column="questionNo" />
+        <result property="nickname" column="nickName" />
+        <result property="question_type" column="questionType" />
+        <result property="question_category" column="questionCategory" />
+        <result property="title" column="title" />
+        <result property="contents" column="contents" />
+        <result property="reg_date" column="regDate" />
+        <result property="reply" column="reply" />
+        <result property="reply_date" column="comment_date" />
+        <result property="question_state" column="question_state" />
+    </resultMap>
+	
+	<!-- =========================SQL쿼리문=================================== -->
+	
+	<!-- Question : INSERT( 북마크 추가 하기 ) -->
+	<insert id="addQuestion" parameterType="question" useGeneratedKeys="true" keyProperty="questionNo">
+		 INSERT INTO questions (nickname, question_type, question_category, title, contents, reg_date, comment, comment_date, question_state)
+        VALUES (#{nickname}, #{question_type}, #{question_category}, #{title}, #{contents}, now() , #{comment}, #{comment_date}, #{question_state})
+
+	</insert>
+	
+	<!-- Bookmark : DELETE( 북마크 삭제 하기) -->
+	<delete id="deleteBookmark" parameterType="int">
+		DELETE FROM questions
+		WHERE bookmark_no = #{bookmarkNo}
+	</delete>
+	
+	
+    <!-- Board : SELECT getBoard ( 게시글 하나 찾기 ) -->
+    <select id="getBoard" parameterType="int" resultType="boardSelectMap">
+        SELECT board_no,type_no, member_no, nickname, title,user_group_no, contents, reg_date, bookmark_cnt, views, comments_cnt 
+        FROM board
+         WHERE board_no = #{boardNo}
+    </select>
+    
+	 
+	 
+		 
+	<!-- Board : SELECT LIST getBoardList ( 게시글 목록 찾기 ) -->
+	<select  id="getBoardList"  parameterType="search"	resultMap="boardSelectMap">
+	  	SELECT *
+	  	FROM (	
+	  		SELECT inner_table.* , ROWNUM AS row_seq
+	  		FROM (	
+	  			SELECT  
+	  			WHERE 
+				<if test="searchCondition != null">
+					<if test="searchCondition == 0 and searchKeyword !='' ">
+						and p.prod_no like '%'||#{searchKeyword}||'%'
+					</if>
+					<if test="searchCondition == 1 and searchKeyword !='' ">
+						and p.prod_name like '%'||#{searchKeyword}||'%'
+					</if>
+					<if test="searchCondition == 2 and searchKeyword !='' ">
+						and p.price like '%'||#{searchKeyword}||'%'
+					</if>
+												
+				</if>
+				ORDER BY p.prod_no ) inner_table
+			WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT title , contents , nickname
+						FROM board
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			title like '%'||#{searchKeyword}||'%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		contents like '%'||#{searchKeyword}||'%'
+								</if>
+								<if test="searchCondition == 2 and searchKeyword !='' ">
+								nickname like '%'||#{searchKeyword}||'%'
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
+</mapper>
