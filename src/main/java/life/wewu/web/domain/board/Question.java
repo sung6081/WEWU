@@ -16,6 +16,7 @@ public class Question {
 	private String nickName;
 	private Date regDate;
 	private String reply;
+	private Date reply_date;
 	private String email;
 	private String phoneNum;
 	private int replyState;
