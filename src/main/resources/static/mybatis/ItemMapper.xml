@@ -42,21 +42,20 @@
 	
 	<!-- SQL : UPDATE 판매 아이템 정보 수정-->
 	<update id="updateItem" parameterType="item">
-		UPDATE item
-		<set>
-			<if test="itemNo != null"> item_no = #{itemNo} , </if>
-			<if test="itemCategory != null"> item_category = #{itemCategory} , </if>
-			<if test="itemName != null"> item_name = #{itemName} , </if>
-			<if test="itemEffect != null"> item_effect = #{itemEffect} , </if>
-			<if test="itemImg != null"> item_img = #{itemImg} , </if>
-			<if test="itemPrice != null"> item_price = #{itemPrice} , </if>
-			<if test="itemRegdate != null"> item_regdate = #{itemRegdate} , </if>
-		</set>
-		WHERE item_no = #{itemNo}
+   		UPDATE item
+    <set>
+        <if test="itemName != null"> item_name = #{itemName}, </if>
+        <if test="itemEffect != null"> item_effect = #{itemEffect}, </if>
+        <if test="itemImg != null"> item_img = #{itemImg}, </if>
+        <if test="itemPrice != null"> item_price = #{itemPrice}, </if>
+    </set>
+    <where>
+        item_no = #{itemNo}
+    </where>
 	</update>
 	
 	<!-- SQL : DELETE 판매 아이템 삭제-->
-	 <delete	id="deleteItem" 	parameterType="item" >
+	 <delete	id="deleteItem" 	parameterType="int" >
 	 	DELETE 
 		FROM item 
 		WHERE item_no = #{value}

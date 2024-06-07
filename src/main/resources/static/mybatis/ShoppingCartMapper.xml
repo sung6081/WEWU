@@ -12,6 +12,9 @@
       <result property="nickname"   			 column="nickname"    				jdbcType="VARCHAR" />
       <result property="itemNo"    				 column="item_no"       			jdbcType="INT" /> 
       <result property="itemCnt" 				 column="item_cnt" 					jdbcType="INT" />
+      <result property="itemName"   			 column="item_name"    				jdbcType="VARCHAR" />
+      <result property="itemImg" 				 column="item_img" 					jdbcType="VARCHAR" />
+      <result property="itemPrice"             	 column="item_price"       			jdbcType="INT" />
    </resultMap>
 	
 	<!-- SQL : INSERT 장바구니에 아이템 담기--> 
