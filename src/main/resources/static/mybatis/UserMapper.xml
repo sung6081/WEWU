@@ -9,7 +9,8 @@
   
 <mapper namespace="life.wewu.web.service.user.UserDao">
 
-    <resultMap id="UserResultMap" type="User">
+    <resultMap id="UserResultMap" type="life.wewu.web.domain.user.User">
+    
         <id property="userId" 				column="user_id" 		jdbcType="VARCHAR"/>
         <result property="email" 			column="email"			jdbcType="VARCHAR"/>
         <result property="phoneNum" 		column="phone_num"		jdbcType="VARCHAR"/>
@@ -19,52 +20,45 @@
         <result property="addr" 			column="addr"			jdbcType="VARCHAR"/>
         <result property="getAddr" 			column="get_addr"		jdbcType="VARCHAR"/>
         <result property="gender" 			column="gender"			jdbcType="VARCHAR"/>
-        <result property="currentPoint" 	column="current_point"	jdbcType="INT"/>
+        <result property="currentPoint" 	column="current_point"	jdbcType="INTEGER"/>
         <result property="role" 			column="role"			jdbcType="VARCHAR"/>
         <result property="userName" 		column="user_name"		jdbcType="VARCHAR"/>
     </resultMap>
 
-    <insert id="addUser" parameterType="User">
+    <insert id="addUser" parameterType="life.wewu.web.domain.user.User">
         INSERT INTO user (user_id, email, phone_num, resident_num, nickname, user_pwd, addr, get_addr, gender, current_point, role, user_name)
-        VALUES (#{userId}, #{email}, #{phoneNum}, #{residentNum}, #{nickname}, #{userPwd}, #{addr}, #{getAddr}, #{gender}, #{currentPoint}, #{role}, #{userName})
+        VALUES (#{userId}, #{email}, #{phoneNum}, #{residentNum}, #{nickname}, #{userPwd}, #{addr}, #{getAddr}, #{gender}, #{currentPoint}, 2, #{userName})
     </insert>
 
-    <update id="updateUser" parameterType="User">
+    <update id="updateUser" parameterType="life.wewu.web.domain.user.User">
         UPDATE user
         SET email = #{email},
             phone_num = #{phoneNum},
             nickname = #{nickname},
             user_pwd = #{userPwd},
             addr = #{addr},
-            get_addr = #{getAddr},
+            get_addr = #{getAddr}
         WHERE user_id = #{userId}
     </update>
 
-    <!-- <delete id="deleteUser" parameterType="String">
-        DELETE 
-        FROM user 
-        WHERE user_id = #{userId}
-    </delete> -->
-
-	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT user_id , userName , email
-											FROM user
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				user_id = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				userName = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY user_id ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
+	<select id="getUserList" parameterType="life.wewu.web.common.Search" resultMap="UserResultMap">
+	    SELECT user_id, user_name, email
+	    FROM user
+	    <if test="searchCondition != null and searchKeyword != null and searchKeyword != ''">
+	        <where>
+	            <choose>
+	                <when test="searchCondition == '0'">
+	                    user_id LIKE CONCAT('%', #{searchKeyword}, '%')
+	                </when>
+	                <when test="searchCondition == '1'">
+	                    user_name LIKE CONCAT('%', #{searchKeyword}, '%')
+	                </when>
+	            </choose>
+	        </where>
+	    </if>
+	    ORDER BY user_id
+	    LIMIT #{startRowNum}, #{pageSize}
+	</select>
 
     <select id="getUser" parameterType="String" resultMap="UserResultMap">
         SELECT * 
@@ -72,30 +66,18 @@
         WHERE user_id = #{userId}
     </select>
 
-    <!-- <select id="authUser" parameterType="map" resultMap="UserResultMap">
-        SELECT * 
-        FROM user 
-        WHERE user_id = #{userId} AND user_pwd = #{userPwd}
-    </select> -->
+    <!-- <select id="findUserId" parameterType="map" resultType="String">
+	    SELECT user_id
+	    FROM user
+	    WHERE user_name = #{userName} AND phone_num = #{phoneNum}
+	</select>
 
-    <select id="findUserId" parameterType="String" resultType="String">
- 		SELECT user_name
-        FROM Users
-        WHERE user_name = #{userName} AND phone_num = #{phoneNum}
-    </select>
-
-    <select id="findUserPwd" parameterType="String" resultType="String">
+    <select id="findUserPwd" parameterType="map" resultType="String">
         SELECT user_pwd
         FROM user
-        WHERE user_id = #{userId}
-    </select>
+        WHERE user_id = #{userId} AND phone_num = #{phoneNum}
+    </select> -->
 
-<!--     <update id="quitUser" parameterType="String">
-        DELETE 
-        FROM user 
-        WHERE user_id = #{userId}
-    </update> -->
-    
     <update id="deleteUser" parameterType="String">
 	     UPDATE user 
 	     SET role = '4' 
@@ -103,15 +85,35 @@
      </update>
     
     <select id="checkNickName" parameterType="String" resultType="boolean">
-	    SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END
+	    SELECT COUNT(*) > 0
 	    FROM user
 	    WHERE nickname = #{nickname}
 	</select>
     
     <select id="checkUserId" parameterType="String" resultType="boolean">
-	    SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END
+	    SELECT COUNT(*) > 0
 	    FROM user
 	    WHERE user_id = #{userId}
 	</select>
+	
+	<select id="findUserId" parameterType="map" resultType="life.wewu.web.domain.user.User">
+		    SELECT user_id
+		    FROM user
+		    WHERE user_name = #{userName} AND phone_num = #{phoneNum}
+	</select>
+	
+	<select id="findUserPwd" parameterType="map" resultType="life.wewu.web.domain.user.User">
+	    SELECT user_id
+	    FROM user
+	    WHERE user_id = #{userId} AND phone_num = #{phoneNum}
+	</select>
+	
+	<update id="updatePassword" parameterType="map">
+	    UPDATE user
+	    SET user_pwd = #{newPassword}
+	    WHERE user_id = #{userId} AND phone_num = #{phoneNum}
+	</update>
+	
+	
     
 </mapper>

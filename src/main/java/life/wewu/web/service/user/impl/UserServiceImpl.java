@@ -4,6 +4,8 @@ package life.wewu.web.service.user.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import life.wewu.web.domain.user.User;
@@ -103,8 +105,18 @@ public class UserServiceImpl implements UserService {
     	return !userDao.checkNickName(nickName);
     }
     
-    public User authUser(String userId, String password) throws Exception{
-        return userDao.authUser(userId, password);
+    public ResponseEntity<String> sendSms(String to) {
+        try {
+            boolean result = smsService.sendSms(to);
+            if (!result) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메시지 전송 중 예외가 발생했습니다.");
+            }
+            return ResponseEntity.ok("메시지 전송에 성공했습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메시지 전송 중 예외가 발생했습니다.");
+        }
     }
+    
 }
 
