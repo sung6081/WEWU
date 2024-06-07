@@ -1,0 +1,9 @@
+.project
+.metadate
+.classpath
+.settings
+*/target/**
+/build/
+/bin/
+*.class
+target/

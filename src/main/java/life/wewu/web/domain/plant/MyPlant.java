@@ -2,11 +2,15 @@ package life.wewu.web.domain.plant;
 
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MyPlant {
 	
 	//field
@@ -23,6 +27,7 @@ public class MyPlant {
 	private String itemState;		//아이템상태(Y,N)
 	private String itemType;		//아이템카테고리
 	private int itemNum;			//가지고있는아이템수
-	private int weatherNo;
-	private String weatherImg;
+	private int weatherNo;			//날씨식별번호
+	private String weatherImg;		//날씨이미지
+	
 }

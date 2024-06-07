@@ -173,34 +173,36 @@
 		WHERE item_purchase_no = #{value}
 	 </delete>
    
-    <!-- SQL : SELECT 포인트 충전내역 목록 가져오기 -->  <!-- table 위치랑 mapper 상관 없음. pay에서 가져오는 거 맞음. -->
+    <!-- SQL : SELECT 포인트 충전내역 목록 가져오기 -->  <!-- table 위치랑 mapper 상관 없음. pay에서 가져오는 거 맞음. --> <!-- delete_pay_date는 포인트 충전 취소할 때 사용하기 위해 넣음 -->
     <select id="getPointChargeList" parameterType="int" resultMap="itemPurchaseSelectMap">
         SELECT
-        pay_no, pay_date, pay_amount, pay_flag
+        pay_no, pay_date, pay_amount, pay_flag, pay_type, delete_pay_date
         FROM pay
-        WHERE pay_no = #{value}
+        WHERE pay_no = #{value} 
     </select>
     
-    <!-- SQL : SELECT 포인트 충전내역 상세조회 가져오기 -->
+    <!-- SQL : SELECT 포인트 충전내역 상세조회 가져오기 --> 
     <select id="getPointCharge" parameterType="int" resultMap="itemPurchaseSelectMap">
         SELECT
-        pay_no, pay_date, pay_amount, after_charge_point, pay_option, pay_flag
+        pay_no, pay_date, pay_amount, after_charge_point, pay_option, pay_flag, pay_type
         FROM pay
         WHERE pay_no = #{value}    
     </select>
     
      <!-- SQL : DELETE 포인트 충전 취소-->
-     <delete id="deletePointCharge" parameterType="int">
-        DELETE 
-        FROM pay
-        WHERE pay_no = #{value}
-     </delete>
+     <update id="updatePointCharge" parameterType="int">
+   		 UPDATE pay
+    	 SET 
+	        pay_flag = '결제실패',
+	        delete_pay_date = NOW()
+    	 WHERE pay_no = #{value}
+	 </update>
      
      <!-- SQL : INSERT 포인트 충전 --> 
      <insert id="addPointCharge" parameterType="itempurchase">
         INSERT 
-        INTO pay ( pay_no, pay_amount, current_point, pay_option) 
-        VALUES (#{pay_amount}, #{current_point}, #{pay_option})
+        INTO pay ( pay_no, buyer_nickname, pay_amount, current_point, pay_option, pay_type, after_charge_point, pay_flag, pay_date, delete_pay_date   ) 
+        VALUES (#{pay_no}, #{buyer_nickname}, #{pay_amount}, #{current_point}, #{pay_option}, #{pay_type}, #{after_charge_point}, #{pay_flag}, now(), #{delete_pay_date} )
      </insert>
 	
 	

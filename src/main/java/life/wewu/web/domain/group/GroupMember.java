@@ -6,9 +6,11 @@ package life.wewu.web.domain.group;
 
 import java.sql.Date;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class GroupMember {
 
 	///필드
@@ -24,8 +26,8 @@ public class GroupMember {
 	private String frstQuest;		//모임 1번째 질문
 	private String scndQuest;		//모임 2번째 질문
 	private String thrdQuest;		//모임 3번째 질문
-	private String frstReql;		//모임 1번째 답변
-	private String scndReql;		//모임 2번째 답변
-	private String thrdReql;		//모임 3번째 답변
+	private String frstRepl;		//모임 1번째 답변
+	private String scndRepl;		//모임 2번째 답변
+	private String thrdRepl;		//모임 3번째 답변
 
 }

@@ -41,7 +41,7 @@
 		state_flag, active_url, active_short_url)
 		VALUES (
 			#{groupNo}, #{activeName}, #{activeStartDate}, #{activeEndDate}, #{activeX}, #{activeY},
-			#{activeStartTime}, #{activeEndTime}, #{activeInfo}, #{activeLocal}, curdate(), #{stateFlag}, 
+			#{activeStartTime}, #{activeEndTime}, #{activeInfo}, #{activeLocal}, curdate(), 'Y', 
 			#{activeUrl}, #{activeShortUrl}
 		)
 		
@@ -84,22 +84,39 @@
 	
 	</update>
 	
-	<!-- 활동 목록 조회 -->
+	<!-- 지도의 활동 -->
 	<select id="getActiveList" parameterType="life.wewu.web.common.Search" resultMap="ActiveResultMap">
 	
 		SELECT DISTINCT a.*, leader_nick FROM active a
 		LEFT JOIN group_info g ON a.group_no = g.group_no
 		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>
+			TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
 			<if test="searchKeyword != null">
-				INSTR(active_name, #{searchKeyword}) > 0 OR INSTR(hash_name, #{searchKeyword}) > 0
+				AND INSTR(active_name, #{searchKeyword}) > 0 OR INSTR(hash_name, #{searchKeyword}) > 0
 			</if>
 		</where>
 		ORDER BY a.active_no
-		LIMIT 10 
-		<if test="currentPage > 1"> OFFSET #{currentPage - 1} * 10 </if>
 		
 	</select>
+	
+	<!-- 모임의 활동 목록 조회 -->
+	<select id="getGroupActiveList" parameterType="java.util.Map" resultMap="ActiveResultMap">
+	
+		SELECT DISTINCT a.*, leader_nick FROM active a
+		LEFT JOIN group_info g ON a.group_no = g.group_no
+		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
+		<where>
+			a.group_no = #{groupNo}
+			<if test="search.searchKeyword != null">
+				AND INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0
+			</if>
+		</where>
+		ORDER BY a.active_no
+		LIMIT #{search.currentPage -1} * 10, 10
+		
+	</select>
+	
 	
 	<!-- 해쉬태그 추가 -->
 	<insert id="addActiveHash" parameterType="life.wewu.web.domain.active.ActiveHash">
