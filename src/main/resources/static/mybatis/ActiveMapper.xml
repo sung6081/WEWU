@@ -71,11 +71,11 @@
 			active_start_time = #{activeStartTime}, 
 			active_end_time = #{activeEndTime}, 
 			active_info = #{activeInfo}, 
-			active_local = #{activeLocal}, 
-			active_reg_date = curdate(),
-			state_flag = #{stateFlag}, 
-			active_url = #{activeUrl}, 
-			active_short_url = #{activeShortUrl}
+			active_local = #{activeLocal},
+			<if test="activeUrl != null">
+				active_url = #{activeUrl},
+				active_short_url = #{activeShortUrl}
+			</if>
 			
 		</set>
 		<where>
@@ -113,7 +113,7 @@
 			</if>
 		</where>
 		ORDER BY a.active_no
-		LIMIT #{search.currentPage -1} * 10, 10
+		LIMIT #{offset}, 10
 		
 	</select>
 	

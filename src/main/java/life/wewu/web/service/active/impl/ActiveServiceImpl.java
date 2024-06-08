@@ -1,6 +1,9 @@
 package life.wewu.web.service.active.impl;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +44,11 @@ public class ActiveServiceImpl implements ActiveService {
 		//파일 업로드
 		map.put("folderName", "active");
 		
-		active.setActiveUrl(s3.uplodaFile(map)); 
+		MultipartFile file = (MultipartFile)map.get("file");
+		
+		if(!file.isEmpty() && file != null) {
+			active.setActiveUrl(s3.uplodaFile(map));
+		}
 		
 		//short url
 		if(active.getActiveUrl() != null) {
@@ -96,7 +103,11 @@ public class ActiveServiceImpl implements ActiveService {
 		//파일 업로드
 		map.put("folderName", "active");
 		
-		active.setActiveUrl(s3.uplodaFile(map)); 
+		MultipartFile file = (MultipartFile)map.get("file");
+		
+		if(!file.isEmpty() && file != null) {
+			active.setActiveUrl(s3.uplodaFile(map));
+		} 
 		
 		//short url
 		if(active.getActiveUrl() != null) {
@@ -150,9 +161,47 @@ public class ActiveServiceImpl implements ActiveService {
 	@Override
 	public List<Active> getGroupActiveList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
+		Search search = (Search)map.get("search");
+		
+		map.put("offset", new Integer((search.getCurrentPage() - 1)*10));
+		
 		List<Active> activeList = activeDao.getGroupActiveList(map);
 		
+		//현재 날짜
+		Date currentDate = new Date(System.currentTimeMillis());
+		
+		//현재 날짜와 활동 종료 날짜 비교 후 활동 상태 설정
+		for(int i = 0; i < activeList.size(); i++) {
+			Active active = activeList.get(i);
+			
+//			if(currentDate.after(active.getActiveEndDate())) {
+//				active.setStateFlag("활동 종료");
+//			}else {
+//				active.setStateFlag("활동중");
+//			}
+			
+			// 현재 날짜와 활동 종료 날짜의 시간 부분을 제거하여 비교
+	        if (isSameDay(currentDate, active.getActiveEndDate())) {
+	            active.setStateFlag("활동중");
+	        } else if (currentDate.after(active.getActiveEndDate())) {
+	            active.setStateFlag("활동 종료");
+	        } else {
+	            active.setStateFlag("활동중");
+	        }
+			
+			activeList.set(i, active);
+		}
+		
 		return activeList;
+	}
+	
+	private boolean isSameDay(Date date1, Date date2) {
+	    Calendar cal1 = Calendar.getInstance();
+	    cal1.setTime(date1);
+	    Calendar cal2 = Calendar.getInstance();
+	    cal2.setTime(date2);
+	    return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+	           cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 	}
 	
 }

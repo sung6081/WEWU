@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -89,7 +90,7 @@ public class S3RepositoryImpl implements S3Repository {
 		//폴더 생성(없으면)
 		try {
 		    s3.putObject(putObjectRequest);
-		    System.out.format("Folder %s has been created.\n", folderName);
+		    //System.out.format("Folder %s has been created.\n", folderName);
 		} catch (AmazonS3Exception e) {
 		    e.printStackTrace();
 		} catch(SdkClientException e) {
@@ -99,12 +100,13 @@ public class S3RepositoryImpl implements S3Repository {
 		//파일 업로드 및 url 받기
 		try {
 			//파일 업로드
-			File uploadFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + file.getOriginalFilename());
+			//File uploadFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + file.getOriginalFilename());
+			File uploadFile =  convert(file);
 			
 			UUID uuid = UUID.randomUUID();
 			String keyName = folderName + "/" + uuid;
 			s3.putObject(bucketName, keyName, uploadFile);
-		    System.out.format("Object %s has been created.\n", uploadFile.getName());
+		    //System.out.format("Object %s has been created.\n", uploadFile.getName());
 		    
 		    // 파일에 대한 ACL 설정 (공개로 설정)
 	        s3.setObjectAcl(bucketName, keyName, CannedAccessControlList.PublicRead);
@@ -118,6 +120,12 @@ public class S3RepositoryImpl implements S3Repository {
 		    e.printStackTrace();
 		} catch(SdkClientException e) {
 		    e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return null;
@@ -162,7 +170,7 @@ public class S3RepositoryImpl implements S3Repository {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println(response.toString());
+            //System.out.println(response.toString());
             
             JsonObject jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
             if (jsonObject.has("result")) {
@@ -177,6 +185,16 @@ public class S3RepositoryImpl implements S3Repository {
             return null;
         }
 		
+	}
+	
+	public File convert(MultipartFile file) throws IOException
+	{    
+	    File convFile = new File(file.getOriginalFilename());
+	    convFile.createNewFile(); 
+	    FileOutputStream fos = new FileOutputStream(convFile); 
+	    fos.write(file.getBytes());
+	    fos.close(); 
+	    return convFile;
 	}
 
 //	@Override
