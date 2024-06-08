@@ -14,11 +14,12 @@ public interface ItemService {
 
     public Item getItemList(int itemNo) throws Exception;
 
-    public int updateItem(Item item) throws Exception;
+    public void updateItem(Item item) throws Exception;
 
-    public int deleteItem(Item item) throws Exception;
+    public int deleteItem(int itemNo) throws Exception;
     
     public Map<String , Object> getItemSearch(Search search) throws Exception;
+    
     
 
 }
