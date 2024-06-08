@@ -36,7 +36,6 @@ public interface UserDao {
     
     public boolean checkNickName(String nickname) throws Exception;
     
-    public User authUser(String userId, String password) throws Exception;
 
 }
 

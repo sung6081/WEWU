@@ -196,8 +196,8 @@ public class ActiveServiceTest {
 		
 		Search search = new Search();
 		
-		search.setCurrentPage(1);
-		//search.setCurrentPage(2);
+		//search.setCurrentPage(1);
+		search.setCurrentPage(2);
 		
 		//search.setSearchKeyword("µµºÀ");
 		
@@ -207,6 +207,8 @@ public class ActiveServiceTest {
 		map.put("groupNo", new Integer(1));
 		
 		List<Active> list = activeService.getGroupActiveList(map);
+		
+		System.out.println("length : " + list.size());
 		
 		for(Active record : list) {
 			

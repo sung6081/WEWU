@@ -1,6 +1,9 @@
 package life.wewu.web.service.active.impl;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,17 +41,22 @@ public class ActiveServiceImpl implements ActiveService {
 		// TODO Auto-generated method stub
 		Active active = (Active)map.get("active");
 		
-		//System.out.println(active);
-		
 		//파일 업로드
 		map.put("folderName", "active");
 		
-		active.setActiveUrl(s3.uplodaFile(map)); 
+		MultipartFile file = (MultipartFile)map.get("file");
 		
-		try {
-			active.setActiveShortUrl(s3.getShortUrl(active.getActiveUrl()));
-		}catch(Exception e) {
-			e.printStackTrace();
+		if(!file.isEmpty() && file != null) {
+			active.setActiveUrl(s3.uplodaFile(map));
+		}
+		
+		//short url
+		if(active.getActiveUrl() != null) {
+			try {
+				active.setActiveShortUrl(s3.getShortUrl(active.getActiveUrl()));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		activeDao.addActive(active);
@@ -84,6 +92,7 @@ public class ActiveServiceImpl implements ActiveService {
 		return active;
 	}
 
+	//active 업데이트
 	@Override
 	@Transactional
 	public void updateActive(Map<String, Object> map) {
@@ -91,8 +100,28 @@ public class ActiveServiceImpl implements ActiveService {
 		
 		Active active = (Active)map.get("active");
 		
+		//파일 업로드
+		map.put("folderName", "active");
+		
+		MultipartFile file = (MultipartFile)map.get("file");
+		
+		if(!file.isEmpty() && file != null) {
+			active.setActiveUrl(s3.uplodaFile(map));
+		} 
+		
+		//short url
+		if(active.getActiveUrl() != null) {
+			try {
+				active.setActiveShortUrl(s3.getShortUrl(active.getActiveUrl()));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//업데이트 active
 		activeDao.updateActive(active);
 		
+		//기존 해쉬태그 삭제 후 다시 삽입
 		activeDao.deleteActiveHash(active.getActiveNo());
 		
 		String[] hashList = map.get("hash").toString().split(",");
@@ -108,6 +137,7 @@ public class ActiveServiceImpl implements ActiveService {
 		
 	}
 
+	//active삭제
 	@Override
 	@Transactional
 	public void deleteActive(Active active) {
@@ -118,6 +148,7 @@ public class ActiveServiceImpl implements ActiveService {
 		
 	}
 
+	//전체 활동 목록
 	@Override
 	public List<Active> getActiveList(Search search) {
 		// TODO Auto-generated method stub
@@ -126,12 +157,51 @@ public class ActiveServiceImpl implements ActiveService {
 		return activeList;
 	}
 
+	//특정 그룹에서 등록된 활동 목록
 	@Override
 	public List<Active> getGroupActiveList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
+		Search search = (Search)map.get("search");
+		
+		map.put("offset", new Integer((search.getCurrentPage() - 1)*10));
+		
 		List<Active> activeList = activeDao.getGroupActiveList(map);
 		
+		//현재 날짜
+		Date currentDate = new Date(System.currentTimeMillis());
+		
+		//현재 날짜와 활동 종료 날짜 비교 후 활동 상태 설정
+		for(int i = 0; i < activeList.size(); i++) {
+			Active active = activeList.get(i);
+			
+//			if(currentDate.after(active.getActiveEndDate())) {
+//				active.setStateFlag("활동 종료");
+//			}else {
+//				active.setStateFlag("활동중");
+//			}
+			
+			// 현재 날짜와 활동 종료 날짜의 시간 부분을 제거하여 비교
+	        if (isSameDay(currentDate, active.getActiveEndDate())) {
+	            active.setStateFlag("활동중");
+	        } else if (currentDate.after(active.getActiveEndDate())) {
+	            active.setStateFlag("활동 종료");
+	        } else {
+	            active.setStateFlag("활동중");
+	        }
+			
+			activeList.set(i, active);
+		}
+		
 		return activeList;
+	}
+	
+	private boolean isSameDay(Date date1, Date date2) {
+	    Calendar cal1 = Calendar.getInstance();
+	    cal1.setTime(date1);
+	    Calendar cal2 = Calendar.getInstance();
+	    cal2.setTime(date2);
+	    return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+	           cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 	}
 	
 }

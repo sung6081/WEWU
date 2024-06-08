@@ -5,6 +5,8 @@ package life.wewu.web.service.user;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+
 import life.wewu.web.domain.user.User;
 
 
@@ -45,7 +47,7 @@ public interface UserService {
 	//회원가입시 사용자 닉네임 중복체크
 	public boolean checkNickName(String nickname) throws Exception;
     
-	//sms인증
-	public User authUser(String userId, String password) throws Exception;
+	//CoolSMS
+	ResponseEntity<String> sendSms(String to);
 
 }

@@ -10,6 +10,8 @@ import lombok.Builder;
 
 import java.sql.Date;
 
+@Builder
+@Data
 public class Item {
 	private int itemNo; //아이템 번호
     private String itemCategory; //아이템 카테고리

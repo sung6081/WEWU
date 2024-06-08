@@ -28,7 +28,7 @@ public class Active {
 	private String activeInfo;//활동 코멘트
 	private String activeLocal;//활동 지역
 	private Date activeRegDate;//활동이 등록된 날짜
-	private String stateFlag;//활동 상태 -> Y:활동중 N:등록 E:끝남 D:삭제됨
+	private String stateFlag;//활동 상태 -> Y:정상 D:삭제됨 => 활동중과 활동종료는 현재날짜와 활동 종료 날짜 비교
 	private String activeUrl;//마커 사진을 저장한 url
 	private String activeShortUrl;//url의 short 버전
 	private String leaderNick;//그룹장의 닉네임

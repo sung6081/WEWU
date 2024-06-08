@@ -6,8 +6,10 @@ package life.wewu.web.domain.report;
 
 import java.sql.Date;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class Report {
 

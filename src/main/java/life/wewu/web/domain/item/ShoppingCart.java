@@ -10,6 +10,8 @@ import lombok.Builder;
 
 import java.sql.Date;
 
+@Builder
+@Data
 public class ShoppingCart {
 	private int shoppingCartNo;//장바구니 번호
     private String nickname; //사용자 닉네임

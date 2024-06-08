@@ -20,10 +20,10 @@ public interface ItemDao {
     public Item getItemList(int itemNo) throws Exception;
 
     // UPDATE 판매 아이템 수정
-    public int updateItem(Item item) throws Exception;
+    public void updateItem(Item item) throws Exception;
 
     // DELETE 판매 아이템 삭제
-    public int deleteItem(Item item) throws Exception;
+    public int deleteItem(int itemNo) throws Exception;
     
     // SELECT 아이템 검색 결과
     public List<Item> getItemSearch(Search search) throws Exception;

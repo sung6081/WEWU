@@ -21,19 +21,35 @@
       <result property="beforeRefundpoint"          column="before_refundpoint"      	jdbcType="INT" />
       <result property="currentPoint"          	    column="current_point"       		jdbcType="INT" />
       <result property="refundPoint"          		column="refund_point"       		jdbcType="INT" />
+      <result property="itemName"   				column="item_name"    				jdbcType="VARCHAR" />  
+      <result property="itemPrice"             		column="item_price"       			jdbcType="INT" />    
    </resultMap>
-	
-	
+   
 	<!-- SQL : INSERT 아이템 구매하기 -->    <!-- parameterType는 매개변수 쓸 때만 넣음. 안 쓸 땐 안 넣음.
 	resultMap은 도메인이랑 같이 가져가는 게 맞음.  -->
-	
-	<insert id="addPurchase" parameterType="itempurchase" useGeneratedKeys="true" keyProperty="itemPurchaseNo">
-	     INSERT 
-	     INTO item_purchase ( item_no, item_name, buyer_nickname, item_cnt, item_purchase_date, item_price ) 
-	     VALUES (
-	     #{item_purchase_no}, #{item_no}, #{item_name}, #{buyer_nickname}, 
-	     #{item_cnt}, #{item_purchase_date}, #{item_price} )
-    </insert>
+    <insert id="addPurchase" parameterType="itempurchase" useGeneratedKeys="true" keyProperty="itemPurchaseNo">
+    	INSERT 
+    	INTO item_purchase (item_no, item_name, buyer_nickname, item_cnt, item_purchase_date, 
+        item_price, item_stock, refund_compdate, refund_askdate, refund_flag, 
+        after_refundpoint, before_refundpoint, current_point, refund_point) 
+    	SELECT 
+	        #{item_no}, 
+	        i.item_name, 
+	        #{buyer_nickname}, 
+	        #{item_cnt}, 
+	        #{item_purchase_date}, 
+	        #{item_price}, 
+	        #{item_stock}, 
+	        #{refund_compdate}, 
+	        #{refund_askdate}, 
+	        #{refund_flag}, 
+	        #{after_refundpoint}, 
+	        #{before_refundpoint}, 
+	        #{current_point}, 
+	        #{refund_point}
+	    FROM item i
+	    WHERE i.item_no = #{item_no}
+	</insert>
 	
 	<!-- SQL : SELECT 아이템 환불내역 목록조회
 	 <select id="getRefundPointList"  resultMap="itemPurchaseSelectMap"> 
@@ -121,36 +137,30 @@
     WHERE ip.item_purchase_no = #{value}
 	</select>
 	
-	<!-- SQL : SELECT 아이템 구매내역 목록조회 
-	<select id="getItemPurchaseHistoryList" parameterType="String" resultMap="itemPurchaseSelectMap">
-        SELECT
-        item_purchase_no, item_purchase_date, item_name, item_cnt, item_price, buyer_nickname       
-        FROM item_purchase
-        WHERE buyer_nickname  = #{value}
-    </select>
-    -->
-	
-	<select id="getItemPurchaseHistoryList" parameterType="String" resultMap="itemPurchaseSelectMap">
-	    SELECT
-	        ip.item_purchase_no,
-	        ip.item_purchase_date,
-	        i.item_name,
-	        ip.item_cnt,
-	        i.item_price,
-	        ip.buyer_nickname
-	    FROM item_purchase ip
-	    INNER JOIN item i ON ip.item_no = i.item_no  
-	    WHERE ip.buyer_nickname = #{value}
+	<!-- SQL : SELECT 아이템 구매내역 목록조회 -->
+    <select id="getItemPurchaseHistoryList" parameterType="search" resultMap="itemPurchaseSelectMap">
+    SELECT
+        ip.item_purchase_no,
+        ip.item_purchase_date,
+        i.item_name,
+        ip.item_cnt,
+        i.item_price,
+        ip.buyer_nickname
+        ip.refund_flag
+    FROM item_purchase ip
+    INNER JOIN item i ON ip.item_no = i.item_no 
+    <where>
+        <if test='searchCondition == "refundFlag"'>
+            ip.refund_flag = #{searchKeyword}
+        </if>
+        <if test='searchCondition == "itemName"'>
+            i.item_name = #{searchKeyword}
+        </if>
+         <if test='searchCondition == "buyerNickname"'>
+            ip.buyer_nickname = #{searchKeyword}
+        </if>
+    </where>
 	</select>
-    
-    <!-- SQL : SELECT 아이템 구매내역 상세정보조회 
-    <select id="getItemPurchaseHistory" parameterType="String" resultMap="itemPurchaseSelectMap">
-        SELECT
-        item_purchase_no, item_purchase_date, item_name, item_cnt, item_price, buyer_nickname  
-        FROM item_purchase
-        WHERE buyer_nickname  = #{value}
-    </select>
-    -->
     
     <!-- SQL : SELECT 아이템 구매내역 상세정보조회 -->
 	<select id="getItemPurchaseHistory" parameterType="String" resultMap="itemPurchaseSelectMap">
@@ -161,47 +171,36 @@
 	        ip.item_cnt,
 	        i.item_price,
 	        ip.buyer_nickname
+	        ip.refund_flag
 	    FROM item_purchase ip
-	    INNER JOIN item i ON ip.item_no = i.item_no  -- item_purchase 테이블과 item 테이블을 item_no로 INNER JOIN
-	    WHERE ip.buyer_nickname = #{value}
+	    INNER JOIN item i ON ip.item_no = i.item_no  <!--  item_purchase 테이블과 item 테이블을 item_no로 INNER JOIN--> 
+	    <where>
+        <if test='searchCondition == "refundFlag"'>
+            ip.refund_flag = #{searchKeyword}
+        </if>
+        <if test='searchCondition == "itemName"'>
+            i.item_name = #{searchKeyword}
+        </if>
+         <if test='searchCondition == "buyerNickname"'>
+            ip.buyer_nickname = #{searchKeyword}
+        </if>
+    </where>
 	</select>
-    
-    <!-- SQL : DELETE 아이템 구매 취소-->
-	 <delete	id="deletePurchase" 	parameterType="itempurchase" >
-	 	DELETE 
-		FROM item_purchase 
-		WHERE item_purchase_no = #{value}
-	 </delete>
-   
-    <!-- SQL : SELECT 포인트 충전내역 목록 가져오기 -->  <!-- table 위치랑 mapper 상관 없음. pay에서 가져오는 거 맞음. -->
-    <select id="getPointChargeList" parameterType="int" resultMap="itemPurchaseSelectMap">
-        SELECT
-        pay_no, pay_date, pay_amount, pay_flag
-        FROM pay
-        WHERE pay_no = #{value}
-    </select>
-    
-    <!-- SQL : SELECT 포인트 충전내역 상세조회 가져오기 -->
-    <select id="getPointCharge" parameterType="int" resultMap="itemPurchaseSelectMap">
-        SELECT
-        pay_no, pay_date, pay_amount, after_charge_point, pay_option, pay_flag
-        FROM pay
-        WHERE pay_no = #{value}    
-    </select>
-    
-     <!-- SQL : DELETE 포인트 충전 취소-->
-     <delete id="deletePointCharge" parameterType="int">
-        DELETE 
-        FROM pay
-        WHERE pay_no = #{value}
-     </delete>
-     
-     <!-- SQL : INSERT 포인트 충전 --> 
-     <insert id="addPointCharge" parameterType="itempurchase">
-        INSERT 
-        INTO pay ( pay_no, pay_amount, current_point, pay_option) 
-        VALUES (#{pay_amount}, #{current_point}, #{pay_option})
-     </insert>
 	
+    <!-- SQL : DELETE 아이템 구매 취소-->
+ 	<update id="updatePurchase" parameterType="itempurchase">
+	     UPDATE item_purchase
+	     <set>
+	        <if test="item_category == 'Y' and item_stock != null and item_stock == item_cnt">
+	            refund_flag = 'Y',
+	            current_point = #{currentPoint},
+	            refund_askdate = NOW(),
+	            refund_compdate = NOW()
+	        </if>
+	    </set>
+	    <where>
+	        item_purchase_no = #{value}
+	    </where>
+	</update>
 	
 </mapper>

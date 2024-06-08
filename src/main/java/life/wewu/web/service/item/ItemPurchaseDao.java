@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.item.Item;
 import life.wewu.web.domain.item.ItemPurchase;
 
@@ -20,17 +21,17 @@ public interface ItemPurchaseDao {
     
     public ItemPurchase getItemSalesHistory(int itemPurchaseNo) throws Exception;
     
-    public ItemPurchase getItemPurchaseHistoryList(String buyerNickname) throws Exception;
-    
-    public ItemPurchase getItemPurchaseHistory(String buyerNickname) throws Exception;
+	public List<ItemPurchase> getItemPurchaseHistoryList(Search search) throws Exception;
+	
+	public List<ItemPurchase> getItemSalesHistory(Search search) throws Exception;
 
-    public int deletePurchase(ItemPurchase itemPurchase) throws Exception;
+    public void updatePurchase(ItemPurchase itemPurchase) throws Exception;
     
     public ItemPurchase getPointChargeList(int payNo) throws Exception;
     
     public ItemPurchase getPointCharge(int payNo) throws Exception;
     
-    public void deletePointCharge(int payNo) throws Exception;
+    public void updatePointCharge(int payNo) throws Exception;
     
     public void addPointCharge(ItemPurchase itemPurchase) throws Exception;
        
