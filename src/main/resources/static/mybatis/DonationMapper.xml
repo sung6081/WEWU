@@ -4,292 +4,50 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="DonationMapper">
+<mapper namespace="life.wewu.web.service.board.DonationDao">
 	
-	<!-- board 테이블 -->
-	<resultMap type="board" id="boardSelectMap">
-		<result property="boardNo" 				column="board_no" 		jdbcType="NUMERIC" />
-		<result property="boardType" column="type_no" jdbcType="NUMERIC" />
-		<result property="memberNo" column="member_no" jdbcType="NUMERIC" />
-		<result property="title" 			column="title" 			jdbcType="NUMERIC"/>
-<!-- 	<result property="file"	column="" 	jdbcType="VARCHAR" /> -->
-		<result property="contents" 	column="contents" 		jdbcType="VARCHAR" />		
-		<result property="nickName" 	column="nickname" 		jdbcType="VARCHAR" />
-		<result property="regDate" 			column="reg_date" 		jdbcType="DATE" />
-<!--  	<result property="thumnail" 			column="" 			jdbcType="NUMERIC"/> -->
-		<result property="bookmarkCnt"	column="bookmark_cnt" 	jdbcType="VARCHAR" />
-<!--	<result property="bookmarkFlag" 	column="" 		jdbcType="VARCHAR" />  -->
-		<result property="views" column="views" jdbcType="VARCHAR" />
-		<result property="commentCnt" 	column="comments_cnt" 		jdbcType="NUMERIC" />
-<!-- 	<result property="comment" 	column="" 		jdbcType="VARCHAR" />			 -->		
-	</resultMap>
-	
-	<!-- comment 테이블 -->
-	<resultMap type="comment" id="commentSelectMap">
-		<result property="commentNo" column="comment_no" jdbcType="NUMERIC"/>
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="commentNickName" column="comment_nickname" jdbcType="VARCHAR"/>
-		<result property="commentContents" column="comment_contents" jdbcType="VARCHAR"/>
-		<result property="commentDate" column="comment_date" jdbcType="VARCHAR"/>
-	</resultMap>
-	
-	<!-- bookmark 테이블 -->
-	<resultMap type="bookmark" id="bookmarkSelectMap">
-		<result property="bookmarkNo" column="bookmark_no" jdbcType="NUMERIC"/>
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="nickName" column="nickname" jdbcType="VARCHAR"/>
-	</resultMap>
-	
-	<!-- boardfile 테이블 -->
-	<resultMap type="boardFile" id="boardfileSelectMap">
-		<result property="fileNo" column="file_no" jdbcType="NUMERIC"/>
-		<result property="boardNo" column="board_no" jdbcType="NUMERIC"/>
-		<result property="fileName" column="file_name" jdbcType="VARCHAR"/>
-		<result property="fileUUID" column="file_uuid" jdbcType="VARCHAR"/>
-		<result property="fileExt" column="file_ext" jdbcType="VARCHAR"/>
+	<!-- pay 테이블 -->
+	<resultMap type="donation" id="donationSelectMap">
+		<result property="payNo" 	  	column="pay_no"   	jdbcType="INTEGER"/>
+		<result property="userName" 	column="pay_name" 	jdbcType="VARCHAR"/>
+		<result property="email"  		column="pay_email"  jdbcType="VARCHAR"/>
+		<result property="phoneNum" 	column="pay_phone" 	jdbcType="VARCHAR"/>
+		<result property="userBirth"  	column="pay_birth"  jdbcType="VARCHAR"/>
+		<result property="payDate"  	column="pay_date"  	jdbcType="DATE"/>
+		<result property="payOption" 	column="pay_option" jdbcType="VARCHAR"/>
+		<result property="payType" 		column="pay_type" 	jdbcType="VARCHAR"/>
+		<result property="payFlag" 		column="pay_flag" 	jdbcType="VARCHAR"/>
+		<result property="payAmount"  	column="pay_amount" jdbcType="INTEGER"/>
 	</resultMap>
 	
 	<!-- =========================SQL쿼리문=================================== -->
 	
-	<!-- =========================Bookmark================================== -->
-	<!-- Bookmark : INSERT( 북마크 추가 하기 ) -->
-	<insert id="addBookmark" parameterType="bookmark" useGeneratedKeys="true" keyProperty="bookmarkNo">
-		INSERT INTO bookmark(board_no, nickname)
-		VALUES (#{boardNo},#{nickName})
-	</insert>
-	
-	<!-- Bookmark : DELETE( 북마크 삭제 하기) -->
-	<delete id="deleteBookmark" parameterType="int">
-		DELETE FROM bookmark
-		WHERE bookmark_no = #{bookmarkNo}
-	</delete>
-	
-	<!-- Bookmark : SELECT LIST( 북마크 리스트 찾기 ) -->
-	<!-- 게시판 카테고리와 사용자 닉네임을 조건으로 리스트 찾음 -->
-	<select id="getBookmarkList" parameterType="map" resultMap="boardSelectMap">
-		SELECT * FROM board
-		WHERE board_no in
-			(SELECT m.board_no
-			FROM bookmark AS m JOIN board AS b
-			ON m.board_no = b.board_no
-			WHERE b.type_no = #{board.boardType} 
-			AND m.nickname = {#nickname})
-		ORDER BY board_no;
-	</select>
-	
-	<!-- Bookmark : SELECT CNT( 북마크 개수 ) -->
-	<!-- 게시판 번호별로 북마크 개수 찾음 -->
-	<select id="getBookmarkCnt" parameterType="int" resultType="int">
-		SELECT COUNT(bookmark_no)
-		FROM bookmark
-		WHERE board_no= #{board_no}
-	</select>
-	
-	
-	<!-- =========================Boardfile================================== -->
-	<!-- Boardfile : INSERT ( 파일 추가하기 ) -->
-	<insert id="addBoardFile" parameterType="boardFile" useGeneratedKeys="true" keyProperty="file_no">
-        INSERT INTO boardfile (board_no, file_name, file_uuid, file_ext)
-        VALUES (#{boardNo}, #{fileName}, #{fileUUID}, #{fileExt})
-    </insert>
-	
-	<!-- Boardfile : DELETE ( 파일 삭제하기 ) -->
-	<delete id="deleteBoardFile" parameterType="int">
-        DELETE FROM boardfile 
-        WHERE file_no = #{fileNo}
-    </delete>
-	
-	<!-- Boardfile : UPDATE ( 파일 수정하기 ) -->
-	<update id="updateBoardFile" parameterType="boardFile">
-        UPDATE boardfile
-        SET file_name = #{fileName},
-            file_uuid = #{fileUUID},
-            file_ext = #{fileExt}
-        WHERE file_no = #{fileNo}
-    </update>
-	
-	<!-- Boardfile : SELECT LIST ( 게시판별 파일 리스트 찾기 ) -->
-	<!-- 조건: 게시판 번호 -->
-	<select id="getBoardFileList" parameterType="map" resultMap="boardfileSelectMap">
-		SELECT * FROM boardfile 
-		WHERE board_no = #{board_no}
-		ORDER BY board_no;
-	</select>
-	
-	<!-- Boardfile : SELECT ( 게시판별 썸네일 찾기 )-->
-	<!-- 게시판에 업로드된 첫번째 파일 가져옴 -->
-	<select id="getBoardFile" parameterType="int" resultType="int">
-		SELECT f1.file_no
-        FROM boardfile f1
-        	JOIN (
-            	SELECT board_no, MIN(file_no) AS min_file_no
-            	FROM boardfile
-            	GROUP BY board_no
-        		) f2 
-        	ON f1.board_no = f2.board_no AND f1.file_no = f2.min_file_no
-		where f1.board_no = #{boardNo};
-	</select>
-	
-	<!-- =========================Comment================================== -->
-	<!-- Comment : INSERT ( 댓글 추가하기 ) -->
-	<insert id="addComment" parameterType="comment" useGeneratedKeys="true" keyProperty="comment_no">
-        INSERT INTO comment (board_no, comment_nickname, comment_contents, comment_date)
-        VALUES (#{boardNo}, #{commentNickName}, #{commentContents}, now())
+	<!-- Donation : INSERT( 후원 추가 하기 ) -->
+	<insert id="addDonation" parameterType="donation" useGeneratedKeys="true" keyProperty="payNo" keyColumn="pay_no">
+        INSERT INTO pay 
+        (pay_name, pay_option, pay_type, pay_birth, pay_phone, pay_email, pay_amount, pay_flag, pay_date)
+        VALUES 
+        (#{userName}, #{payOption}, #{payType}, #{userBirth}, #{phoneNum}, #{email}, #{payAmount} ,#{payFlag}, now() )
     </insert>
     
-    <!-- Comment : DELETE ( 댓글 삭제하기 ) -->
-	<delete id="deleteComment" parameterType="int">
-        DELETE FROM comment 
-        WHERE comment_no = #{commentNo}
+    <!-- Donation : DELETE( 후원 삭제 하기 ) -->
+    <delete id="deleteDonation" parameterType="int">
+        DELETE FROM pay
+        WHERE pay_no = #{payNo}
     </delete>
-    
-    <!-- Comment : UPDATE ( 댓글 수정하기 ) -->
-	<update id="updateComment" parameterType="comment">
-        UPDATE comment
-        SET comment_nickname = #{commentNickName},
-        	comment_contents = #{commentContents},
-            comment_date = #{commentDate}
-        WHERE comment_no = #{commentNo}
-    </update>
-    
-    <!-- Comment : SELECT LIST ( 게시글별 댓글 찾기 ) -->
-	<!-- 조건: 게시판 번호 -->
-	<select id="getCommentListByBoard" parameterType="int" resultMap="boardfileSelectMap">
-		SELECT * FROM comment 
-		WHERE board_no = #{boardNo}
-		ORDER BY comment_no;
-	</select>
-	
-	<!-- Comment : SELECT LIST ( 작성자별 댓글 찾기 ) -->
-	<!-- 조건: 작성자 닉네임 -->
-	<select id="getCommentListByNic" parameterType="String" resultMap="boardfileSelectMap">
-		SELECT * FROM comment 
-		WHERE comment_nickname = #{commentNickName}
-		ORDER BY comment_date;
-	</select>
-	
-	<!-- =========================Board================================== -->
-	<!-- Board : INSERT ( 게시글 등록 ) -->
-	<insert id="addBoard" parameterType="board" useGeneratedKeys="true" keyProperty="boardNo">
-	 	INSERT INTO board (type_no, member_no, nickname,
-	 	 title,user_group_no, contents, reg_date,
-	 	 bookmark_cnt, views, comments_cnt)
-        VALUES (#{typeNo}, #{memberNo}, #{nickname}, 
-        #{title}, #{userGroupNo}, #{contents}, now(), 
-        0, 0, 0)
-    </insert>
-    
-    <!-- Board : DELETE ( 게시글 삭제 ) -->
-    <delete id="deleteBoard" parameterType="int">
-        DELETE FROM board 
-        WHERE board_no = #{boardNo}
-    </delete>
-    
-    <!-- Board : UPDATE ( 게시글 수정하기 ) -->
-	 <update	id="updateBoard" parameterType="boardSelectMap" >
-	   	UPDATE board
-	   	<set>
-	   		type_no = #{typeNo},
-            member_no = #{memberNo},
-            nickname = #{nickname},
-            title = #{title},
-            user_group_no = #{userGroupNo},
-            contents = #{contents},
-            reg_date = now()
-	   	</set>
-	   	WHERE board_no = #{boardNo}
-	 </update>
-    
-    <!-- Board : UPDATE VIEWS ( 조회수 수정 ) -->
-    <update id="updateViews" parameterType="int">
-    	UPDATE board
-    	<set>
-    		views = #{views}
-    	</set>
-    	WHERE board_no = #{boardNo}
-    </update>
-    
-    <!-- Board : UPDATE bookmark_cnt ( 즐겨찾기 수 수정 ) -->
-    <update id="updateBookmarkCnt" parameterType="int">
-    	UPDATE board
-    	<set>
-    		bookmark_cnt = #{bookmarkCnt}
-    	</set>
-    	WHERE board_no = #{boardNo}
-    </update>
-    
-    <!-- Board : UPDATE comments_cnt ( 댓글 수 수정 ) -->
-    <update id="updateCommentCnt" parameterType="int">
-    	UPDATE board
-    	<set>
-    		comments_cnt = #{commentCnt}
-    	</set>
-    	WHERE board_no = #{boardNo}
-    </update>
-    
-    <!-- Board : SELECT getBoard ( 게시글 하나 찾기 ) -->
-    <select id="getBoard" parameterType="int" resultType="boardSelectMap">
-        SELECT board_no,type_no, member_no, nickname, title,user_group_no, contents, reg_date, bookmark_cnt, views, comments_cnt 
-        FROM board
-         WHERE board_no = #{boardNo}
+
+    <!-- Donation : SELECT ( 후원 상세 보기 ) -->
+    <select id="getDonationById" parameterType="int" resultMap="donationSelectMap">
+        SELECT pay_no, buyer_nickname, pay_name, pay_option, pay_type, pay_birth, pay_phone, pay_email, pay_amount, current_point, after_charge_point, pay_flag, pay_date, delete_pay_date
+        FROM pay
+        WHERE pay_no = #{payNo}
     </select>
     
-	 
-	 
-		 
-	<!-- Board : SELECT LIST getBoardList ( 게시글 목록 찾기 ) -->
-	<select  id="getBoardList"  parameterType="search"	resultMap="boardSelectMap">
-	  	SELECT *
-	  	FROM (	
-	  		SELECT inner_table.* , ROWNUM AS row_seq
-	  		FROM (	
-	  			SELECT  
-	  			WHERE 
-				<if test="searchCondition != null">
-					<if test="searchCondition == 0 and searchKeyword !='' ">
-						and p.prod_no like '%'||#{searchKeyword}||'%'
-					</if>
-					<if test="searchCondition == 1 and searchKeyword !='' ">
-						and p.prod_name like '%'||#{searchKeyword}||'%'
-					</if>
-					<if test="searchCondition == 2 and searchKeyword !='' ">
-						and p.price like '%'||#{searchKeyword}||'%'
-					</if>
-												
-				</if>
-				ORDER BY p.prod_no ) inner_table
-			WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
+    <!-- Donation : SELECT LIST ( 후원 목록 ) -->
+    <select id="getDonationList" parameterType="String" resultMap="donationSelectMap">
+        SELECT pay_no, buyer_nickname, pay_name, pay_option, pay_type, pay_birth, pay_phone, pay_email, pay_amount, current_point, after_charge_point, pay_flag, pay_date, delete_pay_date
+        FROM pay
+        WHERE pay_type = #{payType}
+    </select>
 	
-	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT title , contents , nickname
-						FROM board
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			title like '%'||#{searchKeyword}||'%'
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		contents like '%'||#{searchKeyword}||'%'
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-								nickname like '%'||#{searchKeyword}||'%'
-								</if>
-							</where>
-						</if> ) countTable						
-	 </select>
-	 
 </mapper>

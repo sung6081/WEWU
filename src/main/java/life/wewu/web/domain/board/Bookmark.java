@@ -1,18 +1,22 @@
 /*
- *	ÀÛ¼ºÀÚ: ÃÖÁö¿ø
- *	ÀÛ¼ºÀÏ: 2024-06-04 
+ *	ì‘ì„±ì : ìµœì§€ì›
+ *	ì‘ì„± ë‚ ì§œ : 2024-06-04
  */
 package life.wewu.web.domain.board;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Bookmark {
 	
-	//ÇÊµå
-	private int bookmarkNo;			//pk ºÏ¸¶Å© ¹øÈ£		//
+	//í•„ë“œ
+	private int bookmarkNo;			
 	private int boardNo;
 	private String nickName;
 	

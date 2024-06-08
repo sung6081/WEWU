@@ -1,33 +1,37 @@
 /*
- *	ÀÛ¼ºÀÚ: ÃÖÁö¿ø
- *	ÀÛ¼ºÀÏ: 2024-06-04 
+ *	ì‘ì„±ì: ìµœì§€ì›
+ *	ì‘ì„±ì¼: 2024-06-04 
  */
 package life.wewu.web.domain.board;
 
 import java.sql.Date;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Board {
 	
-	//ÇÊµå
-	private int boardNo; 			//PK °Ô½ÃÆÇ ½Äº°¹øÈ£
-	private int boardType; 			//FK °Ô½ÃÆÇ Á¾·ù
-	private int memberNo; 			//FK ¸ğÀÓ ¹øÈ£
-	private String nickName;		//FK »ç¿ëÀÚ ´Ğ³×ÀÓ
-	private String title; 			//°Ô½ÃÆÇ Á¦¸ñ
-//	private List<BoardFile> fileNo ;//°Ô½ÃÆÇ Ã·ºÎ ÆÄÀÏ¸í//
+	//í•„ë“œ
+	private int boardNo; 			//PK ê²Œì‹œíŒ ì‹ë³„ë²ˆí˜¸
+	private int boardType; 			//FK ê²Œì‹œíŒ ì¢…ë¥˜
+	private String nickName;		//FK ì‚¬ìš©ì ë‹‰ë„¤ì„
+	private String title; 			//ê²Œì‹œíŒ ì œëª©
+//	private List<BoardFile> fileNo ;//ê²Œì‹œíŒ ì²¨ë¶€ íŒŒì¼ëª…//
 	private int userGroupNo;
-	private String contents;		//°Ô½ÃÆÇ ³»¿ë
-	private Date regDate;			//µî·Ï ³¯Â¥
-	private BoardFile thumnail;		//½æ³×ÀÏ ÀÌ¹ÌÁö ÀÌ¸§//
-	private int bookmarkCnt;		//Áñ°ÜÃ£±â ¼ö
-	private int views;				//Á¶È¸¼ö
-	private int commentCnt;			//´ñ±Û ¼ö
-	private List<Comment> commentNo;//´ñ±Û //
+	private String contents;		//ê²Œì‹œíŒ ë‚´ìš©
+	private Date regDate;			//ë“±ë¡ ë‚ ì§œ
+	private BoardFile thumnail;		//ì¸ë„¤ì¼ ì´ë¯¸ì§€ ì´ë¦„//
+	private int bookmarkCnt;		//ì¦ê²¨ì°¾ê¸° ìˆ˜
+	private int views;				//ì¡°íšŒìˆ˜
+	private int commentCnt;			//ëŒ“ê¸€ ìˆ˜
+	private List<Comment> commentNo;//ëŒ“ê¸€ //
+	
 	
 }

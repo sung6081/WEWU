@@ -21,7 +21,7 @@ public interface BoardDao {
 	
 	public void deleteBookmark(int bookmarkNo) throws Exception;
 	
-	public List<Board> getBookmarkList(int boardType, String nickname) throws Exception;
+	public List<Board> getBookmarkList(Map map) throws Exception;
 	
 	public int getBookmarkCnt(int boardNo) throws Exception;
 	
@@ -47,6 +47,8 @@ public interface BoardDao {
 	
 	public List<Comment> getCommentListByNic(String commentNickName) throws Exception;
 	
+	public int getCommentCnt(int boardNo) throws Exception;
+	
 	//Board Dao
 	public void addBoard(Board board) throws Exception;
 	
@@ -54,15 +56,13 @@ public interface BoardDao {
 	
 	public void updateBoard(Board board) throws Exception;
 	
-	public void updateViews(int boardNo) throws Exception;
+	public int updateViews(int boardNo) throws Exception;
 	
-	public void updateBookmarkCnt(int boardNo) throws Exception;
-	
-	public void updateCommentCnt(int boardNo) throws Exception;
 	
 	//
 	public Board getBoard(int boardNo) throws Exception;
 	
-	public List<Board> getBoardList (Search search) throws Exception;
+	public List<Board> getBoardList (Map map) throws Exception;
 
+	public int getTotalCount(Map map)throws Exception;
 }
