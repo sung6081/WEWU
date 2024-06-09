@@ -5,52 +5,50 @@
 		
 <mapper namespace = "life.wewu.web.service.plant.PlantDao">
 	
-	<resultMap id="myPlantSelectMap" type="life.wewu.web.domain.plant.MyPlant" >
-		<result property="myPlantNo" 		column="my_plant_no" 		jdbcType="INTEGER"/>
-		<result property="myPlantState"		column="my_plant_state" 	jdbcType="VARCHAR" />
-		<result property="myPlantName" 		column="my_plant_name" 		jdbcType="VARCHAR" />
-		<result property="myPlantExp" 		column="my_plant_exp" 		jdbcType="INTEGER" />
-		<result property="plantStartDate" 	column="plant_start_date" 	jdbcType="DATE" />
-		<result property="plantEndDate"		column="plant_end_date"		jdbcType="DATE"/>
-		<result property="weatherNo"		column="weather_no"			jdbcType="INTEGER"/>
-		<result property="weatherImg"		column="weather_img"		jdbcType="VARCHAR"/>
-	</resultMap>
+	<resultMap id="myPlantSelectMap" type="myPlant" >
+		<result property="myPlantNo" 			column="my_plant_no" 		jdbcType="INTEGER"/>
+		<result property="myPlantState"		 	column="my_plant_state" 	jdbcType="VARCHAR" />
+		<result property="myPlantName" 		  	column="my_plant_name" 		jdbcType="VARCHAR" />
+		<result property="myPlantExp" 			column="my_plant_exp" 		jdbcType="INTEGER" />
+		<result property="plantStartDate" 		column="plant_start_date" 	jdbcType="DATE" />
+		<result property="plantEndDate"		 	column="plant_end_date"		jdbcType="DATE"/>
+		<result property="myPlantLevl"			column="my_plant_levl" 		jdbcType="VARCHAR"/>
+		<result property="weatherNo"			column="weather_no"			jdbcType="INTEGER"/>
+		<result property="weatherImg"			column="weather_img"		jdbcType="VARCHAR"/>
+		<result property="plantLevl.plantLevlNo" column="plant_levl_no"		jdbcType="VARCHAR"/>
+		<result property="plant.plantNo" 		column="plant_no"			jdbcType="VARCHAR"/>
+	</resultMap>	
 	
-	<!-- GET RANDOM MYPLANT -->
-	<select id="selectRandomPlant" parameterType="life.wewu.web.domain.plant.MyPlant">
-		SELECT le.levl_img, p.plant_no
-		FROM plant_levl le, plant p
-		WHERE p.plant_no IN ( SELECT le2.plant_no
-				FROM plant_levl le2
-				WHERE le2.plant_levl = '새싹')
-		ORDER BY RAND()
-		limit 1
-	</select>
 	
-	<insert id="addRandomPlant" parameterType="life.wewu.web.domain.plant.MyPlant">
-		INSERT INTO my_plant (myPlant_no,my_plant_state,my_plant_name,my_plant_exp,plant_start_date)
-		VALUE (AUTO_INCREMENT,'Y',#{myPlantName},0,CURRENT_TIMESTAMP)
+		
+	<!--  ADD RANDOMPLANT -->
+	<insert id="addRandomPlant" parameterType="myPlant">
+		INSERT INTO my_plant (my_plant_state,my_plant_name,my_plant_exp,plant_start_date,nickname,plant_no)
+		VALUE ('Y',#{myPlantName},0,now(),#{nickname},#{plant.plantNo})
 	</insert>
 	
+	<select id ="getMyPlant" parameterType="myPlant" resultMap="myPlantSelectMap">
+		SELECT * FROM my_plant
+		WHERE my_plant_no = #{value}
+	</select>
+	
 	<!-- GET MYPLANTliST -->
-	<select id="getMyPlantList" parameterType = "life.wewu.web.common.Search" >
+	<select id="getMyPlantList" parameterType="map" resultMap="myPlantSelectMap" >
 		SELECT 
-			m.my_plant_no, m.my_plant_state , m.plant_start_date, m.plant_end_date , le.plant_levl , le.levl_Img , m.nickname, le.plant_max_exp,le.plant_min_exp
+			m.my_plant_no, m.my_plant_state , m.plant_start_date, m.plant_end_date , 
+			le.plant_levl , le.levl_Img , m.nickname, le.plant_max_exp,le.plant_min_exp
     	FROM 
     		my_plant m , plant_levl le
   	 	WHERE m.plant_no = le.plant_no
   	 	AND m.nickname = #{nickname}
-   		AND #{myPlantExp} between #{plant_min_exp} and #{plant_max_exp};
+   		AND #{myPlantExp} between #{plantLevl.plantMinExp} and #{plantLevl.plantMaxExp};
    		
-			<if test = "my_plant_state != null and my_plant_state == 'Y'">
-				AND m.my_plant_state = 'Y'	
-			</if>
-				
-			<if test = "my_plant_state != null and my_plant_state == 'N'">
-				AND m.my_plant_state = 'N'
+			<if test = "myPlantState != null ">
+				AND m.my_plant_state = #{myPlantState}	
 			</if>
 	</select>
 	
+	<!-- UPDATE MYPLANT NAME -->
 	<update id="updateMyPlant" parameterType="int">
 		UPDATE my_plant
 	   	<set>
@@ -59,6 +57,7 @@
 	   	WHERE my_Plant_no = #{myPlantNo}
 	 </update>
 	 
+	 <!-- DELETE MYPLANT -->
 	 <update id="deleteMyPlant" parameterType="int">
 	 	UPDATE my_plant
 	 	<set>	
@@ -66,25 +65,6 @@
 	 	</set>
 	 	WHERE my_plant_no = #{myPlantNo}
 	 </update>
-	
-	
-	<update id="useItemAndExpIncrease"  parameterType="int">
-		UPDATE item_purchase
-		<set>
-			item_stock = item_stock - 1
-		</set>
-			WHERE item_purchase_no = #{itemPurchaseNo} AND item_stock > 0;
-		
-		UPDATE my_plant
-        <set>
-        	my_plant_exp = my_plant_exp + (SELECT item_effect FROM item WHERE item_no = #{itemNo})
-        </set> 
-        WHERE my_plant_no = #{myPlantNo};
-	</update>
-	
-	
-	
-	
 	
 	
 </mapper>
