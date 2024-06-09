@@ -10,6 +10,10 @@ import lombok.Builder;
 
 import java.sql.Date;
 
+import life.wewu.web.domain.pay.Pay;
+
+@Builder
+@Data
 public class ItemPurchase {
 	private int itemPurchaseNo; //아이템 구매 번호
     private int itemNo; //아이템 번호

@@ -18,6 +18,13 @@
 		<typeAlias alias="search" type="life.wewu.web.common.Search" />
 		<typeAlias alias="page" type="life.wewu.web.common.Page" />
 		
+		<typeAlias alias="myPlant" type="life.wewu.web.domain.plant.MyPlant" />
+		<typeAlias alias="plant" type="life.wewu.web.domain.plant.Plant" />
+		<typeAlias alias="quest" type="life.wewu.web.domain.plant.Quest" />
+		<typeAlias alias="plantLevl" type="life.wewu.web.domain.plant.PlantLevl" />
+		<typeAlias alias="inventory" type="life.wewu.web.domain.plant.Inventory" /> 
+		
+		
 		<typeAlias alias="group" type="life.wewu.web.domain.group.Group" />
 		<typeAlias alias="groupMember" type="life.wewu.web.domain.group.GroupMember" />
 		<typeAlias alias="groupBoard" type="life.wewu.web.domain.group.GroupBoard" />
@@ -33,6 +40,8 @@
 		<typeAlias alias="item" type="life.wewu.web.domain.item.Item" />
 		<typeAlias alias="itemPurchase" type="life.wewu.web.domain.item.ItemPurchase" />
 		<typeAlias alias="shoppingCart" type="life.wewu.web.domain.item.ShoppingCart" />
+		
+		<typeAlias alias="pay" type="life.wewu.web.domain.pay.Pay" />
 	</typeAliases>
 	
 	<!-- 
@@ -49,6 +58,7 @@
 		<mapper resource="static/mybatis/MyPlantMapper.xml"/>
 		<mapper resource="static/mybatis/PlantMapper.xml"/>
 		<mapper resource="static/mybatis/QuestMapper.xml"/>
+		<mapper resource="static/mybatis/PlantLevlMapper.xml"/>
 		
 		<mapper resource="static/mybatis/groupMapper.xml"/>
 		<mapper resource="static/mybatis/groupMemberMapper.xml"/>
@@ -64,5 +74,7 @@
 		<mapper resource="static/mybatis/ItemMapper.xml"/>
         <mapper resource="static/mybatis/ItemPurchaseMapper.xml"/>
         <mapper resource="static/mybatis/ShoppingCartMapper.xml"/>
+        
+        <mapper resource="static/mybatis/PayMapper.xml"/>
 	</mappers>
 </configuration>
