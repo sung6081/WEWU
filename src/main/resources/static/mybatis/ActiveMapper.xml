@@ -84,6 +84,19 @@
 	
 	</update>
 	
+	<!-- 활동 삭제 -->
+	<update id="deleteActive" parameterType="int">
+	
+		UPDATE active
+		<set>
+			state_flag = 'D'
+		</set>
+		<where>
+			active_no = #{activeNo}
+		</where>
+	
+	</update>
+	
 	<!-- 지도의 활동 -->
 	<select id="getActiveList" parameterType="life.wewu.web.common.Search" resultMap="ActiveResultMap">
 	

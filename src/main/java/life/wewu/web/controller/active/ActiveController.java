@@ -133,6 +133,17 @@ public class ActiveController {
 		return "redirect:/active/getActive/"+active.getActiveNo();
 	}
 	
+	@GetMapping(value = "deleteActive/{activeNo}")
+	public String deleteActive(@PathVariable int activeNo) throws Exception {
+		
+		System.out.println("deleteActive B/L");
+		
+		activeService.deleteActive(activeNo);
+		
+		return "forward:/active/listActive";
+		
+	}
+	
 	//모임 활동 조회(첫 방문시)
 	@GetMapping(value = "listActive")
 	public String getActiveList(Model model, @RequestParam int groupNo) throws Exception {

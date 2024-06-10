@@ -15,7 +15,7 @@ public interface ActiveService {
 	
 	public void updateActive(Map<String, Object> map); //활동 수정
 	
-	public void deleteActive(Active active); //활동 삭제
+	public void deleteActive(int activeNo); //활동 삭제
 	
 	public List<Active> getActiveList(Search search); //활동 목록
 	

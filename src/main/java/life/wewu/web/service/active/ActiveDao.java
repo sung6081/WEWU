@@ -19,6 +19,8 @@ public interface ActiveDao {
 	
 	public void updateActive(Active active); //활동 수정
 	
+	public void deleteActive(int activeNo); //활동 삭제 => flag를 'D'로
+	
 	public List<Active> getActiveList(Search search); //활동 목록
 	
 	public List<Active> getGroupActiveList(Map<String, Object> map); //모임 활동 목록
