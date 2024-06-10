@@ -4,32 +4,24 @@
 
 package life.wewu.web.service.item.impl;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
 
-import life.wewu.web.common.Search;
 import life.wewu.web.domain.item.ShoppingCart;
-import life.wewu.web.service.item.ItemService;
-import life.wewu.web.service.item.ShoppingCartDao;
 import life.wewu.web.service.item.ShoppingCartService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.sql.Date;
-import java.util.ArrayList;
 
 @SpringBootTest
 public class ShoppingCartServiceTest{
-	
+
 	///필드
 	@Autowired
-	@Qualifier("shoppingCartService")
+	@Qualifier("shoppingCartServiceImpl")
 	private ShoppingCartService shoppingCartService;
-	
+
 	///생성자
 
     /// 메소드
@@ -37,23 +29,19 @@ public class ShoppingCartServiceTest{
     public void testAddShoppingCart() throws Exception {
         System.out.println("\n===================================");
         ShoppingCart shoppingCart = ShoppingCart.builder()
-                .shoppingCartNo(1)
-                .nickname("testuser")
+                .nickname("nick1")
                 .itemNo(1)
-                .itemCnt(2)
-                //.itemName("마우스 커서 파란색")
-                //.itemImg("test_img1.jpg")
-                //.itemPrice(1000)
+                .itemCnt(1)
                 .build();
         shoppingCartService.addShoppingCart(shoppingCart);
         System.out.println("ShoppingCart AddShoppingCart :: " + shoppingCart);
         System.out.println("===================================\n");
     }
 
-    //@Test
+    @Test
     public void testGetShoppingCartList() throws Exception {
         System.out.println("\n===================================");
-        ShoppingCart shoppingCart = shoppingCartService.getShoppingCartList(1);
+        List<ShoppingCart> shoppingCart = shoppingCartService.getShoppingCartList("nick1");
         System.out.println("ShoppingCart GetShoppingCart :: " + shoppingCart);
         System.out.println("===================================\n");
     }
@@ -67,4 +55,3 @@ public class ShoppingCartServiceTest{
     }
 
 }
-	
