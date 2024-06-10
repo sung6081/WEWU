@@ -4,40 +4,41 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ItemMapper">
+<mapper namespace="life.wewu.web.service.item.ItemDao">
  	
  	
 	<resultMap id="itemSelectMap" type="item">
-      <result property="itemNo"          				column="item_no"          					jdbcType="INT" />
+      <result property="itemNo"          				column="item_no"          					jdbcType="INTEGER" />
       <result property="itemCategory"          			column="item_category"          			jdbcType="VARCHAR" />
       <result property="itemName"   					column="item_name"    						jdbcType="VARCHAR" />
       <result property="itemEffect"   					column="item_effect"       					jdbcType="VARCHAR" /> 
       <result property="itemImg" 						column="item_img" 							jdbcType="VARCHAR" />
-      <result property="itemPrice"             			column="item_price"       					jdbcType="INT" />
+      <result property="itemPrice"             			column="item_price"       					jdbcType="INTEGER" />
       <result property="itemRegdate"    				column="item_regdate"       				jdbcType="DATE" />
+      <result property="itemFlag"    				    column="item_flag"       				    jdbcType="VARCHAR" />
    </resultMap>
 	
 	<!-- SQL : INSERT 판매 아이템 등록--> 
-	<insert id="addItem" parameterType="item" useGeneratedKeys="true" keyProperty="itemNo ">      
+	<insert id="addItem" parameterType="item" useGeneratedKeys="true" keyProperty="itemNo">      
 	 	INSERT
-		INTO item (item_category , item_name, item_effect , item_img, item_price, item_regdate ) 
-		VALUES(	#{itemCategory:VARCHAR}, #{itemName:VARCHAR}, #{itemEffect:VARCHAR}, #{itemImg:VARCHAR}, #{itemPrice:INT}, #{itemRegdate:DATE})
+		INTO item (item_category , item_name, item_effect , item_img, item_price, item_regdate, item_flag ) 
+		VALUES(	#{itemCategory:VARCHAR}, #{itemName:VARCHAR}, #{itemEffect:VARCHAR}, #{itemImg:VARCHAR}, #{itemPrice:INTEGER}, curdate(),"N")
 	</insert>
 	
     <!-- SQL : SELECT 아이템 상세정보조회-->
 	<select id="getItem" parameterType="int" resultMap="itemSelectMap">
 		SELECT
-		item_no , item_category , item_name, item_effect , item_img, item_price
+		*
 		FROM item
 		WHERE item_no = #{value}
 	</select>
 	
 	<!-- SQL : SELECT 아이템 목록조회-->
-	<select id="getItemList" parameterType="int" resultMap="itemSelectMap">
+	<select id="getItemList" resultMap="itemSelectMap">
 		SELECT
-		item_no , item_category , item_name, item_img, item_price
 		FROM item
-		WHERE item_no = #{value}
+		item_no , item_category , item_name, item_img, item_price, item_flag
+		
 	</select>
 	
 	<!-- SQL : UPDATE 판매 아이템 정보 수정-->
@@ -62,6 +63,26 @@
 	 </delete>
 		
 	<!-- SQL : SELECT 아이템 검색 결과-->
+	  	<select id="getItemSearch"  parameterType="search"  resultMap="itemSelectMap">
+	  	    SELECT 
+				*
+			FROM item
+			<if test="searchCondition != null">
+        		<where>
+            		<if test="searchCondition == 0 and searchKeyword !=''">
+               			item_name LIKE CONCAT('%', #{searchKeyword}, '%')
+            		</if>
+           			 <if test="searchCondition == 1 and searchKeyword !=''">
+               			item_category LIKE CONCAT('%', #{searchKeyword}, '%')
+            		</if>
+        		</where>
+    		</if>
+		</select>
+	
+	
+	
+	
+	<!-- 
 	<select  id="getItemSearch"  parameterType="search"	resultMap="itemSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
@@ -81,19 +102,12 @@
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
 	
 	
-	<!-- SQL : SELECT ROW Count -->	 
+	 -->
+	 
+	 
+	 <!--  
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT item_no , item_category , item_name, item_effect , item_img, item_price
@@ -109,7 +123,7 @@
 							</where>
 						</if> ) countTable						
 	 </select>	
-		
+	-->	
 		
 		
 </mapper>
