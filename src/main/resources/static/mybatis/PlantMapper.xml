@@ -36,22 +36,14 @@
 			WHERE plant_no = #{plantNo}
 	</update>
 	
-	<!-- UPDATE PLANTLEVL -->
-	
+
 	<!-- DELETE PLANT -->
 	<delete id="deletePlant">
 		DELETE FROM plant
 		WHERE plant_no = #{plant_no}
 	</delete>
 	
-	<!--  <select id="getPlant" parameterType="int" resultMap="PlantSelectMap">
-		SELECT p.plant_no, p.plant_name ,le.plant_levl, le.plant_min_exp, le.plant_max_exp ,le.plant_final_levl ,le.levl_img
-		FROM plant p, plant_levl le
-		WHERE p.plant_no = le.plant_no
-		AND p.plant_no = #{value}
-	</select>
-	-->
-	
+
 	<select id = "getPlant" parameterType="int" resultMap="PlantSelectMap">
 		SELECT * from plant
 		WHERE plant_no = #{value}

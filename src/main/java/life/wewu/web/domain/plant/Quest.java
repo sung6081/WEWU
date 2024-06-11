@@ -23,6 +23,6 @@ public class Quest {
 	private int questTargetCnt;		//퀘스트목표치
 	private int questReward;		//퀘스트보상
 	private Date regDate;			//등록일
-	private String nickname;
+	private String nickName;
 
 }
