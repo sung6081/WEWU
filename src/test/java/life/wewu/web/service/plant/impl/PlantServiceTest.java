@@ -4,17 +4,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
+import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.service.plant.PlantService;
 
@@ -26,14 +31,7 @@ public class PlantServiceTest {
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
 
-   // @Test
-	//check
-    public void testSelectRandomPlant() throws Exception {
-        System.out.println("===============================");
-        Plant plant = plantService.selectRandomPlant();
-        System.out.println(plant);
-        System.out.println("===============================");
-    }	
+   
 
 	//@Test
 	//check
@@ -47,26 +45,27 @@ public class PlantServiceTest {
         System.out.println("===============================");
 	}
 	
-	/*
-	* 
-	*  public void testAddPlantLevl() throws Exception{
-	*	System.out.println("============");
-	*	
 	
-		Plant plant = Plant.builder()
+	//@Test
+	//check
+	 public void testAddPlantLevl() throws Exception{
+		System.out.println("============");
+		Plant plant = plantService.getPlant(1);
+		PlantLevl plantLevl = PlantLevl.builder()
+				.plantNo(plant.getPlantNo())
 				.plantMinExp(0)
-				.plantMaxExp(10)
+				.plantMaxExp(9)
 				.plantLevl("새싹")
-				.plantImg("빨간열매나무1단계.jpg")
-				.build();
-		
-		plantService.addPlantLevl(plant);
-		System.out.println(plant);
+				.plantFinalLevl("열매나무")
+				.levlImg("빨간열매나무1단계.jpg")
+				.build();	
+		plantService.addPlantLevl(plantLevl);
+		System.out.println(plantLevl);
 		
 		System.out.println("=============");
 		
 		}
-	*/
+	
 	
 	//@Test
 	//check
@@ -98,7 +97,14 @@ public class PlantServiceTest {
 		System.out.println(plant);
         System.out.println("===============================");	
 	}
-	
+	//@Test
+	//check
+    public void testSelectRandomPlant() throws Exception {
+        System.out.println("===============================");
+        Plant plant = plantService.selectRandomPlant();
+        System.out.println(plant);
+        System.out.println("===============================");
+    }	
 	//@Test
 	//check
     public void testAddRandomPlant() throws Exception {
@@ -137,15 +143,42 @@ public class PlantServiceTest {
 	//check
 	public void testGetMyPlant() throws Exception{		
         System.out.println("===============================");	
-		MyPlant myPlant = plantService.getMyPlant(1);		
+		MyPlant myPlant = plantService.getMyPlant(1);	
+		myPlant = plantService.getMyPlant(myPlant.getMyPlantNo());
+		myPlant.setPlant(plantService.getPlant(myPlant.getPlant().getPlantNo())); 
+		myPlant.setPlantLevl(plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo()));		
 		System.out.println(myPlant);		
         System.out.println("===============================");	
 	}
 	
-    //@Test
+   // @Test
+	//check
     public void testGetMyPlantList() throws Exception {
-        System.out.println("===============================");	       
-        System.out.println("===============================");
+        System.out.println("===============================");	
+        
+        User user = new User();
+        user.setName("nick1");
+        
+        Map<String,Object> map = new HashMap<String,Object>();
+        Search search = new Search();
+        search.setSearchKeyword("current");
+        
+        map.put("search", search);
+        map.put("nickname", user.getName());
+        
+		List<MyPlant> list = plantService.getMyPlantList(map);
+		List<MyPlant> test = new ArrayList<MyPlant>();
+	
+		for(MyPlant dd : list)
+		{
+			dd.setPlant(plantService.getPlant(dd.getPlant().getPlantNo())); 
+			dd.setPlantLevl(plantService.getPlantLevl(dd.getPlantLevl().getPlantLevlNo()));	
+			test.add(dd);
+		}
+		
+		System.out.println(test);		
+        
+		System.out.println("===============================");
     }
 
     //@Test
@@ -158,14 +191,6 @@ public class PlantServiceTest {
         System.out.println("===============================");	
     }
 
-   //@Test
-//    public void testUseItemAndExpIncrease() throws Exception {
-//        System.out.println("===============================");	
-//        plantService.useItemAndExpIncrease(1);
-//        MyPlant myPlant = plantService.getMyPlant(1);
-//        System.out.println("===============================");	
-//    }
-
     //@Test
     public void testFileUpload() throws Exception {
         System.out.println("===============================");	
@@ -173,22 +198,22 @@ public class PlantServiceTest {
         System.out.println("===============================");	
     }
 
-    //@Test
-    //check
-    public void testDonatePlant() throws Exception {
-        System.out.println("===============================");	
-        plantService.donatePlant(1, "donor_nickname");
-        MyPlant myPlant = plantService.getMyPlant(1);
-        System.out.println("===============================");	
-    }
-    
-    //@Test
+//    //@Test
+//    //check
+//    public void testDonateMyPlant() throws Exception {
+//        System.out.println("===============================");	
+//        plantService.donateMyPlant(1, "donor_nickname");
+//        MyPlant myPlant = plantService.getMyPlant(1);
+//        System.out.println("===============================");	
+//    }
+//    
+    @Test
 	//check
     public void testAddQuest() throws Exception {
         System.out.println("===============================");	
 		System.out.println("addQuest");	
 		Quest quest = Quest.builder()
-							.nickname("johnny")
+							.nickName("nick1")
 							.questContents("tt퀘스트내용")
 							.questTarget("퀘스트목표")
 							.questReward(1)
@@ -222,8 +247,18 @@ public class PlantServiceTest {
         System.out.println("quest :"+quest);
         System.out.println("===============================");	
     }
-
-   //@Test
+    
+    //@Test
+    //check
+    public void testGetQuest() throws Exception {
+    	System.out.println("===============================");
+    	Quest quest = plantService.getQuest(1);
+    	System.out.println(quest);
+    	System.out.println("===============================");
+    }
+    	
+    
+    //@Test
     //check
     public void testGetQuestList() throws Exception {
         System.out.println("===============================");	
@@ -252,12 +287,15 @@ public class PlantServiceTest {
         System.out.println("===============================");
     }
     
-    @Test
+    //@Test
+    //check
     public void getUseItem() throws Exception {
         System.out.println("===============================");	
-        MyPlant myplant = plantService.getMyPlant(1);
+        
         plantService.getUseItem(1);
-        System.out.println(myplant);
+        MyPlant myPlant = plantService.getMyPlant(1);
+        
+        System.out.println(myPlant);
         System.out.println("===============================");	
 
     }
