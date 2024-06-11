@@ -9,6 +9,7 @@ import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
+import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
 
 @Mapper
@@ -27,12 +28,16 @@ public interface PlantDao {
 	public void completeQuest(int questNo) throws Exception; 
 	
 	
-	
+	public void addPlant(Plant plant, PlantLevl plantLevl) throws Exception;
 	public void addPlantName(Plant plant) throws Exception;
+	public void addPlantLevl(PlantLevl plantLevl) throws Exception;
+	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
 	
 	public void deletePlant(int plantNo) throws Exception;
 	
 	public void updatePlant(Plant plant) throws Exception;	
+	
+	public void updatePlantLevl(Plant plant) throws Exception;
 	
 	public Plant getPlant(int PlantNo) throws Exception;
 	
@@ -40,9 +45,7 @@ public interface PlantDao {
 	
 	public Plant selectRandomPlant() throws Exception;	
 	
-	public void addPlantLevl(Plant plant) throws Exception;
 	
-
 	
 	public void addRandomPlant(MyPlant myPlant)throws Exception;
 	
@@ -52,9 +55,8 @@ public interface PlantDao {
 	
 	public List<MyPlant> getMyPlantList(Map map) throws Exception;
 	
-	public void deleteMyPlant(int myPlantNo) throws Exception;
-	
-	public void donatePlant(int plantNo ,String nickname) throws Exception;
+	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
+
 	
 	
 	     

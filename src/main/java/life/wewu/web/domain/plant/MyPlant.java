@@ -2,6 +2,7 @@ package life.wewu.web.domain.plant;
 
 import java.sql.Date;
 
+import life.wewu.web.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -15,8 +15,8 @@
 		<result property="myPlantLevl"			column="my_plant_levl" 		jdbcType="VARCHAR"/>
 		<result property="weatherNo"			column="weather_no"			jdbcType="INTEGER"/>
 		<result property="weatherImg"			column="weather_img"		jdbcType="VARCHAR"/>
-		<result property="plantLevl.plantLevlNo" column="plant_levl_no"		jdbcType="VARCHAR"/>
-		<result property="plant.plantNo" 		column="plant_no"			jdbcType="VARCHAR"/>
+		<result property="plantLevl.plantLevlNo" column="plant_levl_no"		jdbcType="INTEGER"/>
+		<result property="plant.plantNo" 		column="plant_no"			jdbcType="INTEGER"/>
 	</resultMap>	
 	
 	
@@ -26,35 +26,47 @@
 		INSERT INTO my_plant (my_plant_state,my_plant_name,my_plant_exp,plant_start_date,nickname,plant_no)
 		VALUE ('Y',#{myPlantName},0,now(),#{nickname},#{plant.plantNo})
 	</insert>
-	
+
 	<select id ="getMyPlant" parameterType="myPlant" resultMap="myPlantSelectMap">
-		SELECT * FROM my_plant
-		WHERE my_plant_no = #{value}
+		SELECT 
+			m.*,le.plant_levl_no
+    	FROM 
+    		my_plant m , plant_levl le
+    	WHERE m.plant_no = le.plant_no	
+		AND my_plant_no = #{myPlantNo}
+		AND #{myPlantExp} between le.plant_min_exp and le.plant_max_exp;
 	</select>
 	
 	<!-- GET MYPLANTliST -->
 	<select id="getMyPlantList" parameterType="map" resultMap="myPlantSelectMap" >
 		SELECT 
-			m.my_plant_no, m.my_plant_state , m.plant_start_date, m.plant_end_date , 
-			le.plant_levl , le.levl_Img , m.nickname, le.plant_max_exp,le.plant_min_exp
+			m.*,le.plant_levl_no
     	FROM 
     		my_plant m , plant_levl le
   	 	WHERE m.plant_no = le.plant_no
-  	 	AND m.nickname = #{nickname}
-   		AND #{myPlantExp} between #{plantLevl.plantMinExp} and #{plantLevl.plantMaxExp};
-   		
-			<if test = "myPlantState != null ">
-				AND m.my_plant_state = #{myPlantState}	
-			</if>
+  	 	<if test='search.searchKeyword == "current"'>
+  	 		AND m.my_plant_state = 'State1'
+  	 	</if>
+  	 	<if test='search.searchKeyword == "past"'>
+  	 		AND m.my_plant_state = 'N'
+  	 	</if>
+  	 	AND m.nickname = #{nickname}  		
+		ORDER BY m.my_plant_no DESC
 	</select>
-	
+		
 	<!-- UPDATE MYPLANT NAME -->
-	<update id="updateMyPlant" parameterType="int">
+	<update id="updateMyPlant" parameterType="myPlant">
 		UPDATE my_plant
 	   	<set>
-	   		my_plant_name = #{myPlantName} 
+	   		<if test='myPlantName != null'>
+	   			my_plant_name = #{myPlantName},
+	   		</if>
+	   		<if test='myPlantExp != 0'>
+	   			my_plant_exp = #{myPlantExp},
+	   		</if>
+	   		my_plant_no = #{myPlantNo}
 	   	</set>
-	   	WHERE my_Plant_no = #{myPlantNo}
+	   	WHERE my_plant_no = #{myPlantNo}
 	 </update>
 	 
 	 <!-- DELETE MYPLANT -->
@@ -66,5 +78,12 @@
 	 	WHERE my_plant_no = #{myPlantNo}
 	 </update>
 	
+	 <update id="donateMyPlant" parameterType="int">
+	 	UPDATE my_plant
+	 	<set>	
+	 		my_plant_state = 'N'
+	 	</set>
+	 	WHERE my_plant_no = #{myPlantNo}
+ 	</update>
 	
 </mapper>
