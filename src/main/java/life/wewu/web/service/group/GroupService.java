@@ -36,9 +36,9 @@ public interface GroupService {
 	
 	public List<Group> getGroupRankingList(Search search) throws Exception;
 	
-	public Group getApplJoin(int GroupNo) throws Exception;
+	public GroupMember getApplJoin(int memberNo) throws Exception;
 	
-	public List<Group> getApplJoinList(Search search) throws Exception;
+	public Group getAddAppl(int GroupNo) throws Exception;
 	
 	public Group updateApplJoinForm(Group group) throws Exception;
 	
@@ -47,7 +47,9 @@ public interface GroupService {
 	
 	public GroupMember getMemberGroup(int memberNo) throws Exception;
 	
-	public List<GroupMember> getMemberGroupList(Map map) throws Exception;
+	public List<GroupMember> getMemberGroupList(Search search) throws Exception;
+	
+	public List<GroupMember> getApplJoinList(Search search) throws Exception;
 	
 	public void deleteMemberGroup(int memberNo) throws Exception;
 	
