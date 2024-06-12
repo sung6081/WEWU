@@ -25,7 +25,7 @@ public interface PlantDao {
 	
 	public List<Quest> getQuestList(Search search) throws Exception;
 	
-	public void completeQuest(int questNo) throws Exception; 
+	public void completeQuest(Quest quest) throws Exception; 
 	
 	
 	public void addPlant(Plant plant, PlantLevl plantLevl) throws Exception;
@@ -69,6 +69,8 @@ public interface PlantDao {
 	public Inventory getInventory(int itemPurno) throws Exception;
 
 	public Inventory getUseItem(int itemPurNo) throws Exception;
+
+
 	
 
 }

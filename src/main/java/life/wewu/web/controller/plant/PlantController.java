@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,29 +41,32 @@ public class PlantController {
 	}
 	
 	//----------------Quest
-	@RequestMapping(value ="addQuest" )
+	@RequestMapping(value ="addQuest" , method = RequestMethod.GET)
+	public String addQuest() throws Exception{	
+		System.out.println(" /plant/addQuest : GET ");	
+		return "forward:/plant/addQuest.jsp";	
+	}
+	
+	@RequestMapping(value ="addQuest" , method = RequestMethod.POST)
 	public String addQuest(@ModelAttribute("quest") Quest quest, Model model ,HttpSession session) throws Exception{	
 		System.out.println(" /plant/addQuest : POST ");	
-		
 		User user = (User) session.getAttribute("user");
 		quest.setNickName(user.getNickname());
 		plantService.addQuest(quest);		
 		model.addAttribute("quest", quest);
-		model.addAttribute("user", user);
+		model.addAttribute("user", user);	
 		
 		return "forward:/plant/addQuest.jsp";	
 	}
 	
-	@RequestMapping(value ="deleteQuest")
-	public String deleteQuest(@ModelAttribute("quest") Quest quest, Model model ) throws Exception{
-		System.out.println(" /plant/deleteQuest : POST ");		
-		plantService.addQuest(quest);		
-		model.addAttribute("quest", quest);
+	@RequestMapping(value ="updateQuest" , method = RequestMethod.GET)
+	public String updateQuest() throws Exception{
+		System.out.println(" /plant/updateQuest : GET ");
 		
-		return "redirect:/plant/listQuest.jsp";
+		return "forward:/plant/updateQuest.jsp";
 	}
 	
-	//출력완료
+
 	@RequestMapping(value ="updateQuest" , method = RequestMethod.POST)
 	public String updateQuest(@ModelAttribute("quest") Quest quest, Model model) throws Exception{
 		System.out.println(" /plant/updateQuest : POST ");	
@@ -70,7 +74,7 @@ public class PlantController {
 		plantService.updateQuest(quest);		
 		model.addAttribute("quest", quest);	
 		
-		return "plant/getQuest?questNo="+questNo;
+		return "forward:/plant/updateQuest.jsp";
 	}
 	
 	@RequestMapping(value ="getQuest" , method = RequestMethod.POST)
@@ -79,35 +83,42 @@ public class PlantController {
 		Quest quest = plantService.getQuest(questNo);		
 		model.addAttribute("quest", quest);	
 		
-		return "plant/getQuest.jsp";
-		
-	}
-	@RequestMapping(value ="getQuestList" , method = RequestMethod.POST)
-	public void getQuestList() throws Exception{
-		Search search = new Search();
-		Map<String,Object> questList = plantService.getQuestList(search);
-		
+		return "plant/.jsp";
 	}
 	
-	@RequestMapping(value ="completeQuest" , method = RequestMethod.POST)
-	public String completeQuest(@RequestParam("questNo")int questNo , Model model) throws Exception{
-		System.out.println("/plant/completeQuuest : ");
-		plantService.completeQuest(questNo);
+	@RequestMapping(value ="listQuest" , method = RequestMethod.GET)
+	public String getQuestList(@ModelAttribute("search") Search search, Model model) throws Exception{
 		
-		model.addAttribute("model", model);
 		
-		return "";
+		search.setSearchKeyword(search.getSearchKeyword());
+		search.setSearchCondition(search.getSearchCondition());
+		
+		Map<String,Object> map = plantService.getQuestList(search);
+		
+		model.addAttribute("map", map);
+		model.addAttribute("searh", search);
+		
+		return "forward:/plant/listQuest.jsp";
 	}
 	
-	//----------------Plant
 
-	@RequestMapping(value ="addPlant" )
-	public String addPlant(@ModelAttribute("plant") Plant plant, @ModelAttribute("plantLevl") PlantLevl plantLevl ,Model model) throws Exception{
+	//----------------Plant
+	
+	@RequestMapping(value ="addPlant" , method = RequestMethod.GET)
+	public String addPlant() throws Exception{
+		System.out.println(" /plant/addPlant : get ");		
+		
+		return "forward:/plant/addPlant.jsp";	
+	}
+	
+	@RequestMapping(value ="addPlant" , method = RequestMethod.POST)
+	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, @ModelAttribute("plant") Plant plant ,Model model) throws Exception{
 		System.out.println(" /plant/addPlant : POST ");		
 		plantService.addPlant(plant, plantLevl);
 		
 		return "forward:/plant/addPlant.jsp";	
 	}
+	
 
 	@RequestMapping(value ="getPlant" , method = RequestMethod.GET)
 	public String getPlant(@RequestParam("plantNo") int plantNo , Model model) throws Exception{
@@ -119,15 +130,16 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="listPlant" , method = RequestMethod.GET)
-	public String getPlantList(@RequestParam("plantNo") int plantNo , Model model,@ModelAttribute("search") Search search) throws Exception{
+	public String getPlantList( Model model,@ModelAttribute("search") Search search) throws Exception{
 		System.out.println(" /plant/listPlant : GET ");		
 		Map<String,Object> map = plantService.getPlantList(search);
 		
 		model.addAttribute("map", map);
 		model.addAttribute("search", search);
 		
-		return "forward:/plant/listPlant";
+		return "forward:/plant/listPlant.jsp";
 	}
+	
 	@RequestMapping(value ="deletePlant" , method = RequestMethod.POST)
 	public String deletePlant(@RequestParam("plantNo") int plantNo , Model model) throws Exception{
 		System.out.println(" /plant/deletePlant : POST ");		
@@ -136,6 +148,8 @@ public class PlantController {
 		return "redirect:/plant/getPlantList.jsp"; //<< 고민중
 	
 	}
+	
+	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
 	public String updatePlant(@ModelAttribute("plant") Plant plant) throws Exception{
 		System.out.println(" /plant/updatePlant : POST ");		
@@ -147,11 +161,12 @@ public class PlantController {
 	//----------------MyPlant
 	
 	@RequestMapping(value ="selectRandomPlant" , method = RequestMethod.POST)
-	public String selectRandomPlant(@RequestParam("plantNo") int plantNo) throws Exception{
+	public String selectRandomPlant(Model model) throws Exception{
 		System.out.println(" /plant/selectRandomPlant : POST ");
-		plantService.selectRandomPlant();
-		//-> get으로 plantNo만 보내서 뽑아와야하나?
-		return "plant/selectRandomPlant.jsp";
+		Plant plant = plantService.selectRandomPlant();
+		model.addAttribute("plant", plant);
+		
+		return "forward:/plant/selectRandomPlant.jsp";
 	}
 	
 	@RequestMapping(value ="addRandomPlant" , method = RequestMethod.POST)
@@ -168,25 +183,27 @@ public class PlantController {
 		return "plant/addRandomPlant.jsp";
 	}
 	
+	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
 	public String getMyPlant(@RequestParam("myPlantNo") int myPlantNo,Model model) throws Exception{
 		System.out.println(" /plant/getMyPlant : GET ");
 		MyPlant myPlant = plantService.getMyPlant(myPlantNo);
-		
+		System.out.println(myPlant);
 		model.addAttribute("myPlant", myPlant);
 		
 		return "forward:/plant/getMyPlant.jsp";
 	}
 	
-	@RequestMapping(value ="getMyPlantList" , method = RequestMethod.POST)
-	public List getMyPlantList() throws Exception{
-		System.out.println("/plant/getMyPlantList");
+	//history.jsp
+	@RequestMapping(value ="history" , method = RequestMethod.GET)
+	public String getMyPlantList(@ModelAttribute("search") Search search, Model model ) throws Exception{
+		System.out.println("/plant/history : GET");
 		User user = new User();
 		user.setNickname(null);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		Search search = new Search();
 		search.setSearchKeyword("current");
+		
 		map.put("search",search);
 		map.put("nickname",user.getNickname());
 		
@@ -201,46 +218,24 @@ public class PlantController {
 			allList.add(m);
 		}
 		
-		return null;
+		
+		model.addAttribute("allList", allList);
+		
+		return "forward:/plant/history.jsp";
 	}
 	
-//	@RequestMapping(value ="donateMyPlant" , method = RequestMethod.POST)
-//	public String donateMyPlant(@RequestParam("MyPlantNo") int MyPlantNo,HttpSession session,Model model) throws Exception{
-//		
-//		System.out.println(" /plant/donateMyPlant : POST ");
-//		User user = (User) session.getAttribute("user");
-//		MyPlant myPlant = plantService.donateMyPlant(MyPlantNo,user.getNickname());
-//		
-//		model.addAttribute("myPlant", myPlant);
-//		return null;
-//	}
 	
-	@RequestMapping(value ="deleteMyPlant" , method = RequestMethod.POST)
-	public String deleteMyPlant(@RequestParam("MyPlantNo") int MyPlantNo) throws Exception{
-		System.out.println(" /plant/deleteMyPlant : POST ");
-		MyPlant myPlant = plantService.deleteMyPlant(MyPlantNo);
-		return null;
-	}
 
 	//----------------Inventory
-	@RequestMapping(value ="getInventory" , method = RequestMethod.GET)
+	@RequestMapping(value ="inventory" , method = RequestMethod.GET)
 	public String getInventory(@RequestParam("itemPurNo") int itemPurNo,Model model) throws Exception{
 		System.out.println(" /plant/getInventory : POST ");
 		Inventory inventory = plantService.getInventory(itemPurNo);
 		model.addAttribute("inventory", inventory);
-		return "plant/Inventory.jsp";
 		
+		return "forward:/plant/inventory.jsp";
 	}
-	@RequestMapping(value ="getUseItem" , method = RequestMethod.POST)
-	public String getUseItem(@RequestParam("MyPlantNo") int MyPlantNo,@RequestParam("itemPurNo") int itemPurNo,Model model) throws Exception{
-		MyPlant myPlant = plantService.getMyPlant(MyPlantNo);
-		Inventory inventory = plantService.getInventory(itemPurNo);
-		
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("inventory", inventory);
-		return "plant/Inventory.jsp";
-		
-	}
+
 	
 	//----------------etc
 	

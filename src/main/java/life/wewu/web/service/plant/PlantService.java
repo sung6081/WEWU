@@ -25,7 +25,7 @@ public interface PlantService {
 	
 	public Map<String,Object> getQuestList(Search search) throws Exception;
 	
-	public void completeQuest(int questNo) throws Exception; 
+	public void completeQuest(Quest quest) throws Exception; 
 	
 	
 	public void addPlant(Plant plant, PlantLevl plantLevl) throws Exception;

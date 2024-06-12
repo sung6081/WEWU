@@ -51,7 +51,6 @@
 	
 	<select id="getPlantList" parameterType="search" resultMap="PlantSelectMap">
 		SELECT * from plant
-		WHERE plant_no = #{plantNo}
 	</select>
 	
 	<select id="donatePlant" parameterType="int" resultMap="PlantSelectMap">
