@@ -51,7 +51,7 @@ public interface BoardService {
 	public int getCommentCnt(int boardNo) throws Exception;
 	
 	//Board Dao
-	public void addBoard(Board board) throws Exception;
+	public Board addBoard(Board board) throws Exception;
 	
 	public void deleteBoard(int boardNo) throws Exception;
 		
@@ -63,12 +63,19 @@ public interface BoardService {
 	
 	public List<Board> getBoardList(Map map) throws Exception;
 	
+	public void updateCommentCntUp(Map map) throws Exception;
+	
+	public void updateCommentCntDown(Map map) throws Exception;
+	
+	public void updateBookmarkCntUp(Map map) throws Exception;
+	
+	public void updateBookmarkCntDown(Map map) throws Exception;
 	
 	/*
 	 * DonationDao
 	 */
 	
-	public void addDonation(Donation donation) throws Exception;
+	public Donation addDonation(Donation donation) throws Exception;
 	
 	public void deleteDonation(int payNo) throws Exception;
 	
@@ -81,7 +88,7 @@ public interface BoardService {
 	 * QuestionDao
 	 */
 	
-	public void addQuestion(Question question) throws Exception;
+	public Question addQuestion(Question question) throws Exception;
 	
 	public void updateReply(Question question) throws Exception;
 	

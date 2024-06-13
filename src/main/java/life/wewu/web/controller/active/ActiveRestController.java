@@ -25,7 +25,7 @@ import life.wewu.web.service.group.GroupService;
 @RequestMapping(value = "/app/active/*")
 public class ActiveRestController {
 
-	//ÇÊµå
+	//ï¿½Êµï¿½
 	@Autowired
 	@Qualifier(value = "activeServiceImpl")
 	ActiveService activeService;
@@ -34,8 +34,8 @@ public class ActiveRestController {
 	@Qualifier(value = "groupService")
 	GroupService groupService;
 	
-	//¸Þ¼Òµå
-	//rest active °Ë»ö
+	//ï¿½Þ¼Òµï¿½
+	//rest active ï¿½Ë»ï¿½
 	@PostMapping(value = "listActive")
 	public List<Active> getActiveList(@RequestBody Search search) throws Exception {
 		
@@ -45,7 +45,7 @@ public class ActiveRestController {
 		
 	}
 	
-	//¸ðÀÓÀÇ È°µ¿ ¸ñ·Ï ´õº¸±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@PostMapping(value = "listGroupActive")
 	public List<Active> getGroupActiveList(@RequestBody Search search, @RequestParam int groupNo) throws Exception {
 		
@@ -58,7 +58,7 @@ public class ActiveRestController {
 		return activeService.getGroupActiveList(map);
 	}
 	
-	//rest group ´õº¸±â, °Ë»ö
+	//rest group ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ë»ï¿½
 	@PostMapping(value = "listGroup")
 	public List<Group> getGroupList(@RequestBody Search search) throws Exception {
 		
@@ -70,7 +70,7 @@ public class ActiveRestController {
 		
 	}
 	
-	//È°µ¿ÀÇ Á¤º¸
+	//È°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@GetMapping(value = "getActive/{activeNo}")
 	public Active getActive(@PathVariable int activeNo) throws Exception {
 		
@@ -80,7 +80,7 @@ public class ActiveRestController {
 		
 	}
 	
-	//¸ðÀÓ Á¤º¸
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@GetMapping(value = "getGroup/{groupNo}")
 	public Group getGroup(@PathVariable int groupNo) throws Exception {
 		

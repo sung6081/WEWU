@@ -71,7 +71,7 @@
 	  	SELECT 
 	  	question_no, nickname, question_type, question_category, title, reg_date, question_state
 	  	FROM question
-		WHERE question_no = #{questionNo} AND  question_type = #{questionType}
+		WHERE  question_type = #{questionType}
 	 </select>
 
 	
