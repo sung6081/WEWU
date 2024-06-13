@@ -108,6 +108,9 @@ public class S3RepositoryImpl implements S3Repository {
 			s3.putObject(bucketName, keyName, uploadFile);
 		    //System.out.format("Object %s has been created.\n", uploadFile.getName());
 		    
+			//업로드 후 tmp file 삭제
+			uploadFile.delete();
+			
 		    // 파일에 대한 ACL 설정 (공개로 설정)
 	        s3.setObjectAcl(bucketName, keyName, CannedAccessControlList.PublicRead);
 		    
