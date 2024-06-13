@@ -18,39 +18,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import life.wewu.web.common.Search;
+import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
+import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
 
 @Service("plantServiceImpl")
 public class PlantServiceImpl implements PlantService{
-	
-	   @Autowired
-	    private SqlSession sqlSession;
-	
 
+	@Autowired
+	private SqlSession sqlSession;
+	
 	public PlantServiceImpl() {
 		System.out.println(this.getClass());
 	}
 	
-	@Qualifier("plantDao")
 	@Autowired
+	@Qualifier("plantDao")
 	private PlantDao plantDao;
-	
 	
 	public void setPlantDao(PlantDao plantDao) {
 		this.plantDao = plantDao;
 	}
 
-	
-	
-	//----------------------------------------------------------------Quest-------
+	//------------- 퀘스트
 	@Override
 	public void addQuest(Quest quest) throws Exception {
-		plantDao.addQuest(quest);
-		
+		plantDao.addQuest(quest);	
 	}
 
 	@Override
@@ -66,14 +63,15 @@ public class PlantServiceImpl implements PlantService{
 
 	@Override
 	public Quest getQuest(int questNo) throws Exception {
-		
 		return plantDao.getQuest(questNo);
 	}
-
 
 	@Override
 	public Map<String, Object> getQuestList(Search search) throws Exception {
 		
+		int questNo = 1;
+		Quest quest = plantDao.getQuest(questNo);
+		search.setSearchKeyword(String.valueOf(quest.getQuestNo()));
 		List<Quest> list = plantDao.getQuestList(search);
 		Map<String,Object> map = new HashMap<>();
 		map.put("list",list);
@@ -82,24 +80,38 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public void completeQuest(int questNo) throws Exception {
-		plantDao.completeQuest(questNo);
+	public void completeQuest(Quest quest) throws Exception {
+		plantDao.completeQuest(quest);
 	}
 	
 	
 
-	//----------------------------------------------------------------Plant-------
+	//------------- 식물정보
+	
+	@Transactional
+	public void addPlant(Plant plant,PlantLevl plantLevl) throws Exception {
+		plantDao.addPlantName(plant);		
+		int plantNo = plant.getPlantNo();
+		plantLevl.setPlantNo(plantNo);		
+		plantDao.addPlantLevl(plantLevl);
+	}
 	
 	@Override
 	public void addPlantName(Plant plant) throws Exception {
 		plantDao.addPlantName(plant);
-		
+	}
+
+	@Override
+	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception {
+		return plantDao.getPlantLevl(plantLevlNo);
 	}
 	
-	@Override
-	public void addPlantLevl(Plant plant) throws Exception {
-		plantDao.addPlantLevl(plant);
-		
+	public void addPlantLevl(PlantLevl plantLevl) throws Exception {
+		plantDao.addPlantLevl(plantLevl);	
+	}
+
+	public void updatePlantLevl(Plant plant) throws Exception{
+		plantDao.updatePlantLevl(plant);
 	}
 
 	@Override
@@ -117,60 +129,69 @@ public class PlantServiceImpl implements PlantService{
 	public Plant getPlant(int PlantNo) throws Exception {
 		return plantDao.getPlant(PlantNo);
 	}
-
+	
+	
 	@Override
 	public Map<String, Object> getPlantList(Search search) throws Exception {
 		List<Plant> list = plantDao.getPlantList(search);
+		for(Plant plant : list)
+		{
+			PlantLevl plantLevl = plant.getPlantLevl();
+			plant.setPlantLevl(plantLevl);
+		}
+		
 		Map<String,Object> map = new HashMap<>();
 		map.put("list",list);
 		
 		return map;
 	}
+	
 
 	
 	
-	//----------------------------------------------------------------MyPlant-------	
+	//------------- 나의식물	
 	
 	@Override
-	public MyPlant selectRandomPlant(String myPlantName) throws Exception {
-		
-		return sqlSession.selectOne("life.wewu.web.domain.plant.MyPlantMapper.selectRandomPlant");
-		
+	public Plant selectRandomPlant() throws Exception {	
+		return plantDao.selectRandomPlant();	
 	}
 
 	@Override
 	public void updateMyPlant(MyPlant myPlant) throws Exception {
-		plantDao.updateMyPlant(myPlant);
-		
+		plantDao.updateMyPlant(myPlant);	
 	}
 
 	@Override
-	public MyPlant getMyPlant(int myPlantNo) throws Exception {
-		
+	public MyPlant getMyPlant(int myPlantNo) throws Exception {	
 		return plantDao.getMyPlant(myPlantNo);
 	}
 
 	@Override
-	public Map<String, Object> getMyPlantList(Search search) throws Exception {
-		
-		List<MyPlant> list = plantDao.getMyPlantList(search);
-		
-		Map<String,Object> map = new HashMap<>();
-		map.put("list",list);
-		return map;
+	public List<MyPlant> getMyPlantList(Map map) throws Exception {	
+		return plantDao.getMyPlantList(map);
 	}
 
 	@Override
-	public MyPlant deleteMyPlant(int myPlantNo) throws Exception {
+	public MyPlant deleteMyPlant(int myPlantNo) throws Exception {	
+		MyPlant myPlant = plantDao.getMyPlant(myPlantNo);
+		String myPlantLevl = myPlant.getMyPlantLevl();
 		
+		PlantLevl plantLevl = plantDao.getPlantLevl(myPlantNo);
+		String finalLevl = plantLevl.getPlantFinalLevl();
+		
+		if(myPlantLevl == finalLevl) {
+			//포인트 10%반환
+		}else {
+			return plantDao.deleteMyPlant(myPlantNo);
+		}
+	
+//		나의 식물 단계랑 마지막 단곌르 비교해서 똑같으면 기부하고 플래그를 n으로 바꿈
+//		아니면 그냥 플래그를 n으롭 바꿈
 		return plantDao.deleteMyPlant(myPlantNo);
 	}
 
-	@Override
-	public void useItemAndExpIncrease(int itemNo) throws Exception {
-		plantDao.useItemAndExpIncrease(itemNo);
-	}
 
+	//------------- 파일업로드
 	@Override
 	public void fileUpload(String filePath) throws Exception {
 		// 업로드할 파일이 저장될 경로
@@ -202,13 +223,6 @@ public class PlantServiceImpl implements PlantService{
 	    }
 	}
 		
-	
-
-	@Override
-	public void donatePlant(int plantNo, String nickname) throws Exception {
-		plantDao.donatePlant(plantNo, nickname);
-		
-	}
 
 	@Override
 	public String getWeather(String location) throws Exception {
@@ -216,21 +230,49 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	@Transactional
-	public MyPlant addRandomPlant(String myPlantName) {
-		
-		 MyPlant randomPlant = sqlSession.selectOne("life.wewu.web.domain.plant.MyPlantMapper.selectRandomPlant");
-
-	        // 선택한 식물을 my_plant 테이블에 삽입
-	        randomPlant.setMyPlantName(myPlantName);
-	        sqlSession.insert("life.wewu.web.domain.plant.MyPlantMapper.addRandomPlant", randomPlant);
-	        
-			return randomPlant;
-		
+    public void addRandomPlant(MyPlant myPlant) throws Exception { 
+		plantDao.addRandomPlant(myPlant);		
 	}
+
+
+	//------------- 인벤토리
+	@Override
+	public Inventory getInventory(int itemPurno) throws Exception {
+		return plantDao.getInventory(itemPurno);
+	}
+	
+	@Override	
+	public Inventory getUseItem(int itemPurNo) throws Exception{
+	
+		MyPlant myPlant = plantDao.getMyPlant(1);
+		System.out.println(myPlant);
+		Inventory inventory = plantDao.getInventory(itemPurNo);
+		
+		int ItemExp = Integer.parseInt(inventory.getItemExp());
+		System.out.println("itemExp : "+ ItemExp);
+		int myPlantExp = myPlant.getMyPlantExp();
+		System.out.println("myPlnatExp : "+ myPlantExp);
+		int newExp = myPlantExp + ItemExp;
+		System.out.println("newExp : "+ newExp);
+		
+		myPlant.setMyPlantExp(newExp);	
+		plantDao.updateMyPlant(myPlant);
+		System.out.println("newExpMyPlant : "+ myPlant);
+		
+		int itemNum = inventory.getItemNum();
+		int newStock = itemNum - 1;
+		
+		inventory.setItemNum(newStock);
+		
+		return plantDao.getInventory(itemPurNo);
+	}
+
+
+
+}
 
 
 
 	
 
-}
+

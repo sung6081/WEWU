@@ -9,7 +9,7 @@ import life.wewu.web.domain.item.Item;
 
 @Mapper
 public interface ItemDao {
-	
+
 	// INSERT 판매 아이템 등록
     public void addItem(Item item) throws Exception;
 
@@ -17,35 +17,35 @@ public interface ItemDao {
     public Item getItem(int itemNo) throws Exception;
 
     // SELECT 아이템 목록조회
-    public Item getItemList(int itemNo) throws Exception;
+    public List<Item> getItemList() throws Exception;
 
     // UPDATE 판매 아이템 수정
     public void updateItem(Item item) throws Exception;
 
     // DELETE 판매 아이템 삭제
     public int deleteItem(int itemNo) throws Exception;
-    
+
     // SELECT 아이템 검색 결과
     public List<Item> getItemSearch(Search search) throws Exception;
-    
+
 	//Page 처리를 위한 전체Row(totalCount)  return
-	public int getTotalCount(Search search) throws Exception ;
-	
-	
-}	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//public int getTotalCount(Search search) throws Exception ;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

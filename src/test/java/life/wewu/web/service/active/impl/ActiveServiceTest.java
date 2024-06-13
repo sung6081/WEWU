@@ -144,22 +144,22 @@ public class ActiveServiceTest {
 	}
 	
 	//삭제 테스트
-	//@Test
+	@Test
 	public void testDeleteActive() {
 		
 		System.out.println("deleteActive");
 		
 		System.out.println("delete 전");
 		
-		Active active = activeService.getActive(3);
+		Active active = activeService.getActive(36);
 		
 		System.out.println();
 		
-		activeService.deleteActive(active);
+		activeService.deleteActive(36);
 		
 		System.out.println("delete 후");
 		
-		active = activeService.getActive(3);
+		active = activeService.getActive(36);
 		
 		System.out.println(active);
 		
@@ -189,7 +189,7 @@ public class ActiveServiceTest {
 	}
 	
 	//모임 활동 목록 조회 테스트
-	@Test
+	//@Test
 	public void testGetGroupActiveList() {
 		
 		System.out.println("getActiveList");

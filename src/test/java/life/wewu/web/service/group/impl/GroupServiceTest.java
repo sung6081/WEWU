@@ -151,8 +151,8 @@ public class GroupServiceTest{
 		
 		System.out.println("\n===================================");
 
-		Group group = groupService.getApplJoin(6);
-		System.out.println("group getApplJoin :: " + group);
+		GroupMember groupMember = groupService.getApplJoin(6);
+		System.out.println("groupMember testGetApplJoin :: " + groupMember);
 		
 		System.out.println("===================================\n");
 	}
@@ -161,10 +161,12 @@ public class GroupServiceTest{
 	public void testgetApplJoinList() throws Exception {
 		
 		System.out.println("\n===================================");
+		
 		Search search = new Search();
-		search.setSearchCondition("E");
-		List<Group> list = groupService.getApplJoinList(search);
-		System.out.println("group Rslt = E :: " + list);
+		search.setSearchCondition("user");
+		search.setSearchKeyword("nick1");
+		List<GroupMember> list = groupService.getApplJoinList(search);
+		System.out.println("groupMember Rslt = user :: " + list);
 		System.out.println("===================================\n");
 	}
 	
@@ -220,13 +222,9 @@ public class GroupServiceTest{
 		
 		System.out.println("\n===================================");
 		Search search = new Search();
-		int groupNo = 1;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map.put("groupNo", groupNo);
-		
-		List<GroupMember> list = groupService.getMemberGroupList(map);
+		search.setSearchCondition("user");
+		search.setSearchCondition("nick1");
+		List<GroupMember> list = groupService.getMemberGroupList(search);
 		System.out.println("groupMember getMemberGroupList :: " + list);
 		System.out.println("===================================\n");
 	}
@@ -383,6 +381,8 @@ public class GroupServiceTest{
 				.acleName("공지사항 업데이트")
 				.acleContents("공지사항을 수정했습니다~")
 				.build();
+		
+		
 		groupService.updateGroupAcle(groupAcle);
 		groupAcle = groupService.getGroupAcle(groupAcle.getBoardNo());
 		System.out.println("groupBoard UpdateGroupAcle :: " + groupAcle);

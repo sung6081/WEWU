@@ -41,42 +41,11 @@
         WHERE user_id = #{userId}
     </update>
 
-	<select id="getUserList" parameterType="life.wewu.web.common.Search" resultMap="UserResultMap">
-	    SELECT user_id, user_name, email
-	    FROM user
-	    <if test="searchCondition != null and searchKeyword != null and searchKeyword != ''">
-	        <where>
-	            <choose>
-	                <when test="searchCondition == '0'">
-	                    user_id LIKE CONCAT('%', #{searchKeyword}, '%')
-	                </when>
-	                <when test="searchCondition == '1'">
-	                    user_name LIKE CONCAT('%', #{searchKeyword}, '%')
-	                </when>
-	            </choose>
-	        </where>
-	    </if>
-	    ORDER BY user_id
-	    LIMIT #{startRowNum}, #{pageSize}
-	</select>
-
     <select id="getUser" parameterType="String" resultMap="UserResultMap">
         SELECT * 
         FROM user 
         WHERE user_id = #{userId}
     </select>
-
-    <!-- <select id="findUserId" parameterType="map" resultType="String">
-	    SELECT user_id
-	    FROM user
-	    WHERE user_name = #{userName} AND phone_num = #{phoneNum}
-	</select>
-
-    <select id="findUserPwd" parameterType="map" resultType="String">
-        SELECT user_pwd
-        FROM user
-        WHERE user_id = #{userId} AND phone_num = #{phoneNum}
-    </select> -->
 
     <update id="deleteUser" parameterType="String">
 	     UPDATE user 
@@ -96,24 +65,58 @@
 	    WHERE user_id = #{userId}
 	</select>
 	
-	<select id="findUserId" parameterType="map" resultType="life.wewu.web.domain.user.User">
-		    SELECT user_id
-		    FROM user
-		    WHERE user_name = #{userName} AND phone_num = #{phoneNum}
+	<select id="findUserId" parameterType="map" resultMap="UserResultMap">
+            SELECT *
+            FROM user
+            WHERE phone_num = #{phoneNum} AND user_name = #{userName}
 	</select>
 	
-	<select id="findUserPwd" parameterType="map" resultType="life.wewu.web.domain.user.User">
-	    SELECT user_id
+ 	<select id="findUserPwd" parameterType="map" resultMap="UserResultMap">
+	    SELECT *
 	    FROM user
 	    WHERE user_id = #{userId} AND phone_num = #{phoneNum}
 	</select>
 	
-	<update id="updatePassword" parameterType="map">
+	
+	 <update id="updatePwd" parameterType="life.wewu.web.domain.user.User">
 	    UPDATE user
-	    SET user_pwd = #{newPassword}
+	    SET user_pwd = #{userPwd}
 	    WHERE user_id = #{userId} AND phone_num = #{phoneNum}
 	</update>
 	
+	<select id="getUserList" parameterType="life.wewu.web.common.Search" resultMap="UserResultMap">
+	    SELECT user_id, user_name, email
+	    FROM user
+	    <if test="searchCondition != null and searchKeyword != null and searchKeyword != ''">
+	        <where>
+	            <choose>
+	                <when test="searchCondition == '0'">
+	                    user_id LIKE CONCAT('%', #{searchKeyword}, '%')
+	                </when>
+	                <when test="searchCondition == '1'">
+	                    user_name LIKE CONCAT('%', #{searchKeyword}, '%')
+	                </when>
+	            </choose>
+	        </where>
+	    </if>
+	    ORDER BY user_id
+	    LIMIT #{startRowNum}, #{pageSize}
+	</select>
 	
+	 <select  id="getTotalCount"  parameterType="life.wewu.web.common.Search" resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT user_id , user_name , email
+						FROM user
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			user_id = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		user_name = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
     
 </mapper>

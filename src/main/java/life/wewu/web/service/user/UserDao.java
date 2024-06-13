@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.user.User;
 
 @Mapper
@@ -18,25 +19,27 @@ public interface UserDao {
 	
 	public void deleteUser(String userId) throws Exception;
 	
-	public  List<User> getUserList() throws Exception;
+	public List<User> getUserList(Search search) throws Exception ;
 	
 	public User getUser(String userId) throws Exception;
 	
 	public void updateAdmin(User user) throws Exception;
 	
-	public User findUserId(Map<String, Object> params) throws Exception;
-	
-    public String findUserPwd(String userId) throws Exception;
-    
-    public User findUserPwd(Map<String, Object> params) throws Exception;
-    
-    public void updatePassword(String userId, String newPassword) throws Exception;
-    
     public boolean checkUserId(String userId) throws Exception;
     
     public boolean checkNickName(String nickname) throws Exception;
     
+///////////////////////////////////핸드폰 인증//////////////////////////////////////////////
+    
+    public User findUserId(Map<String, Object> map) throws Exception;
+    
+    public User findUserPwd(Map<String, Object> map) throws Exception;
 
+	public void updatePwd(User user) throws Exception;
+	
+	public int getTotalCount(Search search) throws Exception ;
+
+///////////////////////////////////////////////////////////////////////////////////////////  
 }
 
 

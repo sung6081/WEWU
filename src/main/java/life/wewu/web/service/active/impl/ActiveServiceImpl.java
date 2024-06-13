@@ -140,11 +140,11 @@ public class ActiveServiceImpl implements ActiveService {
 	//activeªË¡¶
 	@Override
 	@Transactional
-	public void deleteActive(Active active) {
+	public void deleteActive(int activeNo) {
 		// TODO Auto-generated method stub
-		active.setStateFlag("D");
+		//active.setStateFlag("D");
 		
-		activeDao.updateActive(active);
+		activeDao.deleteActive(activeNo);
 		
 	}
 

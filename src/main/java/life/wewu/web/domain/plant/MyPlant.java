@@ -2,6 +2,7 @@ package life.wewu.web.domain.plant;
 
 import java.sql.Date;
 
+import life.wewu.web.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,12 +23,10 @@ public class MyPlant {
 	private Date plantStartDate;	//나의식물키우기시작한날짜
 	private Date plantEndDate;		//나의식물종료날짜
 	private String myPlantLevl;		//나의식물현재단계
-	private int inventoryNo;		//인벤토리식별번호
-	private int itemNo;				//아이템식별번호
-	private String itemState;		//아이템상태(Y,N)
-	private String itemType;		//아이템카테고리
-	private int itemNum;			//가지고있는아이템수
 	private int weatherNo;			//날씨식별번호
 	private String weatherImg;		//날씨이미지
+	private PlantLevl plantLevl;	//PlantLevl
+	private Plant plant; 			//Plant
+	private String nickname;		//식물주인
 	
 }
