@@ -18,14 +18,14 @@ import life.wewu.web.service.active.ActiveService;
 @SpringBootTest
 public class ActiveServiceTest {
 
-	//ÇÊµå
+	//í•„ë“œ
 	@Autowired
 	@Qualifier("activeServiceImpl")
 	private ActiveService activeService;
 	
-	//¸Ş¼Òµå
+	//ë©”ì†Œë“œ
 	
-	//µî·Ï Å×½ºÆ®
+	//ë“±ë¡ í…ŒìŠ¤íŠ¸
 	//@Test
 //	public void testAddActive() {
 //		
@@ -35,15 +35,15 @@ public class ActiveServiceTest {
 //		
 //		Active active = Active.builder()
 //				.groupNo(1)
-//				.activeName("µµºÀ»ê ¾²·¹±â Áİ±â")
+//				.activeName("ë„ë´‰ì‚° ì“°ë ˆê¸° ì¤ê¸°")
 //				.activeStartDate(date)
 //				.activeEndDate(date)
 //				.activeX("37.5679981")
 //				.activeY("126.9812957")
 //				.activeStartTime("13:00:00")
 //				.activeEndTime("15:00:00")
-//				.activeInfo("¾²·¹±â ºÀÅõ´Â °¢ÀÚ °¡Á®¿À±â!")
-//				.activeLocal("µµºÀ")
+//				.activeInfo("ì“°ë ˆê¸° ë´‰íˆ¬ëŠ” ê°ì ê°€ì ¸ì˜¤ê¸°!")
+//				.activeLocal("ë„ë´‰")
 //				.stateFlag("N")
 //				.activeUrl("https://kr.object.ncloudstorage.com/wewu-project-test/hun_balnom.jpg")
 //				.activeShortUrl("https://me2.do/Fu6RPnkN")
@@ -51,13 +51,13 @@ public class ActiveServiceTest {
 //		
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("active", active);
-//		map.put("hash", "µµºÀ»ê,ÇÃ·Î±ë,¾²·¹±â Áİ±â");
+//		map.put("hash", "ë„ë´‰ì‚°,í”Œë¡œê¹…,ì“°ë ˆê¸° ì¤ê¸°");
 //		
 //		activeService.addActive(map);
 //		
 //	}
 	
-	//µî·Ï Å×½ºÆ® (+ÆÄÀÏ ¾÷·Îµå + short url)
+	//ë“±ë¡ í…ŒìŠ¤íŠ¸ (+íŒŒì¼ ì—…ë¡œë“œ + short url)
 	//@Test
 	public void testAddActive() {
 		
@@ -65,40 +65,40 @@ public class ActiveServiceTest {
 		
 		Date date = new Date(new java.util.Date().getDate());
 		
-		// ÇÁ·ÎÁ§Æ®ÀÇ ·çÆ® µğ·ºÅÍ¸® °æ·Î¸¦ ¾òÀ½
+		// í”„ë¡œì íŠ¸ì˜ ë£¨íŠ¸ ë””ë ‰í„°ë¦¬ ê²½ë¡œë¥¼ ì–»ìŒ
         String projectRoot = System.getProperty("user.dir");
         
-        // static/images µğ·ºÅÍ¸® ¾Æ·¡ÀÇ ÆÄÀÏ °æ·Î »ı¼º
+        // static/images ë””ë ‰í„°ë¦¬ ì•„ë˜ì˜ íŒŒì¼ ê²½ë¡œ ìƒì„±
         String relativePath = "/src/main/resources/static/images/wingGundam1.png";
         String absolutePath = projectRoot + relativePath;
 		
-        // File °´Ã¼ »ı¼º
+        // File ê°ì²´ ìƒì„±
         File file = new File(absolutePath);
 		
 		Active active = Active.builder()
 				.groupNo(1)
-				.activeName("µµºÀ»ê ¾²·¹±â Áİ±â")
+				.activeName("ë„ë´‰ì‚° ì“°ë ˆê¸° ì¤ê¸°")
 				.activeStartDate(date)
 				.activeEndDate(date)
 				.activeX("37.5679981")
 				.activeY("126.9812957")
 				.activeStartTime("13:00:00")
 				.activeEndTime("15:00:00")
-				.activeInfo("¾²·¹±â ºÀÅõ´Â °¢ÀÚ °¡Á®¿À±â!")
-				.activeLocal("µµºÀ")
+				.activeInfo("ì“°ë ˆê¸° ë´‰íˆ¬ëŠ” ê°ì ê°€ì ¸ì˜¤ê¸°!")
+				.activeLocal("ë„ë´‰")
 				.stateFlag("N")
 				.build();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("active", active);
-		map.put("hash", "µµºÀ»ê,ÇÃ·Î±ë,¾²·¹±â Áİ±â");
+		map.put("hash", "ë„ë´‰ì‚°,í”Œë¡œê¹…,ì“°ë ˆê¸° ì¤ê¸°");
 		map.put("uploadFile", file);
 		
 		activeService.addActive(map);
 		
 	}
 	
-	//Á¶È¸ Å×½ºÆ®
+	//ì¡°íšŒ í…ŒìŠ¤íŠ¸
 	//@Test
 	public void testGetActive() {
 		
@@ -112,44 +112,44 @@ public class ActiveServiceTest {
 		
 	}
 	
-	//¾÷µ¥ÀÌÆ® Å×½ºÆ®
+	//ì—…ë°ì´íŠ¸ í…ŒìŠ¤íŠ¸
 	//@Test
 	public void testUpdateActive() {
 		
 		System.out.println("updateActive");
 		
-		System.out.println("¾÷µ¥ÀÌÆ® Àü");
+		System.out.println("ì—…ë°ì´íŠ¸ ì „");
 		
 		Active active = activeService.getActive(3);
 		
 		System.out.println(active);
 		
-		active.setActiveName("µµºÀ»ê ÇÃ·Î±ë");
+		active.setActiveName("ë„ë´‰ì‚° í”Œë¡œê¹…");
 		active.setActiveStartTime("10:00:00");
 		active.setActiveEndTime("12:00:00");
-		active.setActiveInfo("ÇÃ·Î±ë ÇÕ½Ã´Ù");
+		active.setActiveInfo("í”Œë¡œê¹… í•©ì‹œë‹¤");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("active", active);
-		//map.put("hash", "µµºÀ»ê,ÇÃ·Î±ë,¾²·¹±â Áİ±â");
-		map.put("hash", "µµºÀ»ê, ÇÃ·Î±ë");
+		//map.put("hash", "ë„ë´‰ì‚°,í”Œë¡œê¹…,ì“°ë ˆê¸° ì¤ê¸°");
+		map.put("hash", "ë„ë´‰ì‚°, í”Œë¡œê¹…");
 		
 		activeService.updateActive(map);
 		
 		System.out.println();
-		System.out.println("update ¿Ï·á");
+		System.out.println("update ì™„ë£Œ");
 		active = activeService.getActive(3);
 		System.out.println(active);
 		
 	}
 	
-	//»èÁ¦ Å×½ºÆ®
+	//ì‚­ì œ í…ŒìŠ¤íŠ¸
 	@Test
 	public void testDeleteActive() {
 		
 		System.out.println("deleteActive");
 		
-		System.out.println("delete Àü");
+		System.out.println("delete ì „");
 		
 		Active active = activeService.getActive(36);
 		
@@ -157,7 +157,7 @@ public class ActiveServiceTest {
 		
 		activeService.deleteActive(36);
 		
-		System.out.println("delete ÈÄ");
+		System.out.println("delete í›„");
 		
 		active = activeService.getActive(36);
 		
@@ -165,7 +165,7 @@ public class ActiveServiceTest {
 		
 	}
 	
-	//¸ñ·Ï Á¶È¸ Å×½ºÆ®
+	//ëª©ë¡ ì¡°íšŒ í…ŒìŠ¤íŠ¸
 	//@Test
 	public void testGetActiveList() {
 		
@@ -176,7 +176,7 @@ public class ActiveServiceTest {
 		search.setCurrentPage(1);
 		//search.setCurrentPage(2);
 		
-		//search.setSearchKeyword("µµºÀ");
+		//search.setSearchKeyword("ë„ë´‰");
 		
 		List<Active> list = activeService.getActiveList(search);
 		
@@ -188,7 +188,7 @@ public class ActiveServiceTest {
 		
 	}
 	
-	//¸ğÀÓ È°µ¿ ¸ñ·Ï Á¶È¸ Å×½ºÆ®
+	//ëª¨ì„ í™œë™ ëª©ë¡ ì¡°íšŒ í…ŒìŠ¤íŠ¸
 	//@Test
 	public void testGetGroupActiveList() {
 		
@@ -199,7 +199,7 @@ public class ActiveServiceTest {
 		//search.setCurrentPage(1);
 		search.setCurrentPage(2);
 		
-		//search.setSearchKeyword("µµºÀ");
+		//search.setSearchKeyword("ë„ë´‰");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -219,17 +219,3 @@ public class ActiveServiceTest {
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
