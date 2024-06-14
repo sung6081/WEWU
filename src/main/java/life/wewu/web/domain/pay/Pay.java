@@ -5,10 +5,10 @@
 
 package life.wewu.web.domain.pay;
 
-import lombok.Data;
-import lombok.Builder;
-
 import java.sql.Date;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Builder
 @Data
@@ -24,4 +24,3 @@ public class Pay {
     private Date payDate; //결제 날짜
     private Date deletePayDate; //결제 취소 날짜
 }
-	
