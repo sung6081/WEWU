@@ -24,7 +24,7 @@ import life.wewu.web.service.active.ActiveService;
 @Service("activeServiceImpl")
 public class ActiveServiceImpl implements ActiveService {
 	
-	//ÇÊµå
+	//ï¿½Êµï¿½
 	@Autowired
 	@Qualifier("activeDao")
 	ActiveDao activeDao; //activeDao injection
@@ -33,15 +33,15 @@ public class ActiveServiceImpl implements ActiveService {
 	@Qualifier("s3RepositoryImpl")
 	S3Repository s3;
 
-	//¸Þ¼Òµå
-	//È°µ¿°ú ÇØ½¬ÅÂ±× ¸ðµÎ µî·Ï
+	//ï¿½Þ¼Òµï¿½
+	//È°ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@Override
 	@Transactional
 	public void addActive(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		Active active = (Active)map.get("active");
 		
-		//ÆÄÀÏ ¾÷·Îµå
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 		map.put("folderName", "active");
 		
 		MultipartFile file = (MultipartFile)map.get("file");
@@ -63,6 +63,8 @@ public class ActiveServiceImpl implements ActiveService {
 		
 		String[] hashList = map.get("hash").toString().split(",");
 		
+		System.out.println("");
+		
 		for(int i = 0; i < hashList.length; i++) {
 			ActiveHash activeHash = ActiveHash.builder()
 					.activeNo(active.getActiveNo())
@@ -74,7 +76,7 @@ public class ActiveServiceImpl implements ActiveService {
 		
 	}
 
-	//È°µ¿°ú ÇØ½¬ÅÂ±× °¡Á®¿À±â
+	//È°ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public Active getActive(int activeNo) {
 		// TODO Auto-generated method stub
@@ -92,7 +94,7 @@ public class ActiveServiceImpl implements ActiveService {
 		return active;
 	}
 
-	//active ¾÷µ¥ÀÌÆ®
+	//active ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	@Override
 	@Transactional
 	public void updateActive(Map<String, Object> map) {
@@ -100,7 +102,7 @@ public class ActiveServiceImpl implements ActiveService {
 		
 		Active active = (Active)map.get("active");
 		
-		//ÆÄÀÏ ¾÷·Îµå
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 		map.put("folderName", "active");
 		
 		MultipartFile file = (MultipartFile)map.get("file");
@@ -118,10 +120,10 @@ public class ActiveServiceImpl implements ActiveService {
 			}
 		}
 		
-		//¾÷µ¥ÀÌÆ® active
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® active
 		activeDao.updateActive(active);
 		
-		//±âÁ¸ ÇØ½¬ÅÂ±× »èÁ¦ ÈÄ ´Ù½Ã »ðÀÔ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		activeDao.deleteActiveHash(active.getActiveNo());
 		
 		String[] hashList = map.get("hash").toString().split(",");
@@ -137,7 +139,7 @@ public class ActiveServiceImpl implements ActiveService {
 		
 	}
 
-	//active»èÁ¦
+	//activeï¿½ï¿½ï¿½ï¿½
 	@Override
 	@Transactional
 	public void deleteActive(int activeNo) {
@@ -148,7 +150,7 @@ public class ActiveServiceImpl implements ActiveService {
 		
 	}
 
-	//ÀüÃ¼ È°µ¿ ¸ñ·Ï
+	//ï¿½ï¿½Ã¼ È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@Override
 	public List<Active> getActiveList(Search search) {
 		// TODO Auto-generated method stub
@@ -157,7 +159,7 @@ public class ActiveServiceImpl implements ActiveService {
 		return activeList;
 	}
 
-	//Æ¯Á¤ ±×·ì¿¡¼­ µî·ÏµÈ È°µ¿ ¸ñ·Ï
+	//Æ¯ï¿½ï¿½ ï¿½×·ì¿¡ï¿½ï¿½ ï¿½ï¿½Ïµï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@Override
 	public List<Active> getGroupActiveList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -167,26 +169,26 @@ public class ActiveServiceImpl implements ActiveService {
 		
 		List<Active> activeList = activeDao.getGroupActiveList(map);
 		
-		//ÇöÀç ³¯Â¥
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
 		Date currentDate = new Date(System.currentTimeMillis());
 		
-		//ÇöÀç ³¯Â¥¿Í È°µ¿ Á¾·á ³¯Â¥ ºñ±³ ÈÄ È°µ¿ »óÅÂ ¼³Á¤
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ ï¿½ï¿½ ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		for(int i = 0; i < activeList.size(); i++) {
 			Active active = activeList.get(i);
 			
 //			if(currentDate.after(active.getActiveEndDate())) {
-//				active.setStateFlag("È°µ¿ Á¾·á");
+//				active.setStateFlag("È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 //			}else {
-//				active.setStateFlag("È°µ¿Áß");
+//				active.setStateFlag("È°ï¿½ï¿½ï¿½ï¿½");
 //			}
 			
-			// ÇöÀç ³¯Â¥¿Í È°µ¿ Á¾·á ³¯Â¥ÀÇ ½Ã°£ ºÎºÐÀ» Á¦°ÅÇÏ¿© ºñ±³
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½
 	        if (isSameDay(currentDate, active.getActiveEndDate())) {
-	            active.setStateFlag("È°µ¿Áß");
+	            active.setStateFlag("È°ï¿½ï¿½ï¿½ï¿½");
 	        } else if (currentDate.after(active.getActiveEndDate())) {
-	            active.setStateFlag("È°µ¿ Á¾·á");
+	            active.setStateFlag("È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 	        } else {
-	            active.setStateFlag("È°µ¿Áß");
+	            active.setStateFlag("È°ï¿½ï¿½ï¿½ï¿½");
 	        }
 			
 			activeList.set(i, active);

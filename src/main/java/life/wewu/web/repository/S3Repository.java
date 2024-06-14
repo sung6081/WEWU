@@ -6,11 +6,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface S3Repository {
 
-	//¸Þ¼Òµå
-	//ÆÄÀÏ ¾÷·Îµå(³×ÀÌ¹ö ½ºÅä¸®Áö)
+	//ï¿½Þ¼Òµï¿½
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½(ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½)
+	//dddd
 	public String uplodaFile(Map<String, Object> map);
 	
-	//short url ¾ò±â
+	//short url ï¿½ï¿½ï¿½
 	public String getShortUrl(String url);
 	
 }

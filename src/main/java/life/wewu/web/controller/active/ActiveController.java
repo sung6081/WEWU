@@ -63,7 +63,7 @@ public class ActiveController {
 		System.out.println("addActive NAVI");
 		
 		//모임장이 아니라면 모임신청으로 redirect
-		
+		System.out.println("");		
 		return "forward:/active/addActive.jsp?groupNo="+groupNo;
 		
 	}
