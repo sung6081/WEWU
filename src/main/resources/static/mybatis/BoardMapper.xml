@@ -81,7 +81,6 @@
 		WHERE board_no= #{boardNo}
 	</select>
 	
-	
 	<!-- =========================Boardfile================================== -->
 	<!-- Boardfile : INSERT ( 파일 추가하기 ) -->
 	<insert id="addBoardFile" parameterType="boardFile" useGeneratedKeys="true" keyProperty="fileNo" keyColumn="file_no">
@@ -211,13 +210,51 @@
 	 </update>
     
     <!-- Board : UPDATE VIEWS ( 조회수 수정 ) -->
-    <update id="updateViews" parameterType="int">
+    <update id="updateViews" parameterType="map">
     	UPDATE board
     	<set>
     		views = #{views} + 1
     	</set>
     	WHERE board_no = #{boardNo}
     </update>
+    
+    <!-- Board : UPDATE commentCnt ( 댓글 수 수정 ) -->
+    <update id="updateCommentCntUp" parameterType="map">
+    	UPDATE board
+    	<set>
+    		comments_cnt = #{commentCnt} + 1
+    	</set>
+    	WHERE board_no = #{boardNo}
+    </update>
+    
+    <!-- Board : UPDATE commentCnt ( 댓글 수 수정 ) -->
+    <update id="updateCommentCntDown" parameterType="map">
+    	UPDATE board
+    	<set>
+    		comments_cnt = #{commentCnt} - 1
+    	</set>
+    	WHERE board_no = #{boardNo}
+    </update>
+    
+    
+     <!-- Board : UPDATE bookmarkCnt ( 즐겨찾기 수 수정 ) -->
+    <update id="updateBookmarkCntUp" parameterType="map">
+    	UPDATE board
+    	<set>
+    		bookmark_cnt = #{bookmarkCnt} + 1
+    	</set>
+    	WHERE board_no = #{boardNo}
+    </update>
+    
+    <!-- Board : UPDATE bookmarkCnt ( 즐겨찾기 수 수정 ) -->
+    <update id="updateBookmarkCntDown" parameterType="map">
+    	UPDATE board
+    	<set>
+    		bookmark_cnt = #{bookmarkCnt} - 1
+    	</set>
+    	WHERE board_no = #{boardNo}
+    </update>
+    
 
     
     <!-- Board : SELECT getBoard ( 게시글 하나 찾기 ) -->

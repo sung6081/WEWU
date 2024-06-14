@@ -65,25 +65,25 @@ public class BoardServiceImpl implements BoardService{
 	 * BoardDao
 	 * - boardFilf
 	 */
-	@Override
+	@Override//
 	public void addBoardFile(BoardFile boardFile) throws Exception {
 		boardDao.addBoardFile(boardFile);
 		
 	}
 
-	@Override
+	@Override//
 	public void deleteBoardFile(int fileNo) throws Exception {
 		boardDao.deleteBoardFile(fileNo);
 		
 	}
 
-	@Override
+	@Override//
 	public void updateBoardFile(BoardFile boardFile) throws Exception {
 		boardDao.updateBoardFile(boardFile);
 		
 	}
 
-	@Override
+	@Override//
 	public List<BoardFile> getBoardFileList(int boardNo) throws Exception {
 		return boardDao.getBoardFileList(boardNo);
 	}
@@ -109,7 +109,7 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.getCommentCnt(boardNo);
 	}
 
-	@Override
+	@Override//
 	public void deleteComment(int commentNo) throws Exception {
 		boardDao.deleteComment(commentNo);
 		
@@ -121,7 +121,7 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 
-	@Override
+	@Override//
 	public List<Comment> getCommentListByBoard(int boardNo) throws Exception {
 		return boardDao.getCommentListByBoard(boardNo);
 	}
@@ -135,36 +135,35 @@ public class BoardServiceImpl implements BoardService{
 	 * BoardDao
 	 * - board
 	 */
-	@Override
-	public void addBoard(Board board) throws Exception {
-		boardDao.addBoard(board);
-		
+	@Override//
+	public Board addBoard(Board board) throws Exception {
+		return boardDao.addBoard(board);		
 	}
 
-	@Override
+	@Override//
 	public void deleteBoard(int boardNo) throws Exception {
 		boardDao.deleteBoard(boardNo);
 		
 	}
 
-	@Override
+	@Override//
 	public void updateBoard(Board board) throws Exception {
 		boardDao.updateBoard(board);
 		
 	}
 
-	@Override
+	@Override//
 	public int updateViews(int boardNo) throws Exception {
 		return boardDao.updateViews(boardNo);
 		
 	}
 
-	@Override
+	@Override//
 	public Board getBoard(int boardNo) throws Exception {
 		return boardDao.getBoard(boardNo);
 	}
 
-	@Override
+	@Override//
 	public List<Board> getBoardList(Map map) throws Exception {
 		return boardDao.getBoardList(map);
 	}
@@ -173,24 +172,24 @@ public class BoardServiceImpl implements BoardService{
 	 * DonationDao
 	 */
 	
-	@Override
-	public void addDonation(Donation donation) throws Exception {
-		donationDao.addDonation(donation);
+	@Override//
+	public Donation addDonation(Donation donation) throws Exception {
+		return donationDao.addDonation(donation);
 		
 	}
 
-	@Override
+	@Override//
 	public void deleteDonation(int payNo) throws Exception {
 		donationDao.deleteDonation(payNo);
 		
 	}
 
-	@Override
+	@Override//
 	public Donation getDonationById(int payNo) throws Exception {
 		return donationDao.getDonationById(payNo);
 	}
 
-	@Override
+	@Override//
 	public List<Donation> getDonationList(String payType) throws Exception {
 		return donationDao.getDonationList(payType);
 	}
@@ -199,9 +198,9 @@ public class BoardServiceImpl implements BoardService{
 	 * QuestionDao
 	 */
 	
-	@Override
-	public void addQuestion(Question question) throws Exception {
-		questionDao.addQuestion(question);
+	@Override//
+	public Question addQuestion(Question question) throws Exception {
+		return questionDao.addQuestion(question);
 		
 	}
 
@@ -238,5 +237,27 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.getTotalCount(map);
 	}
 
+	@Override
+	public void updateCommentCntUp(Map map) throws Exception {
+		boardDao.updateCommentCntUp(map);
+		
+	}
+
+	@Override
+	public void updateCommentCntDown(Map map) throws Exception {
+		boardDao.updateCommentCntDown(map);
+		
+	}
+
+	@Override
+	public void updateBookmarkCntUp(Map map) throws Exception {
+		boardDao.updateBookmarkCntUp(map);
+		
+	}
+
+	@Override
+	public void updateBookmarkCntDown(Map map) throws Exception {
+		boardDao.updateBookmarkCntDown(map);
+	}
 	
 }

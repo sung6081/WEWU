@@ -95,16 +95,9 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.getGroupList(search);
 	}
 	
-	public Group getApplJoin(int GroupNo) throws Exception {
-		
-		//group pk를 인자로 하나의 모임의 정보를 select 하는 메소드
+	public Group getAddAppl(int GroupNo) throws Exception {
+		//group pk를 인자로 하나의 모임 정보를 select하는 메소드
 		return groupDao.getGroup(GroupNo);
-	}
-	
-	public List<Group> getApplJoinList(Search search) throws Exception {
-		
-		//search 도메인을 인자로 모든 모임의 정보를 select 하는 메소드
-		return groupDao.getGroupList(search);
 	}
 	
 	public Group updateApplJoinForm(Group group) throws Exception {
@@ -115,6 +108,7 @@ public class GroupServiceImpl implements GroupService{
 	}
 	
 	/* GroupMemberDao */
+	
 	public GroupMember addMemberGroup(GroupMember groupMember) throws Exception {
 		
 		//group_member 도메인을 인자로 해당 모임에 모임원을 insert
@@ -129,10 +123,22 @@ public class GroupServiceImpl implements GroupService{
 		
 	}
 	
-	public List<GroupMember> getMemberGroupList(Map map) throws Exception {
+	public GroupMember getApplJoin(int memberNo) throws Exception {
+		
+		//group pk를 인자로 하나의 모임의 정보를 select 하는 메소드
+		return groupMemberDao.getMemberGroup(memberNo);
+	}
+	
+	public List<GroupMember> getApplJoinList(Search search) throws Exception {
+		
+		//search 도메인을 인자로 모든 모임의 정보를 select 하는 메소드
+		return groupMemberDao.getMemberGroupList(search);
+	}
+
+	public List<GroupMember> getMemberGroupList(Search search) throws Exception {
 
 		//group_member pk를 인자로 해당 모임원의 정보를 select
-		return groupMemberDao.getMemberGroupList(map);
+		return groupMemberDao.getMemberGroupList(search);
 		
 	}
 	

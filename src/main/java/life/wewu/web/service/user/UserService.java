@@ -20,10 +20,10 @@ public interface UserService {
 	public void updateUser(User user) throws Exception;
     
 	//관리자 사용자 삭제
-	public  void deleteUser(String userId) throws Exception;
+    public void deleteUser(String userId) throws Exception;
     
 	//관리자가 유저 목록 확인
-	public List<User> getUserList(Search search) throws Exception;
+	public Map<String , Object> getUserList(Search search) throws Exception;
 	
 	//관리자가 유저 상세보기
 	public User getUser(String userId) throws Exception;

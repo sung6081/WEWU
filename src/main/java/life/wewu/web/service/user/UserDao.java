@@ -19,24 +19,26 @@ public interface UserDao {
 	
 	public void deleteUser(String userId) throws Exception;
 	
-	public List<User> getUserList(Search search) throws Exception;
+	public List<User> getUserList(Search search) throws Exception ;
 	
 	public User getUser(String userId) throws Exception;
 	
 	public void updateAdmin(User user) throws Exception;
 	
-	
     public boolean checkUserId(String userId) throws Exception;
     
     public boolean checkNickName(String nickname) throws Exception;
     
-	/////////////////////////////////핸드폰 인증//////////////////////////////////////////////
+///////////////////////////////////핸드폰 인증//////////////////////////////////////////////
     
     public User findUserId(Map<String, Object> map) throws Exception;
     
     public User findUserPwd(Map<String, Object> map) throws Exception;
 
 	public void updatePwd(User user) throws Exception;
+	
+	public int getTotalCount(Search search) throws Exception ;
+
 ///////////////////////////////////////////////////////////////////////////////////////////  
 }
 

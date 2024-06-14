@@ -50,7 +50,7 @@ public interface BoardDao {
 	public int getCommentCnt(int boardNo) throws Exception;
 	
 	//Board Dao
-	public void addBoard(Board board) throws Exception;
+	public Board addBoard(Board board) throws Exception;
 	
 	public void deleteBoard(int boardNo) throws Exception;
 	
@@ -58,6 +58,13 @@ public interface BoardDao {
 	
 	public int updateViews(int boardNo) throws Exception;
 	
+	public void updateCommentCntUp(Map map) throws Exception;
+	
+	public void updateCommentCntDown (Map map) throws Exception;
+	
+	public void updateBookmarkCntUp (Map map) throws Exception;
+	
+	public void updateBookmarkCntDown (Map map) throws Exception;
 	
 	//
 	public Board getBoard(int boardNo) throws Exception;

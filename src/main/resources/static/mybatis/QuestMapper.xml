@@ -12,14 +12,14 @@
 		<result property="questTargetCnt" 	column="quest_target_cnt" 	jdbcType="VARCHAR" />
 		<result property="regDate"			column="reg_date"			jdbcType="DATE"	/>
 		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
-		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />
+		<result property="nickName" 		column="nickName" 			jdbcType="VARCHAR" />
 		<result property="questState"		column="quest_state"		jdbcType="VARCHAR" />
 	</resultMap>
 
 	<!-- ADD QUEST -->
 	<insert id="addQuest" parameterType ="quest">
-	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date, quest_state,nickname)
-        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),'Y',#{nickname})
+	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date, quest_state,nickName)
+        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),'Y',#{nickName})
     </insert>
 	
 
@@ -38,13 +38,13 @@
 	 <!-- GET QUESTLIST -->
 	<select  id="getQuest"  parameterType="quest" resultMap="questSelectMap">
 	  	SELECT * FROM quest	
-	  	WHERE quest_no = #{value} 
+	  	WHERE quest_no = #{questNo} 
 	</select>
 
 	<!-- GET QUESTLIST -->
 	<select  id="getQuestList"  parameterType="search" resultMap="questSelectMap">
 	  	SELECT * FROM quest	
-	  	order by reg_date 
+	  	order by quest_no
 	</select>
 	
 	<update id = "completeQuest" parameterType ="quest">

@@ -16,10 +16,10 @@
 		<result property="rsltDate"  	   column="rslt_date"  		jdbcType="DATE"/>
 		<result property="frstQuest" 	   column="frst_quest" 		jdbcType="VARCHAR"/>
 		<result property="scndQuest"  	   column="scnd_quest"  	jdbcType="VARCHAR"/>
-		<result property="thrdQuest"   	   column="thrd_quest"   	jdbcType="VARCHAR"	 />
+		<result property="thrdQuest"   	   column="thrd_quest"   	jdbcType="VARCHAR"/>
 		<result property="frstRepl"  	   column="frst_repl"  		jdbcType="VARCHAR"/>
-		<result property="scndRepl"   	   column="scnd_repl"   	jdbcType="VARCHAR"	 />
-		<result property="thrdRepl"   	   column="thrd_repl"   	jdbcType="VARCHAR"	 />
+		<result property="scndRepl"   	   column="scnd_repl"   	jdbcType="VARCHAR"/>
+		<result property="thrdRepl"   	   column="thrd_repl"   	jdbcType="VARCHAR"/>
 	</resultMap>
   	
   	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
@@ -72,15 +72,20 @@
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  
   	
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  	
-  	<select id="getMemberGroupList" 
-  			  parameterType="MAP" 
-  			  resultMap="groupMemberSelectMap">
+  	<select id="getMemberGroupList" parameterType="search" resultMap="groupMemberSelectMap">
 		SELECT 
 			*
 		FROM group_member
-		<where>
-			group_no = #{groupNo}
-		</where>
+		<if test='searchCondition != null and searchCondition == "user"'>
+			<where>
+				member_nickname = #{searchKeyword}
+			</where>
+		</if>
+		<if test='searchCondition != null and searchCondition == "group"'>
+			<where>
+				group_no = #{searchKeyword}
+			</where>
+		</if>
   	</select>
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  
   	
@@ -123,14 +128,14 @@
 		    <if test="thrdQuest != null and thrdQuest != ''">
 		        thrd_quest = #{thrdQuest},
 		    </if>
-		    <if test="frstReql != null and frstReql != ''">
-		        frst_repl = #{frstReql},
+		    <if test="frstRepl != null and frstRepl != ''">
+		        frst_repl = #{frstRepl},
 		    </if>
-		    <if test="scndReql != null and scndReql != ''">
-		        scnd_repl = #{scndReql},
+		    <if test="scndRepl != null and scndRepl != ''">
+		        scnd_repl = #{scndRepl},
 		    </if>
-		    <if test="thrdReql != null and thrdReql != ''">
-		        thrd_repl = #{thrdReql},
+		    <if test="thrdRepl != null and thrdRepl != ''">
+		        thrd_repl = #{thrdRepl},
 		    </if>
 		    member_no = #{memberNo}
 		</set>

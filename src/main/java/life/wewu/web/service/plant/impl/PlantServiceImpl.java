@@ -36,8 +36,8 @@ public class PlantServiceImpl implements PlantService{
 		System.out.println(this.getClass());
 	}
 	
-	@Qualifier("plantDao")
 	@Autowired
+	@Qualifier("plantDao")
 	private PlantDao plantDao;
 	
 	public void setPlantDao(PlantDao plantDao) {
@@ -68,6 +68,10 @@ public class PlantServiceImpl implements PlantService{
 
 	@Override
 	public Map<String, Object> getQuestList(Search search) throws Exception {
+		
+		int questNo = 1;
+		Quest quest = plantDao.getQuest(questNo);
+		search.setSearchKeyword(String.valueOf(quest.getQuestNo()));
 		List<Quest> list = plantDao.getQuestList(search);
 		Map<String,Object> map = new HashMap<>();
 		map.put("list",list);
@@ -76,24 +80,38 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public void completeQuest(int questNo) throws Exception {
-		plantDao.completeQuest(questNo);
+	public void completeQuest(Quest quest) throws Exception {
+		plantDao.completeQuest(quest);
 	}
 	
 	
 
 	//------------- 식물정보
 	
-	@Override
-	public void addPlantName(Plant plant) throws Exception {
-		plantDao.addPlantName(plant);
-		
+	@Transactional
+	public void addPlant(Plant plant,PlantLevl plantLevl) throws Exception {
+		plantDao.addPlantName(plant);		
+		int plantNo = plant.getPlantNo();
+		plantLevl.setPlantNo(plantNo);		
+		plantDao.addPlantLevl(plantLevl);
 	}
 	
 	@Override
-	public void addPlantLevl(Plant plant) throws Exception {
-		plantDao.addPlantLevl(plant);
-		
+	public void addPlantName(Plant plant) throws Exception {
+		plantDao.addPlantName(plant);
+	}
+
+	@Override
+	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception {
+		return plantDao.getPlantLevl(plantLevlNo);
+	}
+	
+	public void addPlantLevl(PlantLevl plantLevl) throws Exception {
+		plantDao.addPlantLevl(plantLevl);	
+	}
+
+	public void updatePlantLevl(Plant plant) throws Exception{
+		plantDao.updatePlantLevl(plant);
 	}
 
 	@Override
@@ -134,34 +152,42 @@ public class PlantServiceImpl implements PlantService{
 	//------------- 나의식물	
 	
 	@Override
-	public Plant selectRandomPlant() throws Exception {
-		
-		return plantDao.selectRandomPlant();
-		
+	public Plant selectRandomPlant() throws Exception {	
+		return plantDao.selectRandomPlant();	
 	}
 
 	@Override
 	public void updateMyPlant(MyPlant myPlant) throws Exception {
-		plantDao.updateMyPlant(myPlant);
-		
+		plantDao.updateMyPlant(myPlant);	
 	}
 
 	@Override
-	public MyPlant getMyPlant(int myPlantNo) throws Exception {
-		
+	public MyPlant getMyPlant(int myPlantNo) throws Exception {	
 		return plantDao.getMyPlant(myPlantNo);
 	}
 
 	@Override
-	public List<MyPlant> getMyPlantList(Map map) throws Exception {
-		
+	public List<MyPlant> getMyPlantList(Map map) throws Exception {	
 		return plantDao.getMyPlantList(map);
 	}
 
 	@Override
-	public void deleteMyPlant(int myPlantNo) throws Exception {
+	public MyPlant deleteMyPlant(int myPlantNo) throws Exception {	
+		MyPlant myPlant = plantDao.getMyPlant(myPlantNo);
+		String myPlantLevl = myPlant.getMyPlantLevl();
 		
-		plantDao.deleteMyPlant(myPlantNo);
+		PlantLevl plantLevl = plantDao.getPlantLevl(myPlantNo);
+		String finalLevl = plantLevl.getPlantFinalLevl();
+		
+		if(myPlantLevl == finalLevl) {
+			//포인트 10%반환
+		}else {
+			return plantDao.deleteMyPlant(myPlantNo);
+		}
+	
+//		나의 식물 단계랑 마지막 단곌르 비교해서 똑같으면 기부하고 플래그를 n으로 바꿈
+//		아니면 그냥 플래그를 n으롭 바꿈
+		return plantDao.deleteMyPlant(myPlantNo);
 	}
 
 
@@ -197,11 +223,6 @@ public class PlantServiceImpl implements PlantService{
 	    }
 	}
 		
-
-	@Override
-	public void donatePlant(int plantNo, String nickname) throws Exception {	
-		plantDao.donatePlant(plantNo, nickname);	
-	}
 
 	@Override
 	public String getWeather(String location) throws Exception {
@@ -245,6 +266,7 @@ public class PlantServiceImpl implements PlantService{
 		
 		return plantDao.getInventory(itemPurNo);
 	}
+
 
 
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.group.GroupMember;
 
 @Mapper
@@ -19,9 +20,12 @@ public interface GroupMemberDao {
 	///생성자
 	
 	///메소드
+	
+	public GroupMember getApplJoin(int memberNo) throws Exception;
+	
 	public GroupMember getMemberGroup(int memberNo) throws Exception;
 	
-	public List<GroupMember> getMemberGroupList(Map map) throws Exception;
+	public List<GroupMember> getMemberGroupList(Search search) throws Exception;
 	
 	public void addMemberGroup(GroupMember groupMember) throws Exception;
 	
