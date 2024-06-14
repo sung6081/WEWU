@@ -1,6 +1,6 @@
 /*
- * ì‘ì„±ì : ì¶”ê²½ìš´
- * ì‘ì„±ì¼ : 2024-06-03
+ * ÀÛ¼ºÀÚ : Ãß°æ¿î
+ * ÀÛ¼ºÀÏ : 2024-06-03
  */
 package life.wewu.web.controller.group;
 
@@ -27,7 +27,7 @@ import life.wewu.web.service.group.GroupService;
 @RequestMapping("/group/*")
 public class GroupController {
 
-	///í•„ë“œ
+	///ÇÊµå
 	@Autowired
 	@Qualifier("groupService")
 	private GroupService groupService;
@@ -41,7 +41,7 @@ public class GroupController {
 	public ModelAndView getGroup(@RequestParam("groupNo") int groupNo) throws Exception 
 	{
 		System.out.println(":: /group/getGroup ::");
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/getGroup.jsp");
 		model.addObject("group", groupService.getGroup(groupNo));
 		return model;
@@ -53,7 +53,7 @@ public class GroupController {
 
 		System.out.println(":: /group/getAddAppl ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/getAddAppl.jsp");
 		model.addObject("group", groupService.getGroup(groupNo));
 		return model;
@@ -65,7 +65,7 @@ public class GroupController {
 
 		System.out.println(":: /group/getApplJoin ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/getApplJoin.jsp");
 		model.addObject("groupMember", groupService.getApplJoin(memberNo));
 		return model;
@@ -76,7 +76,7 @@ public class GroupController {
 	{
 		System.out.println(":: /group/getApplJoinList ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/getApplJoinList.jsp");
 		model.addObject("groupMember", groupService.getApplJoinList(search));
 		return model;
@@ -87,7 +87,7 @@ public class GroupController {
 	{
 		System.out.println(":: /group/getMemberGroup ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
 		model.addObject("groupMember", groupService.getMemberGroup(memberNo));
 		return model;
@@ -98,7 +98,7 @@ public class GroupController {
 	{
 		System.out.println(":: /group/getGroupAcle ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/getGroupAcle.jsp");
 		model.addObject("groupAcle", groupService.getGroupAcle(boardNo));
 		return model;
@@ -109,7 +109,7 @@ public class GroupController {
 	{
 		System.out.println(":: /group/mainGroup ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		ModelAndView model = new ModelAndView("forward:/group/mainGroup.jsp");
 		return model;
 	}
@@ -119,7 +119,7 @@ public class GroupController {
 	{
 		System.out.println(":: /group/updateGroup ::");
 		
-		// Business logic ìˆ˜í–‰
+		// Business logic ¼öÇà
 		Group group = groupService.getGroup(groupNo);
 		ModelAndView model = new ModelAndView("forward:/group/updateGroup.jsp");
 		model.addObject("group", group);
