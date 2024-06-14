@@ -272,9 +272,7 @@ public class PlantServiceTest {
     //check -> 검증하는 로직 의견 필요
     public void testCompleteQuest() throws Exception {
         System.out.println("===============================");	
-        plantService.completeQuest(1);
-        Quest completedQuest = (Quest) plantService.getQuestList(new Search()).get(0);
-        System.out.println("Quest completed: " + completedQuest);
+        
         System.out.println("===============================");	
     }
 

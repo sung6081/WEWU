@@ -1,15 +1,33 @@
 package life.wewu.web.controller.plant;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.ResponseEntity;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +53,7 @@ public class PlantController {
 	@Autowired
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
+	
 	
 	public PlantController() {
 		System.out.println(this.getClass());
@@ -149,15 +168,22 @@ public class PlantController {
 	
 	}
 	
-	
-	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
-	public String updatePlant(@ModelAttribute("plant") Plant plant) throws Exception{
-		System.out.println(" /plant/updatePlant : POST ");		
-		plantService.updatePlant(plant);
-	
-		return "plant/updatePlant.jsp";
+	@RequestMapping(value ="updatePlant" , method = RequestMethod.GET)
+	public String updatePlant() throws Exception{
+		System.out.println(" /plant/updatePlant : GET ");	
+		return "forward:/plant/updatePlant.jsp";
 	}
 	
+	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
+	public String updatePlant(@ModelAttribute("plant") Plant plant, Model model) throws Exception{
+		System.out.println(" /plant/updatePlant : POST ");	
+		int plantNo = plant.getPlantNo();
+		plantService.updatePlant(plant);
+		model.addAttribute("plant", plant);
+		
+		return "forward:/plant/updatePlant.jsp";
+	}
+
 	//----------------MyPlant
 	
 	@RequestMapping(value ="selectRandomPlant" , method = RequestMethod.POST)
@@ -180,7 +206,7 @@ public class PlantController {
 		myPlant.setMyPlantName(request.getParameter("myPlantName"));
 		plantService.addRandomPlant(myPlant);
 		
-		return "plant/addRandomPlant.jsp";
+		return "forward:/plant/addRandomPlant.jsp";
 	}
 	
 	//getMyPlant.jsp
@@ -246,6 +272,10 @@ public class PlantController {
 	}
 	
 	
+		
+}
+	
+	
 	
 
-}
+
