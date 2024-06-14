@@ -1,4 +1,4 @@
-//24.06.03 ÀÛ¼º
+//24.06.03 ì‘ì„±
 
 package life.wewu.web.service.user;
 
@@ -13,35 +13,35 @@ import life.wewu.web.domain.user.User;
 
 public interface UserService {
 	
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	public void addUser(User user) throws Exception;
     
-	//³»Á¤º¸¼öÁ¤
+	//ë‚´ì •ë³´ìˆ˜ì •
 	public void updateUser(User user) throws Exception;
     
-	//°ü¸®ÀÚ »ç¿ëÀÚ »èÁ¦
+	//ê´€ë¦¬ì ì‚¬ìš©ì ì‚­ì œ
     public void deleteUser(String userId) throws Exception;
     
-	//°ü¸®ÀÚ°¡ À¯Àú ¸ñ·Ï È®ÀÎ
+	//ê´€ë¦¬ìê°€ ìœ ì € ëª©ë¡ í™•ì¸
 	public Map<String , Object> getUserList(Search search) throws Exception;
 	
-	//°ü¸®ÀÚ°¡ À¯Àú »ó¼¼º¸±â
+	//ê´€ë¦¬ìê°€ ìœ ì € ìƒì„¸ë³´ê¸°
 	public User getUser(String userId) throws Exception;
     
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	public User login(User user) throws Exception;
     
-	//°ü¸®ÀÚ°¡ »ç¿ëÀÚ »ó¼¼º¸±â½Ã ¼öÁ¤
+	//ê´€ë¦¬ìê°€ ì‚¬ìš©ì ìƒì„¸ë³´ê¸°ì‹œ ìˆ˜ì •
 	public void updateAdmin(User user) throws Exception;
     
-	//È¸¿ø°¡ÀÔ½Ã »ç¿ëÀÚ ¾ÆÀÌµğ Áßº¹Ã¼Å©
+	//íšŒì›ê°€ì…ì‹œ ì‚¬ìš©ì ì•„ì´ë”” ì¤‘ë³µì²´í¬
 	public boolean checkUserId(String userId) throws Exception;
     
-	//È¸¿ø°¡ÀÔ½Ã »ç¿ëÀÚ ´Ğ³×ÀÓ Áßº¹Ã¼Å©
+	//íšŒì›ê°€ì…ì‹œ ì‚¬ìš©ì ë‹‰ë„¤ì„ ì¤‘ë³µì²´í¬
 	public boolean checkNickName(String nickname) throws Exception;
     
 	
-	/////////////////////////////////////Ã£±â ÀÎÁõ///////////////////////////////////
+	/////////////////////////////////////ì°¾ê¸° ì¸ì¦///////////////////////////////////
 	
 //	ResponseEntity<String> sendSms(String to);
 	

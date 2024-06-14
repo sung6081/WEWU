@@ -34,7 +34,7 @@ public class UserController {
     
     @RequestMapping(value="/login", method=RequestMethod.GET)
     public String showLoginPage() {
-        return "/user/loginView"; // login.jsp ÆäÀÌÁö¸¦ ¹İÈ¯
+        return "/user/loginView"; // login.jsp í˜ì´ì§€ë¥¼ ë°˜í™˜
     }
 
     @RequestMapping(value="/login", method=RequestMethod.POST)
@@ -42,24 +42,24 @@ public class UserController {
         System.out.println("/user/login : POST");
 
         try {
-            // ·Î±×ÀÎ ¼­ºñ½º È£Ãâ
+            // ë¡œê·¸ì¸ ì„œë¹„ìŠ¤ í˜¸ì¶œ
             User dbUser = userService.login(user);
 
             if (dbUser != null) {
                 session.setAttribute("user", dbUser);
-                System.out.println("·Î±×ÀÎ ¼º°ø: " + dbUser.getUserId());
+                System.out.println("ë¡œê·¸ì¸ ì„±ê³µ: " + dbUser.getUserId());
                 return "redirect:/index.jsp";
             } else {
-                System.out.println("·Î±×ÀÎ ½ÇÆĞ: ºñ¹Ğ¹øÈ£ ºÒÀÏÄ¡ ¶Ç´Â »ç¿ëÀÚ ¾øÀ½");
+                System.out.println("ë¡œê·¸ì¸ ì‹¤íŒ¨: ë¹„ë°€ë²ˆí˜¸ ë¶ˆì¼ì¹˜ ë˜ëŠ” ì‚¬ìš©ì ì—†ìŒ");
                 return "redirect:/user/loginView.jsp?error=login_failed";
             }
         } catch (IllegalArgumentException e) {
-            // À¯È¿ÇÏÁö ¾ÊÀº »ç¿ëÀÚ Á¤º¸ ¿¹¿Ü Ã³¸®
-            System.out.println("À¯È¿ÇÏÁö ¾ÊÀº »ç¿ëÀÚ Á¤º¸: " + e.getMessage());
+            // ìœ íš¨í•˜ì§€ ì•Šì€ ì‚¬ìš©ì ì •ë³´ ì˜ˆì™¸ ì²˜ë¦¬
+            System.out.println("ìœ íš¨í•˜ì§€ ì•Šì€ ì‚¬ìš©ì ì •ë³´: " + e.getMessage());
             return "redirect:/user/loginView.jsp?error=invalid_user";
         } catch (Exception e) {
-            // ÀÏ¹İ ¿¹¿Ü Ã³¸®
-            System.out.println("·Î±×ÀÎ Áß ¿¹¿Ü ¹ß»ı: " + e.getMessage());
+            // ì¼ë°˜ ì˜ˆì™¸ ì²˜ë¦¬
+            System.out.println("ë¡œê·¸ì¸ ì¤‘ ì˜ˆì™¸ ë°œìƒ: " + e.getMessage());
             return "redirect:/user/loginView.jsp?error=unexpected_error";
         }
     }
@@ -102,14 +102,14 @@ public class UserController {
             if (user != null) {
                 user.setUserPwd(newPassword);
                 userService.updatePwd(user);
-                return "redirect:/user/updatePwd.jsp";  // ¼º°ø ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+                return "redirect:/user/updatePwd.jsp";  // ì„±ê³µ í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
             }
             else {
-                model.addAttribute("error", "»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                model.addAttribute("error", "ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return "redirect:/user/updatePwdView?userId=" + userId;
             }
         } catch (Exception e) {
-            model.addAttribute("error", "ºñ¹Ğ¹øÈ£ º¯°æ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+            model.addAttribute("error", "ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
             return "redirect:/user/updatePwdView?userId=" + userId;
         }
     }
@@ -132,7 +132,7 @@ public class UserController {
 		return "redirect:/user/loginView.jsp";
 	}
 	
-	//³»Á¤º¸Á¶È¸ÆäÀÌÁö·Î ÀÌµ¿
+	//ë‚´ì •ë³´ì¡°íšŒí˜ì´ì§€ë¡œ ì´ë™
 	 @GetMapping("/myInfo")
 	    public String myInfo(HttpSession session, Model model) throws Exception {
 		 
@@ -140,29 +140,29 @@ public class UserController {
 
 	        User sessionUser = (User) session.getAttribute("user");
 	        if (sessionUser == null) {
-	            return "redirect:/user/loginView.jsp"; // ¼¼¼Ç¿¡ À¯Àú Á¤º¸°¡ ¾øÀ¸¸é ·Î±×ÀÎ ÆäÀÌÁö·Î ¸®µğ·º¼Ç
+	            return "redirect:/user/loginView.jsp"; // ì„¸ì…˜ì— ìœ ì € ì •ë³´ê°€ ì—†ìœ¼ë©´ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜
 	        }
 	        
 	        String userId = sessionUser.getUserId();
 	        User user = userService.getUser(userId);
 	        model.addAttribute("user", user);
 
-	        return "forward:/user/myInfo.jsp"; // ºä ÀÌ¸§ ¹İÈ¯
+	        return "forward:/user/myInfo.jsp"; // ë·° ì´ë¦„ ë°˜í™˜
 	    }
 	 
-	 //listUser¿¡¼­ À¯Àú»ó¼¼Á¤º¸ º¸±â
+	 //listUserì—ì„œ ìœ ì €ìƒì„¸ì •ë³´ ë³´ê¸°
 		@RequestMapping( value="/getUser", method=RequestMethod.GET )
 		public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
 			
 			System.out.println("/user/myInfo : GET");
 			//Business Logic
 			User user = userService.getUser(userId);
-			// Model °ú View ¿¬°á
+			// Model ê³¼ View ì—°ê²°
 			model.addAttribute("user", user);
 			
 			return "forward:/user/myInfo.jsp";
 		}
-	//³»Á¤º¸ Á¶È¸ÆäÀÌÁö¿¡¼­ ºñ¹øÀÔ·ÂÇÏ¸é ³»Á¤º¸¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿
+	//ë‚´ì •ë³´ ì¡°íšŒí˜ì´ì§€ì—ì„œ ë¹„ë²ˆì…ë ¥í•˜ë©´ ë‚´ì •ë³´ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™
 	 @PostMapping("/checkPassword")
 	    public String checkPassword(@RequestParam("userId") String userId, 
 					                                @RequestParam(value="password") String password, 
@@ -176,18 +176,18 @@ public class UserController {
 	        	 //return "forward:/user/myInfo.jsp";
 	            return "forward:/user/myInfoView.jsp?userId=" + userId;
 	        } else {
-	            model.addAttribute("error", "À¯È¿ÇÏÁö ¾ÊÀº ºñ¹Ğ¹øÈ£ ÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä.");
+	            model.addAttribute("error", "ìœ íš¨í•˜ì§€ ì•Šì€ ë¹„ë°€ë²ˆí˜¸ ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”.");
 	            return "forward:/user/myInfo.jsp";
 	        }
 	    }
-	//myInfoView·Î ÀÌµ¿
+	//myInfoViewë¡œ ì´ë™
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
 	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
 
 		System.out.println("/user/updateUser : GET");
 		//Business Logic
 		User user = userService.getUser(userId);
-		// Model °ú View ¿¬°á
+		// Model ê³¼ View ì—°ê²°
 		model.addAttribute("user", user);
 		
 		return "forward:/user/myInfoView.jsp";
@@ -214,7 +214,7 @@ public class UserController {
 
 	    userService.deleteUser(user.getUserId());
 
-	    // »ç¿ëÀÚ°¡ Å»Åğ ÈÄ ¸®´ÙÀÌ·ºÆ®
+	    // ì‚¬ìš©ìê°€ íƒˆí‡´ í›„ ë¦¬ë‹¤ì´ë ‰íŠ¸
 	    response.sendRedirect("/user/userQuit.jsp");
 	}
 
@@ -229,13 +229,13 @@ public class UserController {
 		}
 		search.setPageSize(pageSize);
 		
-		// Business logic ¼öÇà
+		// Business logic ìˆ˜í–‰
 		Map<String , Object> map=userService.getUserList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
-		// Model °ú View ¿¬°á
+		// Model ê³¼ View ì—°ê²°
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
@@ -264,4 +264,3 @@ public class UserController {
         return "redirect:/user/listUser";
     }
 }
-

@@ -1,4 +1,4 @@
-//24.06.03 ÀÛ¼º
+//24.06.03 ìž‘ì„±
 
 package life.wewu.web.service.user;
 
@@ -29,8 +29,6 @@ public interface UserDao {
     
     public boolean checkNickName(String nickname) throws Exception;
     
-///////////////////////////////////ÇÚµåÆù ÀÎÁõ//////////////////////////////////////////////
-    
     public User findUserId(Map<String, Object> map) throws Exception;
     
     public User findUserPwd(Map<String, Object> map) throws Exception;
@@ -39,7 +37,4 @@ public interface UserDao {
 	
 	public int getTotalCount(Search search) throws Exception ;
 
-///////////////////////////////////////////////////////////////////////////////////////////  
 }
-
-
