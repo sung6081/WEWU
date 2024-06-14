@@ -15,24 +15,24 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Active {
 	
-	//ÇÊµå
-	private int activeNo;//activeÀÇ ¹øÈ£
-	private int groupNo;//¾î´À ±×·ìÀÇ È°µ¿ÀÎÁö group ¹øÈ£
-	private String activeName;//È°µ¿ ÀÌ¸§
-	private Date activeStartDate;//È°µ¿ ½ÃÀÛÀÏ
-	private Date activeEndDate;//È°µ¿ Á¾·áÀÏ
-	private String activeX;//À§µµ
-	private String activeY;//°æµµ
-	private String activeStartTime;//È°µ¿ ½ÃÀÛ ½Ã°£
-	private String activeEndTime;//È°µ¿ Á¾·á ½Ã°£
-	private String activeInfo;//È°µ¿ ÄÚ¸àÆ®
-	private String activeLocal;//È°µ¿ Áö¿ª
-	private Date activeRegDate;//È°µ¿ÀÌ µî·ÏµÈ ³¯Â¥
-	private String stateFlag;//È°µ¿ »óÅÂ -> Y:Á¤»ó D:»èÁ¦µÊ => È°µ¿Áß°ú È°µ¿Á¾·á´Â ÇöÀç³¯Â¥¿Í È°µ¿ Á¾·á ³¯Â¥ ºñ±³
-	private String activeUrl;//¸¶Ä¿ »çÁøÀ» ÀúÀåÇÑ url
-	private String activeShortUrl;//urlÀÇ short ¹öÀü
-	private String leaderNick;//±×·ìÀåÀÇ ´Ð³×ÀÓ
-	private List<ActiveHash> hashList; //ÇØ½¬ ÅÂ±× ÀúÀå °ø°£
+	//dd
+	private int activeNo;//activeï¿½ï¿½ ï¿½ï¿½È£
+	private int groupNo;//ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ È°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ group ï¿½ï¿½È£
+	private String activeName;//È°ï¿½ï¿½ ï¿½Ì¸ï¿½
+	private Date activeStartDate;//È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Date activeEndDate;//È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String activeX;//ï¿½ï¿½ï¿½ï¿½
+	private String activeY;//ï¿½æµµ
+	private String activeStartTime;//È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+	private String activeEndTime;//È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+	private String activeInfo;//È°ï¿½ï¿½ ï¿½Ú¸ï¿½Æ®
+	private String activeLocal;//È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private Date activeRegDate;//È°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ïµï¿½ ï¿½ï¿½Â¥
+	private String stateFlag;//È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ -> Y:ï¿½ï¿½ï¿½ï¿½ D:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ => È°ï¿½ï¿½ï¿½ß°ï¿½ È°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç³¯Â¥ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ ï¿½ï¿½
+	private String activeUrl;//ï¿½ï¿½Ä¿ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ url
+	private String activeShortUrl;//urlï¿½ï¿½ short ï¿½ï¿½ï¿½ï¿½
+	private String leaderNick;//ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+	private List<ActiveHash> hashList; //ï¿½Ø½ï¿½ ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	
 }
