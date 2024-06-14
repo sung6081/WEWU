@@ -30,14 +30,14 @@ public class SmsService {
 //        Message message = new Message();
 //        message.setFrom(FROM);
 //        message.setTo(to);
-//        message.setText("ÀÎÁõ¹øÈ£: " + verificationCode);
+//        message.setText("ì¸ì¦ë²ˆí˜¸: " + verificationCode);
 //
 //        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 //        String statusCode = response.getStatusCode();
 //        if (statusCode.equals("2000")) {
 //            return verificationCode;
 //        } else {
-//            throw new RuntimeException("SMS Àü¼Û ½ÇÆĞ");
+//            throw new RuntimeException("SMS ì „ì†¡ ì‹¤íŒ¨");
 //        }
         return verificationCode;
 
@@ -49,9 +49,9 @@ public class SmsService {
         return String.valueOf(code);
     }
     
- // Å×½ºÆ®¿ëÀ¸·Î ÀÓÀÇÀÇ °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå Ãß°¡
+ // í…ŒìŠ¤íŠ¸ìš©ìœ¼ë¡œ ì„ì˜ì˜ ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ ì¶”ê°€
     public String generateTestVerificationCode() {
         String code = "123456";
-    	return code; // ÀÓÀÇÀÇ °íÁ¤µÈ °ª ¹İÈ¯
+    	return code; // ì„ì˜ì˜ ê³ ì •ëœ ê°’ ë°˜í™˜
     }
 }

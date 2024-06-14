@@ -27,11 +27,11 @@ public class UserRestController {
     @Qualifier("smsService")
     private SmsService smsService;
 
-    // ÀÎÁõ¹øÈ£ ¹ß¼Û ¸Ş¼Òµå
+    // ì¸ì¦ë²ˆí˜¸ ë°œì†¡ ë©”ì†Œë“œ
     @PostMapping("/send-verification-code")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String phoneNum) {
         userService.sendVerificationCode(phoneNum);
-        return ResponseEntity.ok("ÀÎÁõ¹øÈ£°¡ Àü¼ÛµÇ¾ú½À´Ï´Ù.");
+        return ResponseEntity.ok("ì¸ì¦ë²ˆí˜¸ê°€ ì „ì†¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     @PostMapping("/verify-code-userId")
@@ -39,7 +39,7 @@ public class UserRestController {
                              @RequestParam String code,
                              @RequestParam String userName,
                              Model model) throws Exception {
-        System.out.println("verifyCodeUserId È£ÃâµÊ");
+        System.out.println("verifyCodeUserId í˜¸ì¶œë¨");
         System.out.println("phoneNum:" + phoneNum);
         System.out.println("code:" + code);
         System.out.println("userName:" + userName);
@@ -47,7 +47,7 @@ public class UserRestController {
         boolean isVerified = userService.verifyCode(phoneNum, code);
         System.out.println("isVerified:" + isVerified);
         if (isVerified) {
-            // ÀÎÁõ ¼º°ø: ¾ÆÀÌµğ º¸¿©ÁÖ´Â ÆäÀÌÁö·Î ¸®µğ·º¼Ç
+            // ì¸ì¦ ì„±ê³µ: ì•„ì´ë”” ë³´ì—¬ì£¼ëŠ” í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜
             User user = userService.findUserId(phoneNum, userName);
             if (user != null) {
                 model.addAttribute("userId", user.getUserId());
@@ -55,14 +55,14 @@ public class UserRestController {
             } else {
                 model.addAttribute("phoneNum", phoneNum);
                 model.addAttribute("userName", userName);
-                model.addAttribute("error", "»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                model.addAttribute("error", "ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return "user/verification";
             }
         } else {
-            // ÀÎÁõ ½ÇÆĞ
+            // ì¸ì¦ ì‹¤íŒ¨
             model.addAttribute("phoneNum", phoneNum);
             model.addAttribute("userName", userName);
-            model.addAttribute("error", "ÀÎÁõ ½ÇÆĞ");
+            model.addAttribute("error", "ì¸ì¦ ì‹¤íŒ¨");
             return "user/verification";
         }
     }
@@ -72,7 +72,7 @@ public class UserRestController {
                              @RequestParam String code,
                              @RequestParam String userId,
                              Model model) throws Exception {
-        System.out.println("verifyCodePwd È£ÃâµÊ");
+        System.out.println("verifyCodePwd í˜¸ì¶œë¨");
         System.out.println("phoneNum:" + phoneNum);
         System.out.println("code:" + code);
         System.out.println("userId:" + userId);
@@ -80,7 +80,7 @@ public class UserRestController {
         boolean isVerified = userService.verifyCode(phoneNum, code);
         System.out.println("isVerified:" + isVerified);
         if (isVerified) {
-            // ÀÎÁõ ¼º°ø: ¾ÆÀÌµğ º¸¿©ÁÖ´Â ÆäÀÌÁö·Î ¸®µğ·º¼Ç
+            // ì¸ì¦ ì„±ê³µ: ì•„ì´ë”” ë³´ì—¬ì£¼ëŠ” í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜
             User user = userService.findUserPwd(phoneNum, userId);
             if (user != null) {
                 model.addAttribute("userId", user.getUserId());
@@ -88,24 +88,24 @@ public class UserRestController {
             } else {
                 model.addAttribute("phoneNum", phoneNum);
                 model.addAttribute("userId", userId);
-                model.addAttribute("error", "»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                model.addAttribute("error", "ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return "user/findPwd";
             }
         } else {
-            // ÀÎÁõ ½ÇÆĞ
+            // ì¸ì¦ ì‹¤íŒ¨
             model.addAttribute("phoneNum", phoneNum);
             model.addAttribute("userId", userId);
-            model.addAttribute("error", "ÀÎÁõ ½ÇÆĞ");
+            model.addAttribute("error", "ì¸ì¦ ì‹¤íŒ¨");
             return "user/findPwd";
         }
     }
     
     
-    // Å×½ºÆ®¿ë ÀÎÁõ¹øÈ£ ¹ß¼Û ¸Ş¼Òµå
+    // í…ŒìŠ¤íŠ¸ìš© ì¸ì¦ë²ˆí˜¸ ë°œì†¡ ë©”ì†Œë“œ
     @PostMapping("/send-test-verification-code")
     public ResponseEntity<String> sendTestVerificationCode(@RequestParam String phoneNum) {
         userService.sendTestVerificationCode(phoneNum);
-        return ResponseEntity.ok("Å×½ºÆ®¿ë ÀÎÁõ¹øÈ£°¡ Àü¼ÛµÇ¾ú½À´Ï´Ù.");
+        return ResponseEntity.ok("í…ŒìŠ¤íŠ¸ìš© ì¸ì¦ë²ˆí˜¸ê°€ ì „ì†¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
     
 }

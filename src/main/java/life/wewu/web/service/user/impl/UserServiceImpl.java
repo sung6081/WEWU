@@ -1,4 +1,4 @@
-//24.06.03 ÀÛ¼º
+//24.06.03 ì‘ì„±
 
 package life.wewu.web.service.user.impl;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//==> È¸¿ø°ü¸® ¼­ºñ½º ±¸Çö
+//==> íšŒì›ê´€ë¦¬ ì„œë¹„ìŠ¤ êµ¬í˜„
 @Service("userServiceImpl")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -38,12 +38,12 @@ public class UserServiceImpl implements UserService {
         userDao.addUser(user);
     }
     
-    //myInfoView¿¡¼­ À¯ÀúÁ¤º¸º¯°æ
+    //myInfoViewì—ì„œ ìœ ì €ì •ë³´ë³€ê²½
     public void updateUser(User user) throws Exception{
         userDao.updateUser(user);
     }
     
-    //À¯Àú»èÁ¦(roleº¯°æ2=>4)
+    //ìœ ì €ì‚­ì œ(roleë³€ê²½2=>4)
     public void deleteUser(String userId) throws Exception {
         userDao.deleteUser(userId);
     }
@@ -65,50 +65,50 @@ public class UserServiceImpl implements UserService {
         return userDao.getUser(userId);
     }
     
-    //°ü¸®ÀÚ°¡ À¯ÀúÁ¤º¸ ¼öÁ¤
+    //ê´€ë¦¬ìê°€ ìœ ì €ì •ë³´ ìˆ˜ì •
     public void updateAdmin(User user) throws Exception{
         userDao.updateAdmin(user);
     }
 
-    // ·Î±×ÀÎ ·ÎÁ÷ Ãß°¡
+    // ë¡œê·¸ì¸ ë¡œì§ ì¶”ê°€
     public User login(User user) throws Exception {
         if (user == null || user.getUserId() == null) {
-            throw new IllegalArgumentException("À¯È¿ÇÏÁö ¾ÊÀº »ç¿ëÀÚ Á¤º¸ÀÔ´Ï´Ù.");
+            throw new IllegalArgumentException("ìœ íš¨í•˜ì§€ ì•Šì€ ì‚¬ìš©ì ì •ë³´ì…ë‹ˆë‹¤.");
         }
-        System.out.println("·Î±×ÀÎ ½Ãµµ »ç¿ëÀÚ ID: " + user.getUserId());
+        System.out.println("ë¡œê·¸ì¸ ì‹œë„ ì‚¬ìš©ì ID: " + user.getUserId());
         User dbUser = userDao.getUser(user.getUserId());
         if (dbUser != null) {
             // Check if the user's role is 4
-        	System.out.println("DB »ç¿ëÀÚ ID: " + dbUser.getUserId());
-            System.out.println("DB »ç¿ëÀÚ Role: " + dbUser.getRole());
+        	System.out.println("DB ì‚¬ìš©ì ID: " + dbUser.getUserId());
+            System.out.println("DB ì‚¬ìš©ì Role: " + dbUser.getRole());
             if ("4".equals(dbUser.getRole())) {
-                throw new Exception("»èÁ¦Ã³¸® µÇ¾ú½À´Ï´Ù.");
+                throw new Exception("ì‚­ì œì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
             }
 
             // Check if the password matches
             if (user.getUserPwd() != null && user.getUserPwd().equals(dbUser.getUserPwd())) {
-            	System.out.println("ºñ¹Ğ¹øÈ£ ÀÏÄ¡");
+            	System.out.println("ë¹„ë°€ë²ˆí˜¸ ì¼ì¹˜");
             	return dbUser;
             }else {
-                System.out.println("ºñ¹Ğ¹øÈ£ ºÒÀÏÄ¡");
+                System.out.println("ë¹„ë°€ë²ˆí˜¸ ë¶ˆì¼ì¹˜");
             }
         }else {
-            System.out.println("»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾øÀ½");
+            System.out.println("ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ");
         }
         return null;
     }
 
-    //»ç¿ëÀÚ ¾ÆÀÌµğ Áßº¹Ã¼Å©
+    //ì‚¬ìš©ì ì•„ì´ë”” ì¤‘ë³µì²´í¬
 	public boolean checkUserId(String userId) throws Exception {
 	    return userDao.checkUserId(userId);
 	}
     
-  //»ç¿ëÀÚ ´Ğ³×ÀÓ Áßº¹Ã¼Å©
+  //ì‚¬ìš©ì ë‹‰ë„¤ì„ ì¤‘ë³µì²´í¬
     public boolean checkNickName(String nickName) throws Exception {
     	return userDao.checkNickName(nickName);
     }
     
-    //»ç¿ëÀÚ ¾ÆÀÌµğ Ã£±â
+    //ì‚¬ìš©ì ì•„ì´ë”” ì°¾ê¸°
     public User findUserId(String phoneNum, String userName) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -125,33 +125,33 @@ public class UserServiceImpl implements UserService {
         return user;
     }
     
-    //ÀÎÁõ¹øÈ£ ÀüÈ­¹øÈ£ ¸ÊÇÎ
+    //ì¸ì¦ë²ˆí˜¸ ì „í™”ë²ˆí˜¸ ë§µí•‘
     public String sendVerificationCode(String phoneNum) {
         String verificationCode = smsService.sendVerificationCode(phoneNum);
         verificationCodes.put(phoneNum, verificationCode);
         return verificationCode;
     }
     
-    //ÀÎÁõ¹øÈ£, ÀüÈ­¹øÈ£ + ¾Ë¸ÂÀº ÀÎÁõ¹øÈ£·Î ¸ÅÇÎ
+    //ì¸ì¦ë²ˆí˜¸, ì „í™”ë²ˆí˜¸ + ì•Œë§ì€ ì¸ì¦ë²ˆí˜¸ë¡œ ë§¤í•‘
     public boolean verifyCode(String phoneNum, String code) {
         String correctCode = verificationCodes.get(phoneNum);
         System.out.println("verifyCode - phoneNum:" + phoneNum + ", inputCode:" + code + ", correctCode:" + correctCode);
         return correctCode != null && correctCode.equals(code);
     }
     
-    //¹®ÀÚ ¼Û½Å½Ã ÄÚµå »ı¼ºµÇ´Âµ¥ verificationCodes·Î ÀÎÁõ¹øÈ£ ÀúÀåÇÑ°Å °¡Á®¿À´Â ¸Ş¼Òµå
+    //ë¬¸ì ì†¡ì‹ ì‹œ ì½”ë“œ ìƒì„±ë˜ëŠ”ë° verificationCodesë¡œ ì¸ì¦ë²ˆí˜¸ ì €ì¥í•œê±° ê°€ì ¸ì˜¤ëŠ” ë©”ì†Œë“œ
     public Map<String, String> getVerificationCodes() {
         return verificationCodes;
     }
     
-    //ÀÎÁõ¹øÈ£ testCodeÈ­
+    //ì¸ì¦ë²ˆí˜¸ testCodeí™”
     public String sendTestVerificationCode(String phoneNum) {
         String verificationCode = smsService.generateTestVerificationCode();
         verificationCodes.put(phoneNum, verificationCode);
         return verificationCode;
     }
     
-    //»ç¿ëÀÚ ºñ¹Ğ¹øÈ£ Ã£±â
+    //ì‚¬ìš©ì ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
 	public User findUserPwd(String phoneNum, String userId) throws Exception {
     	
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -168,9 +168,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 	
-	//»ç¿ëÀÚ ºñ¹Ğ¹øÈ£ º¯°æ
+	//ì‚¬ìš©ì ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
 	public void updatePwd(User user) throws Exception {
         userDao.updatePwd(user);
 	}
 }
-
