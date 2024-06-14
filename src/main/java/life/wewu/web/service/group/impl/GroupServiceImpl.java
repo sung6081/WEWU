@@ -123,6 +123,11 @@ public class GroupServiceImpl implements GroupService{
 		
 	}
 	
+	public GroupMember getMemberGroupForNick(Map<String,Object> map) throws Exception {
+		//user nickname과 group pk를 인자로 해당 유저의 모임원정보 select
+		return groupMemberDao.getMemberGroupForNick(map);
+	}
+	
 	public GroupMember getApplJoin(int memberNo) throws Exception {
 		
 		//group pk를 인자로 하나의 모임의 정보를 select 하는 메소드
@@ -142,6 +147,13 @@ public class GroupServiceImpl implements GroupService{
 		
 	}
 	
+	public GroupMember updateMemberGroup(GroupMember groupMember) throws Exception {
+		
+		//group_member pk를 인자로 해당 모임원의 정보를 update 후 다시 select
+		groupMemberDao.updateMemberGroup(groupMember);
+		return groupMemberDao.getMemberGroup(groupMember.getMemberNo());
+	}
+	
 	public void deleteMemberGroup(int memberNo) throws Exception {
 		
 		//group_member pk를 인자로 해당 모임원의 정보를 delete
@@ -156,6 +168,13 @@ public class GroupServiceImpl implements GroupService{
 	}
 	
 	public GroupMember updateScrab(GroupMember groupMember) throws Exception {
+		
+		//group_member 도메인을 인자로 해당 모임원의 정보 update 후 다시 select
+		groupMemberDao.updateMemberGroup(groupMember);
+		return groupMemberDao.getMemberGroup(groupMember.getMemberNo());
+	}
+	
+	public GroupMember updateApplJoin(GroupMember groupMember) throws Exception {
 		
 		//group_member 도메인을 인자로 해당 모임원의 정보 update 후 다시 select
 		groupMemberDao.updateMemberGroup(groupMember);

@@ -23,7 +23,7 @@
 	</resultMap>
   	
   	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
-  	<insert id="addMemberGroup" parameterType="groupMember" useGeneratedKeys="true" keyProperty="memberNo,applDate" keyColumn="member_no,appl_date">
+  	<insert id="addMemberGroup" parameterType="groupMember" useGeneratedKeys="true" keyProperty="memberNo" keyColumn="member_no">
   		INSERT
   		INTO group_member
   		(
@@ -59,6 +59,19 @@
   		)
   	</insert>
   	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
+  	
+  	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  	
+  	<select id="getMemberGroupForNick" parameterType="map" resultMap="groupMemberSelectMap">
+  		SELECT
+  			*
+  		FROM group_member
+  		<where>
+  			member_nickname = #{memberNickNmae}
+  			AND
+  			group_no = #{groupNo}
+  		</where>
+  	</select>
+  	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  
   	
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  	
   	<select id="getMemberGroup" parameterType="int" resultMap="groupMemberSelectMap">
@@ -104,6 +117,9 @@
   	<update id="updateMemberGroup" parameterType="groupMember" >
   		UPDATE group_member
   		<set>
+  			<if test="memberNickName != null and memberNickName != ''">
+		        member_nickname = #{memberNickName},
+		    </if>
 		    <if test="scrabFlag != null and scrabFlag != ''">
 		        scrab_flag = #{scrabFlag},
 		    </if>

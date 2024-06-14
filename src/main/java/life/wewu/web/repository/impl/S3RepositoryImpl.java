@@ -40,7 +40,7 @@ import life.wewu.web.repository.S3Repository;
 @Repository
 public class S3RepositoryImpl implements S3Repository {
 	
-	//ÇÊµå
+	//ï¿½Êµï¿½
 	@Value("${storage.endPoint}")
 	private String endPoint;
 	
@@ -61,16 +61,16 @@ public class S3RepositoryImpl implements S3Repository {
 	@Value("${short.clientSecret}")
 	private String clientSecret;
 	
-	//¸Þ¼Òµå
-	//ÆÄÀÏ ¾÷·Îµå
+	//ï¿½Þ¼Òµï¿½
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 	public String uplodaFile(Map<String, Object> map) {
 		
-		//ÆÄÀÏ ¾÷·Îµå ½ÃÀÛ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½
 		MultipartFile file = (MultipartFile)map.get("file");
 		
 		//File uploadFile = (File)map.get("uploadFile");
 		
-		//ÀÌ¹ÌÁö ÆÄÀÏÀÌ ¾ø´Ù¸é null return
+		//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ null return
 		if(file == null) {
 			return null;
 		}
@@ -87,9 +87,10 @@ public class S3RepositoryImpl implements S3Repository {
 		objectMetadata.setContentType("application/x-directory");
 		PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, folderName, new ByteArrayInputStream(new byte[0]), objectMetadata);
 		
-		//Æú´õ »ý¼º(¾øÀ¸¸é)
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		try {
 		    s3.putObject(putObjectRequest);
+		    System.out.println("");
 		    //System.out.format("Folder %s has been created.\n", folderName);
 		} catch (AmazonS3Exception e) {
 		    e.printStackTrace();
@@ -97,9 +98,9 @@ public class S3RepositoryImpl implements S3Repository {
 		    e.printStackTrace();
 		}
 		
-		//ÆÄÀÏ ¾÷·Îµå ¹× url ¹Þ±â
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ url ï¿½Þ±ï¿½
 		try {
-			//ÆÄÀÏ ¾÷·Îµå
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 			//File uploadFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + file.getOriginalFilename());
 			File uploadFile =  convert(file);
 			
@@ -108,13 +109,13 @@ public class S3RepositoryImpl implements S3Repository {
 			s3.putObject(bucketName, keyName, uploadFile);
 		    //System.out.format("Object %s has been created.\n", uploadFile.getName());
 		    
-			//¾÷·Îµå ÈÄ tmp file »èÁ¦
+			//ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ tmp file ï¿½ï¿½ï¿½ï¿½
 			uploadFile.delete();
 			
-		    // ÆÄÀÏ¿¡ ´ëÇÑ ACL ¼³Á¤ (°ø°³·Î ¼³Á¤)
+		    // ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ACL ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	        s3.setObjectAcl(bucketName, keyName, CannedAccessControlList.PublicRead);
 		    
-		    //url¹Þ±â
+		    //urlï¿½Þ±ï¿½
 		    return s3.getUrl(bucketName, keyName).toString();
 	        
 	        
@@ -162,9 +163,9 @@ public class S3RepositoryImpl implements S3Repository {
             wr.close();
             int responseCode = con.getResponseCode();
             BufferedReader br;
-            if(responseCode==200) { // Á¤»ó È£Ãâ
+            if(responseCode==200) { // ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {  // ¿À·ù ¹ß»ý
+            } else {  // ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             }
             String inputLine;
@@ -178,7 +179,7 @@ public class S3RepositoryImpl implements S3Repository {
             JsonObject jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
             if (jsonObject.has("result")) {
             	JsonObject resultObject = jsonObject.getAsJsonObject("result");
-            	return resultObject.get("url").getAsString(); // ´ÜÃà URL ¹ÝÈ¯
+            	return resultObject.get("url").getAsString(); // ï¿½ï¿½ï¿½ï¿½ URL ï¿½ï¿½È¯
             } else {
             	return null;
             }
@@ -219,17 +220,17 @@ public class S3RepositoryImpl implements S3Repository {
 //        String responseBody = get(apiURL,requestHeaders);
 //        System.out.println(responseBody);
 //		
-//        // JSON ÆÄ½Ì
+//        // JSON ï¿½Ä½ï¿½
 //        JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
 //        if (jsonObject.has("result")) {
 //            JsonObject resultObject = jsonObject.getAsJsonObject("result");
-//            return resultObject.get("url").getAsString(); // ´ÜÃà URL ¹ÝÈ¯
+//            return resultObject.get("url").getAsString(); // ï¿½ï¿½ï¿½ï¿½ URL ï¿½ï¿½È¯
 //        } else {
 //            return null;
 //        }
 //	}
 //	
-//	//short url ¾ò´Âµ¥ ÇÊ¿äÇÑ ÇÔ¼ö
+//	//short url ï¿½ï¿½Âµï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 //	private static String get(String apiUrl, Map<String, String> requestHeaders){
 //        HttpURLConnection con = connect(apiUrl);
 //        try {
@@ -239,13 +240,13 @@ public class S3RepositoryImpl implements S3Repository {
 //            }
 //
 //            int responseCode = con.getResponseCode();
-//            if (responseCode == HttpURLConnection.HTTP_OK) { // Á¤»ó È£Ãâ
+//            if (responseCode == HttpURLConnection.HTTP_OK) { // ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 //                return readBody(con.getInputStream());
-//            } else { // ¿¡·¯ ¹ß»ý
+//            } else { // ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
 //                return readBody(con.getErrorStream());
 //            }
 //        } catch (IOException e) {
-//            throw new RuntimeException("API ¿äÃ»°ú ÀÀ´ä ½ÇÆÐ", e);
+//            throw new RuntimeException("API ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", e);
 //        } finally {
 //            con.disconnect();
 //        }
@@ -256,9 +257,9 @@ public class S3RepositoryImpl implements S3Repository {
 //            URL url = new URL(apiUrl);
 //            return (HttpURLConnection)url.openConnection();
 //        } catch (MalformedURLException e) {
-//            throw new RuntimeException("API URLÀÌ Àß¸øµÇ¾ú½À´Ï´Ù. : " + apiUrl, e);
+//            throw new RuntimeException("API URLï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. : " + apiUrl, e);
 //        } catch (IOException e) {
-//            throw new RuntimeException("¿¬°áÀÌ ½ÇÆÐÇß½À´Ï´Ù. : " + apiUrl, e);
+//            throw new RuntimeException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. : " + apiUrl, e);
 //        }
 //    }
 //
@@ -275,7 +276,7 @@ public class S3RepositoryImpl implements S3Repository {
 //
 //            return responseBody.toString();
 //        } catch (IOException e) {
-//            throw new RuntimeException("API ÀÀ´äÀ» ÀÐ´Âµ¥ ½ÇÆÐÇß½À´Ï´Ù.", e);
+//            throw new RuntimeException("API ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.", e);
 //        }
 //    }
 	

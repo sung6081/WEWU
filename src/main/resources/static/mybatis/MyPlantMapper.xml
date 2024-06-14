@@ -27,14 +27,14 @@
 		VALUE ('Y',#{myPlantName},0,now(),#{nickname},#{plant.plantNo})
 	</insert>
 
-	<select id ="getMyPlant" parameterType="myPlant" resultMap="myPlantSelectMap">
+	<select id ="getMyPlant" parameterType="int" resultMap="myPlantSelectMap">
 		SELECT 
 			m.*,le.plant_levl_no
     	FROM 
     		my_plant m , plant_levl le
     	WHERE m.plant_no = le.plant_no	
 		AND my_plant_no = #{myPlantNo}
-		AND #{myPlantExp} between le.plant_min_exp and le.plant_max_exp;
+		AND m.my_plant_exp between le.plant_min_exp and le.plant_max_exp;
 	</select>
 	
 	<!-- GET MYPLANTliST -->
@@ -45,7 +45,7 @@
     		my_plant m , plant_levl le
   	 	WHERE m.plant_no = le.plant_no
   	 	<if test='search.searchKeyword == "current"'>
-  	 		AND m.my_plant_state = 'State1'
+  	 		AND m.my_plant_state = 'Y'
   	 	</if>
   	 	<if test='search.searchKeyword == "past"'>
   	 		AND m.my_plant_state = 'N'
