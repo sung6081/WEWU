@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Donation {
-	private int payNo;			//°áÁ¦ ¹øÈ£
-	private String userName;	//°áÁ¦ÀÚ ÀÌ¸§
-	private String email;		//°áÁ¦ÀÚ ÀÌ¸ŞÀÏ
-	private String phoneNum;	//°áÁ¦ÀÚ ÀüÈ­¹øÈ£
-	private String userBirth;	//°áÁ¦ÀÚ »ı³â¿ùÀÏ
-	private Date payDate;		//°áÁ¦ ³¯Â¥
-	private String payFlag;		//°áÁ¦ ÇÃ·¡±× 	( °áÁ¦ ¼º°ø : T / °áÁ¦ ½ÇÆĞ : F - default)
-	private String payOption;		//°áÁ¦ ¼ö´Ü 	( Ä«Ä«¿ÀÆäÀÌ / Åä½ºÆäÀÌ )
-	private String payType;		//°áÁ¦ »ç¿ëÃ³	( ÈÄ¿ø / Æ÷ÀÎÆ® ÃæÀü)
-	private int payAmount;		//°áÁ¦ ±İ¾×
+	private int payNo;			//ê²°ì œ ë²ˆí˜¸
+	private String userName;	//ê²°ì œì ì´ë¦„
+	private String email;		//ê²°ì œì ì´ë©”ì¼
+	private String phoneNum;	//ê²°ì œì ì „í™”ë²ˆí˜¸
+	private String userBirth;	//ê²°ì œì ìƒë…„ì›”ì¼
+	private Date payDate;		//ê²°ì œ ë‚ ì§œ
+	private String payFlag;		//ê²°ì œ í”Œë˜ê·¸ 	( ê²°ì œ ì„±ê³µ : T / ê²°ì œ ì‹¤íŒ¨ : F - default)
+	private String payOption;		//ê²°ì œ ìˆ˜ë‹¨ 	( ì¹´ì¹´ì˜¤í˜ì´ / í† ìŠ¤í˜ì´ )
+	private String payType;		//ê²°ì œ ì‚¬ìš©ì²˜	( í›„ì› / í¬ì¸íŠ¸ ì¶©ì „)
+	private int payAmount;		//ê²°ì œ ê¸ˆì•¡
 
 }

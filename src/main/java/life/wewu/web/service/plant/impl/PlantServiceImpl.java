@@ -68,6 +68,10 @@ public class PlantServiceImpl implements PlantService{
 
 	@Override
 	public Map<String, Object> getQuestList(Search search) throws Exception {
+		
+		int questNo = 1;
+		Quest quest = plantDao.getQuest(questNo);
+		search.setSearchKeyword(String.valueOf(quest.getQuestNo()));
 		List<Quest> list = plantDao.getQuestList(search);
 		Map<String,Object> map = new HashMap<>();
 		map.put("list",list);
@@ -76,8 +80,8 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public void completeQuest(int questNo) throws Exception {
-		plantDao.completeQuest(questNo);
+	public void completeQuest(Quest quest) throws Exception {
+		plantDao.completeQuest(quest);
 	}
 	
 	

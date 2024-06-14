@@ -32,6 +32,6 @@ public class Board {
 	private int views;				//조회수
 	private int commentCnt;			//댓글 수
 	private List<Comment> commentNo;//댓글 //
-	
+	private boolean bookmarkFlag;
 	
 }
