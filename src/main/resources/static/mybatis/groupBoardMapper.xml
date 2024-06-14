@@ -15,7 +15,7 @@
 	</resultMap>
   	
 	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
-  	<insert id="addGroupBoard" parameterType="groupBoard" useGeneratedKeys="true" keyProperty="typeNo,addDate" keyColumn="type_no,add_date">
+  	<insert id="addGroupBoard" parameterType="groupBoard" useGeneratedKeys="true" keyProperty="typeNo" keyColumn="type_no">
   		INSERT
   		INTO board_type
   		(
@@ -82,7 +82,7 @@
 		    <if test="boardRole != null and boardRole != ''">
 		        board_role = #{boardRole},
 		    </if>
-		    group_no = #{groupNo}
+		    type_no = #{typeNo}
 		</set>
 		<where>
 			type_no = #{typeNo}

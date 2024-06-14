@@ -5,25 +5,24 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
-			
-			function deleteApplJoin(){
-				
-		        if(!confirm("정말 삭제하시겠습니까?")){
+		
+			function addApplGroup()
+			{
+		        if(!confirm("정말 개설신청 하시겠습니까?")){
 					return;
 					
 		        }else{
-		        	
 		        	// form 데이터 가져오기
-		        	var form = document.getElementById('deleteApplJoin');
+		        	var form = document.getElementById('MyForm');
 		        	var formData = new FormData(form);
-	
+
 		        	// JSON으로 변환
 		        	var jsonData = Object.fromEntries(formData);
-	
+
 		        	//모임 리스트
 					$.ajax ({
-						url	: "/app/group/deleteApplJoin", // (Required) 요청이 전송될 URL 주소
-						type  : "POST", // (default: ‘GET’) http 요청 방식
+						url	: "/app/group/addApplGroup", // (Required) 요청이 전송될 URL 주소
+						type	: "POST", // (default: ‘GET’) http 요청 방식
 						async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
 						cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
 						timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
@@ -38,12 +37,13 @@
 						  
 						},
 						success : function(data, status, xhr) {
-							if(data.flag == "Y"){
-								alert("삭제가 완료되었습니다.");
-								location.href="/";
-							}else{
-								alert("삭제 실패");
-							}
+							alert("개설이 완료되었습니다. \n변경된 내용을 확인하세요");
+							var str = "";
+									
+							str += "<input type='hidden' name='groupNo' value = '"+ data.groupNo +"'>";
+							$('#getAddAppl').append(str);
+							$('#getAddAppl').submit();
+							 
 						},
 						error	: function(xhr, status, error) {
 						  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -54,26 +54,28 @@
 					});
 		        }
 			}
-			
-			function updateApplJoin(){
-				var form = document.getElementById("updateApplJoin");
-				form.action="/group/updateApplJoin";
-				form.submit();
-			}
 		</script>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 	</head>
 	<body>
-		${groupMember }
-		<form id="deleteApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+		<h1>모임정보 개설신청 View 페이지</h1>
+		<form id="MyForm">
+			닉네임 : nick1<input type="hidden" name="leaderNick" id="leaderNick" value="nick1">
+			<br>
+			모임명 : <input type="text" name="groupName" id="groupName">
+			<br>
+			소개  : <input type="text" name="groupIntro" id="groupIntro">
+			<br>
+			태그  : <input type="text" name="groupHash" id="groupHash">
+			<br>
+			주소  : <input type="text" name="groupAddr" id="groupAddr">
+			<br>
+			계획  : <input type="text" name="groupPlan" id="groupPlan">
 		</form>
-			<a href="javascript:deleteApplJoin();">삭제하기</a>
+		<form id="getAddAppl" method="post" action="/group/getAddAppl">
 			
-		<form id="updateApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
 		</form>
-			<a href="javascript:updateApplJoin();">수정하기</a>
+		<a href="javascript:addApplGroup();">개설하기</a>
 	</body>
 </html>

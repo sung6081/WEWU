@@ -5,16 +5,15 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
-			
-			function deleteApplJoin(){
+			function updateApplJoin(){
 				
-		        if(!confirm("정말 삭제하시겠습니까?")){
+		        if(!confirm("정말 수정하시겠습니까?")){
 					return;
 					
 		        }else{
 		        	
 		        	// form 데이터 가져오기
-		        	var form = document.getElementById('deleteApplJoin');
+		        	var form = document.getElementById('updateApplJoin');
 		        	var formData = new FormData(form);
 	
 		        	// JSON으로 변환
@@ -22,7 +21,7 @@
 	
 		        	//모임 리스트
 					$.ajax ({
-						url	: "/app/group/deleteApplJoin", // (Required) 요청이 전송될 URL 주소
+						url	: "/app/group/updateApplJoin", // (Required) 요청이 전송될 URL 주소
 						type  : "POST", // (default: ‘GET’) http 요청 방식
 						async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
 						cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
@@ -38,12 +37,7 @@
 						  
 						},
 						success : function(data, status, xhr) {
-							if(data.flag == "Y"){
-								alert("삭제가 완료되었습니다.");
-								location.href="/";
-							}else{
-								alert("삭제 실패");
-							}
+							alert("수정이 완료되었습니다.");
 						},
 						error	: function(xhr, status, error) {
 						  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -54,26 +48,32 @@
 					});
 		        }
 			}
-			
-			function updateApplJoin(){
-				var form = document.getElementById("updateApplJoin");
-				form.action="/group/updateApplJoin";
-				form.submit();
-			}
 		</script>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 	</head>
 	<body>
-		${groupMember }
-		<form id="deleteApplJoin" method="post">
+		${groupMember}
+		<h1>모임 가입신청서 작성 View</h1>
+		<form id="updateApplJoin">
 			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form>
-			<a href="javascript:deleteApplJoin();">삭제하기</a>
-			
-		<form id="updateApplJoin" method="post">
+			신청자 : ${groupMember.memberNickName}
+			<br><br>
+			1번 질문 : ${groupMember.frstQuest}
+			<br>
+			1번 답변 : <input type="text" name="frstRepl" value="${groupMember.frstRepl}">
+			<br>
+			2번 질문 : ${groupMember.scndQuest}
+			<br>
+			2번 답변 : <input type="text" name="scndRepl" value="${groupMember.scndRepl}">
+			<br>
+			3번 질문 : ${groupMember.thrdQuest}
+			<br>
+			3번 답변 : <input type="text" name="thrdRepl" value="${groupMember.thrdRepl}"> 
+		</form> 
+		<a href="javascript:updateApplJoin()">가입신청 수정하기</a>
+		<form id="getApplJoin" method="post" action="/group/getApplJoin">
 			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form>
-			<a href="javascript:updateApplJoin();">수정하기</a>
+		</form> 
 	</body>
 </html>

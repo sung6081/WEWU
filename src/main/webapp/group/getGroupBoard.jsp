@@ -5,8 +5,19 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
+			function updateGroupBoard(){
+				var form = document.getElementById("updateGroupBoard");
+				form.action="/group/updateGroupBoard";
+				form.submit();
+			}
 			
-			function deleteApplJoin(){
+			function addGroupAcle(){
+				var form = document.getElementById("addGroupAcle");
+				form.action="/group/addGroupAcle";
+				form.submit();
+			}
+			
+			function deleteGroupBoard(){
 				
 		        if(!confirm("정말 삭제하시겠습니까?")){
 					return;
@@ -14,15 +25,15 @@
 		        }else{
 		        	
 		        	// form 데이터 가져오기
-		        	var form = document.getElementById('deleteApplJoin');
+		        	var form = document.getElementById('deleteGroupBoard');
 		        	var formData = new FormData(form);
-	
+
 		        	// JSON으로 변환
 		        	var jsonData = Object.fromEntries(formData);
-	
+
 		        	//모임 리스트
 					$.ajax ({
-						url	: "/app/group/deleteApplJoin", // (Required) 요청이 전송될 URL 주소
+						url	: "/app/group/deleteGroupBoard", // (Required) 요청이 전송될 URL 주소
 						type  : "POST", // (default: ‘GET’) http 요청 방식
 						async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
 						cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
@@ -39,10 +50,13 @@
 						},
 						success : function(data, status, xhr) {
 							if(data.flag == "Y"){
-								alert("삭제가 완료되었습니다.");
-								location.href="/";
+								alert("삭제가 완료되었습니다");
+								var form = document.getElementById("getGroup");
+								form.submit();
+								
+							
 							}else{
-								alert("삭제 실패");
+								alert("삭제 실패 : 기타 원인.");
 							}
 						},
 						error	: function(xhr, status, error) {
@@ -54,26 +68,43 @@
 					});
 		        }
 			}
-			
-			function updateApplJoin(){
-				var form = document.getElementById("updateApplJoin");
-				form.action="/group/updateApplJoin";
-				form.submit();
-			}
 		</script>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 	</head>
 	<body>
-		${groupMember }
-		<form id="deleteApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+		${groupBoard}
+		<h1>모임 개설게시판 View 페이지</h1>
+		<form id="getGroupBoard">
+			<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
+			<input type="hidden" name="groupNo" id="groupNo" value="${groupBoard.groupNo}">
+			게시판 명 : ${groupBoard.boardName}
+			<br>
+			소개 : ${groupBoard.boardIntro}
+			<br>
+			타입  : ${groupBoard.boardType}
+			<br>
+			권한  : ${groupBoard.boardRole}
 		</form>
-			<a href="javascript:deleteApplJoin();">삭제하기</a>
+		<a href="javascript:updateGroupBoard()">게시판 수정하기</a>
+		
+		<form id="updateGroupBoard" method="post" action="/group/updateGroupBoard">
+			<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
+		</form>
+		
+		<form id="deleteGroupBoard" method="post">
+			<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
+		</form>
+			<a href="javascript:deleteGroupBoard();">게시판 삭제하기</a>
 			
-		<form id="updateApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+		<form id="addGroupAcle" method="post">
+			<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
+			<input type="hidden" name="groupNo" value="${groupBoard.groupNo}">
 		</form>
-			<a href="javascript:updateApplJoin();">수정하기</a>
+			<a href="javascript:addGroupAcle();">게시글 작성하기</a>
+			
+		<form id="getGroup" method="post" action="/group/getGroup">
+			<input type="hidden" name="groupNo" value="${groupBoard.groupNo}">
+		</form>
 	</body>
 </html>

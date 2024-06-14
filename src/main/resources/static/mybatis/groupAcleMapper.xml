@@ -15,7 +15,7 @@
 	</resultMap>
   	
 	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
-  	<insert id="addGroupAcle" parameterType="groupAcle" useGeneratedKeys="true" keyProperty="boardNo,wrteDate" keyColumn="board_no,reg_date">
+  	<insert id="addGroupAcle" parameterType="groupAcle" useGeneratedKeys="true" keyProperty="boardNo" keyColumn="board_no">
   		INSERT
   		INTO board
   		(
