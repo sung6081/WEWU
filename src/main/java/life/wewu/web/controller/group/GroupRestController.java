@@ -1,6 +1,6 @@
 /*
- * ¿€º∫¿⁄ : √ﬂ∞ÊøÓ
- * ¿€º∫¿œ : 2024-06-03
+ * ÏûëÏÑ±Ïûê : Ï∂îÍ≤ΩÏö¥
+ * ÏûëÏÑ±Ïùº : 2024-06-03
  */
 package life.wewu.web.controller.group;
 
@@ -8,122 +8,123 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.aspectj.apache.bcel.classfile.Module.Require;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.group.Group;
+import life.wewu.web.domain.group.GroupMember;
 import life.wewu.web.service.group.GroupService;
 
-@Controller
-@RequestMapping("/group/*")
-public class GroupController {
+@RestController
+@RequestMapping("/app/group/*")
+public class GroupRestController {
 
-	///« µÂ
+	///ÌïÑÎìú
 	@Autowired
 	@Qualifier("groupService")
 	private GroupService groupService;
-
-	public GroupController()
+	
+	public GroupRestController()
 	{
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping(value="getGroup",method = RequestMethod.POST)
-	public ModelAndView getGroup(@RequestParam("groupNo") int groupNo) throws Exception 
+	@RequestMapping(value="getGroupList",method = RequestMethod.POST)
+	public List<Group> getGroupList(@RequestBody Search search) throws Exception 
 	{
-		System.out.println(":: /group/getGroup ::");
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/getGroup.jsp");
-		model.addObject("group", groupService.getGroup(groupNo));
-		return model;
+		System.out.println(":: /app/group/getGroupList ::");
+		System.out.println(search);
+		System.out.println("return Data :: " + groupService.getGroupList(search));
+		// Business logic ÏàòÌñâ
+		return groupService.getGroupList(search);
 	}
 	
-	@RequestMapping(value="getAddAppl",method = RequestMethod.POST)
-	public ModelAndView getAddAppl(@RequestParam("groupNo") int groupNo) throws Exception 
+	@RequestMapping(value="getGroupRankingList",method = RequestMethod.POST)
+	public List<Group> getGroupRankingList(@RequestBody Search search) throws Exception 
 	{
-
-		System.out.println(":: /group/getAddAppl ::");
-		
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/getAddAppl.jsp");
-		model.addObject("group", groupService.getGroup(groupNo));
-		return model;
-	}
-	
-	@RequestMapping(value="getApplJoin",method = RequestMethod.POST)
-	public ModelAndView getApplJoin(@RequestParam("memberNo") int memberNo) throws Exception 
-	{
-
-		System.out.println(":: /group/getApplJoin ::");
-		
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/getApplJoin.jsp");
-		model.addObject("groupMember", groupService.getApplJoin(memberNo));
-		return model;
+		System.out.println(":: /app/group/getGroupRankingList ::");
+		System.out.println(search);
+		System.out.println("return Data :: " + groupService.getGroupRankingList(search));
+		// Business logic ÏàòÌñâ
+		return groupService.getGroupRankingList(search);
 	}
 	
 	@RequestMapping(value="getApplJoinList",method = RequestMethod.POST)
-	public ModelAndView getApplJoinList(@ModelAttribute Search search) throws Exception 
+	public List<GroupMember> getApplJoinList(@RequestBody Search search) throws Exception 
 	{
-		System.out.println(":: /group/getApplJoinList ::");
-		
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/getApplJoinList.jsp");
-		model.addObject("groupMember", groupService.getApplJoinList(search));
-		return model;
+		System.out.println(":: /app/group/getApplJoinList ::");
+		System.out.println(search);
+		// Business logic ÏàòÌñâ
+		return groupService.getApplJoinList(search);
 	}
 	
-	@RequestMapping(value="getMemberGroup",method = RequestMethod.POST)
-	public ModelAndView getMemberGroup(@RequestParam("memberNo") int memberNo) throws Exception 
+	@RequestMapping(value="updateGroupRslt",method = RequestMethod.POST)
+	public Group updateGroupRslt(@RequestBody Group group) throws Exception 
 	{
-		System.out.println(":: /group/getMemberGroup ::");
+		System.out.println(":: /app/group/updateGroupRslt ::");
 		
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
-		model.addObject("groupMember", groupService.getMemberGroup(memberNo));
-		return model;
+		// Business logic ÏàòÌñâ
+		return groupService.updateGroupRslt(group);
 	}
 	
-	@RequestMapping(value="getGroupAcle",method = RequestMethod.POST)
-	public ModelAndView getGroupAcle(@RequestParam("boardNo") int boardNo) throws Exception 
+	@RequestMapping(value="getMemberGroupList",method = RequestMethod.POST)
+	public List<GroupMember> getMemberGroupList(@RequestBody Map<String, Object> requestData) throws Exception 
 	{
-		System.out.println(":: /group/getGroupAcle ::");
+		System.out.println(":: /app/group/getMemberGroupList ::");
 		
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/getGroupAcle.jsp");
-		model.addObject("groupAcle", groupService.getGroupAcle(boardNo));
-		return model;
+		String searchCondition = (String) requestData.get("searchCondition");
+	    String searchKeyword = (String) requestData.get("searchKeyword");
+	    
+		Search search = new Search();
+		search.setSearchKeyword(searchCondition);
+		search.setSearchKeyword(searchKeyword);
+		
+		// Business logic ÏàòÌñâ
+		return groupService.getMemberGroupList(search);
 	}
 	
-	@RequestMapping(value="mainGroup")
-	public ModelAndView mainGroup() throws Exception 
+	@RequestMapping(value="getScrab",method = RequestMethod.POST)
+	public String getScrab(@RequestBody Map<String, Object> requestData) throws Exception 
 	{
-		System.out.println(":: /group/mainGroup ::");
+		System.out.println(":: /app/group/getScrab ::");
 		
-		// Business logic ºˆ«‡
-		ModelAndView model = new ModelAndView("forward:/group/mainGroup.jsp");
-		return model;
+		int memberNo = (int)requestData.get("memberNo");;
+		
+		// Business logic ÏàòÌñâ
+		return groupService.getScrab(memberNo);
+	}
+	
+	@RequestMapping(value="updateScrab",method = RequestMethod.POST)
+	public GroupMember updateScrab(@RequestBody GroupMember groupMember) throws Exception 
+	{
+		System.out.println(":: /app/group/updateScrab ::");
+		
+		// Business logic ÏàòÌñâ
+		return groupService.updateScrab(groupMember);
 	}
 	
 	@RequestMapping(value="updateGroup",method = RequestMethod.POST)
-	public ModelAndView updateGroup(int groupNo) throws Exception 
+	public Group updateGroup(Group group) throws Exception 
 	{
-		System.out.println(":: /group/updateGroup ::");
+		System.out.println(":: /app/group/updateGroup ::");
 		
-		// Business logic ºˆ«‡
-		Group group = groupService.getGroup(groupNo);
-		ModelAndView model = new ModelAndView("forward:/group/updateGroup.jsp");
-		model.addObject("group", group);
+		// Business logic ÏàòÌñâ
+		group = groupService.updateGroup(group);
 		
-		return model;
+		return group;
 	}
+	
 }
