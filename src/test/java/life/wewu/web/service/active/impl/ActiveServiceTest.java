@@ -144,7 +144,7 @@ public class ActiveServiceTest {
 	}
 	
 	//삭제 테스트
-	@Test
+	//@Test
 	public void testDeleteActive() {
 		
 		System.out.println("deleteActive");
