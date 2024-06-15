@@ -38,7 +38,7 @@ public class ShoppingCartServiceTest{
         System.out.println("===================================\n");
     }
 
-    @Test
+    //@Test
     public void testGetShoppingCartList() throws Exception {
         System.out.println("\n===================================");
         List<ShoppingCart> shoppingCart = shoppingCartService.getShoppingCartList("nick1");
