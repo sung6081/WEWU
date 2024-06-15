@@ -23,7 +23,7 @@ public interface ItemDao {
     public void updateItem(Item item) throws Exception;
 
     // DELETE 판매 아이템 삭제
-    public int deleteItem(int itemNo) throws Exception;
+    public void deleteItem(int itemNo) throws Exception;
 
     // SELECT 아이템 검색 결과
     public List<Item> getItemSearch(Search search) throws Exception;

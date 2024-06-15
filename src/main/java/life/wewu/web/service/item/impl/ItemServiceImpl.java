@@ -56,8 +56,8 @@ public class ItemServiceImpl implements ItemService{
 	}
 
 	@Override
-	public int deleteItem(int itemNo) throws Exception{
-		return itemDao.deleteItem(itemNo);
+	public void deleteItem(int itemNo) throws Exception{
+		itemDao.deleteItem(itemNo);
 	}
 
 	@Override
