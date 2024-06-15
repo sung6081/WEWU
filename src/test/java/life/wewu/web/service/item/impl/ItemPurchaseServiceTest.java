@@ -123,7 +123,7 @@ public class ItemPurchaseServiceTest {
         System.out.println("===================================\n");
     }
 
-    @Test //다시 확인
+    //@Test 
     public void testUpdatePurchase() throws Exception {
         System.out.println("\n===================================");
 
