@@ -9,16 +9,16 @@ import life.wewu.web.domain.active.ActiveHash;
 
 public interface ActiveService {
 
-	public void addActive(Map<String, Object> map); //È°µ¿ µî·Ï
+	public void addActive(Map<String, Object> map); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
-	public Active getActive(int activeNo); //È°µ¿ »ó¼¼ Á¶È¸
+	public Active getActive(int activeNo); //È°ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸
 	
-	public void updateActive(Map<String, Object> map); //È°µ¿ ¼öÁ¤
+	public void updateActive(Map<String, Object> map); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
-	public void deleteActive(int activeNo); //È°µ¿ »èÁ¦
+	public void deleteActive(int activeNo); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//ssss
+	public List<Active> getActiveList(Search search); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
-	public List<Active> getActiveList(Search search); //È°µ¿ ¸ñ·Ï
-	
-	public List<Active> getGroupActiveList(Map<String, Object> map); //¸ðÀÓ È°µ¿ ¸ñ·Ï
+	public List<Active> getGroupActiveList(Map<String, Object> map); //ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
 }

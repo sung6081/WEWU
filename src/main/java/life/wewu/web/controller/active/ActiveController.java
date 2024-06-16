@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/active/*")
 public class ActiveController {
 	
-	//ÇÊµå
+	//í•„ë“œ
 	@Autowired
 	@Qualifier("activeServiceImpl")
 	ActiveService activeService;
@@ -55,20 +55,20 @@ public class ActiveController {
 	@Qualifier("groupService")
 	GroupService groupService;
 	
-	//¸Ş¼Òµå
-	//È°µ¿ µî·Ï ÆäÀÌÁö ³×ºñ GET
+	//ë©”ì†Œë“œ
+	//í™œë™ ë“±ë¡ í˜ì´ì§€ ë„¤ë¹„ GET
 	@GetMapping(value = "addActive/{groupNo}")
 	public String addActive(@PathVariable int groupNo) {
 		
 		System.out.println("addActive NAVI");
 		
-		//¸ğÀÓÀåÀÌ ¾Æ´Ï¶ó¸é ¸ğÀÓ½ÅÃ»À¸·Î redirect
-		
+		//ëª¨ì„ì¥ì´ ì•„ë‹ˆë¼ë©´ ëª¨ì„ì‹ ì²­ìœ¼ë¡œ redirect
+		System.out.println("");		
 		return "forward:/active/addActive.jsp?groupNo="+groupNo;
 		
 	}
 	
-	//È°µ¿ µî·Ï ºñÁî´Ï½º ·ÎÁ÷
+	//í™œë™ ë“±ë¡ ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§
 	@PostMapping(value = "addActive")
 	public String addActive(@ModelAttribute Active active, @RequestParam String hash, @RequestPart(required = false) MultipartFile file) throws Exception {
 		
@@ -83,26 +83,26 @@ public class ActiveController {
 		map.put("hash", hash);
 		map.put("file", file);
 		
-		//È°µ¿ ±¸¿ªÀ» µî·ÏÇÏ°í ÀÌ¹ÌÁö°¡ ÀÖ´Ù¸é ÀÌ¹ÌÁö±îÁö ½ºÅä¸®Áö¿¡ ¾÷·Îµå ÈÄ short url±îÁö ¹Ş´Â´Ù.
+		//í™œë™ êµ¬ì—­ì„ ë“±ë¡í•˜ê³  ì´ë¯¸ì§€ê°€ ìˆë‹¤ë©´ ì´ë¯¸ì§€ê¹Œì§€ ìŠ¤í† ë¦¬ì§€ì— ì—…ë¡œë“œ í›„ short urlê¹Œì§€ ë°›ëŠ”ë‹¤.
 		activeService.addActive(map);
 		
 		return "forward:/active/listActive";
 		
 	}
 	
-	//È°µ¿ »ó¼¼ Á¶È¸
+	//í™œë™ ìƒì„¸ ì¡°íšŒ
 	@GetMapping(value = "getActive/{activeNo}")
 	public String getActive(@PathVariable int activeNo, Model model) throws Exception {
 		
 		System.out.println("getActive");
 		
-		//activeNo·Î active¹Ş¾Æ¼­ model¿¡ ´ã°í foward
+		//activeNoë¡œ activeë°›ì•„ì„œ modelì— ë‹´ê³  foward
 		model.addAttribute("active", activeService.getActive(activeNo));
 		
 		return "forward:/active/getActive.jsp";
 	}
 	
-	//È°µ¿ ¾÷µ¥ÀÌÆ® Navi
+	//í™œë™ ì—…ë°ì´íŠ¸ Navi
 	@GetMapping(value = "updateActive/{activeNo}")
 	public String updateActive(Model model, @PathVariable int activeNo) {
 		
@@ -114,7 +114,7 @@ public class ActiveController {
 		
 	}
 	
-	//È°µ¿ ¾÷µ¥ÀÌÆ® B/L
+	//í™œë™ ì—…ë°ì´íŠ¸ B/L
 	@PostMapping(value = "updateActive")
 	public String updateActive(@ModelAttribute Active active, @RequestParam String hash, @RequestPart(required = false) MultipartFile file) throws Exception {
 		
@@ -125,7 +125,7 @@ public class ActiveController {
 		map.put("hash", hash);
 		map.put("file", file);
 		
-		//¾÷µ¥ÀÌÆ® ½ÇÇà
+		//ì—…ë°ì´íŠ¸ ì‹¤í–‰
 		activeService.updateActive(map);
 		
 		System.out.println("updateActive B/L End");
@@ -144,7 +144,7 @@ public class ActiveController {
 		
 	}
 	
-	//¸ğÀÓ È°µ¿ Á¶È¸(Ã¹ ¹æ¹®½Ã)
+	//ëª¨ì„ í™œë™ ì¡°íšŒ(ì²« ë°©ë¬¸ì‹œ)
 	@GetMapping(value = "listActive")
 	public String getActiveList(Model model, @RequestParam int groupNo) throws Exception {
 	
@@ -166,7 +166,7 @@ public class ActiveController {
 		
 	}
 	
-	//¸ğÀÓ È°µ¿ ¸ñ·Ï Á¶È¸(´ÙÀ½ ÆäÀÌÁö ÀÌµ¿, °Ë»ö)
+	//ëª¨ì„ í™œë™ ëª©ë¡ ì¡°íšŒ(ë‹¤ìŒ í˜ì´ì§€ ì´ë™, ê²€ìƒ‰)
 	@PostMapping(value = "listActive")
 	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo) throws Exception {
 		
@@ -186,20 +186,20 @@ public class ActiveController {
 		
 	}
 	
-	//¸ğÀÓ È°µ¿ Áöµµ
+	//ëª¨ì„ í™œë™ ì§€ë„
 	@GetMapping(value = "activeMap")
 	public String activeMap(Model model) throws Exception {
 		
 		System.out.println("activeMap");
 		
-		//±×·ì ¸®½ºÆ®(T) => °³¼³¿Ï·á°Ç¸¸
+		//ê·¸ë£¹ ë¦¬ìŠ¤íŠ¸(T) => ê°œì„¤ì™„ë£Œê±´ë§Œ
 		Search search = new Search();
 		search.setSearchCondition("T");
 		search.setCurrentPage(1);
 		
 		model.addAttribute("groupList", groupService.getGroupList(search));
 		
-		//È°µ¿ ¸®½ºÆ®(ÀüÃ¼)
+		//í™œë™ ë¦¬ìŠ¤íŠ¸(ì „ì²´)
 		model.addAttribute("activeList", activeService.getActiveList(search));
 		
 		return "forward:/active/activeMap.jsp";
@@ -207,17 +207,3 @@ public class ActiveController {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

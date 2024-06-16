@@ -21,6 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.group.Group;
+import life.wewu.web.domain.group.GroupAcle;
+import life.wewu.web.domain.group.GroupBoard;
+import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.group.GroupService;
 
 @Controller
@@ -115,7 +119,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="updateGroup",method = RequestMethod.POST)
-	public ModelAndView updateGroup(int groupNo) throws Exception 
+	public ModelAndView updateGroup(@RequestParam int groupNo) throws Exception 
 	{
 		System.out.println(":: /group/updateGroup ::");
 		
@@ -123,6 +127,159 @@ public class GroupController {
 		Group group = groupService.getGroup(groupNo);
 		ModelAndView model = new ModelAndView("forward:/group/updateGroup.jsp");
 		model.addObject("group", group);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="addApplGroup",method = RequestMethod.POST)
+	public ModelAndView addApplGroup() throws Exception 
+	{
+		System.out.println(":: /group/addApplGroup ::");
+		
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/addApplGroup.jsp");
+		
+		return model;
+	}
+	
+	@RequestMapping(value="updateAddAppl",method = RequestMethod.POST)
+	public ModelAndView updateAddAppl(@ModelAttribute("group") Group group) throws Exception 
+	{
+		
+		System.out.println(":: /group/updateAddAppl ::");
+		
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/updateAddAppl.jsp");
+		model.addObject("group", group);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="addApplJoin",method = RequestMethod.POST)
+	public ModelAndView addApplJoin(@RequestParam int groupNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/addApplJoin ::");
+		
+		// Business logic 수행
+		Group group = groupService.getGroup(groupNo);
+		ModelAndView model = new ModelAndView("forward:/group/addApplJoin.jsp");
+		model.addObject("group", group);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="updateApplJoin",method = RequestMethod.POST)
+	public ModelAndView updateApplJoin(@RequestParam int memberNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/updateApplJoin ::");
+		
+		// Business logic 수행
+		GroupMember groupMember = groupService.getMemberGroup(memberNo);
+		ModelAndView model = new ModelAndView("forward:/group/updateApplJoin.jsp");
+		model.addObject("groupMember", groupMember);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="updateApplJoinForm",method = RequestMethod.POST)
+	public ModelAndView updateApplJoinForm(@RequestParam int groupNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/updateApplJoinForm ::");
+		
+		// Business logic 수행
+		Group group = groupService.getGroup(groupNo);
+		ModelAndView model = new ModelAndView("forward:/group/updateApplJoinForm.jsp");
+		model.addObject("group", group);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="addGroupBoard",method = RequestMethod.POST)
+	public ModelAndView addGroupBoard(@RequestParam int groupNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/addGroupBoard ::");
+		
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/addGroupBoard.jsp");
+		model.addObject("groupNo", groupNo);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="getGroupBoard",method = RequestMethod.POST)
+	public ModelAndView getGroupBoard(@RequestParam int typeNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/getGroupBoard ::");
+		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/getGroupBoard.jsp");
+		model.addObject("groupBoard", groupBoard);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="updateGroupBoard",method = RequestMethod.POST)
+	public ModelAndView updateGroupBoard(@RequestParam int typeNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/updateGroupBoard ::");
+		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/updateGroupBoard.jsp");
+		model.addObject("groupBoard", groupBoard);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="updateMemberGroup",method = RequestMethod.POST)
+	public ModelAndView updateMemberGroup(@RequestParam int memberNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/updateMemberGroup ::");
+		GroupMember groupMember = groupService.getMemberGroup(memberNo);
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/updateMemberGroup.jsp");
+		model.addObject("groupMember", groupMember);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="addGroupAcle",method = RequestMethod.POST)
+	public ModelAndView addGroupAcle(@RequestParam("typeNo") int typeNo, @RequestParam("groupNo") int groupNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/addGroupAcle ::");
+		// Business logic 수행
+		User user = User.builder()
+				.nickname("nick3")
+				.build();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickNmae", user.getNickname());
+		
+		GroupMember groupMember = groupService.getMemberGroupForNick(map);
+		
+		ModelAndView model = new ModelAndView("forward:/group/addGroupAcle.jsp");
+		model.addObject("typeNo", typeNo);
+		model.addObject("groupMember", groupMember);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="updateGroupAcle",method = RequestMethod.POST)
+	public ModelAndView updateGroupAcle(@RequestParam int boardNo) throws Exception 
+	{
+		
+		System.out.println(":: /group/updateGroupAcle ::");
+		GroupAcle groupAcle = groupService.getGroupAcle(boardNo);
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/updateGroupAcle.jsp");
+		model.addObject("groupAcle", groupAcle);
 		
 		return model;
 	}

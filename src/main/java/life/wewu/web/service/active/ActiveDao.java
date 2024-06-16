@@ -12,25 +12,25 @@ import life.wewu.web.domain.active.ActiveHash;
 @Mapper
 public interface ActiveDao {
 
-	//¸Þ¼Òµå
-	public void addActive(Active active); //È°µ¿ µî·Ï
+	//ï¿½Þ¼Òµï¿½
+	public void addActive(Active active); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
-	public Active getActive(int activeNo); //È°µ¿ »ó¼¼ Á¶È¸
+	public Active getActive(int activeNo); //È°ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸
 	
-	public void updateActive(Active active); //È°µ¿ ¼öÁ¤
+	public void updateActive(Active active); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
-	public void deleteActive(int activeNo); //È°µ¿ »èÁ¦ => flag¸¦ 'D'·Î
+	public void deleteActive(int activeNo); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => flagï¿½ï¿½ 'D'ï¿½ï¿½
 	
-	public List<Active> getActiveList(Search search); //È°µ¿ ¸ñ·Ï
+	public List<Active> getActiveList(Search search); //È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
-	public List<Active> getGroupActiveList(Map<String, Object> map); //¸ðÀÓ È°µ¿ ¸ñ·Ï
+	public List<Active> getGroupActiveList(Map<String, Object> map); //ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	
-	public void addActiveHash(ActiveHash activeHash); //ÇØ½¬ ÅÂ±× µî·Ï
+	public void addActiveHash(ActiveHash activeHash); //ï¿½Ø½ï¿½ ï¿½Â±ï¿½ ï¿½ï¿½ï¿½
 	
-	public int getActiveHashCount(int activeNo); //ÇØ½¬ ÅÂ±×ÀÇ °³¼ö
-	
-	public List<ActiveHash> getActiveHashList(int activeNo); //È°µ¿ÀÇ ÇØ½¬ ÅÂ±× Á¶È¸
+	public int getActiveHashCount(int activeNo); //ï¿½Ø½ï¿½ ï¿½Â±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//ssss
+	public List<ActiveHash> getActiveHashList(int activeNo); //È°ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ ï¿½Â±ï¿½ ï¿½ï¿½È¸
 
-	public void deleteActiveHash(int activeNo); //È°µ¿ÀÇ ÇØ½¬ ÅÂ±× »èÁ¦
+	public void deleteActiveHash(int activeNo); //È°ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 }

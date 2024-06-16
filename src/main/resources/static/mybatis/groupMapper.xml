@@ -27,7 +27,7 @@
 	</resultMap>
   	
 	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
-  	<insert id="addGroup" parameterType="group" useGeneratedKeys="true" keyProperty="groupNo,openDate" keyColumn="group_no,open_date">
+  	<insert id="addGroup" parameterType="group" useGeneratedKeys="true" keyProperty="groupNo">
   		INSERT
   		INTO group_info
   		(
@@ -159,10 +159,10 @@
 		    <if test="groupRslt != null and groupRslt != ''">
 		        group_rslt = #{groupRslt},
 		    </if>
-		    updt_date = now()
+		    group_no =  #{groupNo}
 		</set>
 		<where>
-			group_no = #{groupNo};
+			group_no = #{groupNo}
 		</where>
   	</update>
   	
@@ -204,9 +204,6 @@
 				group_name = #{searchKeyword}
 			</where>
 		</if>
-		
-		
-			
   	</select>
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  
 </mapper>

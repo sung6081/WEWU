@@ -7,11 +7,15 @@ package life.wewu.web.domain.item;
 
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item {
 	private int itemNo; //아이템 번호
     private String itemCategory; //아이템 카테고리

@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ActiveHash {
 
-	//ÇÊµå
-	private int hashNo;//ÇØ½¬ÅÂ±× ¹øÈ£
-	private int activeNo;//¾î´À È°µ¿ÀÇ ÇØ½¬ÅÂ±×ÀÎÁö È°µ¿ ¹øÈ£
-	private String hashName;//ÇØ½¬ÅÂ±× ÀÌ¸§
+	//ï¿½Êµï¿½
+	private int hashNo;//ï¿½Ø½ï¿½ï¿½Â±ï¿½ d
+	private int activeNo;//ï¿½ï¿½ï¿½ È°ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Â±ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½È£
+	private String hashName;//ï¿½Ø½ï¿½ï¿½Â±ï¿½ ï¿½Ì¸ï¿½
 	
 }

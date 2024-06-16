@@ -1,26 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
 		window.onload = function() {
-			//¸ğÀÓ ¸®½ºÆ®
+			//ëª¨ì„ ë¦¬ìŠ¤íŠ¸
 			$.ajax ({
-				  url	: "/app/group/getGroupList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getGroupList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "T"
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -31,28 +31,28 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 			
-			//¸ğÀÓ ·©Å· ¸®½ºÆ®
+			//ëª¨ì„ ë­í‚¹ ë¦¬ìŠ¤íŠ¸
 			$.ajax ({
-				  url	: "/app/group/getGroupRankingList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getGroupRankingList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "Ranking"
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -63,29 +63,29 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 			
-			//³» ¸ğÀÓ ½ÅÃ»Á¤º¸
+			//ë‚´ ëª¨ì„ ì‹ ì²­ì •ë³´
 			$.ajax ({
-				  url	: "/app/group/getGroupList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getGroupList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "My",
 					  		searchKeyword : "nick1"
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -96,28 +96,28 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 			
-			//¸ğµç ¸ğÀÓ ½ÅÃ»Á¤º¸(°³¼³´ë±â)
+			//ëª¨ë“  ëª¨ì„ ì‹ ì²­ì •ë³´(ê°œì„¤ëŒ€ê¸°)
 			$.ajax ({
-				  url	: "/app/group/getGroupList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getGroupList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "E",
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -128,28 +128,28 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 			
-			//¸ğµç ¸ğÀÓ ½ÅÃ»Á¤º¸(°³¼³½ÂÀÎ)
+			//ëª¨ë“  ëª¨ì„ ì‹ ì²­ì •ë³´(ê°œì„¤ìŠ¹ì¸)
 			$.ajax ({
-				  url	: "/app/group/getGroupList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getGroupList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "T",
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -160,28 +160,28 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 			
-			//¸ğµç ¸ğÀÓ ½ÅÃ»Á¤º¸(°³¼³°ÅºÎ)
+			//ëª¨ë“  ëª¨ì„ ì‹ ì²­ì •ë³´(ê°œì„¤ê±°ë¶€)
 			$.ajax ({
-				  url	: "/app/group/getGroupList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getGroupList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "F",
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -192,29 +192,29 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 			
-			//³» ¸ğÀÓ °¡ÀÔ½ÅÃ» Á¤º¸
+			//ë‚´ ëª¨ì„ ê°€ì…ì‹ ì²­ ì •ë³´
 			$.ajax ({
-				  url	: "/app/group/getApplJoinList", // (Required) ¿äÃ»ÀÌ Àü¼ÛµÉ URL ÁÖ¼Ò
-				  type	: "POST", // (default: ¡®GET¡¯) http ¿äÃ» ¹æ½Ä
-				  async : true,  // (default: true, asynchronous) ¿äÃ» ½Ã µ¿±âÈ­ ¿©ºÎ
-				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') Ä³½Ã ¿©ºÎ
-				  timeout : 3000, // (ms) ¿äÃ» Á¦ÇÑ ½Ã°£ ¾È¿¡ ¿Ï·áµÇÁö ¾ÊÀ¸¸é ¿äÃ»À» Ãë¼ÒÇÏ°Å³ª error Äİ¹é È£Ãâ
+				  url	: "/app/group/getApplJoinList", // (Required) ìš”ì²­ì´ ì „ì†¡ë  URL ì£¼ì†Œ
+				  type	: "POST", // (default: â€˜GETâ€™) http ìš”ì²­ ë°©ì‹
+				  async : true,  // (default: true, asynchronous) ìš”ì²­ ì‹œ ë™ê¸°í™” ì—¬ë¶€
+				  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') ìºì‹œ ì—¬ë¶€
+				  timeout : 3000, // (ms) ìš”ì²­ ì œí•œ ì‹œê°„ ì•ˆì— ì™„ë£Œë˜ì§€ ì•Šìœ¼ë©´ ìš”ì²­ì„ ì·¨ì†Œí•˜ê±°ë‚˜ error ì½œë°± í˜¸ì¶œ
 				  data  : JSON.stringify({
 					  		searchCondition : "user",
 					  		searchKeyword : "nick2"
-					  	}), // ¿äÃ» ½Ã Àü´ŞÇÒ µ¥ÀÌÅÍ
-				  processData : true, // (default: true) µ¥ÀÌÅÍ¸¦ ÄÁÅÙÆ® Å¸ÀÔ¿¡ ¸Â°Ô º¯È¯ ¿©ºÎ
+					  	}), // ìš”ì²­ ì‹œ ì „ë‹¬í•  ë°ì´í„°
+				  processData : true, // (default: true) ë°ì´í„°ë¥¼ ì»¨í…íŠ¸ íƒ€ì…ì— ë§ê²Œ ë³€í™˜ ì—¬ë¶€
 				  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ÀÀ´ä µ¥ÀÌÅÍ Çü½Ä
+				  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) ì‘ë‹µ ë°ì´í„° í˜•ì‹
 				  beforeSend  : function () {
-				    // XHR Header Æ÷ÇÔ, HTTP Request ÇÏ±âÀü¿¡ È£Ãâ
+				    // XHR Header í¬í•¨, HTTP Request í•˜ê¸°ì „ì— í˜¸ì¶œ
 				  },
 				  success : function(data, status, xhr) {
 					  var str = "";
@@ -225,50 +225,50 @@
 					  str = "";
 				  },
 				  error	: function(xhr, status, error) {
-				    // ÀÀ´äÀ» ¹ŞÁö ¸øÇÏ°Å³ª, Á¤»ó ÀÀ´äÀÌÁö¸¸ µ¥ÀÌÅÍ Çü½ÄÀ» È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì
+				    // ì‘ë‹µì„ ë°›ì§€ ëª»í•˜ê±°ë‚˜, ì •ìƒ ì‘ë‹µì´ì§€ë§Œ ë°ì´í„° í˜•ì‹ì„ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				  },
 				  complete : function(xhr, status) {
-				    // success¿Í error Äİ¹éÀÌ È£ÃâµÈ ÈÄ¿¡ ¹İµå½Ã È£Ãâ, finally ±¸¹®°ú µ¿ÀÏ
+				    // successì™€ error ì½œë°±ì´ í˜¸ì¶œëœ í›„ì— ë°˜ë“œì‹œ í˜¸ì¶œ, finally êµ¬ë¬¸ê³¼ ë™ì¼
 				  }
 			});
 	    }
 	</script>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	<title>Insert title here</title>
 </head>
 	<body>
 		<div>
-			<h1>¸ğÀÓ¸ñ·Ï ( ½ÂÀÎµÈ ¸ğÀÓ¸¸ )</h1>
+			<h1>ëª¨ì„ëª©ë¡ ( ìŠ¹ì¸ëœ ëª¨ì„ë§Œ )</h1>
 			<select id="getGroupList">
 				
 			</select>
 			
-			<h1>¸ğÀÓ·©Å· ( ½ÂÀÎµÈ ¸ğÀÓ¸¸ µî±Ş ¹× ÀÎ¿ø º° order by )</h1>
+			<h1>ëª¨ì„ë­í‚¹ ( ìŠ¹ì¸ëœ ëª¨ì„ë§Œ ë“±ê¸‰ ë° ì¸ì› ë³„ order by )</h1>
 			<select id="getGroupRankingList">
 				
 			</select>
 			
-			<h1>³» ¸ğÀÓ ½ÅÃ»Á¤º¸( ³» ¸ğµç ¸ğÀÓ½ÅÃ» Á¤º¸ )</h1>
+			<h1>ë‚´ ëª¨ì„ ì‹ ì²­ì •ë³´( ë‚´ ëª¨ë“  ëª¨ì„ì‹ ì²­ ì •ë³´ )</h1>
 			<select id="getMyGroupList">
 				
 			</select>
 			
-			<h1>¸ğµç ¸ğÀÓ (°³¼³´ë±â)</h1>
+			<h1>ëª¨ë“  ëª¨ì„ (ê°œì„¤ëŒ€ê¸°)</h1>
 			<select id="getGroupListWait">
 				
 			</select>
 			
-			<h1>¸ğµç ¸ğÀÓ (°³¼³½ÂÀÎ)</h1>
+			<h1>ëª¨ë“  ëª¨ì„ (ê°œì„¤ìŠ¹ì¸)</h1>
 			<select id="getMyGroupListTrue">
 				
 			</select>
 			
-			<h1>¸ğµç ¸ğÀÓ (°³¼³°ÅºÎ)</h1>
+			<h1>ëª¨ë“  ëª¨ì„ (ê°œì„¤ê±°ë¶€)</h1>
 			<select id="getMyGroupListNone">
 				
 			</select>
 			
-			<h1>³» ¸ğÀÓ °¡ÀÔ½ÅÃ» Á¤º¸</h1>
+			<h1>ë‚´ ëª¨ì„ ê°€ì…ì‹ ì²­ ì •ë³´</h1>
 			<select id="getApplJoinList">
 				
 			</select>

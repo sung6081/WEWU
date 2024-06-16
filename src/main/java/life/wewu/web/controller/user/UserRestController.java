@@ -1,16 +1,23 @@
 package life.wewu.web.controller.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import life.wewu.web.domain.user.User;
 import life.wewu.web.service.user.SmsService;
+import life.wewu.web.service.user.UserDao;
 import life.wewu.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -27,11 +34,11 @@ public class UserRestController {
     @Qualifier("smsService")
     private SmsService smsService;
 
-    // ÀÎÁõ¹øÈ£ ¹ß¼Û ¸Ş¼Òµå
+    // ì¸ì¦ë²ˆí˜¸ ë°œì†¡ ë©”ì†Œë“œ
     @PostMapping("/send-verification-code")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String phoneNum) {
         userService.sendVerificationCode(phoneNum);
-        return ResponseEntity.ok("ÀÎÁõ¹øÈ£°¡ Àü¼ÛµÇ¾ú½À´Ï´Ù.");
+        return ResponseEntity.ok("ì¸ì¦ë²ˆí˜¸ê°€ ì „ì†¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     @PostMapping("/verify-code-userId")
@@ -39,7 +46,7 @@ public class UserRestController {
                              @RequestParam String code,
                              @RequestParam String userName,
                              Model model) throws Exception {
-        System.out.println("verifyCodeUserId È£ÃâµÊ");
+        System.out.println("verifyCodeUserId í˜¸ì¶œë¨");
         System.out.println("phoneNum:" + phoneNum);
         System.out.println("code:" + code);
         System.out.println("userName:" + userName);
@@ -47,7 +54,7 @@ public class UserRestController {
         boolean isVerified = userService.verifyCode(phoneNum, code);
         System.out.println("isVerified:" + isVerified);
         if (isVerified) {
-            // ÀÎÁõ ¼º°ø: ¾ÆÀÌµğ º¸¿©ÁÖ´Â ÆäÀÌÁö·Î ¸®µğ·º¼Ç
+            // ì¸ì¦ ì„±ê³µ: ì•„ì´ë”” ë³´ì—¬ì£¼ëŠ” í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜
             User user = userService.findUserId(phoneNum, userName);
             if (user != null) {
                 model.addAttribute("userId", user.getUserId());
@@ -55,14 +62,14 @@ public class UserRestController {
             } else {
                 model.addAttribute("phoneNum", phoneNum);
                 model.addAttribute("userName", userName);
-                model.addAttribute("error", "»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                model.addAttribute("error", "ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return "user/verification";
             }
         } else {
-            // ÀÎÁõ ½ÇÆĞ
+            // ì¸ì¦ ì‹¤íŒ¨
             model.addAttribute("phoneNum", phoneNum);
             model.addAttribute("userName", userName);
-            model.addAttribute("error", "ÀÎÁõ ½ÇÆĞ");
+            model.addAttribute("error", "ì¸ì¦ ì‹¤íŒ¨");
             return "user/verification";
         }
     }
@@ -72,7 +79,7 @@ public class UserRestController {
                              @RequestParam String code,
                              @RequestParam String userId,
                              Model model) throws Exception {
-        System.out.println("verifyCodePwd È£ÃâµÊ");
+        System.out.println("verifyCodePwd í˜¸ì¶œë¨");
         System.out.println("phoneNum:" + phoneNum);
         System.out.println("code:" + code);
         System.out.println("userId:" + userId);
@@ -80,7 +87,7 @@ public class UserRestController {
         boolean isVerified = userService.verifyCode(phoneNum, code);
         System.out.println("isVerified:" + isVerified);
         if (isVerified) {
-            // ÀÎÁõ ¼º°ø: ¾ÆÀÌµğ º¸¿©ÁÖ´Â ÆäÀÌÁö·Î ¸®µğ·º¼Ç
+            // ì¸ì¦ ì„±ê³µ: ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜
             User user = userService.findUserPwd(phoneNum, userId);
             if (user != null) {
                 model.addAttribute("userId", user.getUserId());
@@ -88,24 +95,115 @@ public class UserRestController {
             } else {
                 model.addAttribute("phoneNum", phoneNum);
                 model.addAttribute("userId", userId);
-                model.addAttribute("error", "»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                model.addAttribute("error", "ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return "user/findPwd";
             }
         } else {
-            // ÀÎÁõ ½ÇÆĞ
+            // ì¸ì¦ ì‹¤íŒ¨
             model.addAttribute("phoneNum", phoneNum);
             model.addAttribute("userId", userId);
-            model.addAttribute("error", "ÀÎÁõ ½ÇÆĞ");
+            model.addAttribute("error", "ì¸ì¦ ì‹¤íŒ¨");
             return "user/findPwd";
         }
     }
     
     
-    // Å×½ºÆ®¿ë ÀÎÁõ¹øÈ£ ¹ß¼Û ¸Ş¼Òµå
+    // í…ŒìŠ¤íŠ¸ìš© ì¸ì¦ë²ˆí˜¸ ë°œì†¡ ë©”ì†Œë“œ
     @PostMapping("/send-test-verification-code")
     public ResponseEntity<String> sendTestVerificationCode(@RequestParam String phoneNum) {
         userService.sendTestVerificationCode(phoneNum);
-        return ResponseEntity.ok("Å×½ºÆ®¿ë ÀÎÁõ¹øÈ£°¡ Àü¼ÛµÇ¾ú½À´Ï´Ù.");
+        return ResponseEntity.ok("í…ŒìŠ¤íŠ¸ìš© ì¸ì¦ë²ˆí˜¸ê°€ ì „ì†¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
     
+    //ì•„ì´ë”” ë‹‰ë„¤ì„ ì¤‘ë³µì²´í¬ ê²€ì‚¬
+	    @GetMapping("/checkId")
+	    public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam String userId) {
+	        if (!userId.matches("^[a-zA-Zê°€-í£0-9]{2,10}$")) {
+	            Map<String, Boolean> response = new HashMap<>();
+	            response.put("available", false);
+	            return ResponseEntity.ok(response);
+	        }
+	        boolean available;
+	        try {
+	            available = !userService.checkUserId(userId);
+	        } catch (Exception e) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	        }
+	        Map<String, Boolean> response = new HashMap<>();
+	        response.put("available", available);
+	        return ResponseEntity.ok(response);
+	    }
+	
+	    @GetMapping("/checkNickname")
+	    public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam String nickname) {
+	        if (!nickname.matches("^[a-zA-Zê°€-í£0-9]{2,10}$")) {
+	            Map<String, Boolean> response = new HashMap<>();
+	            response.put("available", false);
+	            return ResponseEntity.ok(response);
+	        }
+	        boolean available;
+	        try {
+	            available = !userService.checkNickName(nickname);
+	        } catch (Exception e) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	        }
+	        Map<String, Boolean> response = new HashMap<>();
+	        response.put("available", available);
+	        return ResponseEntity.ok(response);
+	    }
+    
+       //ë¹„ë°€ë²ˆí˜¸ ìœ íš¨ì„±ê²€ì‚¬, ê°™ìŒ ê²€ì‚¬
+        @PostMapping("/pwdCheck")
+        public ResponseEntity<String> addUser(@RequestBody User user) {
+            if (!user.getUserPwd().matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,16}$")) {
+                return ResponseEntity.badRequest().body("ë¹„ë°€ë²ˆí˜¸ëŠ” 8ì ì´ìƒ 16ì ì´í•˜, ì˜ë¬¸ê³¼ íŠ¹ìˆ˜ê¸°í˜¸ë¥¼ í¬í•¨í•´ì•¼ í•©ë‹ˆë‹¤.");
+            }
+            if (!user.getUserPwd().equals(user.getUserPwd())) {
+                return ResponseEntity.badRequest().body("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+            }
+            try {
+                userService.addUser(user);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("íšŒì›ê°€ì… ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+            }
+            return ResponseEntity.ok("íšŒì›ê°€ì… ì„±ê³µ");
+        }
+        
+        @GetMapping("/validatePassword")
+        public ResponseEntity<Map<String, Boolean>> validatePassword(@RequestParam String password) {
+            boolean isValid = password.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,16}$");
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("isValid", isValid);
+            return ResponseEntity.ok(response);
+        }
+        
+        @PostMapping("/verify-code-user")
+        public ResponseEntity<Map<String, Object>> verifyCodeUser(@RequestParam String phoneNum, 
+                                                                  @RequestParam String code) {
+            Map<String, Object> response = new HashMap<>();
+            try {
+                boolean isVerified = userService.verifyCode(phoneNum, code);
+                response.put("valid", isVerified);
+                if (isVerified) {
+                    response.put("message", "ì¸ì¦ ì„±ê³µ");
+                    return ResponseEntity.ok(response);
+                } else {
+                    response.put("message", "ì¸ì¦ ì‹¤íŒ¨");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+                }
+            } catch (Exception e) {
+                response.put("message", "ì¸ì¦ ê³¼ì •ì—ì„œ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            }
+        }
+        
+//        @PostMapping("/verify-code")
+//        public ResponseEntity<Map<String, Boolean>> verifyCode(@RequestParam String phoneNum, @RequestParam String code) {
+//            boolean isValid = userService.verifyCode(phoneNum, code);
+//            
+//            System.out.println("verify-code");
+//            Map<String, Boolean> response = new HashMap<>();
+//            response.put("valid", isValid);
+//            return ResponseEntity.ok(response);
+//        }
 }

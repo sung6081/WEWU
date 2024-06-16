@@ -15,9 +15,10 @@ public interface ItemService {
 
     public void updateItem(Item item) throws Exception;
 
-    public int deleteItem(int itemNo) throws Exception;
+    public void deleteItem(int itemNo) throws Exception;
 
     public List<Item> getItemSearch(Search search) throws Exception;
+
 
 }
 
