@@ -59,6 +59,12 @@
 				form.action="/group/updateGroupAcle";
 				form.submit();
 			}
+			
+			function addReport(){
+				var form = document.getElementById("addReport");
+				form.action="/report/addReport";
+				form.submit();
+			}
 		</script>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
@@ -83,5 +89,11 @@
 		<form id="getGroupBoard" method="post" action="/group/getGroupBoard">
 			<input type="hidden" name="typeNo" value="${groupAcle.typeNo}">
 		</form>
+		
+		<form id="addReport" method="post" action="/report/addReport">
+			<input type="hidden" name="targetNo" value="${groupAcle.boardNo}">
+			<input type="hidden" name="reportType" value="B">
+		</form>
+			<a href="javascript:addReport();">신고하기</a>
 	</body>
 </html>
