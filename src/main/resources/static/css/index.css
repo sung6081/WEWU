@@ -1,78 +1,118 @@
-@charset "EUC-KR";
+@charset "UTF-8";
 
 /* index.css */
-	.container-fluid.page-body-wrapper {
-	  display: flex;
-	  width: 100%;
-	}
-	
+
 	.main-panel {
 	  flex: 1;
 	  display: flex;
 	  flex-direction: column;
 	  width: 100%;
 	}
-    .navbar-nav .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      display: none;
-      min-width: 10rem;
-      padding: 0.5rem 0;
-      margin: 0;
-      font-size: 1rem;
-      color: #212529;
-      text-align: left;
-      list-style: none;
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      border-radius: 0.25rem;
-      z-index: 1000;
-    }
-
-    .navbar-nav .nav-item:hover .dropdown-menu {
-      display: block;
-    }
-
-    .navbar-nav {
-      position: relative;
-    }
-
     .navbar {
-      position: relative;
+      background-color: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar .navbar-brand img {
+      height: 40px;
+    }
+    .navbar .navbar-toggler {
+      border: none;
+    }
+    .navbar .navbar-toggler:focus {
+      outline: none;
+      box-shadow: none;
     }
     
-    .swiper-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px 0;
+ .navbar-custom-height {
+    height: 60px; /* 원하는 높이로 설정 */
+  }
+  .navbar-custom-height .navbar-brand img {
+    height: 100%; /* 로고 이미지가 네비게이션 바 높이에 맞게 조정 */
   }
 
-	  .swiper-wrapper {
-	      display: flex;
-	  }
-	
-	  .swiper-slide {
-	      display: flex;
-	      flex-direction: column;
-	      justify-content: space-between;
-	      align-items: center;
-	      text-align: center;
-	      background: #fff;
-	      border-radius: 10px;
-	      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	      overflow: hidden;
-	  }
-	
-	  .swiper-slide img {
-	      width: 100%;
-	      height: auto;
-	  }
-	
-	  .slide-content {
-	      padding: 15px;
-	  }
+ 
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 
-      
+.container-scroller {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.main-panel {
+	flex-grow: 1;
+	margin-top: 56px; /* 네비게이션 바 아래에 붙도록 조정 */
+}
+
+html, body {
+	position: relative;
+	height: 100%;
+}
+
+body {
+	background: #eee;
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-container {
+	width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	justify-content: center;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px 0;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.swiper-slide img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.container-fluid.page-body-wrapper {
+	display: flex;
+	width: 100%;
+}
+
+.swiper-wrapper {
+	display: flex;
+}
+
+.swiper-slide {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.slide-content {
+	padding: 15px;
+}
+ 
