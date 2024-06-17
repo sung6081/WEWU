@@ -71,7 +71,7 @@
 			내용 : <input type="text" name="acleContents">
 		</form>
 		<form id="getGroupAcle" method="post" action="/group/getGroupAcle">
-			
+		
 		</form>
 		<a href="javascript:addGroupAcle();">작성하기</a>
 	</body>

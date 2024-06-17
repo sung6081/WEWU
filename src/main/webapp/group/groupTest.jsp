@@ -159,6 +159,12 @@
 		        }
 			}
 			
+			function getReportList(){
+				var form = document.getElementById("getReportList");
+				form.action="/report/getReportList";
+				form.submit();
+			}
+			
 		</script>
 		<meta charset="UTF-8">
 	<title>Insert title here</title>
@@ -213,6 +219,11 @@
 			<input type="hidden" name="groupNo" value="4">
 		</form>
 			<a href="javascript:deleteApplGroup();">deleteApplGroup</a>
+			
+		<form id=getReportList method="post">
+		
+		</form>
+			<a href="javascript:getReportList();">getReportList</a>
 			
 	</body>
 </html>

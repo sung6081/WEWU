@@ -18,7 +18,7 @@
 	</resultMap>
   	
 	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
-  	<insert id="addReport" parameterType="report" useGeneratedKeys="true" keyProperty="reportNo,rsltDate" keyColumn="report_no,rslt_date">
+  	<insert id="addReport" parameterType="report" useGeneratedKeys="true" keyProperty="reportNo" keyColumn="report_no">
   		INSERT
   		INTO report
   		(
