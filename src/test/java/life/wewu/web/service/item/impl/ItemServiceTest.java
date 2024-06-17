@@ -61,7 +61,8 @@ public class ItemServiceTest{
 	public void testGetItemList() throws Exception{
 		
 		System.out.println("\n===================================");
-		List<Item> item = itemService.getItemList();
+		Search search = new Search();
+		List<Item> item = itemService.getItemList(search);
 		System.out.println("pay GetItemList :: " + item);
 		System.out.println("===================================\n");
 	}
