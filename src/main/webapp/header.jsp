@@ -1,3 +1,11 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
   <!-- plugins:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
@@ -37,14 +45,13 @@
     <!-- swiper -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.3.1/swiper-bundle.css">
-
-
-<!-- 프로젝트 이름 헤더 추가 -->
-<meta charset="utf-8">
-<meta name="viewport"
+  
+  <meta charset="utf-8">
+  <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>WEWU</title>
-
+   <title>WEWU</title>
+</head>
+<body>
 <div class="fixed-top">
 
 	<header class="navbar navbar-expand-lg navbar-light bg-light"
@@ -55,8 +62,7 @@
 	</header>
 
 	<!-- Navbar -->
-	<nav
-		class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom-height">
+	<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom-height">
 		<div class="container">
 			<a class="navbar-brand" href="main.jsp"> <img
 				src="images/logo.svg" alt="Skydash" style="height: 40px;">
@@ -199,3 +205,5 @@
 		</div>
 	</div>
 </div>
+</body>
+</html>
