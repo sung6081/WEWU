@@ -1,0 +1,30 @@
+@charset "EUC-KR";
+
+    body {
+      display: flex;
+    }
+
+    .navbar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 56px; /* Adjust this value based on your navbar height */
+      left: 0;
+      width: 250px; /* Adjust the width of the sidebar as needed */
+      height: calc(100% - 56px); /* Adjust the height based on your navbar height */
+      background-color: #fff; /* Adjust the background color as needed */
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .main-panel {
+      margin-left: 250px; /* Match this value with the sidebar width */
+      padding-top: 56px; /* Adjust this value based on your navbar height */
+      width: calc(100% - 250px);
+    }
