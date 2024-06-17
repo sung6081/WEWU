@@ -3,9 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
-			
 			function deleteApplJoin(){
 				
 		        if(!confirm("정말 삭제하시겠습니까?")){
@@ -62,18 +60,31 @@
 			}
 		</script>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+	<title>Insert title here</title>
 	</head>
 	<body>
-		${groupMember }
-		<form id="deleteApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form>
-			<a href="javascript:deleteApplJoin();">삭제하기</a>
-			
-		<form id="updateApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form>
-			<a href="javascript:updateApplJoin();">수정하기</a>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<h1>모임 가입신청서 조회</h1>
+				${groupMember }
+				<form id="deleteApplJoin" method="post">
+					<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+				</form>
+					<a href="javascript:deleteApplJoin();">삭제하기</a>
+					
+				<form id="updateApplJoin" method="post">
+					<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+				</form>
+					<a href="javascript:updateApplJoin();">수정하기</a>
+        	</div>
+        </div>
+        
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>

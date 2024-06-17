@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
 		<script>
 		
 			function addApplGroup()
@@ -55,27 +56,37 @@
 		        }
 			}
 		</script>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
 	</head>
 	<body>
-		<h1>모임정보 개설신청 View 페이지</h1>
-		<form id="MyForm">
-			닉네임 : nick1<input type="hidden" name="leaderNick" id="leaderNick" value="nick1">
-			<br>
-			모임명 : <input type="text" name="groupName" id="groupName">
-			<br>
-			소개  : <input type="text" name="groupIntro" id="groupIntro">
-			<br>
-			태그  : <input type="text" name="groupHash" id="groupHash">
-			<br>
-			주소  : <input type="text" name="groupAddr" id="groupAddr">
-			<br>
-			계획  : <input type="text" name="groupPlan" id="groupPlan">
-		</form>
-		<form id="getAddAppl" method="post" action="/group/getAddAppl">
-			
-		</form>
-		<a href="javascript:addApplGroup();">개설하기</a>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<h1>모임정보 개설신청 View 페이지</h1>
+				<form id="MyForm">
+					닉네임 : nick1<input type="hidden" name="leaderNick" id="leaderNick" value="nick1">
+					<br>
+					모임명 : <input type="text" name="groupName" id="groupName">
+					<br>
+					소개  : <input type="text" name="groupIntro" id="groupIntro">
+					<br>
+					태그  : <input type="text" name="groupHash" id="groupHash">
+					<br>
+					주소  : <input type="text" name="groupAddr" id="groupAddr">
+					<br>
+					계획  : <input type="text" name="groupPlan" id="groupPlan">
+				</form>
+				<form id="getAddAppl" method="post" action="/group/getAddAppl">
+					
+				</form>
+				<a href="javascript:addApplGroup();">개설하기</a>
+        	</div>
+        </div>
+        
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>
