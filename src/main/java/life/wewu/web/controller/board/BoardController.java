@@ -46,55 +46,61 @@ public class BoardController {
 	 */
 	//게시글 등록 GET
 	@GetMapping(value = "addBoard")
-	public String addBoard(@RequestParam("boardType") String boardType) throws Exception{
+	public String addBoard(@RequestParam("boardType") int boardType) throws Exception{
 		System.out.println("/baord/addBoard : GET");
 		
-		return "forward:/board/addBoard.jsp?boardType="+boardType;
+		return "forward:/board/addBoard.jsp?";
 	}
 	//게시글 등록 POST
 	//게시글 등록 및 파일 등록(boardFile)
 	//addBoard, addBoardFile
 	@PostMapping(value = "addBoard")
-	public String addBoard(@RequestParam("boardType") String boardType, @ModelAttribute("board") Board board,
+	public String addBoard(@RequestParam("boardType") int boardType, @ModelAttribute("board") Board board,
 			@ModelAttribute("boardFile") BoardFile boardFile,
 			Model model) throws Exception{
 		
 		System.out.println("/board/addBoard : POST");
 		
-		board = boardService.addBoard(board);
+		board = boardService.addBoard(board);	//board 등록
+		System.out.println("::::::::::;;"+board);
+		boardFile.setBoardNo(board.getBoardNo());
+		boardService.addBoardFile(boardFile);	//boardFile등록
 		
-		boardService.addBoardFile(boardFile);
+		List<BoardFile> fileList = boardService.getBoardFileList(board.getBoardNo());	//boardfileList 출력
 		
-		List<BoardFile> fileList = boardService.getBoardFileList(board.getBoardNo());
-		 
+		board.setThumnail(boardService.getBoardFile(board.getBoardNo()));
+		
 		int boardNo = board.getBoardNo();
 		System.out.println(boardNo);
 		
 		model.addAttribute("board", boardService.getBoard(boardNo));
 		model.addAttribute("boardFile", fileList);
 		
-		return "forward:/board/getBoard.jsp?boardNo="+boardNo;
+		return "redirect:/board/getBoard?boardType="+boardType+"&boardNo="+boardNo;
 	}
 	
 	//게시글 삭제 GET
 	//게시글에 포함된 파일, 댓글, 즐겨찾기까지 모두 삭제
 	@GetMapping(value = "deleteBoard") //?boardType=""&boardNo=0
-	public String deleteBoard(@RequestParam("boardType") String boardType, @RequestParam("boardNo") int boardNo ) throws Exception{
+	public String deleteBoard(@RequestParam("boardType") int boardType, @RequestParam("boardNo") int boardNo ) throws Exception{
 		
 		System.out.println("/board/deleteBoard?boardType"+ boardType +" : GET");
 		
-		boardService.deleteBoard(boardNo);
+		
 		boardService.deleteBoardFile(boardNo);
+		
 		boardService.deleteComment(boardNo);
 		boardService.deleteBookmark(boardNo);
 		
-		return "forward:/board/listBoard.jsp?boardType="+boardType;
+		boardService.deleteBoard(boardNo);
+		
+		return "forward:/board/listBoard?boardType="+boardType;
 	}
 	
 	//게시글 수정 GET
 	//게시글에 포함된 첨부파일 정보도 출력
 	@GetMapping(value = "updateBoard") //?boardType=""&boardNo=0
-	public String updateBoard(@RequestParam("boardType") String boardType, 
+	public String updateBoard(@RequestParam("boardType") int boardType, 
 			@RequestParam("boardNo") int boardNo, Model model) throws Exception{
 		System.out.println("/board/updateBoard : GET");
 		
@@ -110,7 +116,7 @@ public class BoardController {
 	//게시글 수정 POST
 	//게시글에 포함된 첨부파일도 수정
 	@PostMapping(value = "updateBoard")
-	public String updateBoard(@RequestParam("boardType") String boardType, 
+	public String updateBoard(@RequestParam("boardType") int boardType, 
 			@RequestParam("boardNo") int boardNo,
 			@ModelAttribute("board") Board board,
 			@ModelAttribute("boardFile") BoardFile boardFile) throws Exception{
@@ -119,13 +125,13 @@ public class BoardController {
 		boardService.updateBoard(board);
 		boardService.updateBoardFile(boardFile);
 		
-		return "forward:/board/getBoard.jsp?boardType="+boardType+"&boarNo="+boardNo;
+		return "forward:/board/getBoard?boardType="+boardType+"&boarNo="+boardNo;
 	}
 	
 	//게시글 상세 조회 GET
 	//게시글에 포함된 첨부파일-조회, 댓글 리스트 조회
 	@GetMapping(value = "getBoard")
-	public String getBoard(@RequestParam("boardType") String boardType, 
+	public String getBoard(@RequestParam("boardType") int boardType, 
 			@RequestParam("boardNo") int boardNo, Model model)throws Exception{
 		System.out.println("/board/getBoard : GET");
 		
@@ -133,18 +139,21 @@ public class BoardController {
 		
 		boardService.updateViews(boardNo);
 		
-		List<Comment> commentList = boardService.getCommentListByBoard(boardNo);
+		List<BoardFile> boardFile = boardService.getBoardFileList(boardNo);
+		
+		List<Comment> commentList = boardService.getCommentListByBoard(boardNo);//
 		
 		model.addAttribute("board", board);
 		model.addAttribute("comment", commentList);
+		model.addAttribute("boardFile", boardFile);
 		
-		return "forward:/board/getBoard.jsp?boardType="+boardType+"boardNo="+boardNo;
+		return "forward:/board/getBoard.jsp";
 	}
 	
 	//게시글 목록 조회 GET	//////////////////////////////
 	//댓글 수, 즐겨찾기 수..?
 	@GetMapping(value = "listBoard")
-	public String getBoardList(@RequestParam("boardType") String boardType,Model model) throws Exception{
+	public String getBoardList(@RequestParam("boardType") int boardType,Model model) throws Exception{
 		
 		System.out.println("/board/listBoard : GET");
 		
@@ -156,10 +165,12 @@ public class BoardController {
 		map.put("boardType", boardType);
 		
 		List<Board> list = boardService.getBoardList(map);
+		
+		System.out.println("--lll"+list);
 			
 		model.addAttribute("list",list);
 		
-		return "forward:/board/listBoard.jsp?boardType="+boardType;
+		return "forward:/board/listBoard.jsp";
 	}
 
 	/*
@@ -179,18 +190,18 @@ public class BoardController {
 			,@RequestParam("payType") String payType) throws Exception{
 		System.out.println("/board/addDonation : POST");
 		
-		donation = boardService.addDonation(donation);
+		boardService.addDonation(donation);
 		
-		return "forward:/board/listDonation.jsp?payType="+payType;
+		return "redirect:/board/getDonation?payType="+payType+"payNo="+donation.getPayNo();
 	}
 	
 	//후원 내역 삭제 GET
-	@GetMapping(value = "deleteDoantion")//?payType=""&payNo=""
+	@GetMapping(value = "deleteDonation")//?payType=""&payNo=""
 	public String deleteDonation(@RequestParam("payNo") int payNo
 			,@RequestParam("payType")String payType) throws Exception{
 		System.out.println("/board/deleteDonation : GET");
 		boardService.deleteDonation(payNo);
-		return "forward:/board/listDonation.jsp?payType="+payType;
+		return "forward:/board/listDonation?payType="+payType;
 	}
 	
 	//후원 내역 상세보기
@@ -204,7 +215,7 @@ public class BoardController {
 		
 		model.addAttribute("donation", donation);
 		
-		return "forward:/board/getDonation.jsp?payType="+payType+"&payNo="+payNo;
+		return "forward:/board/getDonation.jsp";
 	}
 	
 	//후원 내역 목록 보기
@@ -214,6 +225,8 @@ public class BoardController {
 		System.out.println("/board/getDonationList : GET");
 		
 		List<Donation> list = boardService.getDonationList(payType);
+		System.out.println(":::::::::::::;"+list.size());
+		model.addAttribute("list",list);
 		return "forward:/board/listDonation.jsp";
 	}
 	
@@ -238,7 +251,7 @@ public class BoardController {
 		
 		question = boardService.addQuestion(question);
 		
-		return "forward:/board/getQuestion.jsp?questionType="+questionType+"&questionNo="+question.getQuestionNo();		
+		return "redirect:/board/getQuestion?questionType="+questionType+"&questionNo="+question.getQuestionNo();		
 	}
 	
 	//문의 수정 GET
@@ -263,7 +276,7 @@ public class BoardController {
 		
 		boardService.updateQuestion(question);
 		
-		return "forward:/board/getQuestion";
+		return "redirect:/board/getQuestion?questionType="+questionType+"&questionNo="+question.getQuestionNo();
 	}
 	
 	//문의 삭제 GET
@@ -274,12 +287,12 @@ public class BoardController {
 		
 		boardService.deleteQuestion(questionNo);
 		
-		return "forward:/board/listQuestion.jsp?questionType="+questionType;
+		return "forward:/board/listQuestion?questionType="+questionType;
 	}
 	
 	//문의 상세 조회 GET
 	@GetMapping(value = "getQuestion")
-	public String getQeustion(Model model, @RequestParam("questionNo")int questionNo) throws Exception{
+	public String getQeustion(Model model, @RequestParam("questionNo")int questionNo,@RequestParam("questionType")String questionType) throws Exception{
 		System.out.println("/board/getQeustion : GET");
 		
 		Question question = boardService.getQuestionById(questionNo);
@@ -299,26 +312,45 @@ public class BoardController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("questionType",questionType);
+		//map.put("questionType", "문의");
 		
 		List<Question> list = boardService.getQuestionList(map);
+		
+		System.out.println("::::: "+map.get("questionType"));
 		
 		model.addAttribute("list", list);
 		
 		return "forward:/board/listQuestion.jsp";		
 	}
 	
-	//답변 등록 및 변경 POST
-	@PostMapping(value = "updateRely")
+	
+	//답변 등록 및 변경 GET
+	@GetMapping(value = "updateReply")
 	public String updateReply(@RequestParam("questionType")String questionType,
+			@RequestParam("questionNo")int questionNo,
 			@ModelAttribute("question")Question question, Model model) throws Exception{
-		
+			
 		System.out.println("/board/udpateReply : GET");
-		
-		question= boardService.getQuestionById(question.getQuestionNo());
-		
+			
+		question= boardService.getQuestionById(questionNo);
+			
 		model.addAttribute("question", question);
+			
+		return "forward:/board/updateReply.jsp";
+	}
+	
+	
+	//답변 등록 및 변경 POST
+	@PostMapping(value = "updateReply")
+	public String updateReply(@RequestParam("questionType")String questionType,
+			@RequestParam("questionNo")int questionNo,
+			@ModelAttribute("question")Question question) throws Exception{
 		
-		return "forward:/board/getQuestion.jsp";
+		System.out.println("/board/udpateReply : POST");
+		
+		boardService.updateReply(question);
+		
+		return "redirect:/board/getQuestion?questionType="+questionType+"&questionNo="+question.getQuestionNo();
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import life.wewu.web.domain.board.Board;
 import life.wewu.web.domain.board.BoardFile;
@@ -137,7 +138,9 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	@Override//
 	public Board addBoard(Board board) throws Exception {
-		return boardDao.addBoard(board);		
+		boardDao.addBoard(board);
+		board = boardDao.getBoard(board.getBoardNo());
+		return board;		
 	}
 
 	@Override//
@@ -173,8 +176,8 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	
 	@Override//
-	public Donation addDonation(Donation donation) throws Exception {
-		return donationDao.addDonation(donation);
+	public void addDonation(Donation donation) throws Exception {
+		donationDao.addDonation(donation);
 		
 	}
 
@@ -199,18 +202,23 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	
 	@Override//
+	@Transactional
 	public Question addQuestion(Question question) throws Exception {
-		return questionDao.addQuestion(question);
+		 questionDao.addQuestion(question);
+		 
+		 return questionDao.getQuestionById(question.getQuestionNo());
 		
 	}
 
 	@Override
+	@Transactional
 	public void updateReply(Question question) throws Exception {
 		questionDao.updateReply(question);
 		
 	}
 
 	@Override
+	@Transactional
 	public void deleteQuestion(int questoinNo) throws Exception {
 		questionDao.deleteQuestion(questoinNo);
 		
@@ -238,26 +246,26 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public void updateCommentCntUp(Map map) throws Exception {
-		boardDao.updateCommentCntUp(map);
+	public void updateCommentCntUp(int boardNo) throws Exception {
+		boardDao.updateCommentCntUp(boardNo);
 		
 	}
 
 	@Override
-	public void updateCommentCntDown(Map map) throws Exception {
-		boardDao.updateCommentCntDown(map);
+	public void updateCommentCntDown(int boardNo) throws Exception {
+		boardDao.updateCommentCntDown(boardNo);
 		
 	}
 
 	@Override
-	public void updateBookmarkCntUp(Map map) throws Exception {
-		boardDao.updateBookmarkCntUp(map);
+	public void updateBookmarkCntUp(int boardNo) throws Exception {
+		boardDao.updateBookmarkCntUp(boardNo);
 		
 	}
 
 	@Override
-	public void updateBookmarkCntDown(Map map) throws Exception {
-		boardDao.updateBookmarkCntDown(map);
+	public void updateBookmarkCntDown(int boardNo) throws Exception {
+		boardDao.updateBookmarkCntDown(boardNo);
 	}
 	
 }

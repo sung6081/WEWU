@@ -63,19 +63,19 @@ public interface BoardService {
 	
 	public List<Board> getBoardList(Map map) throws Exception;
 	
-	public void updateCommentCntUp(Map map) throws Exception;
+	public void updateCommentCntUp(int boardNo) throws Exception;
 	
-	public void updateCommentCntDown(Map map) throws Exception;
+	public void updateCommentCntDown(int boardNo) throws Exception;
 	
-	public void updateBookmarkCntUp(Map map) throws Exception;
+	public void updateBookmarkCntUp(int boardNo) throws Exception;
 	
-	public void updateBookmarkCntDown(Map map) throws Exception;
+	public void updateBookmarkCntDown(int boardNo) throws Exception;
 	
 	/*
 	 * DonationDao
 	 */
 	
-	public Donation addDonation(Donation donation) throws Exception;
+	public void addDonation(Donation donation) throws Exception;
 	
 	public void deleteDonation(int payNo) throws Exception;
 	
