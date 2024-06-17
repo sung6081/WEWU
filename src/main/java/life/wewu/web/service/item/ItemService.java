@@ -11,14 +11,13 @@ public interface ItemService {
 
     public Item getItem(int itemNo) throws Exception;
 
-    public List<Item> getItemList() throws Exception;
+    public List<Item> getItemList(Search search) throws Exception;
 
     public void updateItem(Item item) throws Exception;
 
     public void deleteItem(int itemNo) throws Exception;
 
     public List<Item> getItemSearch(Search search) throws Exception;
-
 
 }
 
