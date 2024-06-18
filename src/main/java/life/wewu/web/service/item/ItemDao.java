@@ -17,7 +17,7 @@ public interface ItemDao {
     public Item getItem(int itemNo) throws Exception;
 
     // SELECT 아이템 목록조회
-    public List<Item> getItemList() throws Exception;
+    public List<Item> getItemList(Search search) throws Exception;
 
     // UPDATE 판매 아이템 수정
     public void updateItem(Item item) throws Exception;

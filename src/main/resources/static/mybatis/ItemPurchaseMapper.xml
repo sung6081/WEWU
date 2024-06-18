@@ -89,7 +89,7 @@
 	        ip.after_refundpoint
 	    FROM item_purchase ip
 	    INNER JOIN item i ON ip.item_no = i.item_no
-	    WHERE ip.refund_flag = 'N'
+	    WHERE ip.refund_flag = 'Y'
 	    AND ip.item_purchase_no = #{itemPurchaseNo}
 	</select>
     

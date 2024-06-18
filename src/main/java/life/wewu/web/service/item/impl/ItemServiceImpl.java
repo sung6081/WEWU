@@ -46,8 +46,8 @@ public class ItemServiceImpl implements ItemService{
 	}
 
 	@Override
-	public List<Item> getItemList() throws Exception{
-		return itemDao.getItemList();
+	public List<Item> getItemList(Search search) throws Exception{
+		return itemDao.getItemList(search);
 	}
 
 	@Override

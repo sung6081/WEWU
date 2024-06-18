@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
 			function getGroup(){
 				var form = document.getElementById("getGroup");
@@ -170,60 +169,70 @@
 	<title>Insert title here</title>
 	</head>
 	<body>
-		<form id="getGroup" method="post">
-			<input type="hidden" name="groupNo" value="3">
-		</form>
-			<a href="javascript:getGroup();">getGroup</a>
-			
-		<form id="getAddAppl" method="post">
-			<input type="hidden" name="groupNo" value="3">
-		</form>
-			<a href="javascript:getAddAppl();">getAddAppl</a>
-			
-		<form id="getApplJoin" method="post">
-			<input type="hidden" name="memberNo" value="4">
-		</form>
-			<a href="javascript:getApplJoin();">getApplJoin</a>
-			
-		<form id="getApplJoinList" method="post">
-			<input type="hidden" name="searchCondition" value="group"> 
-			<input type="hidden" name="searchKeyword" value="2">
-		</form>
-			<a href="javascript:getApplJoinList();">getApplJoinList</a>
-			
-		<form id="getMemberGroup" method="post">
-			<input type="hidden" name="memberNo" value="2">
-		</form>
-			<a href="javascript:getMemberGroup();">getMemberGroup</a>
+		<jsp:include page="/header.jsp"></jsp:include>
 		
-		<form id="mainGroup" method="post">
-		</form>
-			<a href="javascript:mainGroup();">mainGroup</a>
-			
-		<form id=updateGroup method="post">
-			<input type="hidden" name="groupNo" value="3">
-		</form>
-			<a href="javascript:updateGroup();">updateGroup</a>
-			
-		<form id=deleteGroup method="post">
-			<input type="hidden" name="groupNo" value="5">
-		</form>
-			<a href="javascript:deleteGroup();">deleteGroup</a>
-			
-		<form id=addApplGroup method="post">
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<form id="getGroup" method="post">
+					<input type="hidden" name="groupNo" value="3">
+				</form>
+					<a href="javascript:getGroup();">getGroup</a>
+					
+				<form id="getAddAppl" method="post">
+					<input type="hidden" name="groupNo" value="3">
+				</form>
+					<a href="javascript:getAddAppl();">getAddAppl</a>
+					
+				<form id="getApplJoin" method="post">
+					<input type="hidden" name="memberNo" value="4">
+				</form>
+					<a href="javascript:getApplJoin();">getApplJoin</a>
+					
+				<form id="getApplJoinList" method="post">
+					<input type="hidden" name="searchCondition" value="group"> 
+					<input type="hidden" name="searchKeyword" value="2">
+				</form>
+					<a href="javascript:getApplJoinList();">getApplJoinList</a>
+					
+				<form id="getMemberGroup" method="post">
+					<input type="hidden" name="memberNo" value="2">
+				</form>
+					<a href="javascript:getMemberGroup();">getMemberGroup</a>
+				
+				<form id="mainGroup" method="post">
+				</form>
+					<a href="javascript:mainGroup();">mainGroup</a>
+					
+				<form id=updateGroup method="post">
+					<input type="hidden" name="groupNo" value="3">
+				</form>
+					<a href="javascript:updateGroup();">updateGroup</a>
+					
+				<form id=deleteGroup method="post">
+					<input type="hidden" name="groupNo" value="5">
+				</form>
+					<a href="javascript:deleteGroup();">deleteGroup</a>
+					
+				<form id=addApplGroup method="post">
+				
+				</form>
+					<a href="javascript:addApplGroup();">addApplGroup</a>
+					
+				<form id=deleteApplGroup method="post">
+					<input type="hidden" name="groupNo" value="4">
+				</form>
+					<a href="javascript:deleteApplGroup();">deleteApplGroup</a>
+					
+				<form id=getReportList method="post">
+				
+				</form>
+					<a href="javascript:getReportList();">getReportList</a>
+        	</div>
+        </div>
 		
-		</form>
-			<a href="javascript:addApplGroup();">addApplGroup</a>
 			
-		<form id=deleteApplGroup method="post">
-			<input type="hidden" name="groupNo" value="4">
-		</form>
-			<a href="javascript:deleteApplGroup();">deleteApplGroup</a>
-			
-		<form id=getReportList method="post">
-		
-		</form>
-			<a href="javascript:getReportList();">getReportList</a>
-			
+		<!-- footer.jsp 포함 -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- footer.jsp 포함 -->
 	</body>
 </html>
