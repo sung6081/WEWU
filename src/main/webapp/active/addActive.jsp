@@ -28,6 +28,51 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+	
+	var location;
+	
+	if (navigator.geolocation) {
+        /**
+         * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+         * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+         * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+         */
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        //infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        //infowindow.open(map, center);
+    }
+	
+	function onSuccessGeolocation(position) {
+	    location = new naver.maps.LatLng(position.coords.latitude,
+	                                         position.coords.longitude);
+	    
+	    var marker = new naver.maps.Marker({
+	        position: location,
+	        map: map
+	    });
+
+	    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+	    //map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
+
+	    //infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
+
+	    //infowindow.open(map, location);
+	    
+	    
+	    
+	    console.log('Coordinates: ' + location.toString());
+	}
+
+	function onErrorGeolocation() {
+	    var center = map.getCenter();
+
+	    //infowindow.setContent('<div style="padding:20px;">' +
+	        //'<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+	    //infowindow.open(map, center);
+	}
 
 	var map = new naver.maps.Map("map", {
 	    center: new naver.maps.LatLng(37.3595316, 127.1052133),
@@ -41,11 +86,11 @@ $(document).ready(function() {
 
 	map.setCursor('pointer');
 
-	function searchCoordinateToAddress(latlng) {
+	/* function searchCoordinateToAddress(latlng) {
 
-	    infoWindow.close();
+	    //infoWindow.close();
 
-	    naver.maps.Service.reverseGeocode({
+	    /* naver.maps.Service.reverseGeocode({
 	        coords: latlng,
 	        orders: [
 	            naver.maps.Service.OrderType.ADDR,
@@ -66,7 +111,7 @@ $(document).ready(function() {
 	            addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
 
 	            htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
-	        }
+	        } */
 
 	        /* infoWindow.setContent([
 	            '<div style="padding:10px;min-width:200px;line-height:150%;">',
@@ -76,13 +121,41 @@ $(document).ready(function() {
 	        ].join('\n')); */
 
 	        //infoWindow.open(map, latlng);
-	    });
-	}
+	    //});
+	//} */
 
-	function searchAddressToCoordinate(address) {
+	async function searchAddressToCoordinate(address) {
+		
+		var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
+		
+		var local;
+		
+		await $.ajax({
+			url: url,
+			method: 'GET',
+			success: function(response) {
+				
+				console.log(response);
+				//console.log(response.mapX);
+				//console.log(response.address);
+				
+				local = response.address;
+				
+				//var point = new naver.maps.Point(response.mapX, response.mapY);
+				
+				//map.setCenter(point);
+				
+			},
+		    error: function(xhr, status, error) {
+		        // 서버 목록을 가져오는 데 실패했을 때의 처리
+		        console.error('Failed to fetch server list:', error);
+		    }
+		});
+		
 	    naver.maps.Service.geocode({
-	        query: address
+	        query: local
 	    }, function(status, response) {
+	    	
 	        if (status === naver.maps.Service.Status.ERROR) {
 	            return alert('Something Wrong!');
 	        }
@@ -112,59 +185,35 @@ $(document).ready(function() {
 	            '<h4 style="margin-top:5px;">검색 주소 : '+ address +'</h4><br />',
 	            htmlAddresses.join('<br />'),
 	            '</div>'
-	        ].join('\n')); */
+	        ].join('\n'));*/
 
 	        map.setCenter(point);
 	        //infoWindow.open(map, point);
 	    });
+	    
 	}
 
 	function initGeocoder() {
-	    map.addListener('click', function(e) {
-	        
-	    	var latlng = e.coord,
-            utmk = naver.maps.TransCoord.fromLatLngToUTMK(latlng),
-            tm128 = naver.maps.TransCoord.fromUTMKToTM128(utmk),
-            naverCoord = naver.maps.TransCoord.fromTM128ToNaver(tm128);
-
-	        utmk.x = parseFloat(utmk.x.toFixed(1));
-	        utmk.y = parseFloat(utmk.y.toFixed(1));
-	
-	        /* infoWindow.setContent([
-	            '<div style="padding:10px;width:380px;font-size:14px;line-height:20px;">',
-	            '<strong>LatLng</strong> : '+ '좌 클릭 지점 위/경도 좌표' +'<br />',
-	            '<strong>UTMK</strong> : '+ '위/경도 좌표를 UTMK 좌표로 변환한 값' +'<br />',
-	            '<strong>TM128</strong> : '+ '변환된 UTMK 좌표를 TM128 좌표로 변환한 값' +'<br />',
-	            '<strong>NAVER</strong> : '+ '변환된 TM128 좌표를 NAVER 좌표로 변환한 값' +'<br />',
-	            '</div>'
-	        ].join(''));
-	
-	        infoWindow.open(map, latlng); */
-	        
-	        console.clear();
-	        
-	        console.log('LatLng: ' + latlng.toString());
-	        console.log('UTMK: ' + utmk.toString());
-	        console.log('TM128: ' + tm128.toString());
-	        console.log('NAVER: ' + naverCoord.toString());
-	    	
-	    });
 
 	    $('#address').on('keydown', function(e) {
 	        var keyCode = e.which;
 
 	        if (keyCode === 13) { // Enter Key
+	        	
 	            searchAddressToCoordinate($('#address').val());
 	        }
 	    });
 
 	    $('#submit').on('click', function(e) {
+	    	
 	        e.preventDefault();
 
 	        searchAddressToCoordinate($('#address').val());
 	    });
-
-	    searchAddressToCoordinate('강남');
+		
+	    if (!navigator.geolocation) {
+	    	searchAddressToCoordinate('강남');
+	    }
 	    
 	}
 

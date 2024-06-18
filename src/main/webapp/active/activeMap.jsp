@@ -30,6 +30,12 @@
 $(document).ready(function() {
 	
 	var location;
+
+	var activeList = ${activeList};
+	
+	console.log(activeList);
+	
+	//for()
 	
 	if (navigator.geolocation) {
         /**
@@ -79,6 +85,43 @@ $(document).ready(function() {
 	    zoom: 15,
 	    mapTypeControl: true
 	});
+	
+	var locationBtnHtml = '<a href="#" class="btn_mylct"><span class="mdi mdi-target">내위치</span></a>';
+	var map = new naver.maps.Map('map', {zoom: 13});
+
+	naver.maps.Event.once(map, 'init', function() {
+	    //customControl 객체 이용하기
+	    /* var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+	        position: naver.maps.Position.TOP_LEFT
+	    });
+
+	    customControl.setMap(map); */
+
+	    /* naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+	        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
+	    }); */
+
+	    //Map 객체의 controls 활용하기
+	    var $locationBtn = $(locationBtnHtml),
+	        locationBtnEl = $locationBtn[0];
+
+	    map.controls[naver.maps.Position.RIGHT_BOTTOM].push(locationBtnEl);
+
+	    naver.maps.Event.addDOMListener(locationBtnEl, 'click', function() {
+	    	if (navigator.geolocation) {
+	            /**
+	             * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+	             * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+	             * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+	             */
+	            navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+	        } else {
+	            var center = map.getCenter();
+	            //infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+	            //infowindow.open(map, center);
+	        }
+	    });
+	});
 
 	var infoWindow = new naver.maps.InfoWindow({
 	    anchorSkew: true
@@ -86,7 +129,7 @@ $(document).ready(function() {
 
 	map.setCursor('pointer');
 
-	function searchCoordinateToAddress(latlng) {
+	/* function searchCoordinateToAddress(latlng) {
 
 	    //infoWindow.close();
 
@@ -121,30 +164,41 @@ $(document).ready(function() {
 	        ].join('\n')); */
 
 	        //infoWindow.open(map, latlng);
-	    });
-	}
+	    //});
+	//} */
 
-	function searchAddressToCoordinate(address) {
+	async function searchAddressToCoordinate(address) {
 		
 		var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
 		
-		$.ajax({
+		var local;
+		
+		await $.ajax({
 			url: url,
 			method: 'GET',
 			success: function(response) {
 				
 				console.log(response);
+				//console.log(response.mapX);
+				//console.log(response.address);
 				
-				var point = new naver.maps.Point(response.mapX, response.mapY);
+				local = response.address;
 				
-				map.setCenter(point);
+				//var point = new naver.maps.Point(response.mapX, response.mapY);
 				
-			}
-		})
+				//map.setCenter(point);
+				
+			},
+		    error: function(xhr, status, error) {
+		        // 서버 목록을 가져오는 데 실패했을 때의 처리
+		        console.error('Failed to fetch server list:', error);
+		    }
+		});
 		
-	    /* naver.maps.Service.geocode({
-	        query: address
+	    naver.maps.Service.geocode({
+	        query: local
 	    }, function(status, response) {
+	    	
 	        if (status === naver.maps.Service.Status.ERROR) {
 	            return alert('Something Wrong!');
 	        }
@@ -174,11 +228,11 @@ $(document).ready(function() {
 	            '<h4 style="margin-top:5px;">검색 주소 : '+ address +'</h4><br />',
 	            htmlAddresses.join('<br />'),
 	            '</div>'
-	        ].join('\n')); */
+	        ].join('\n'));*/
 
-	        /*map.setCenter(point);
+	        map.setCenter(point);
 	        //infoWindow.open(map, point);
-	    }); */
+	    });
 	    
 	}
 
@@ -288,7 +342,7 @@ $(document).ready(function() {
 </head>
 <body>
 
-<%-- <c:import url="/header.jsp"></c:import> --%>
+<c:import url="/header.jsp"></c:import>
 
 <div id="map">
     <div class="search" style="">
@@ -298,7 +352,7 @@ $(document).ready(function() {
 </div>
 <br/><br/>
 
-<%-- <c:import url="/footer.jsp"></c:import> --%>
+<c:import url="/footer.jsp"></c:import>
 
 </body>
 </html>

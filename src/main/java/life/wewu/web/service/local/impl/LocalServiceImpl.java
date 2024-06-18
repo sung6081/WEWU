@@ -41,6 +41,8 @@ public class LocalServiceImpl implements LocalService {
 		
 		Local local = new Local();
 		
+		//System.out.println(":::: " + query);
+		
 		try {
 			query = URLEncoder.encode(query);
 		}catch(Exception e) {
@@ -51,19 +53,26 @@ public class LocalServiceImpl implements LocalService {
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         
-        url = url + "?query=" + query;
+        String reqUrl = url + "?query=" + query;
         
-        String responseBody = get(url,requestHeaders);
+        //System.out.println(":::: " + reqUrl);
         
-        System.out.println(responseBody);
+        String responseBody = get(reqUrl,requestHeaders);
+        
+        //System.out.println(responseBody);
         
         JsonObject jsonObject = JsonParser.parseString(responseBody.toString()).getAsJsonObject();
         
-        System.out.println(":::: " + jsonObject);
+        //System.out.println(":::: " + jsonObject);
         
         if (jsonObject.has("items")) {
         	
         	JsonArray itemsArray = jsonObject.getAsJsonArray("items");
+        	
+        	if(itemsArray.size() == 0) {
+        		return local;
+        	}
+        	
         	JsonObject resultObject = itemsArray.get(0).getAsJsonObject();
 
         	local.setTitle(resultObject.get("title").getAsString());
@@ -76,7 +85,7 @@ public class LocalServiceImpl implements LocalService {
         	return local;
         }
         
-        System.out.println("::::: " + local);
+        //System.out.println("::::: " + local);
 		
 		return local;
 	}
