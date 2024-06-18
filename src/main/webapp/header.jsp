@@ -6,46 +6,45 @@
 <html lang="en">
 <head>
   <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
   <!-- plugins:js -->
-  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <script src="/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="js/dataTables.select.min.js"></script>
+  <script src="/vendors/chart.js/Chart.min.js"></script>
+  <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="/endors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="/js/dataTables.select.min.js"></script>
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/todolist.js"></script>
+  <script src="/js/off-canvas.js"></script>
+  <script src="/js/hoverable-collapse.js"></script>
+  <script src="/js/template.js"></script>
+  <script src="/js/settings.js"></script>
+  <script src="/js/todolist.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
-  <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/Chart.roundedBarCharts.js"></script>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/vendors/feather/feather.css">
+  <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" type="/text/css" href="/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/swiper.css">
+  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/swiper.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
-    <!-- swiper -->
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  <!-- swiper -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
-  <script src="js/swiper.js"></script>
+  <script src="/js/swiper.js"></script>
   
   <meta charset="utf-8">
   <meta name="viewport"
@@ -65,8 +64,8 @@
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom-height">
 		<div class="container">
-			<a class="navbar-brand" href="main.jsp"> <img
-				src="images/logo.svg" alt="Skydash" style="height: 40px;">
+			<a class="navbar-brand" href="/index.jsp"> <img
+				src="/images/logo.svg" alt="Skydash" style="height: 40px;">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
@@ -95,7 +94,7 @@
 					<li class="nav-item dropdown"><a class="nav-link" href="#"
 						id="profileDropdown" role="button" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false"> <img
-							src="images/faces/face28.jpg" alt="profile"
+							src="/images/faces/face28.jpg" alt="profile"
 							class="rounded-circle" style="width: 30px;">
 					</a>
 						<div class="dropdown-menu dropdown-menu-right"
