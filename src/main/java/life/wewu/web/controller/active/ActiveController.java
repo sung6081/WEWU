@@ -46,29 +46,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/active/*")
 public class ActiveController {
 	
-	//필드
+	//�ʵ�
 	@Autowired
 	@Qualifier("activeServiceImpl")
-	ActiveService activeService;
+	private ActiveService activeService;
 	
 	@Autowired
 	@Qualifier("groupService")
-	GroupService groupService;
+	private GroupService groupService;
 	
-	//메소드
-	//활동 등록 페이지 네비 GET
+	@Value("${map.clientId}")
+	private String clientId;
+	
+	//�޼ҵ�
+	//Ȱ�� ��� ������ �׺� GET
 	@GetMapping(value = "addActive/{groupNo}")
-	public String addActive(@PathVariable int groupNo) {
+	public String addActive(@PathVariable int groupNo, Model model) {
 		
 		System.out.println("addActive NAVI");
 		
-		//모임장이 아니라면 모임신청으로 redirect
-		System.out.println("");		
+		//지도 clientId
+		model.addAttribute("clientId", clientId);
+		
 		return "forward:/active/addActive.jsp?groupNo="+groupNo;
 		
 	}
 	
-	//활동 등록 비즈니스 로직
+	//Ȱ�� ��� ����Ͻ� ����
 	@PostMapping(value = "addActive")
 	public String addActive(@ModelAttribute Active active, @RequestParam String hash, @RequestPart(required = false) MultipartFile file) throws Exception {
 		
@@ -83,26 +87,26 @@ public class ActiveController {
 		map.put("hash", hash);
 		map.put("file", file);
 		
-		//활동 구역을 등록하고 이미지가 있다면 이미지까지 스토리지에 업로드 후 short url까지 받는다.
+		//Ȱ�� ������ ����ϰ� �̹����� �ִٸ� �̹������� ���丮���� ���ε� �� short url���� �޴´�.
 		activeService.addActive(map);
 		
 		return "forward:/active/listActive";
 		
 	}
 	
-	//활동 상세 조회
+	//Ȱ�� �� ��ȸ
 	@GetMapping(value = "getActive/{activeNo}")
 	public String getActive(@PathVariable int activeNo, Model model) throws Exception {
 		
 		System.out.println("getActive");
 		
-		//activeNo로 active받아서 model에 담고 foward
+		//activeNo�� active�޾Ƽ� model�� ��� foward
 		model.addAttribute("active", activeService.getActive(activeNo));
 		
 		return "forward:/active/getActive.jsp";
 	}
 	
-	//활동 업데이트 Navi
+	//Ȱ�� ������Ʈ Navi
 	@GetMapping(value = "updateActive/{activeNo}")
 	public String updateActive(Model model, @PathVariable int activeNo) {
 		
@@ -114,7 +118,7 @@ public class ActiveController {
 		
 	}
 	
-	//활동 업데이트 B/L
+	//Ȱ�� ������Ʈ B/L
 	@PostMapping(value = "updateActive")
 	public String updateActive(@ModelAttribute Active active, @RequestParam String hash, @RequestPart(required = false) MultipartFile file) throws Exception {
 		
@@ -125,7 +129,7 @@ public class ActiveController {
 		map.put("hash", hash);
 		map.put("file", file);
 		
-		//업데이트 실행
+		//������Ʈ ����
 		activeService.updateActive(map);
 		
 		System.out.println("updateActive B/L End");
@@ -144,7 +148,7 @@ public class ActiveController {
 		
 	}
 	
-	//모임 활동 조회(첫 방문시)
+	//���� Ȱ�� ��ȸ(ù �湮��)
 	@GetMapping(value = "listActive")
 	public String getActiveList(Model model, @RequestParam int groupNo) throws Exception {
 	
@@ -166,7 +170,7 @@ public class ActiveController {
 		
 	}
 	
-	//모임 활동 목록 조회(다음 페이지 이동, 검색)
+	//���� Ȱ�� ��� ��ȸ(���� ������ �̵�, �˻�)
 	@PostMapping(value = "listActive")
 	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo) throws Exception {
 		
@@ -186,24 +190,42 @@ public class ActiveController {
 		
 	}
 	
-	//모임 활동 지도
+	//���� Ȱ�� ����
 	@GetMapping(value = "activeMap")
 	public String activeMap(Model model) throws Exception {
 		
 		System.out.println("activeMap");
 		
-		//그룹 리스트(T) => 개설완료건만
+		//�׷� ����Ʈ(T) => �����Ϸ�Ǹ�
 		Search search = new Search();
 		search.setSearchCondition("T");
 		search.setCurrentPage(1);
 		
 		model.addAttribute("groupList", groupService.getGroupList(search));
 		
-		//활동 리스트(전체)
+		//Ȱ�� ����Ʈ(��ü)
 		model.addAttribute("activeList", activeService.getActiveList(search));
+		
+		//System.out.println("::::: "+clientId);
+		
+		model.addAttribute("clientId", clientId);
 		
 		return "forward:/active/activeMap.jsp";
 		
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

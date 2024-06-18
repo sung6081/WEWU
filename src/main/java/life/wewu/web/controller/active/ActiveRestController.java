@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
+import life.wewu.web.domain.active.Local;
 import life.wewu.web.domain.group.Group;
 import life.wewu.web.service.active.ActiveService;
 import life.wewu.web.service.group.GroupService;
+import life.wewu.web.service.local.LocalService;
 
 @RestController
 @RequestMapping(value = "/app/active/*")
@@ -28,11 +30,15 @@ public class ActiveRestController {
 	//�ʵ�
 	@Autowired
 	@Qualifier(value = "activeServiceImpl")
-	ActiveService activeService;
+	private ActiveService activeService;
 	
 	@Autowired
 	@Qualifier(value = "groupService")
-	GroupService groupService;
+	private GroupService groupService;
+	
+	@Autowired
+	@Qualifier(value = "localServiceImpl")
+	private LocalService localService;
 	
 	//�޼ҵ�
 	//rest active �˻�
@@ -88,6 +94,14 @@ public class ActiveRestController {
 		System.out.println("getGroup");
 		
 		return groupService.getGroup(groupNo);
+	}
+	
+	//지역 검색 api
+	@GetMapping(value = "searchLocal")
+	public Local searchAddress(@RequestParam String query) {
+		
+		return localService.getSearchLocal(query);
+		
 	}
 	
 }
