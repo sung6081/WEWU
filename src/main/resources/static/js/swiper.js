@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var mySwiper = new Swiper('.swiper-container', {
         slidesPerView: 4,
-        slidesPerGroup: 4,
+        slidesPerGroup: 1,
         loop: true, // 추가된 부분
         observer: true,
         observeParents: true,
