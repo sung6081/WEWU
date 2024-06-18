@@ -13,6 +13,7 @@
 		<result property="nickName" 	column="nickname" 		jdbcType="VARCHAR" />
 		<result property="title" 		column="title" 			jdbcType="VARCHAR"/>
 		<result property="contents" 	column="contents" 		jdbcType="LONGVARCHAR" />		
+		<result property="userGroupNo" 	column="user_group_no" 		jdbcType="LONGVARCHAR" />		
 		
 		<result property="regDate" 		column="reg_date" 		jdbcType="DATE" />
 		<result property="bookmarkCnt"	column="bookmark_cnt" 	jdbcType="NUMERIC" />
@@ -57,7 +58,7 @@
 	<!-- Bookmark : DELETE( 북마크 삭제 하기) -->
 	<delete id="deleteBookmark" parameterType="int">
 		DELETE FROM bookmark
-		WHERE bookmark_no = #{bookmarkNo}
+		WHERE board_no = #{boardNo}
 	</delete>
 	
 	<!-- Bookmark : SELECT LIST( 북마크 리스트 찾기 ) -->
@@ -91,8 +92,11 @@
 	<!-- Boardfile : DELETE ( 파일 삭제하기 ) -->
 	<delete id="deleteBoardFile" parameterType="int">
         DELETE FROM boardfile 
-        WHERE file_no = #{fileNo}
+        <where>
+        board_no = #{boardNo}
+    	</where>
     </delete>
+    
 	
 	<!-- Boardfile : UPDATE ( 파일 수정하기 ) -->
 	<update id="updateBoardFile" parameterType="boardFile">
@@ -210,47 +214,47 @@
 	 </update>
     
     <!-- Board : UPDATE VIEWS ( 조회수 수정 ) -->
-    <update id="updateViews" parameterType="map">
+    <update id="updateViews" parameterType="int">
     	UPDATE board
     	<set>
-    		views = #{views} + 1
+    		views = views + 1
     	</set>
     	WHERE board_no = #{boardNo}
     </update>
     
     <!-- Board : UPDATE commentCnt ( 댓글 수 수정 ) -->
-    <update id="updateCommentCntUp" parameterType="map">
+    <update id="updateCommentCntUp" parameterType="int">
     	UPDATE board
     	<set>
-    		comments_cnt = #{commentCnt} + 1
+    		comments_cnt = comments_cnt + 1
     	</set>
     	WHERE board_no = #{boardNo}
     </update>
     
     <!-- Board : UPDATE commentCnt ( 댓글 수 수정 ) -->
-    <update id="updateCommentCntDown" parameterType="map">
+    <update id="updateCommentCntDown" parameterType="int">
     	UPDATE board
     	<set>
-    		comments_cnt = #{commentCnt} - 1
+    		comments_cnt = comments_cnt - 1
     	</set>
     	WHERE board_no = #{boardNo}
     </update>
     
     
      <!-- Board : UPDATE bookmarkCnt ( 즐겨찾기 수 수정 ) -->
-    <update id="updateBookmarkCntUp" parameterType="map">
+    <update id="updateBookmarkCntUp" parameterType="int">
     	UPDATE board
     	<set>
-    		bookmark_cnt = #{bookmarkCnt} + 1
+    		bookmark_cnt = bookmark_cnt + 1
     	</set>
     	WHERE board_no = #{boardNo}
     </update>
     
     <!-- Board : UPDATE bookmarkCnt ( 즐겨찾기 수 수정 ) -->
-    <update id="updateBookmarkCntDown" parameterType="map">
+    <update id="updateBookmarkCntDown" parameterType="int">
     	UPDATE board
     	<set>
-    		bookmark_cnt = #{bookmarkCnt} - 1
+    		bookmark_cnt = bookmark_cnt - 1
     	</set>
     	WHERE board_no = #{boardNo}
     </update>
@@ -266,10 +270,10 @@
     
 	 
 	 <!-- SQL : SELECT ROW Count + views,  -->	 
-	 <select id="getBoardList" parameterType="Map" resultType="Board">
-    SELECT b.*
-    FROM (
-        SELECT *
+	 <select id="getBoardList" parameterType="Map" resultMap="boardSelectMap">
+        SELECT board_no, type_no, nickname,
+	 	 title,user_group_no, contents, reg_date,
+	 	 bookmark_cnt, views, comments_cnt
         FROM board
         <if test="search.searchCondition != null or boardType != null">
             <where>
@@ -285,11 +289,8 @@
                 <if test="boardType != null">
                     AND type_no = #{boardType}
                 </if>
-                
             </where>
         </if>
-    ) as b
-    <if test=""></if>
     ORDER BY board_no;
 </select>
 	
@@ -302,7 +303,7 @@
 			FROM board
 			<if test="search.searchCondition != null or boardType != null">
             <where>
-                <if test="search.searchCondition == 0 and search.searchKeyword != ''">
+                <if test="search.searchCondition == 0 and  and search.searchKeyword != ''">
                     INSTR(title, #{search.searchKeyword}) > 0
                 </if>
                 <if test="search.searchCondition == 1 and search.searchKeyword != ''">

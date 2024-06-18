@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
 		<script>
 		
 			function updateGroup()
@@ -49,29 +50,39 @@
 		        }
 			}
 		</script>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
 	</head>
 	<body>
-		<h1>모임정보 수정 View 페이지</h1>
-		<form id="MyForm">
-			<input type="hidden" name="groupNo" value="${group.groupNo}">
-			닉네임 : <input type="text" name="leaderNick" id="leaderNick" value="${group.leaderNick}">
-			<br>
-			모임명 : <input type="text" name="groupName" id="groupName" value="${group.groupName}">
-			<br>
-			소개  : <input type="text" name="groupIntro" id="groupIntro" value="${group.groupIntro}">
-			<br>
-			태그  : <input type="text" name="groupHash" id="groupHash" value="${group.groupHash}">
-			<br>
-			주소  : <input type="text" name="groupAddr" id="groupAddr" value="${group.groupAddr}">
-			<br>
-			계획  : <input type="text" name="groupPlan" id="groupPlan" value="${group.groupPlan}">
-			<br>
-			인원수 : <input type="text" name="groupPers" id="groupPers" value="${group.groupPers}">
-			<br>
-			등급  : <input type="text" name="groupLevel" id="groupLevel" value="${group.groupLevel}">
-		</form>
-		<a href="javascript:updateGroup();">수정하기</a>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<h1>모임정보 수정 View 페이지</h1>
+				<form id="MyForm">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+					닉네임 : <input type="text" name="leaderNick" id="leaderNick" value="${group.leaderNick}">
+					<br>
+					모임명 : <input type="text" name="groupName" id="groupName" value="${group.groupName}">
+					<br>
+					소개  : <input type="text" name="groupIntro" id="groupIntro" value="${group.groupIntro}">
+					<br>
+					태그  : <input type="text" name="groupHash" id="groupHash" value="${group.groupHash}">
+					<br>
+					주소  : <input type="text" name="groupAddr" id="groupAddr" value="${group.groupAddr}">
+					<br>
+					계획  : <input type="text" name="groupPlan" id="groupPlan" value="${group.groupPlan}">
+					<br>
+					인원수 : <input type="text" name="groupPers" id="groupPers" value="${group.groupPers}">
+					<br>
+					등급  : <input type="text" name="groupLevel" id="groupLevel" value="${group.groupLevel}">
+				</form>
+				<a href="javascript:updateGroup();">수정하기</a>
+        	</div>
+        </div>
+        
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>

@@ -27,7 +27,7 @@ public class Board {
 	private int userGroupNo;
 	private String contents;		//게시판 내용
 	private Date regDate;			//등록 날짜
-	private BoardFile thumnail;		//썸네일 이미지 이름//
+	private int thumnail;		//썸네일 이미지 번호//
 	private int bookmarkCnt;		//즐겨찾기 수
 	private int views;				//조회수
 	private int commentCnt;			//댓글 수

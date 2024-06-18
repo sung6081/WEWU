@@ -47,7 +47,7 @@
 	
 	<!-- Question : UPDATE ( 질문 변경 하기 ) -->
 	<update id="updateQuestion" parameterType="int">
-		UPDATE
+		UPDATE question
 		<set>
 			nickname = #{nickName},
 			title = #{title},
@@ -67,7 +67,7 @@
  
 		 
 	<!-- Question : SELECT LIST getQuestionList ( 질문 목록 찾기 ) -->
-	<select  id="getQuestionList"  parameterType="map"	resultMap="questionResultMap">
+	<select  id="getQuestionList"  parameterType="Map"	resultMap="questionResultMap">
 	  	SELECT 
 	  	question_no, nickname, question_type, question_category, title, reg_date, question_state
 	  	FROM question

@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
 			window.onload = function() {
 				// form 데이터 가져오기
@@ -72,52 +71,64 @@
 			}
 		</script>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+	<title>Insert title here</title>
 	</head>
 	<body>
-		<h1>모임 정보</h1>
-		${group}
-		<br><br>
-		모임 명 : ${group.groupName}
-		<br>
-		모임소개 : ${group.groupIntro} 
-		<br>
-		해시태그 : ${group.groupHash} 
-		<br>
-		모임주소 : ${group.groupAddr} 
-		<br>
-		모임계획 : ${group.groupPlan} 
-		<br>
-		모임원수 : ${group.groupPers} 
-		<br>
-		<h1>게시판 종류</h1>
-		<div id="boardList">
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		
-		</div>
-		<br><br>
-		<a href="/">index</a>
-		<br>
-		<form id="addApplJoin" method="post">
-			<input type="hidden" name="groupNo" value="${group.groupNo}">
-		</form>
-			<a href="javascript:addApplJoin();">가입신청하기</a>
-		
-		<form id=updateApplJoinForm method="post">
-			<input type="hidden" name="groupNo" value="${group.groupNo}">
-		</form>
-			<a href="javascript:updateApplJoinForm();">가입신청질문 변경</a>
-			
-		<form id=addGroupBoard method="post">
-			<input type="hidden" name="groupNo" value="${group.groupNo}">
-		</form>
-			<a href="javascript:addGroupBoard();">게시판 추가하기</a>
-			
-		<form id=getGroupBoardList method="post">
-			<input type="hidden" name="groupNo" value="${group.groupNo}">
-		</form>
-		
-		<form id=getGroupBoard method="post">
-		
-		</form>
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<h1>모임 정보</h1>
+				${group}
+				<br><br>
+				모임 명 : ${group.groupName}
+				<br>
+				모임소개 : ${group.groupIntro} 
+				<br>
+				해시태그 : ${group.groupHash} 
+				<br>
+				모임주소 : ${group.groupAddr} 
+				<br>
+				모임계획 : ${group.groupPlan} 
+				<br>
+				모임원수 : ${group.groupPers} 
+				<br>
+				<h1>게시판 종류</h1>
+				<div id="boardList">
+				
+				</div>
+				<br><br>
+				<a href="/">index</a>
+				<br>
+				<form id="addApplJoin" method="post">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
+					<a href="javascript:addApplJoin();">가입신청하기</a>
+				
+				<form id=updateApplJoinForm method="post">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
+					<a href="javascript:updateApplJoinForm();">가입신청질문 변경</a>
+					
+				<form id=addGroupBoard method="post">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
+					<a href="javascript:addGroupBoard();">게시판 추가하기</a>
+					
+				<form id=getGroupBoardList method="post">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
+				
+				<form id=getGroupBoard method="post">
+				
+				</form>
+        	</div>
+        </div>
+        
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>

@@ -12,7 +12,7 @@ import life.wewu.web.domain.board.Question;
 @Mapper
 public interface DonationDao {
 	
-	public Donation addDonation(Donation donation) throws Exception;
+	public void addDonation(Donation donation) throws Exception;
 	
 	public void deleteDonation(int payNo) throws Exception;
 	

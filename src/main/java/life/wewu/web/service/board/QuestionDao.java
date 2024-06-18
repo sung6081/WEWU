@@ -10,7 +10,7 @@ import life.wewu.web.domain.board.Question;
 @Mapper
 public interface QuestionDao {
 	
-	public Question addQuestion(Question question) throws Exception;
+	public void addQuestion(Question question) throws Exception;
 	
 	public void updateReply(Question question) throws Exception;
 	

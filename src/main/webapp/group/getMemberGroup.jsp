@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
 		<script>
 			function deleteMemberGroup(){
 				
@@ -60,19 +61,30 @@
 				form.submit();
 			}
 		</script>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
 	</head>
 	<body>
-		${groupMember}
-		<form id="deleteMemberGroup" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form>
-			<a href="javascript:deleteMemberGroup();">모임원 삭제하기</a>
-			
-		<form id="updateMemberGroup" method="post">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form>
-			<a href="javascript:updateMemberGroup();">내 정보 수정하기</a>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<h1>모임 회원조회</h1>
+				${groupMember}
+				<form id="deleteMemberGroup" method="post">
+					<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+				</form>
+					<a href="javascript:deleteMemberGroup();">모임원 삭제하기</a>
+					
+				<form id="updateMemberGroup" method="post">
+					<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+				</form>
+					<a href="javascript:updateMemberGroup();">내 정보 수정하기</a>
+        	</div>
+        </div>
+        
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>

@@ -12,6 +12,7 @@ import life.wewu.web.domain.board.Board;
 import life.wewu.web.domain.board.BoardFile;
 import life.wewu.web.domain.board.Bookmark;
 import life.wewu.web.domain.board.Comment;
+import life.wewu.web.domain.board.Question;
 
 @Mapper
 public interface BoardDao {
@@ -50,7 +51,7 @@ public interface BoardDao {
 	public int getCommentCnt(int boardNo) throws Exception;
 	
 	//Board Dao
-	public Board addBoard(Board board) throws Exception;
+	public void addBoard(Board board) throws Exception;
 	
 	public void deleteBoard(int boardNo) throws Exception;
 	
@@ -58,13 +59,13 @@ public interface BoardDao {
 	
 	public int updateViews(int boardNo) throws Exception;
 	
-	public void updateCommentCntUp(Map map) throws Exception;
+	public void updateCommentCntUp(int boardNo) throws Exception;
 	
-	public void updateCommentCntDown (Map map) throws Exception;
+	public void updateCommentCntDown (int boardNo) throws Exception;
 	
-	public void updateBookmarkCntUp (Map map) throws Exception;
+	public void updateBookmarkCntUp (int boardNo) throws Exception;
 	
-	public void updateBookmarkCntDown (Map map) throws Exception;
+	public void updateBookmarkCntDown (int boardNo) throws Exception;
 	
 	//
 	public Board getBoard(int boardNo) throws Exception;
