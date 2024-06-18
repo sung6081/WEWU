@@ -88,9 +88,9 @@ $(document).ready(function() {
 
 	function searchCoordinateToAddress(latlng) {
 
-	    infoWindow.close();
+	    //infoWindow.close();
 
-	    naver.maps.Service.reverseGeocode({
+	    /* naver.maps.Service.reverseGeocode({
 	        coords: latlng,
 	        orders: [
 	            naver.maps.Service.OrderType.ADDR,
@@ -111,7 +111,7 @@ $(document).ready(function() {
 	            addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
 
 	            htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
-	        }
+	        } */
 
 	        /* infoWindow.setContent([
 	            '<div style="padding:10px;min-width:200px;line-height:150%;">',
@@ -125,7 +125,24 @@ $(document).ready(function() {
 	}
 
 	function searchAddressToCoordinate(address) {
-	    naver.maps.Service.geocode({
+		
+		var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
+		
+		$.ajax({
+			url: url,
+			method: 'GET',
+			success: function(response) {
+				
+				console.log(response);
+				
+				var point = new naver.maps.Point(response.mapX, response.mapY);
+				
+				map.setCenter(point);
+				
+			}
+		})
+		
+	    /* naver.maps.Service.geocode({
 	        query: address
 	    }, function(status, response) {
 	        if (status === naver.maps.Service.Status.ERROR) {
@@ -159,9 +176,10 @@ $(document).ready(function() {
 	            '</div>'
 	        ].join('\n')); */
 
-	        map.setCenter(point);
+	        /*map.setCenter(point);
 	        //infoWindow.open(map, point);
-	    });
+	    }); */
+	    
 	}
 
 	function initGeocoder() {
@@ -170,11 +188,13 @@ $(document).ready(function() {
 	        var keyCode = e.which;
 
 	        if (keyCode === 13) { // Enter Key
+	        	
 	            searchAddressToCoordinate($('#address').val());
 	        }
 	    });
 
 	    $('#submit').on('click', function(e) {
+	    	
 	        e.preventDefault();
 
 	        searchAddressToCoordinate($('#address').val());
