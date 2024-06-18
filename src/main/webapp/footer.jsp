@@ -1,10 +1,10 @@
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 </head>

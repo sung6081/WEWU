@@ -28,6 +28,7 @@ body {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px 0;
+            position: relative;
         }
 
         .swiper-slide {
@@ -78,4 +79,13 @@ body {
         .row {
             margin-bottom: 20px; /* row 사이 간격 설정 */
         }
+        
+		.swiper-button-prev , .swiper-button-next {
+		    left: -60px;
+		    right: auto ; /* 왼쪽 버튼을 슬라이더 컨테이너 바깥으로 이동 */
+		    background-image: url('https://unpkg.com/swiper/swiper-bundle.min.js'); /* Swiper 기본 네비게이션 아이콘을 사용하려면 이 줄을 유지하세요 */
+
+		}
+		
+		
  

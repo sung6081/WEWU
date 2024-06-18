@@ -5,46 +5,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
-  <!-- plugins:js -->
-  <script src="vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="js/dataTables.select.min.js"></script>
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/todolist.js"></script>
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
-  <script src="js/Chart.roundedBarCharts.js"></script>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/main.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+
 </head>
 <body>
-    <script>
+
 	<jsp:include page="/footer.jsp" flush="true" />
 	<jsp:include page="/header.jsp" flush="true" />
 	<!-- partial -->
@@ -123,11 +87,11 @@
 					</div>
 				</div>
 				<!-- swiper -->
-				<div class="row mx-auto">
+					<div class="row mx-auto">
 					<div class="swiper-container">
 						<div class="swiper-wrapper">
 							<div class="swiper-slide">
-								<img src="https://via.placeholder.com/500x300" alt="Plant 1">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 1">
 								<div class="slide-content">
 									<h3>Philodendron</h3>
 									<p>The Philodendron White Princess Has Been Around For Some
@@ -135,7 +99,7 @@
 								</div>
 							</div>
 							<div class="swiper-slide">
-								<img src="https://via.placeholder.com/500x300" alt="Plant 2">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 2">
 								<div class="slide-content">
 									<h3>Monstera Obliqua Peruvian</h3>
 									<p>AS It Is A Small Species, Monstera Obliqua Is Uncommon.
@@ -144,7 +108,16 @@
 								</div>
 							</div>
 							<div class="swiper-slide">
-								<img src="https://via.placeholder.com/500x300" alt="Plant 3">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 2">
+								<div class="slide-content">
+									<h3>Monstera Obliqua Peruvian</h3>
+									<p>AS It Is A Small Species, Monstera Obliqua Is Uncommon.
+										Another Reason For Its Scarcity Is That It Grows Slowly And
+										Has Short...</p>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 3">
 								<div class="slide-content">
 									<h3>Norfolk Island Pine</h3>
 									<p>Although A Lively Addition To Your Home All Year
@@ -153,8 +126,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="swiper-button-next"></div>
-						<div class="swiper-button-prev"></div>
+							<div class="swiper-button-next"></div>
+							<div class="swiper-button-prev"></div>
 					</div>
 				</div>
 				<!-- 추가 슬라이드 -->
@@ -162,7 +135,7 @@
 					<div class="swiper-container">
 						<div class="swiper-wrapper">
 							<div class="swiper-slide">
-								<img src="https://via.placeholder.com/500x300" alt="Plant 1">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 1">
 								<div class="slide-content">
 									<h3>Philodendron</h3>
 									<p>The Philodendron White Princess Has Been Around For Some
@@ -170,7 +143,7 @@
 								</div>
 							</div>
 							<div class="swiper-slide">
-								<img src="https://via.placeholder.com/500x300" alt="Plant 2">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 2">
 								<div class="slide-content">
 									<h3>Monstera Obliqua Peruvian</h3>
 									<p>AS It Is A Small Species, Monstera Obliqua Is Uncommon.
@@ -179,7 +152,16 @@
 								</div>
 							</div>
 							<div class="swiper-slide">
-								<img src="https://via.placeholder.com/500x300" alt="Plant 3">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 2">
+								<div class="slide-content">
+									<h3>Monstera Obliqua Peruvian</h3>
+									<p>AS It Is A Small Species, Monstera Obliqua Is Uncommon.
+										Another Reason For Its Scarcity Is That It Grows Slowly And
+										Has Short...</p>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<img src="https://via.placeholder.com/700x300" alt="Plant 3">
 								<div class="slide-content">
 									<h3>Norfolk Island Pine</h3>
 									<p>Although A Lively Addition To Your Home All Year
