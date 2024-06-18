@@ -39,12 +39,13 @@
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/main.css">
-  
+  <link rel="stylesheet" href="css/swiper.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon.png" />
     <!-- swiper -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.3.1/swiper-bundle.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+  <script src="js/swiper.js"></script>
   
   <meta charset="utf-8">
   <meta name="viewport"
