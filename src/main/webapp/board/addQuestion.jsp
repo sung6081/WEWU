@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,42 +10,71 @@
 </head>
 <body>
 
-<form method="post" action="/board/addQuestion" encType="multipart/form-data" >
-<input type="hidden" name="questionNo" value="${parma.questionNo}" >
-<input type="hidden" name="questionType" value="${parma.questionType}" >
-	<h2>제목</h2>
-	<input type="text" name="title" >
-	<br/>	
-	
-	<h2>내용</h2>
-	<input type="text" name="contents" >
-	<br/>
+	<!-- HEADER -->
+	<jsp:include page="/header.jsp" />
+	<!-- HEADER -->
 
-	<h2>질문 종류</h2>
-	<input type="text" name="questionType" >
-	<br/>
-	
-	<h2>문의 카테고리</h2>
-	<input type="text" name="questionCategory" >
-	<br/>
-	
-	<h2>사용자 닉네임</h2>
-	<input type="text" name="nickName">
-	<br/>
-	
-	
-	<h2>이메일 주소</h2>
-	<input type="text" name="email">
-	<br/>
-	
-	<h2>전화 번호</h2>
-	<input type="text" name="phoneNum">
-	<br/>
-	
-	
-	<input type="submit" value="등록하기">
+	<div class="main-panel">
+		<div class="content-wrapper">
+			<div class="col-md-6 grid-margin stretch-card">
+				<div class="card">
+					<div class="card-body">
+						<h1 class="card-title">
+							<c:if test="${param.questionType eq '1'}"> 자주하는 질문 등록하기 </c:if>
+							<c:if test="${param.questionType eq '2'}"> 1:1 문의 등록하기 </c:if>
+						</h1>
+							<p class="card-description">${sessionScpoe.user.usernickName}</p>
+							<p class="card-description">nick1</p>
+							
+							<form class="forms-sample" method="post" action="/board/addQuestion" enctype="multipart/form-data">
+								<input type="hidden" name="questionNo" value="${param.questionNo}">
+								<input type="hidden" name="questionType"value="${param.questionType}">
+								
+							<div class="form-group row">
+									<label for="title" class="col-sm-3 col-form-label">제목</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="title">
+									</div>
+								</div>
 
-</form>
+								<div class="form-group row">
+									<label for="title" class="col-sm-3 col-form-label">내용</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="contents">
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">문의 카테고리</label>
+									<div class="col-sm-9">
+										<select id="questionCategory" name="questionCategory" class="form-control">
+											<option value="배송" selected>배송</option>
+											<option value="환불">환불</option>
+											<option value="회원">회원 정보</option>
+											<option value="주문">주문/결제</option>
+										</select>
+									</div>
+								</div>
+								
+								<c:if test="${param.questionType eq '1'}">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">답변 내용</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" name="title">
+										</div>
+									</div>
+								</c:if>
+							  <button type="submit" class="btn btn-primary mr-2">등록하기</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<jsp:include page="/footer.jsp" />
+	<!-- FOOTER -->
 
 </body>
 </html>
