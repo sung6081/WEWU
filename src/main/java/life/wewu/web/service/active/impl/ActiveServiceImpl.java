@@ -184,11 +184,11 @@ public class ActiveServiceImpl implements ActiveService {
 			
 			// ���� ��¥�� Ȱ�� ���� ��¥�� �ð� �κ��� �����Ͽ� ��
 	        if (isSameDay(currentDate, active.getActiveEndDate())) {
-	            active.setStateFlag("Ȱ����");
+	            active.setStateFlag("활동중");
 	        } else if (currentDate.after(active.getActiveEndDate())) {
-	            active.setStateFlag("Ȱ�� ����");
+	            active.setStateFlag("활동 종료");
 	        } else {
-	            active.setStateFlag("Ȱ����");
+	            active.setStateFlag("활동중");
 	        }
 			
 			activeList.set(i, active);
@@ -204,6 +204,25 @@ public class ActiveServiceImpl implements ActiveService {
 	    cal2.setTime(date2);
 	    return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
 	           cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+	}
+
+	@Override
+	public boolean isLastPage(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+		int allCount = activeDao.countAllGroupActiveList(map);
+		
+		int lastPage = (allCount / 10) + 1;
+		
+		Search search = (Search)map.get("search");
+		
+		if(search.getCurrentPage() == lastPage) {
+			
+			return true;
+			
+		}
+		
+		return false;
 	}
 	
 }

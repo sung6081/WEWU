@@ -33,4 +33,6 @@ public interface ActiveDao {
 
 	public void deleteActiveHash(int activeNo); //Ȱ���� �ؽ� �±� ����
 	
+	public int countAllGroupActiveList(Map<String, Object> map);
+	
 }
