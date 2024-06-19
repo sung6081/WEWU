@@ -61,12 +61,14 @@ public class ActiveController {
 	//�޼ҵ�
 	//Ȱ�� ��� ������ �׺� GET
 	@GetMapping(value = "addActive/{groupNo}")
-	public String addActive(@PathVariable int groupNo, Model model) {
+	public String addActive(@PathVariable int groupNo, Model model) throws Exception {
 		
 		System.out.println("addActive NAVI");
 		
 		//지도 clientId
 		model.addAttribute("clientId", clientId);
+		
+		model.addAttribute("group", groupService.getGroup(groupNo));
 		
 		return "forward:/active/addActive.jsp?groupNo="+groupNo;
 		
@@ -103,6 +105,9 @@ public class ActiveController {
 		//activeNo�� active�޾Ƽ� model�� ��� foward
 		model.addAttribute("active", activeService.getActive(activeNo));
 		
+		//지도 clientId
+		model.addAttribute("clientId", clientId);
+		
 		return "forward:/active/getActive.jsp";
 	}
 	
@@ -113,6 +118,9 @@ public class ActiveController {
 		System.out.println("updateActive Navi");
 		
 		model.addAttribute("active", activeService.getActive(activeNo));
+		
+		//지도 clientId
+		model.addAttribute("clientId", clientId);
 		
 		return "forward:/active/updateActive.jsp";
 		

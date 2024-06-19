@@ -9,17 +9,43 @@
 <meta charset="UTF-8">
 
 <title>모임 활동 지도</title>
+<!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
+<link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-
 <style>
 
-    #map {
-        width: 1000px;
-        height: 500px;
+	body, html {
+         overflow: hidden; /* 스크롤바 숨기기 */
+    }
+
+	#header {
+	    width: 100%;
+	    height: 60px;
+	    margin: 45px;
+	}
+	
+	#footer {
+	    width: 100%;
+	    height: 60px;
+	}
+	
+	#left {
+	    width: 300px;
+	    height: 100%;
+	    float: left;
+	    overflow-y: auto;
+	    border-right: 1px solid #ddd;
+	    padding: 10px;
+    	box-sizing: border-box;
+	}
+	
+	.btn_mylct i {
+        font-size: 50px; /* 아이콘 크기를 키웁니다 */
     }
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
+    .search #condition { width:50px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
     
@@ -30,10 +56,18 @@
 $(document).ready(function() {
 	
 	var location;
+	
+	var selfMarker = null;
 
 	var activeList = ${activeList};
 	
 	console.log(activeList);
+	
+	var height = $(window).height() - 300;
+	
+	console.log(height);
+	
+	$('#map').height(height);
 	
 	//for()
 	
@@ -54,7 +88,11 @@ $(document).ready(function() {
 	    location = new naver.maps.LatLng(position.coords.latitude,
 	                                         position.coords.longitude);
 	    
-	    var marker = new naver.maps.Marker({
+	    if(selfMarker) {
+	    	selfMarker.setMap(null);
+	    }
+	    
+	    selfMarker = new naver.maps.Marker({
 	        position: location,
 	        map: map
 	    });
@@ -86,8 +124,8 @@ $(document).ready(function() {
 	    mapTypeControl: true
 	});
 	
-	var locationBtnHtml = '<a href="#" class="btn_mylct"><span class="mdi mdi-target">내위치</span></a>';
-	var map = new naver.maps.Map('map', {zoom: 13});
+	var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="mdi mdi-target"></i></a>';
+	//var map = new naver.maps.Map('map', {zoom: 13});
 
 	naver.maps.Event.once(map, 'init', function() {
 	    //customControl 객체 이용하기
@@ -342,17 +380,61 @@ $(document).ready(function() {
 </head>
 <body>
 
-<c:import url="/header.jsp"></c:import>
-
-<div id="map">
-    <div class="search" style="">
-        <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-        <input id="submit" type="button" value="주소 검색" />
+	<div id="header">
+	    <c:import url="/header.jsp"></c:import>
+	</div>
+	
+	<%-- <div id="container">
+		<div id="left">
+		    <!-- <div id="list">
+		        여기에 리스트 항목을 추가합니다
+		        <ul>
+		            <li>리스트 항목 1</li>
+		            <li>리스트 항목 2</li>
+		            <li>리스트 항목 3</li>
+		        </ul>
+		    </div> -->
+		    <div id="chatList">
+		    	<c:import url="/chat/listServer.jsp"></c:import>
+		    </div>
+	    </div>
+	    <div id="map">
+	        <div class="search" style="">
+	        	<select id="condition" >
+	        		<option value="map" >지도</option>
+	        		<option value="active" >활동</option>
+	        	</select>
+	            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
+	            <input id="submit" type="button" value="주소 검색" />
+	        </div>
+	    </div>
+	</div> --%>
+	
+	<div class="main-panel">
+       	<div class="content-wrapper">
+       		<div class="row" >
+				<div class="col-md-4 grid-margin" >
+					
+				</div>
+				<div class="col-md-8 grid-margin" >
+					<div id="map">
+				        <div class="search" style="">
+				        	<select id="condition" >
+				        		<option value="map" >지도</option>
+				        		<option value="active" >활동</option>
+				        	</select>
+				            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
+				            <input id="submit" type="button" value="주소 검색" />
+				        </div>
+				    </div>
+				</div>
+			</div>
+       	</div>
     </div>
-</div>
-<br/><br/>
-
-<c:import url="/footer.jsp"></c:import>
+	
+	<div id="footer">
+	    <c:import url="/footer.jsp"></c:import>
+	</div>
 
 </body>
 </html>
