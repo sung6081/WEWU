@@ -138,6 +138,7 @@ public class PlantServiceImpl implements PlantService{
 		{
 			PlantLevl plantLevl = plant.getPlantLevl();
 			plant.setPlantLevl(plantLevl);
+			
 		}
 		
 		Map<String,Object> map = new HashMap<>();
