@@ -54,7 +54,7 @@ public class ActiveRestController {
 	
 	//������ Ȱ�� ��� ������
 	@PostMapping(value = "listGroupActive")
-	public List<Active> getGroupActiveList(@RequestBody Search search, @RequestParam int groupNo) throws Exception {
+	public Map<String, Object> getGroupActiveList(@RequestBody Search search, @RequestParam int groupNo) throws Exception {
 		
 		System.out.println("getGroupActiveList");
 		
@@ -62,7 +62,12 @@ public class ActiveRestController {
 		map.put("search", search);
 		map.put("groupNo", new Integer(groupNo));
 		
-		return activeService.getGroupActiveList(map);
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("list", activeService.getGroupActiveList(map));
+		result.put("isLast", activeService.isLastPage(map));
+		
+		return result;
 	}
 	
 	//rest group ������, �˻�

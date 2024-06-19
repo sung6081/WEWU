@@ -170,6 +170,10 @@ public class ActiveController {
 		map.put("search", search);
 		map.put("groupNo", new Integer(groupNo));
 		
+		Boolean isLast = activeService.isLastPage(map);
+		
+		model.addAttribute("isLast", isLast);
+		
 		List<Active> list = activeService.getGroupActiveList(map);
 		
 		model.addAttribute("list", list);
@@ -191,6 +195,10 @@ public class ActiveController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("groupNo", new Integer(groupNo));
+		
+		Boolean isLast = activeService.isLastPage(map);
+		
+		model.addAttribute("isLast", isLast);
 		
 		model.addAttribute("list", activeService.getGroupActiveList(map));
 		

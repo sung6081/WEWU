@@ -13,7 +13,7 @@
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <link rel="stylesheet" href="/css/datepicker.css">
 
 <style>
@@ -72,7 +72,15 @@
 		
 		var activeMarker = null;
 		
-		$('.time').val(new Date().toISOString().slice(11, 16));
+		//$('.time').val(new Date().toISOString().slice(11, 16));
+		
+		$(document).ready(function() {
+		    var now = new Date();
+		    var hours = String(now.getHours()).padStart(2, '0');
+		    var minutes = String(now.getMinutes()).padStart(2, '0');
+		    var localTime = hours + ':' + minutes;
+		    $('.time').val(localTime);
+		});
 		
 		if (navigator.geolocation) {
 	        /**
@@ -300,6 +308,10 @@
 			        }
 			        
 			        console.log(address);
+			        
+			        $('.activeLocal').val(address);
+			        
+			        
 	
 			        //infoWindow.open(map, latlng);
 			    });
@@ -319,6 +331,15 @@
 		        console.log('UTMK: ' + utmk.toString());
 		        console.log('TM128: ' + tm128.toString());
 		        console.log('NAVER: ' + naverCoord.toString());
+		        
+		        $('.activeX').val(latlng.lat());
+		        $('.activeY').val(latlng.lng());
+		        
+		        console.log('activeX: ' + $('.activeX').val());
+		        console.log('activeY: ' + $('.activeY').val());
+		        console.log('activeLocal: ' + $('.activeLocal').val());
+		        
+		        
 		    });
 	
 		    $('#address').on('keydown', function(e) {
@@ -431,88 +452,179 @@
 	<div class="main-panel">
 	
        	<div class="content-wrapper">
-       		<form class="addActive" >
+       	
+       		<form class="add-form" >
        		
-       		<div class="row" >
-       		
-       			<div class="col-md-12 grid-margin" >
-       				<h4>활동 등록하기</h4>
-       			</div>
-       			
-				<div class="col-md-5 grid-margin" >
-					<div class="row">
+	       		<div class="row" >
+	       		
+	       			<div class="col-md-12 grid-margin" >
+	       				<h4>활동 등록하기</h4>
+	       			</div>
+	       			
+					<div class="col-md-5 grid-margin" >
 					
-						<div class="col-md-6 grid-margin" >
-							<div class="form-group">
-		                      <label>활동 이름</label>
-		                      <input type="text" name="activeName" class="form-control" id="exampleInputUsername1" placeholder="활동 이름">
-		                      <input type="hidden" name="groupNo" value="${groupNo}" >
+						<div class="row">
+						
+							<div class="col-md-6 grid-margin" >
+								<div class="form-group">
+			                      <label>활동 이름</label>
+			                      <input type="text" name="activeName" class="form-control" placeholder="활동 이름">
+			                      <input type="hidden" name="groupNo" value="${groupNo}" >
+			                      <input type="hidden" class="activeLocal" name="activeLocal">
+			                      <input type="hidden" class="activeX" name="activeX">
+			                      <input type="hidden" class="activeY" name="activeY">
+			                    </div>
 		                    </div>
+		                    <div class="col-md-5 grid-margin" >
+			                    <div class="form-group">
+			                      <label>그룹장 닉네임</label>
+			                      <input type="text" name="leaderNick" disabled="disabled" class="form-control" value="${group.leaderNick}">
+			                    </div>
+			               	</div>
+			               	
 	                    </div>
-	                    <div class="col-md-5 grid-margin" >
-		                    <div class="form-group">
-		                      <label>그룹장 닉네임</label>
-		                      <input type="text" name="leaderNick" disabled="disabled" class="form-control" id="exampleInputUsername1" value="${group.leaderNick}">
-		                    </div>
-		               	</div>
-		               	
-                    </div>
-                    
-                    <div class="form-group">
-                    	
-                   		<label>모임시간</label>
-                   		
-                   		<div class="row">
-                   		
-                    		<div class="col-md-4 grid-margin" >
-                    			<input type="time" name="activeStartTime" class="time form-control">
-                    		</div>
-                    		<div class="col-md-1 grid-margin" >
-                    			<br/>
-                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
-                    		</div>
-                    		<div class="col-md-4 grid-margin" >
-                    			<input type="time" name="activeEndTime" class="time form-control">
-                    		</div>
-                    		
-                   		</div>
-                   		
-                   		<div class="row">
-                   		
-                    		<div class="col-md-6 grid-margin" >
-                    			<label>활동 시작일</label>
-                    			<input type="text" name="activeStartTime" class="datepicker form-control">
-                    		</div>
-                    		<div class="col-md-6 grid-margin" >
-                    			<label>활동 종료일</label>
-                    			<input type="text" name="activeEndTime" class="datepicker form-control">
-                    		</div>
-                    		
-                   		</div>
-                      
-                    </div>
-                    
-				</div>
-				
-				<div class="col-md-7 grid-margin" >
-					<div id="map">
-					    <div class="search" style="">
-					        <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-					        <input id="submit" type="button" value="주소 검색" />
-					    </div>
+	                    
+	                    <div class="form-group">
+	                    	
+	                   		<label>모임시간</label>
+	                   		
+	                   		<div class="row">
+	                   		
+	                    		<div class="col-md-4 grid-margin" >
+	                    			<input type="time" name="activeStartTime" class="time form-control">
+	                    		</div>
+	                    		<div class="col-md-1 grid-margin" >
+	                    			<br/>
+	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
+	                    		</div>
+	                    		<div class="col-md-4 grid-margin" >
+	                    			<input type="time" name="activeEndTime" class="time form-control">
+	                    		</div>
+	                    		
+	                   		</div>
+	                   		
+	                   		<div class="row">
+	                   		
+	                    		<div class="col-md-6 grid-margin" >
+	                    			<label>활동 시작일</label>
+	                    			<input type="text" name="activeStartTime" class="datepicker form-control" placeholder="활동 시작일" >
+	                    		</div>
+	                    		<div class="col-md-6 grid-margin" >
+	                    			<label>활동 종료일</label>
+	                    			<input type="text" name="activeEndTime" class="datepicker form-control" placeholder="활동 종료일" >
+	                    		</div>
+	                    		
+	                   		</div>
+	                   		
+	                   		<div class="row">
+	                   		
+	                   				<div class="col-md-6 grid-margin" >
+			                   			<label>해쉬 태그</label>
+			                      		<input type="hidden" name="hash" class="form-control hash" placeholder="해쉬 태그">
+		                      		</div>
+	                      		
+	                      		<!-- <div class="row">
+	                      		
+	                      			<div class="col-md-6 grid-margin" >
+	                      				<button type="button" class="btn btn-primary btn-lg btn-block"></button>
+	                      			</div>
+	                      			
+	                      		</div> -->
+	                      		
+	                   		</div>
+	                   		
+	                   		<div class="row">
+	                   			<c:forEach begin="1" end="5" var="i">
+	                   				<div class="col-md-2 grid-margin" >
+		                   				<input id="hash${i}" type="text" class="form-control" >
+		                   			</div>
+	                   			</c:forEach>
+	               			</div>
+	                      	
+	                      	<div class="row">
+	                      		<label>활동 코멘트</label>
+	                      		<textarea class="form-control" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+	                      	</div>
+	                      	
+	                      	<div class="row">
+	                      		<button type="button" onclick="addActive()" class="btn btn-primary btn-lg btn-block">
+		                      		등록하기
+			                    </button>
+	                      	</div>
+	                      	
+	                      	<script type="text/javascript">
+	                      	
+		                      	//submit함수
+		                    	function addActive() {
+		                    		
+		                    		alert('등록');
+		                    		
+		                    	}
+	                      	
+	                      	</script>
+	                      
+	                    </div>
+	                    
 					</div>
+					
+					<div class="col-md-7 grid-margin" >
+						<div class="row">
+						
+							<div id="map">
+							    <div class="search" style="">
+							        <input id="address" type="text" placeholder="검색할 주소" value="강남" />
+							        <input id="submit" type="button" value="주소 검색" />
+							    </div>
+							</div>
+						
+						</div>
+						
+						<div class="row">
+							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
+		                      <i class="ti-upload btn-icon-prepend"></i>                                                    
+		                      마커 사진 upload
+		                    </button>
+		                    <input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" >
+						</div>
+						
+						<script type="text/javascript">
+						
+							function upload() {
+								
+								$('.file').click();
+								
+							};
+							
+							$('.file').on('change', function() {
+							
+								if($('.file').val() != null || $('.file').val() != '') {
+									
+									$('.upload-btn').html('<i class="ti-upload btn-icon-prepend"></i>'+$('.file').val());
+									
+								}
+								
+							});
+							
+						
+						</script>
+					
+					</div>
+					
 				</div>
 				
-			</div>
-			
 			</form>
+			
        	</div>
        	
+       	<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
+	    
+	    <script type="text/javascript">
+	    	$('footer').removeClass('fixed-bottom');
+	    </script>
+       	
     </div>
-       
-	<!-- FOOTER -->
-    <jsp:include page="/footer.jsp" />
-    <!-- FOOTER -->
 
 </body>
 </html>

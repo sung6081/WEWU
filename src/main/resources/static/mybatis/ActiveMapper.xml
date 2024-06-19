@@ -121,11 +121,19 @@
 		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>
 			a.group_no = #{groupNo}
-			<if test="search.searchKeyword != null">
+			<if test="search.searchCondition != null and search.searchCondition == '활동중'">
+				TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
+			</if>
+			<if test="search.searchCondition != null and search.searchCondition == '활동 종료'">
+				<![CDATA[
+	                TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) < 0
+	            ]]>
+			</if>
+			<if test="search.searchKeyword != null and search.searchKeyword != ''">
 				AND INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0
 			</if>
 		</where>
-		ORDER BY a.active_no
+		ORDER BY a.active_no DESC
 		LIMIT #{offset}, 10
 		
 	</select>
@@ -171,6 +179,32 @@
 		</where>
 	
 	</delete>
+	
+	<select id="countAllGroupActiveList" parameterType="java.util.Map" resultType="int">
+	
+		SELECT COUNT(*) FROM (
+		
+			SELECT DISTINCT a.*, leader_nick FROM active a
+			LEFT JOIN group_info g ON a.group_no = g.group_no
+			LEFT JOIN active_hash ah ON a.active_no = ah.active_no
+			<where>
+				a.group_no = #{groupNo}
+				<if test="search.searchCondition != null and search.searchCondition == '활동중'">
+					TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
+				</if>
+				<if test="search.searchCondition != null and search.searchCondition == '활동 종료'">
+					<![CDATA[
+		                TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) < 0
+		            ]]>
+				</if>
+				<if test="search.searchKeyword != null and search.searchKeyword != ''">
+					AND INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0
+				</if>
+			</where>
+		
+		) tab
+	
+	</select>
 
 </mapper>
 
