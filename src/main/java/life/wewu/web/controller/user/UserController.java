@@ -33,7 +33,17 @@ public class UserController {
     private UserService userService;
     
     @RequestMapping(value="/login", method=RequestMethod.GET)
-    public String showLoginPage() {
+    public String showLoginPage(HttpSession session) {
+        // 세션에서 유저 정보를 가져옴
+        User user = (User) session.getAttribute("user");
+        
+        // 유저가 로그인 되어 있는지 확인
+        if (user != null) {
+            // 로그인 되어 있다면 메인 페이지로 리다이렉트
+            return "redirect:/index.jsp";
+        }
+        
+        // 로그인 되어 있지 않다면 로그인 페이지로 이동
         return "/user/loginView"; // login.jsp 페이지를 반환
     }
 
@@ -48,7 +58,7 @@ public class UserController {
             if (dbUser != null) {
                 session.setAttribute("user", dbUser);
                 System.out.println("로그인 성공: " + dbUser.getUserId());
-                return "redirect:/index.jsp";
+                return "redirect:/main.jsp";
             } else {
                 System.out.println("로그인 실패: 비밀번호 불일치 또는 사용자 없음");
                 return "redirect:/user/loginView.jsp?error=login_failed";
@@ -208,15 +218,29 @@ public class UserController {
 		return "redirect:/user/myInfo?userId="+user.getUserId();
 	}
 	
-	@RequestMapping(value = "userQuit", method = RequestMethod.POST)
-	public void userQuit(@ModelAttribute("user") User user, HttpServletResponse response) throws Exception {
-	    System.out.println("/user/userQuit : POST");
+//	@RequestMapping(value = "userQuit", method = RequestMethod.POST)
+//	public String userQuit(@ModelAttribute("user") User user, HttpSession session) throws Exception {
+//	    System.out.println("/user/userQuit : POST");
+//
+//	    // User ID로 사용자 정보 조회
+//	    User dbUser = userService.getUser(user.getUserId());
+//
+//	    // role 값에 따라 다른 페이지로 리다이렉트
+//	    if ("1".equals(dbUser.getRole())) {
+//	        // 관리자일 경우 사용자 삭제 후 listUser.jsp로 리다이렉트
+//	        userService.deleteUser(user.getUserId());
+//	        return "redirect:/user/listUser";
+//	    } else if ("2".equals(dbUser.getRole())) {
+//	        // 일반 사용자일 경우 사용자 삭제 후 home.jsp로 리다이렉트
+//	        userService.deleteUser(user.getUserId());
+//	        return "redirect:/home.jsp";
+//	    }
+//
+//	    // 기본적으로 관리자 페이지로 리다이렉트
+//	    return "redirect:/user/listUser";
+//	}
 
-	    userService.deleteUser(user.getUserId());
 
-	    // 사용자가 탈퇴 후 리다이렉트
-	    response.sendRedirect("/user/userQuit.jsp");
-	}
 
 	@RequestMapping( value="listUser" )
 	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
@@ -244,15 +268,15 @@ public class UserController {
 	}
 	
 	
-    @PostMapping("/updateAdmin")
-    public String updateUser(@ModelAttribute User user) throws Exception {
-       
-		System.out.println("/user/updateAdmin : POST");
-
-    	userService.updateUser(user);
-    	
-        return "redirect:/user/myInfo?userId=" + user.getUserId();
-    }
+//    @PostMapping("/updateAdmin")
+//    public String updateUser(@ModelAttribute User user) throws Exception {
+//       
+//		System.out.println("/user/updateAdmin : POST");
+//
+//    	userService.updateUser(user);
+//    	
+//        return "redirect:/user/myInfo?userId=" + user.getUserId();
+//    }
 
     @PostMapping("/delete")
     public String deleteUser(@RequestParam("userId") String userId) throws Exception {
