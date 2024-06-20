@@ -26,7 +26,9 @@
          <div class="row mt-5">
            <div class="col-lg-5 grid-margin stretch-card">
              <div class="card mr-4">
-               <div class="card-body"></div>
+               <div class="card-body">
+               
+               </div>
              </div>
            </div>
            <div class="col-lg-7 grid-margin stretch-card">
