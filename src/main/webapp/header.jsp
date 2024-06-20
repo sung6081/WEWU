@@ -121,7 +121,7 @@
                </div>
                <!-- Menu 4 with nested dropdown -->
                <div class="dropdown-submenu">
-                 <a class="dropdown-item dropdown-toggle" href="#">식물관리</a>
+                 <a class="dropdown-item dropdown-toggle" >식물관리</a>
                  <ul class="dropdown-menu">
                    <li><a class="dropdown-item" href="/plant/addPlant.jsp">식물등록</a></li>
                    <li><a class="dropdown-item" href="/plant/listPlant.jsp">식물관리</a></li>
@@ -135,7 +135,7 @@
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link btn btn-primary text-white " href="/login">Login</a>
+              <a class="nav-link btn btn-primary text-white " href="/user/login">Login</a>
             </li>
             <li class="nav-item nav-settings">
               <a class="nav-link" href="#">
