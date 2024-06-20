@@ -58,6 +58,7 @@
   <title>WEWU</title>
 </head>
 <body>
+
   <div class="fixed-top">
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
      <div class="container d-flex justify-content-center">
@@ -106,9 +107,9 @@
                <div class="dropdown-submenu">
                  <a class="dropdown-item dropdown-toggle" href="#">아이템판매관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="#">아이템 판매 삭제</a></li>
-                   <li><a class="dropdown-item" href="#">아이템 판매 등록</a></li>
-                   <li><a class="dropdown-item" href="#">아이템 판매 등록</a></li>
+                   <li><a class="dropdown-item" href="/item/addItem">아이템 판매 등록</a></li>
+                   <li><a class="dropdown-item" href="/item/updateItem?itemNo=1">아이템 판매 수정</a></li>
+                   <li><a class="dropdown-item" href="/item/getItemSalesHistoryList">아이템 판매 내역</a></li>
                  </ul>
                </div>
                <!-- Menu 3 with nested dropdown -->
@@ -122,10 +123,10 @@
                <div class="dropdown-submenu">
                  <a class="dropdown-item dropdown-toggle" href="#">식물관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="#">식물등록</a></li>
-                   <li><a class="dropdown-item" href="#">식물관리</a></li>
-                   <li><a class="dropdown-item" href="#">퀘스트등록</a></li>
-                   <li><a class="dropdown-item" href="#">퀘스트관리</a></li>
+                   <li><a class="dropdown-item" href="/plant/addPlant.jsp">식물등록</a></li>
+                   <li><a class="dropdown-item" href="/plant/listPlant.jsp">식물관리</a></li>
+                   <li><a class="dropdown-item" href="/plant/addQuest.jsp">퀘스트등록</a></li>
+                   <li><a class="dropdown-item" href="/plant/listQuest.jsp">퀘스트관리</a></li>
                  </ul>
                </div>
              </div>
@@ -151,6 +152,6 @@
     </nav>
   </div>
 </body>
-<jsp:include page="/plant/mainQuest.jsp" flush="true" />
+
 
 </html>

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
@@ -47,8 +48,9 @@ public class PlantRestController {
 	public PlantRestController() {
 		System.out.println(this.getClass());
 	}
+
 	
-	@RequestMapping(value ="/json/completeQuest" , method = RequestMethod.POST)
+	@RequestMapping(value ="completeQuest" , method = RequestMethod.POST)
 	public Quest completeQuest(@RequestBody Quest quest , Model model) throws Exception{
 		System.out.println("/completeQuest");
 		
@@ -60,7 +62,7 @@ public class PlantRestController {
 		return quest;
 	}
 	
-	@RequestMapping(value ="/json/deleteQuest")
+	@RequestMapping(value ="deleteQuest")
 	public Quest deleteQuest(@RequestBody Quest quest , Model model ) throws Exception{
 		System.out.println(" /plant/deleteQuest : POST ");		
 		plantService.addQuest(quest);		
@@ -71,7 +73,7 @@ public class PlantRestController {
 	
 	
 	
-	@RequestMapping(value ="/json/deletePlant" , method = RequestMethod.POST)
+	@RequestMapping(value ="deletePlant" , method = RequestMethod.POST)
 	public String deletePlant(@RequestParam("plantNo") int plantNo , Model model) throws Exception{
 		System.out.println(" /plant/deletePlant : POST ");		
 		plantService.deletePlant(plantNo);
@@ -81,7 +83,7 @@ public class PlantRestController {
 	}
 	
 	//REST로
-	@RequestMapping(value ="/json/getUseItem" , method = RequestMethod.POST)
+	@RequestMapping(value ="getUseItem" , method = RequestMethod.POST)
 	public Map<String,Object> getUseItem(@RequestParam("myPlantNo") int myPlantNo,@RequestParam("itemPurNo") int itemPurNo) throws Exception{
 		MyPlant myPlant = plantService.getMyPlant(myPlantNo);
 		Inventory inventory = plantService.getInventory(itemPurNo);
@@ -94,7 +96,7 @@ public class PlantRestController {
 		
 	}
 	
-	@RequestMapping(value="/json/updateMyPlant", method = RequestMethod.POST)
+	@RequestMapping(value="updateMyPlant", method = RequestMethod.POST)
 	public MyPlant updateMyPlant(@RequestBody MyPlant myPlant) throws Exception{
 		
 		System.out.println("/plant/updateMyPlant");
@@ -112,7 +114,7 @@ public class PlantRestController {
 		return plant;
 	}
 	
-	@RequestMapping(value="/json/getWeather" , method = RequestMethod.POST)
+	@RequestMapping(value="getWeather" , method = RequestMethod.POST)
 	public ResponseEntity<List<String>> getWeather() throws Exception{
 		
 		String serviceKey = "zJ7JeCt+LM11LqlWrFNTradlea58rNZ036NPWmX33rg3BEgPgLlLJLIqvRsZrPec0aUIB+t91pjA0iQg1j9E1Q==";

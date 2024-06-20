@@ -3,7 +3,12 @@
   <html>
   <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+     <style>
+    /* input 필드의 너비를 조정 */
+    .input-small {
+      width: 40px;
+    }
+  </style>
   </head>
   <body>
     <!-- HEADER -->
@@ -22,16 +27,10 @@
           <br>
           <br>
           <br>
-          <div class="container">
-            <div class="row mt-5">
-              <div class="col-lg-5 grid-margin stretch-card">
-              
-                <div class="card mr-4">
-                  <div class="card-body"></div>
-                </div>
-              </div>
-              <div class="col-lg-7 grid-margin stretch-card">
-			  <div class="card mr-4">
+          <div class="container text-center">
+            <div class="row justify-content-center mt-5">
+              <div class="col-lg-10 grid-margin stretch-card">
+			  <div class="card mx-auto">
                 <div class="card-body">
                   <h4 class="card-title">Hoverable Table</h4>
                   <p class="card-description">
@@ -44,15 +43,20 @@
                           <th>종류</th>
                           <th>효과</th>
                           <th>수량</th>
-                          <th>사용</th>
+                          <th>사용하기</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td><img src="../../images/faces/face1.jpg" alt="image"></td>
+                          <td>${inventory.itemType}</td>
                           <td>${inventory.itemExp}</td>
                           <td>${inventory.itemNum}</td>
-                          <td>Flash</td>                        
+                          <td>
+							<input type="number" class="form-control" name="useItem">
+						  </td>
+						  <td>
+						  <button type="button" class="btn btn-outline-warning btn-fw">사용</button>
+						  </td>                        
                         </tr>
                       </tbody>
                     </table>
@@ -63,7 +67,8 @@
           </div>
         </div>
       </div>
-    </form>
+    </div>
+  </form>
     <!-- FOOTER -->
     <jsp:include page="/footer.jsp" />
     <!-- FOOTER -->
