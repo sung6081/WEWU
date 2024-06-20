@@ -168,7 +168,7 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public List<MyPlant> getMyPlantList(Map map) throws Exception {	
+	public List<MyPlant> getMyPlantList(Map<String,Object> map) throws Exception {	
 		return plantDao.getMyPlantList(map);
 	}
 

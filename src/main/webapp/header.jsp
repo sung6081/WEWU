@@ -83,7 +83,7 @@
             <li class="nav-item"><a class="nav-link" href="/active/activeMap">모임활동지도</a></li>
             <li class="nav-item">
               <c:if test="${ empty user }">
-                <a class="nav-link" href="/plant/getMyPlant.jsp">식물키우기</a>
+                <a class="nav-link" href="/plant/emptyUser.jsp">식물키우기</a>
               </c:if>
               <c:if test="${ ! empty user }">
                 <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>

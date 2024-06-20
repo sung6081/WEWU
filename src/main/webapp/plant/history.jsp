@@ -28,7 +28,7 @@
 </head>
 <body>
   <jsp:include page="/header.jsp" flush="true" />
-  <jsp:include page="/plantSide.jsp" />
+  <jsp:include page="/plant/plantSide.jsp" />
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row mt-5">
@@ -47,20 +47,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <c:forEach var="myPlant" items="${map.list}" varStatus="status">
+                    <c:forEach var="myPlant" items="${allList}" varStatus="status">
                       <tr>
                         <td class="plantNo">최신순 과거순 경험치 높은 순 경험치 낮은 순</td>
-                        <tr class="plantName">
-                        	<c:if test="${myPlant.myPlantState eq 'N' }">
-                        		<td>${myPlant.levlImg }</td>
-                        		<td>${myPlant.levlImg }</td>
-                        		<td>${myPlant.levlImg }</td>
-                        		<td>${myPlant.levlImg }</td>
-                        		<td>${myPlant.levlImg }</td>
-                        	</c:if>
-                        </tr>
+                      </tr>
+                      <tr class="plantName">
+                        <c:if test="${myPlant.myPlantState eq 'N'}">
+                          <td>${myPlant.levlImg}</td>
+                          <td>${myPlant.levlImg}</td>
+                          <td>${myPlant.levlImg}</td>
+                          <td>${myPlant.levlImg}</td>
+                          <td>${myPlant.levlImg}</td>
+                        </c:if>
+                      </tr>
+                      <tr>
                         <td><label class="badge badge-success">수정</label></td>
-                    </c:forEach>                  </tbody>
+                      </tr>
+                    </c:forEach>
+                  </tbody>
                 </table>
               </div>
             </div>

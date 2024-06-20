@@ -82,7 +82,7 @@ public class PlantController {
 	public String updateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception{
 		System.out.println(" /plant/updateQuest : GET ");
 		Quest quest = plantService.getQuest(questNo);
-		model.addAttribute("quest", quest);
+		model.addAttribute("qeust", quest);
 		return "forward:/plant/updateQuest.jsp";
 	}
 	
@@ -93,7 +93,7 @@ public class PlantController {
 		int questNo = quest.getQuestNo();
 		plantService.updateQuest(quest);		
 		model.addAttribute("quest", quest);	
-		
+		System.out.println(questNo);
 		return "forward:/plant/updateQuest.jsp";
 	}
 	
@@ -113,6 +113,8 @@ public class PlantController {
 		
 		model.addAttribute("map", map);
 		model.addAttribute("search", search);
+		
+		System.out.println(map);
 		
 		return "forward:/plant/listQuest.jsp";
 	}
@@ -221,26 +223,26 @@ public class PlantController {
 	@RequestMapping(value ="history" , method = RequestMethod.GET)
 	public String getMyPlantList(@ModelAttribute("search") Search search, Model model ) throws Exception{
 		System.out.println("/plant/history : GET");
-		User user = new User();
-		user.setNickname(null);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		search.setSearchKeyword("N");
+		search.setSearchKeyword("past");
 		
 		map.put("search",search);
-		map.put("nickname",user.getNickname());
 		
 		List<MyPlant> list = plantService.getMyPlantList(map);
+		System.out.println("map = " + map);
+		System.out.println("List = " +list);
 		List<MyPlant> allList= new ArrayList<MyPlant>();
 		
-		for(MyPlant m : list)
+		for(MyPlant myPlant : list)
 		{
-			m.setPlant(plantService.getPlant(m.getPlant().getPlantNo()));
-			m.setPlantLevl(plantService.getPlantLevl(m.getPlantLevl().getPlantLevlNo()));
+			myPlant.setPlant(plantService.getPlant(myPlant.getPlant().getPlantNo()));
+			myPlant.setPlantLevl(plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo()));
 			
-			allList.add(m);
+			allList.add(myPlant);
 		}
 		
+		 System.out.println("All List Size: " + allList.size());
 		
 		model.addAttribute("allList", allList);
 		

@@ -5,10 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>List Quest</title>
+    
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script>
+      $(function () {
+      $(".badge").on("click", function () {
+        var questNo = ${quest.questNo}
+        self.location = "/plant/updateQuest?questNo="+1
+      });
+    });
+  </script>
 </head>
 <body>
 	<jsp:include page="/header.jsp" flush="true" />
-	<jsp:include page="/plantSide.jsp" />
+	<jsp:include page="/plant/plantSide.jsp" />
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row mt-5">
@@ -27,7 +37,6 @@
                                     <th>Reg Date</th>
                                     <th>Quest Contents</th>
                                     <th>Quest State</th>
-                                    <th>Quest Reg Date</th>
                                     <th>Quest Target</th>
                                     <th>Quest Target Count</th>
                                     <th>Quest Reward</th>
@@ -36,7 +45,7 @@
                                 <tbody>
                                 <c:forEach var="quest" items="${map.list}">
                                     <tr>
-                                        <td class="questNo">${quest.questNo}</td>
+                                        <td>${quest.questNo}</td>
                                         <td>${quest.regDate}</td>
                                         <td>${quest.questContents}</td>
                                         <td>${quest.questState}</td>
@@ -44,6 +53,9 @@
                                         <td>${quest.questTarget}</td>
                                         <td>${quest.questTargetCnt}</td>
                                         <td>${quest.questReward}</td>
+                                        <td>
+                        					<a href ="#" type = "button" class="badge badge-warning">수정</a>
+                       					</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
