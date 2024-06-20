@@ -58,6 +58,8 @@ public class ActiveRestController {
 		
 		System.out.println("getGroupActiveList");
 		
+		System.out.println(":::::: "+search);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("groupNo", new Integer(groupNo));

@@ -80,6 +80,8 @@ public class ActiveController {
 		
 		System.out.println("addActive B/L");
 		
+		System.out.println("::::: " + active);
+		
 //		if(file == null || file.isEmpty()) {
 //			System.out.println("file null");
 //		}
@@ -160,7 +162,7 @@ public class ActiveController {
 	@GetMapping(value = "listActive")
 	public String getActiveList(Model model, @RequestParam int groupNo) throws Exception {
 	
-		System.out.println("listActive");
+		System.out.println("listActive Get");
 		
 		Search search = new Search();
 		
@@ -173,6 +175,7 @@ public class ActiveController {
 		Boolean isLast = activeService.isLastPage(map);
 		
 		model.addAttribute("isLast", isLast);
+		model.addAttribute("groupNo", groupNo);
 		
 		List<Active> list = activeService.getGroupActiveList(map);
 		
@@ -186,7 +189,7 @@ public class ActiveController {
 	@PostMapping(value = "listActive")
 	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo) throws Exception {
 		
-		System.out.println("listActive");
+		System.out.println("listActive Post");
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);

@@ -16,12 +16,14 @@
 	<!-- HEADER -->
 	
 	<!-- SIDE -->
-	<jsp:include page="/side.jsp"></jsp:include>
+	<jsp:include page="/activeSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<script type="text/javascript">
 	
 		$(document).ready(function() {
+			
+			currentPage = 1;
 			
 			$('.dropdown-item').on('click', function(event) {
 				
@@ -40,7 +42,7 @@
        	
        		<div class="row">
        		
-       				<div class="col-lg-3 grid-margin stretch-card">
+       				<div class="col-lg-2 grid-margin stretch-card">
        				</div>
        		
 	       			<div class="col-lg-6 grid-margin stretch-card">
@@ -75,7 +77,7 @@
 									</div>
 									<input type="hidden" class="condition" name="searchCondition">
 								
-									<input type="text" class="form-control-sm" placeholder="활동명 해쉬태그 검색">
+									<input type="text" name="searchKeyword" class="form-control-sm keyword" placeholder="활동명 해쉬태그 검색">
 									
 									<div class="input-group-append">
 									  <button class="btn btn-sm btn-primary" type="button">Search</button>
@@ -93,7 +95,7 @@
 			                        <tr>
 			                        	<th>No</th>
 			                        	<th>활동 이름</th>
-			                        	<th class="active-name" >활동 시작일</th>
+			                        	<th>활동 시작일</th>
 			                        	<th>활동 종료일</th>
 			                        	<th>활동 등록일</th>
 			                        	<th>활동 종료 여부</th>
@@ -106,7 +108,10 @@
 			                        
 			                        	<tr>
 											<td>${i}</td>
-											<td>${active.activeName}</td>
+											<td class="name" >
+												${active.activeName}
+												<input type="hidden" name="activeNo" value="${active.activeNo}">
+											</td>
 											<td>${active.activeStartDate}</td>
 											<td>${active.activeEndDate}</td>
 											<td>${active.activeRegDate}</td>
@@ -119,6 +124,21 @@
 			                      </tbody>
 			                      
 			                    </table>
+			                    
+			                    <script type="text/javascript">
+			                    
+			                    	$('.name').css('color', 'blue');
+			                    	
+			                    	$('.name').on('click', function(event) {
+			                    		
+			                    		var activeNo = $(event.target).children().val();
+			                    		
+			                    		//alert(activeNo);
+			                    		
+			                    		self.location = '/active/getActive/'+activeNo;
+			                    	})
+			                    
+			                    </script>
 			                    
 			                    <button type="button" class="more-btn btn btn-secondary btn-lg btn-block">
 			                    	<c:if test="${!isLast}">
@@ -134,6 +154,53 @@
 			                    	$('.more-btn').on('click', function() {
 			                    	
 			                    		//alert(${isLast});
+			                    		var body = new Object();
+			                    		body.searchCondition = $('.condition').val();
+			                    		body.searchKeyword = $('.keyword').val();
+			                    		body.groupNo = ${groupNo};
+			                    		body.currentPage = currentPage
+			                    		var url = '/app/active/listGroupActive?groupNo=' + ${groupNo};
+			                    		let data = new Array();
+			                    		data.push(body);
+			                    		let json = JSON.stringify(body);
+			                    		
+			                    		currentPage++;
+			                    		
+			                    		$.ajax({
+			                    			url: url,
+			                    			method: 'POST',
+			                    			data: json,
+			                    			contentType : 'application/json',
+			                    			success: function(JSONData, status) {
+			                    				
+			                    				console.log(JSONData);
+			                					
+			                					if(JSONData.length == 0){
+			                						return;
+			                					}
+			                    				
+			                    				/* for(int i = 0; i < response.list.length; i++) {
+			                    					
+			                    					let append = '<tr class="append">\n'+
+																	'<td>${i}</td>\n'+
+																	'<td class="name" >\n'+
+																		+
+																		<input type="hidden" name="activeNo" value="${active.activeNo}">
+																	</td>
+																	<td>${active.activeStartDate}</td>
+																	<td>${active.activeEndDate}</td>
+																	<td>${active.activeRegDate}</td>
+																	<td>${active.stateFlag}</td>
+																</tr>
+			                    					
+			                    				} */
+			                    				
+			                    			},
+			                    		    error: function(xhr, status, error) {
+			                    		        // 서버 목록을 가져오는 데 실패했을 때의 처리
+			                    		        console.error('Failed to fetch list:', error);
+			                    		    }
+			                    		});
 			                    		
 			                    	})
 			                    

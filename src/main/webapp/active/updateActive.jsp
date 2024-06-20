@@ -33,7 +33,7 @@
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
-	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+	.search #searchBtn { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
     
 </style>
 
@@ -62,7 +62,6 @@
 	
 	$(function () {
 		$('.datepicker').datepicker({
-			inline: true
 		});
 	});
 	
@@ -74,57 +73,28 @@
 		
 		//$('.time').val(new Date().toISOString().slice(11, 16));
 		
-		$(document).ready(function() {
-		    var now = new Date();
-		    var hours = String(now.getHours()).padStart(2, '0');
-		    var minutes = String(now.getMinutes()).padStart(2, '0');
-		    var localTime = hours + ':' + minutes;
-		    $('.time').val(localTime);
-		});
-		
-		if (navigator.geolocation) {
-	        /**
-	         * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
-	         * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
-	         * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
-	         */
-	        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-	    } else {
-	        var center = map.getCenter();
-	        //infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
-	        //infowindow.open(map, center);
-	    }
-		
-		function onSuccessGeolocation(position) {
-		    location = new naver.maps.LatLng(position.coords.latitude,
-		                                         position.coords.longitude);
-	
-		    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-		    //map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
-	
-		    //infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
-	
-		    //infowindow.open(map, location);
-		    
-		    
-		    
-		    console.log('Coordinates: ' + location.toString());
-		}
-	
-		function onErrorGeolocation() {
-		    var center = map.getCenter();
-	
-		    //infowindow.setContent('<div style="padding:20px;">' +
-		        //'<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
-	
-		    //infowindow.open(map, center);
-		}
+		var map_x = ${active.activeX};
+		var map_y = ${active.activeY};
 	
 		var map = new naver.maps.Map("map", {
-		    center: new naver.maps.LatLng(37.3595316, 127.1052133),
+		    center: new naver.maps.LatLng(map_x, map_y),
 		    zoom: 15,
 		    mapTypeControl: true
 		});
+		
+		var markerOptions = {
+		    position: new naver.maps.LatLng(map_x, map_y),
+		    map: map,
+		    icon: {
+		        url: '${active.activeShortUrl}',
+		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+		    }
+		};
+		
+		activeMarker = new naver.maps.Marker(markerOptions);
 		
 		var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="mdi mdi-target"></i></a>';
 		//var map = new naver.maps.Map('map', {zoom: 13});
@@ -148,18 +118,35 @@
 		    map.controls[naver.maps.Position.RIGHT_BOTTOM].push(locationBtnEl);
 	
 		    naver.maps.Event.addDOMListener(locationBtnEl, 'click', function() {
-		    	if (navigator.geolocation) {
-		            /**
-		             * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
-		             * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
-		             * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
-		             */
-		            navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-		        } else {
-		            var center = map.getCenter();
-		            //infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
-		            //infowindow.open(map, center);
+		    	var markerLocation = new naver.maps.LatLng(map_x,map_y);
+		    	
+		    	if(activeMarker) {
+		    		activeMarker.setMap(null);
 		        }
+		    	
+		    	var markerOptions = {
+	    		    position: new naver.maps.LatLng(map_x,map_y),
+	    		    map: map,
+	    		    icon: {
+	    		        url: '${active.activeShortUrl}',
+	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+	    		    }
+	    		};
+		    	
+		    	$('.activeX').val('${active.activeX}');
+		    	$('.activeY').val('${active.activeY}');
+		    	$('.activeLocal').val('${active.activeLocal}');
+		    	
+		    	console.log('activeX: ' + $('.activeX').val());
+		        console.log('activeY: ' + $('.activeY').val());
+		        console.log('activeLocal: ' + $('.activeLocal').val());
+	    		
+	    		activeMarker = new naver.maps.Marker(markerOptions);
+		    	
+		    	map.setCenter(markerLocation);
 		    });
 		});
 	
@@ -320,10 +307,19 @@
 		    		activeMarker.setMap(null);
 		        }
 		        
-		    	activeMarker = new naver.maps.Marker({
-		            position: latlng,
-		            map: map
-		        });
+		        var markerOptions = {
+	    		    position: latlng,
+	    		    map: map,
+	    		    icon: {
+	    		        url: '${active.activeShortUrl}',
+	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+	    		    }
+	    		};
+	    		
+	    		activeMarker = new naver.maps.Marker(markerOptions);
 		        
 		        
 		        
@@ -351,7 +347,7 @@
 		        }
 		    });
 	
-		    $('#submit').on('click', function(e) {
+		    $('#searchBtn').on('click', function(e) {
 		    	
 		        e.preventDefault();
 	
@@ -446,19 +442,19 @@
 	</script>
 	
 	<!-- SIDE -->
-	<jsp:include page="/side.jsp"></jsp:include>
+	<jsp:include page="/activeSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<div class="main-panel">
 	
        	<div class="content-wrapper">
        	
-       		<form class="add-form" >
+       		<form class="update-form" id="updateForm" encType="multipart/form-data" >
        		
 	       		<div class="row" >
 	       		
 	       			<div class="col-md-12 grid-margin" >
-	       				<h4>활동 등록하기</h4>
+	       				<h4>활동 수정하기</h4>
 	       			</div>
 	       			
 					<div class="col-md-5 grid-margin" >
@@ -469,7 +465,8 @@
 								<div class="form-group">
 			                      <label>활동 이름</label>
 			                      <input type="text" name="activeName" class="form-control" value="${active.activeName}" placeholder="활동 이름">
-			                      <input type="hidden" name="groupNo" value="${groupNo}" >
+			                      <input type="hidden" name="activeNo" value="${active.activeNo}">
+			                      <input type="hidden" name="groupNo" value="${active.groupNo}" >
 			                      <input type="hidden" class="activeLocal" name="activeLocal" value="${active.activeLocal}" >
 			                      <input type="hidden" class="activeX" name="activeX" value="${active.activeX}" >
 			                      <input type="hidden" class="activeY" name="activeY" value="${active.activeY}" >
@@ -490,15 +487,15 @@
 	                   		
 	                   		<div class="row">
 	                   		
-	                    		<div class="col-md-4 grid-margin" >
-	                    			<input type="time" name="activeStartTime" class="time form-control">
+	                    		<div class="col-md-5 grid-margin" >
+	                    			<input type="time" name="activeStartTime" class="time form-control" value="${active.activeStartTime}" >
 	                    		</div>
 	                    		<div class="col-md-1 grid-margin" >
 	                    			<br/>
 	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
 	                    		</div>
-	                    		<div class="col-md-4 grid-margin" >
-	                    			<input type="time" name="activeEndTime" class="time form-control">
+	                    		<div class="col-md-5 grid-margin" >
+	                    			<input type="time" name="activeEndTime" class="time form-control" value="${active.activeEndTime}" >
 	                    		</div>
 	                    		
 	                   		</div>
@@ -507,63 +504,16 @@
 	                   		
 	                    		<div class="col-md-6 grid-margin" >
 	                    			<label>활동 시작일</label>
-	                    			<input type="text" name="activeStartTime" class="datepicker form-control" value="active.activeStartDate" placeholder="활동 시작일" >
+	                    			<input type="text" name="activeStartDate" class="datepicker form-control" value="${active.activeStartDate}" placeholder="활동 시작일" >
 	                    		</div>
 	                    		<div class="col-md-6 grid-margin" >
 	                    			<label>활동 종료일</label>
-	                    			<input type="text" name="activeEndTime" class="datepicker form-control" value="active.activeEndDate" placeholder="활동 종료일" >
+	                    			<input type="text" name="activeEndDate" class="datepicker form-control" value="${active.activeEndDate}" placeholder="활동 종료일" >
 	                    		</div>
 	                    		
 	                   		</div>
 	                   		
-	                   		<div class="row">
 	                   		
-	                   				<div class="col-md-6 grid-margin" >
-			                   			<label>해쉬 태그</label>
-			                      		<input type="hidden" name="hash" class="form-control hash" placeholder="해쉬 태그">
-		                      		</div>
-	                      		
-	                      		<!-- <div class="row">
-	                      		
-	                      			<div class="col-md-6 grid-margin" >
-	                      				<button type="button" class="btn btn-primary btn-lg btn-block"></button>
-	                      			</div>
-	                      			
-	                      		</div> -->
-	                      		
-	                   		</div>
-	                   		
-	                   		<div class="row">
-	                   			<c:set var="i" value="1" ></c:set>
-	                   			<c:forEach var="hash" items="active.hashList">
-	                   				<div class="col-md-2 grid-margin" >
-		                   				<input id="hash${i}" type="text" class="form-control" >
-		                   			</div>
-		                   		<c:set var="i" value="${i + 1}" ></c:set>
-	                   			</c:forEach>
-	               			</div>
-	                      	
-	                      	<div class="row">
-	                      		<label>활동 코멘트</label>
-	                      		<textarea class="form-control" rows="10" value="active.activeInfo" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
-	                      	</div>
-	                      	
-	                      	<div class="row">
-	                      		<button type="button" onclick="addActive()" class="btn btn-primary btn-lg btn-block">
-		                      		등록하기
-			                    </button>
-	                      	</div>
-	                      	
-	                      	<script type="text/javascript">
-	                      	
-		                      	//submit함수
-		                    	function addActive() {
-		                    		
-		                    		alert('등록');
-		                    		
-		                    	}
-	                      	
-	                      	</script>
 	                      
 	                    </div>
 	                    
@@ -575,7 +525,7 @@
 							<div id="map">
 							    <div class="search" style="">
 							        <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-							        <input id="submit" type="button" value="주소 검색" />
+							        <input id="searchBtn" type="button" value="주소 검색" />
 							    </div>
 							</div>
 						
@@ -584,7 +534,7 @@
 						<div class="row">
 							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
 		                      <i class="ti-upload btn-icon-prepend"></i>                                                    
-		                      마커 사진 upload
+		                      변경할 마커 사진 upload
 		                    </button>
 		                    <input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" >
 						</div>
@@ -603,12 +553,119 @@
 									
 									$('.upload-btn').html('<i class="ti-upload btn-icon-prepend"></i>'+$('.file').val());
 									
+								}else {
+									$('.upload-btn').html('변경할 마커 사진 upload');
 								}
 								
 							});
 							
 						
 						</script>
+					
+					</div>
+					
+					<div class="col-md-12 grid-margin" >
+					
+						<div class="row">
+	                   		
+	                   				<div class="col-md-6 grid-margin" >
+			                   			<label>해쉬 태그</label>
+			                      		<input type="hidden" name="hash" class="form-control hash" placeholder="해쉬 태그">
+		                      		</div>
+	                      		
+	                   		</div>
+	                   		
+	                   		<div class="row">
+	                   			<c:set var="i" value="1" ></c:set>
+	                   			<c:if test="${active.hashList.size() != 0}">
+	                   			<c:forEach var="hash" items="${active.hashList}">
+	                   				<div class="col-md-2 grid-margin" >
+		                   				<input id="hash${i}" type="text" value="${hash.hashName}" class="form-control" >
+		                   			</div>
+		                   		<c:set var="i" value="${i + 1}" ></c:set>
+	                   			</c:forEach>
+	                   			</c:if>
+	                   			
+	                   			<c:forEach begin="${i}" end="5" >
+	                   				<div class="col-md-2 grid-margin" >
+		                   				<input id="hash${i}" type="text" class="form-control" >
+		                   			</div>
+		                   		<c:set var="i" value="${i + 1}" ></c:set>
+	                   			</c:forEach>
+	               			</div>
+	                      	
+	                      	<div class="row">
+	                      		<label>활동 코멘트</label>
+	                      		<textarea class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+	                      	</div>
+	                      	
+	                      	<script type="text/javascript">
+	                      	
+	                      		var active_info = "${active.activeInfo}";
+	                      		
+	                      		console.log(active_info);
+	                      	
+	                      		$('.info').val(active_info);
+	                      	
+	                      	</script>
+	                      	
+	                      	<div class="row">
+	                      		<button type="button" onclick="updateActive()" class="btn btn-primary btn-lg btn-block">
+		                      		수정하기
+			                    </button>
+	                      	</div>
+	                      	
+	                      	<script type="text/javascript">
+	                      	
+		                      	//submit함수
+		                    	function updateActive() {
+		                    		
+		                    		alert('수정');
+		                    		
+									var hashString = '';
+		                    		
+		                    		if($('.activeName').val() == ''){
+		                    			alert('활동 이름을 입력해 주세요.');
+		                    			return;
+		                    		}
+		                    		
+		                    		if($('.activeX').val() == '' || $('.activeY').val() == ''){
+		                    			alert('활동 마커를 지도에 찍어주세요.');
+		                    			return;
+		                    		}
+		                    		
+		                    		if($('.activeStartDate').val() == '' || $('.activeEndDate').val() == ''){
+		                    			alert('활동 기간을 입력해 주세요.');
+		                    			return;
+		                    		}
+		                    		
+		                    		for(let i = 1; i <= 5; i++) {
+		                    			
+		                    			if(i == 1 && $('#hash'+i).val() != '') {
+		                    				hashString += $('#hash'+i).val();
+		                    				console.log($('#hash'+i).val());
+		                    			}else if($('#hash'+i).val() != '') {
+		                    				hashString += ',' + $('#hash'+i).val();
+		                    				console.log($('#hash'+i).val());
+		                    			}
+		                    			
+		                    		}
+		                    		
+		                    		console.log(hashString);
+		                    		
+		                    		$('.hash').val(hashString);
+		                    		
+		                    		var activeNo = ${active.activeNo};
+		                    		
+		                    		$('form').attr('method', 'post');
+		                    		$('form').attr('action', '/active/updateActive');
+		                    		
+		                    		//document.getElementById("updateForm").submit();
+		                    		$('#updateForm')[0].submit();
+		                    		
+		                    	}
+	                      	
+	                      	</script>
 					
 					</div>
 					
