@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
-		
 			function updateGroup()
 			{
 		        if(!confirm("정말 수정하시겠습니까?")){
@@ -14,7 +14,7 @@
 					
 		        }else{
 		        	// form 데이터 가져오기
-		        	var form = document.getElementById('MyForm');
+		        	var form = document.getElementById('updateGroup');
 		        	var formData = new FormData(form);
 
 		        	// JSON으로 변환
@@ -38,7 +38,8 @@
 						  
 						},
 						success : function(data, status, xhr) {
-							alert("수정이 완료되었습니다. \n변경된 내용을 확인하세요");
+							alert("수정이 완료되었습니다.");
+							$("#getGroup").submit();
 						},
 						error	: function(xhr, status, error) {
 						  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -50,34 +51,43 @@
 		        }
 			}
 		</script>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
 	</head>
 	<body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
+
+		<!-- SIDEBAR -->
+		<jsp:include page="/group/groupSide.jsp"></jsp:include>
+		<!-- SIDEBAR -->
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-        		<h1>모임정보 수정 View 페이지</h1>
-				<form id="MyForm">
+        		<div class="col-md-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h1 class="card-title">모임수정</h1>
+	                  <h4 class="card-title">${group.groupName}</h4>
+	                  <form class="forms-sample" id="updateGroup">
+	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+						<input type="hidden" name="memberNickName" value="nick4">
+						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
+						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
+						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
+	                    <div class="form-group">
+	                      <label>모임소개</label>
+	                      <input type="text" class="form-control" name="groupIntro" value="${group.groupIntro}" placeholder="모임소개">
+	                    </div>
+	                  </form>
+	                <button onclick="javascript:updateGroup();"  class="btn btn-primary mr-2">수정</button>
+	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+	                </div>
+	              </div>
+	            </div>
+	            
+				<form id="getGroup" method="post" action="/group/getGroup">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
-					닉네임 : <input type="text" name="leaderNick" id="leaderNick" value="${group.leaderNick}">
-					<br>
-					모임명 : <input type="text" name="groupName" id="groupName" value="${group.groupName}">
-					<br>
-					소개  : <input type="text" name="groupIntro" id="groupIntro" value="${group.groupIntro}">
-					<br>
-					태그  : <input type="text" name="groupHash" id="groupHash" value="${group.groupHash}">
-					<br>
-					주소  : <input type="text" name="groupAddr" id="groupAddr" value="${group.groupAddr}">
-					<br>
-					계획  : <input type="text" name="groupPlan" id="groupPlan" value="${group.groupPlan}">
-					<br>
-					인원수 : <input type="text" name="groupPers" id="groupPers" value="${group.groupPers}">
-					<br>
-					등급  : <input type="text" name="groupLevel" id="groupLevel" value="${group.groupLevel}">
+					<input type="hidden" name="memberNickName" value="nick4">
 				</form>
-				<a href="javascript:updateGroup();">수정하기</a>
         	</div>
         </div>
         

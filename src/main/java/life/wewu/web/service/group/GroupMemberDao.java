@@ -27,7 +27,7 @@ public interface GroupMemberDao {
 	
 	public GroupMember getMemberGroupForNick(Map<String,Object> map) throws Exception;
 	
-	public List<GroupMember> getMemberGroupList(Search search) throws Exception;
+	public List<GroupMember> getMemberGroupList(Map<String, Object> map) throws Exception;
 	
 	public void addMemberGroup(GroupMember groupMember) throws Exception;
 	

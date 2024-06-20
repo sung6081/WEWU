@@ -4,9 +4,19 @@
  */
 package life.wewu.web.controller.group;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.aspectj.apache.bcel.classfile.Module.Require;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +29,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import life.wewu.web.common.Search;
+import life.wewu.web.domain.board.Board;
 import life.wewu.web.domain.group.Group;
 import life.wewu.web.domain.group.GroupAcle;
 import life.wewu.web.domain.group.GroupBoard;
 import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.service.board.BoardService;
 import life.wewu.web.service.group.GroupService;
 
 @RestController
@@ -39,6 +52,10 @@ public class GroupRestController {
 	@Autowired
 	@Qualifier("groupService")
 	private GroupService groupService;
+	
+	@Autowired
+	@Qualifier("boardService")
+	private BoardService boardService;
 	
 	public GroupRestController()
 	{
@@ -71,7 +88,11 @@ public class GroupRestController {
 		System.out.println(":: /app/group/getApplJoinList ::");
 		System.out.println(search);
 		// Business logic 수행
-		return groupService.getApplJoinList(search);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		System.out.println(search);
+		// Business logic 수행
+		return groupService.getMemberGroupList(map);
 	}
 	
 	@RequestMapping(value="updateGroupRslt",method = RequestMethod.POST)
@@ -90,13 +111,42 @@ public class GroupRestController {
 		
 		String searchCondition = (String) requestData.get("searchCondition");
 	    String searchKeyword = (String) requestData.get("searchKeyword");
+	    String joinFlag = (String) requestData.get("joinFlag");
+		Search search = new Search();
+		search.setSearchCondition(searchCondition);
+		search.setSearchKeyword(searchKeyword);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("joinFlag", joinFlag);
+		System.out.println(search);
+		System.out.println(joinFlag);
+		// Business logic 수행
+		return groupService.getMemberGroupList(map);
+	}
+	
+	//지원이 사용해야 함
+	@RequestMapping(value="getUserGroupList",method = RequestMethod.POST)
+	public List<Group> getUserGroupList(@RequestBody String nickname) throws Exception 
+	{
+		System.out.println(":: /app/group/getMemberGroupList ::");
+		
+		String searchCondition = "user";
+	    String searchKeyword = nickname;
 	    
 		Search search = new Search();
 		search.setSearchKeyword(searchCondition);
 		search.setSearchKeyword(searchKeyword);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		List<GroupMember> list = groupService.getMemberGroupList(map);
+		List<Group> group = new ArrayList<Group>();
+		for(GroupMember groupMember : list)
+		{
+			group.add(groupService.getGroup(groupMember.getGroupNo()));
+		}
 		
 		// Business logic 수행
-		return groupService.getMemberGroupList(search);
+		return group;
 	}
 	
 	@RequestMapping(value="getScrab",method = RequestMethod.POST)
@@ -401,5 +451,38 @@ public class GroupRestController {
 		
 		return groupAcle;
 	}
+	
+	@RequestMapping(value="getAcleList",method = RequestMethod.POST)
+	public List<GroupAcle> getAcleList(@RequestBody Map<String, Object> rslt) throws Exception 
+	{
+		System.out.println(":: /app/group/getAcleList ::");
+		int typeNo = (int)rslt.get("typeNo");
+		
+		Search search = new Search();
+		search.setCurrentPage(1); // 0
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("boardType", typeNo);
+		
+		// Business logic 수행
+		List<Board> boardList = boardService.getBoardList(map);
+		List<GroupAcle> acleList = new ArrayList<GroupAcle>();
+		
+		for(Board board : boardList){
+			GroupAcle groupAcle = GroupAcle.builder()
+					.boardNo(board.getBoardNo())
+					.typeNo(board.getBoardType())
+					.wrteName(board.getNickName())
+					.acleName(board.getTitle())
+					.acleContents(board.getContents())
+					.wrteDate(board.getRegDate())
+					.build();
+			acleList.add(groupAcle);
+		}
+		System.out.println(acleList);
+		return acleList;
+	}
+	
 	//오리날다............덕슨날다.....
 }

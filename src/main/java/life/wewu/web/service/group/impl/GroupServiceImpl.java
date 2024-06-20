@@ -134,16 +134,16 @@ public class GroupServiceImpl implements GroupService{
 		return groupMemberDao.getMemberGroup(memberNo);
 	}
 	
-	public List<GroupMember> getApplJoinList(Search search) throws Exception {
+	public List<GroupMember> getApplJoinList(Map<String,Object> map) throws Exception {
 		
 		//search 도메인을 인자로 모든 모임의 정보를 select 하는 메소드
-		return groupMemberDao.getMemberGroupList(search);
+		return groupMemberDao.getMemberGroupList(map);
 	}
 
-	public List<GroupMember> getMemberGroupList(Search search) throws Exception {
+	public List<GroupMember> getMemberGroupList(Map<String, Object> map) throws Exception {
 
 		//group_member pk를 인자로 해당 모임원의 정보를 select
-		return groupMemberDao.getMemberGroupList(search);
+		return groupMemberDao.getMemberGroupList(map);
 		
 	}
 	
