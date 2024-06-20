@@ -1,131 +1,144 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page pageEncoding="UTF-8"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<html>
 <head>
-	<meta charset="UTF-8">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-    	 body >  div.container{ 
-        	border: 3px solid #D6CDB7;
-            margin-top: 10px;
+    <meta charset="UTF-8">
+    <title>loginView</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        //============= "로그인" Event 연결 =============
+        $(function() {
+            $("#userId").focus();
+
+            $("a.login-btn").on("click", function(event) {
+                event.preventDefault();  // 기본 링크 동작을 막음
+                var id = $("#userId").val();
+                var pw = $("#password").val();
+
+                if(id == null || id.length < 1) {
+                    alert('ID 를 입력하지 않으셨습니다.');
+                    $("#userId").focus();
+                    return;
+                }
+
+                if(pw == null || pw.length < 1) {
+                    alert('패스워드를 입력하지 않으셨습니다.');
+                    $("#password").focus();
+                    return;
+                }
+
+                $("form").attr("method", "POST").attr("action", "/user/login").submit();
+            });
+        });
+
+        //============= 회원가입화면이동 =============
+        $(function() {
+            $("a.register-link").on("click", function(event) {
+                event.preventDefault();  // 기본 링크 동작을 막음
+                self.location = "/user/addUser";
+            });
+
+            $("a.find-id").on("click", function(event) {
+                event.preventDefault();  // 기본 링크 동작을 막음
+                self.location = "/user/findUserId";
+            });
+
+            $("a.find-pw").on("click", function(event) {
+                event.preventDefault();  // 기본 링크 동작을 막음
+                self.location = "/user/findPwd";
+            });
+        });
+    </script>
+    <style>
+        .welcome-message {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em; /* 폰트 크기 증가 */
+        }
+
+        .auth-form-light {
+            padding: 60px 50px; /* 패딩 증가 */
+        }
+
+        .form-control-lg {
+            height: calc(2.875rem + 2px);
+            padding: 1.5rem 1rem; /* 패딩 증가 */
+            font-size: 1.25rem; /* 폰트 크기 증가 */
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem; /* 패딩 증가 */
+            font-size: 1.25rem; /* 폰트 크기 증가 */
+        }
+
+        .font-weight-light {
+            font-size: 1.5rem; /* 폰트 크기 증가 */
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        .text-primary {
+            font-size: 1.25rem; /* 폰트 크기 증가 */
+        }
+
+        .link-group {
+            text-align: center; /* 가운데 정렬 */
+            margin-top: 15px; /* 간격 조정 */
+        }
+
+        .link-group a {
+            margin: 0 10px; /* 링크 사이 간격 조정 */
+            font-size: 1rem;
+            color: black;
+            text-decoration: none;
+        }
+
+        .link-group a:hover {
+            text-decoration: underline;
         }
     </style>
-    
-    <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-
-		//============= "로그인"  Event 연결 =============
-		$( function() {
-			
-			$("#userId").focus();
-			
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("button").on("click" , function() {
-				var id=$("input:text").val();
-				var pw=$("input:password").val();
-				
-				if(id == null || id.length <1) {
-					alert('ID 를 입력하지 않으셨습니다.');
-					$("#userId").focus();
-					return;
-				}
-				
-				if(pw == null || pw.length <1) {
-					alert('패스워드를 입력하지 않으셨습니다.');
-					$("#password").focus();
-					return;
-				}
-				
-				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-			});
-		});	
-		
-		
-		//============= 회원원가입화면이동 =============
-		$( function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
-				self.location = "/user/addUser"
-			});
-		});
-		
-	</script>		
-	
 </head>
-
 <body>
+    <!-- HEADER -->
+    <jsp:include page="/header.jsp"/>
+    <!-- HEADER -->
 
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<div class="navbar  navbar-default">
-        <div class="container">
-        	<h9><a class="navbar-brand" href="/index.jsp">WeWu</a></h9>
-   		</div>
-   	</div>
-   	<!-- ToolBar End /////////////////////////////////////-->	
-	
-	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
-		<!--  row Start /////////////////////////////////////-->
-		<div class="row">
-		
-			<div class="col-md-6">
-					<img src="/images/logo-spring.png" class="img-rounded" width="100%" />
-			</div>
-	   	 	
-	 	 	<div class="col-md-6">
-	 	 	
-		 	 	<br/><br/>
-				
-				<div class="jumbotron">	 	 	
-		 	 		<h1 class="text-center">로 &nbsp;&nbsp;그 &nbsp;&nbsp;인</h1>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row w-100 mx-0">
+                <div class="col-lg-4 mx-auto">
+                    <div class="auth-form-light text-left py-5 px-5 px-sm-6">
+                        <div class="brand-logo">
+                        	
+                        </div>
+                        <h3 class="welcome-message">WeWu에 오신걸 환영합니다.</h3>
+                        <h6 class="font-weight-light">로그인을 진행해주세요.</h6>
+                        <form class="pt-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-lg" name="userId" id="userId" placeholder="아이디">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control form-control-lg" name="userPwd" id="password" placeholder="패스워드">
+                            </div>
+                            <div class="mt-3">
+                                <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn login-btn" href="../../index.html">로 그 인</a>
+                            </div>
+                            <div class="link-group">
+								<a href="#" class="text-primary register-link">회원가입</a>
+                                <a href="#" class="auth-link find-id">아이디 찾기</a>
+                                <a href="#" class="auth-link find-pw">비밀번호 찾기</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-			        <form class="form-horizontal">
-		  
-					  <div class="form-group">
-					    <label for="userId" class="col-sm-4 control-label">아 이 디</label>
-					    <div class="col-sm-6">
-					      <input type="text" class="form-control" name="userId" id="userId"  placeholder="아이디" >
-					    </div>
-					  </div>
-					  
-					  <div class="form-group">
-					    <label for="password" class="col-sm-4 control-label">패 스 워 드</label>
-					    <div class="col-sm-6">
-					      <input type="password" class="form-control" name="userPwd" id="password" placeholder="패스워드" >
-					    </div>
-					  </div>
-					  
-					  <div class="form-group">
-					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
-					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
-					    </div>
-					  </div>
-			
-					</form>
-			   	 </div>
-			
-			</div>
-			
-  	 	</div>
-  	 	<!--  row Start /////////////////////////////////////-->
-  	 	
- 	</div>
- 	<!--  화면구성 div end /////////////////////////////////////-->
-
+    <!-- FOOTER -->
+    <jsp:include page="/footer.jsp" />
+    <!-- FOOTER -->
 </body>
-
 </html>

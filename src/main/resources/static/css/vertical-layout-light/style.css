@@ -19983,6 +19983,7 @@ code {
 .documentation .content-wrapper {
   padding-top: 0;
   min-height: calc(100vh - 75px);
+  
 }
 
 .doc-table-contents,
@@ -28439,6 +28440,7 @@ div.tagsinput span.tag a {
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
+  margin-top: 160px;
 }
 
 @media (max-width: 991px) {
@@ -28475,6 +28477,7 @@ div.tagsinput span.tag a {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
+  margin-top: 160px; 
 }
 
 .sidebar .nav {
@@ -30228,9 +30231,9 @@ div.tagsinput span.tag a {
   display: block;
   position: fixed;
   top: 60px;
-  right: -300px;
+  right: -600px;
   bottom: 0;
-  width: 300px;
+  width: 600px;
   height: 100vh;
   min-height: 100%;
   background: #ffffff;
@@ -30302,7 +30305,7 @@ div.tagsinput span.tag a {
 
 .settings-panel .settings-heading {
   padding: 16px 0 13px 35px;
-  font-size: 0.875rem;
+  font-size: 3rem;
   font-family: "Nunito", sans-serif;
   font-weight: 500;
   line-height: 1;
@@ -30328,7 +30331,7 @@ div.tagsinput span.tag a {
   display: flex;
   -webkit-align-items: center;
   align-items: center;
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   line-height: 1;
   color: #595959;
   background: #ffffff;

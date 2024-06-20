@@ -50,7 +50,11 @@
 	</select>
 	
 	<select id="getPlantList" parameterType="search" resultMap="PlantSelectMap">
-		SELECT * from plant
+		SELECT p.*, l.*
+		FROM plant p , plant_levl l
+		WHERE p.plant_no = l.plant_no
+		ORDER BY p.plant_no
+
 	</select>
 	
 	<select id="donatePlant" parameterType="int" resultMap="PlantSelectMap">

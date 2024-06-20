@@ -79,9 +79,10 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="updateQuest" , method = RequestMethod.GET)
-	public String updateQuest() throws Exception{
+	public String updateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception{
 		System.out.println(" /plant/updateQuest : GET ");
-		
+		Quest quest = plantService.getQuest(questNo);
+		model.addAttribute("quest", quest);
 		return "forward:/plant/updateQuest.jsp";
 	}
 	
@@ -106,11 +107,7 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="listQuest" , method = RequestMethod.GET)
-	public String getQuestList(@ModelAttribute("search") Search search, Model model) throws Exception{
-		
-		
-		search.setSearchKeyword(search.getSearchKeyword());
-		search.setSearchCondition(search.getSearchCondition());
+	public String getQuestList(@ModelAttribute("search") Search search, Model model,@RequestParam("questNo")int questNo) throws Exception{
 		
 		Map<String,Object> map = plantService.getQuestList(search);
 		
@@ -149,10 +146,10 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="listPlant" , method = RequestMethod.GET)
-	public String getPlantList( Model model,@ModelAttribute("search") Search search) throws Exception{
-		System.out.println(" /plant/listPlant : GET ");		
-		Map<String,Object> map = plantService.getPlantList(search);
+	public String getPlantList( Model model,@ModelAttribute("search") Search search ,@RequestParam("plantNo") int PlantNo) throws Exception{
 		
+		System.out.println(" /plant/listPlant : GET ");	 
+		Map<String,Object> map = plantService.getPlantList(search);
 		model.addAttribute("map", map);
 		model.addAttribute("search", search);
 		
@@ -228,7 +225,7 @@ public class PlantController {
 		user.setNickname(null);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		search.setSearchKeyword("current");
+		search.setSearchKeyword("N");
 		
 		map.put("search",search);
 		map.put("nickname",user.getNickname());

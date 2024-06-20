@@ -3,6 +3,8 @@ package life.wewu.web.controller.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import life.wewu.web.domain.user.User;
 import life.wewu.web.service.user.SmsService;
@@ -196,6 +200,50 @@ public class UserRestController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
             }
         }
+        
+        @PostMapping("/updateAdmin")
+        public ResponseEntity<String> updateAdminPwd(@RequestParam("userId") String userId,
+                                                     @RequestParam("newPassword") String newPassword,
+                                                     @RequestParam("confirmPassword") String confirmPassword) throws Exception {
+            if (!newPassword.equals(confirmPassword)) {
+                return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
+            }
+
+            User user = userService.getUser(userId);
+            user.setUserPwd(newPassword);
+            userService.updatePwd(user);
+
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        }
+        
+        @RequestMapping(value = "userQuit", method = RequestMethod.POST)
+        @ResponseBody
+        public Map<String, String> userQuit(@RequestParam("userId") String userId, HttpSession session) throws Exception {
+            System.out.println("/user/userQuit : POST");
+
+            // User ID로 사용자 정보 조회
+            User dbUser = userService.getUser(userId);
+            
+            // 역할에 따라 리다이렉트 URL 결정
+            String redirectUrl = "/index.jsp"; // 기본 리다이렉트 URL
+            
+            if ("1".equals(dbUser.getRole())) {
+                // 관리자일 경우 사용자 삭제 후 listUser.jsp로 리다이렉트
+                userService.deleteUser(userId);
+                redirectUrl = "/user/listUser";
+            } else if ("2".equals(dbUser.getRole())) {
+                // 일반 사용자일 경우 사용자 삭제 후 home.jsp로 리다이렉트
+                userService.deleteUser(userId);
+                redirectUrl = "/index.jsp";
+            }
+
+            // JSON 형태로 리다이렉트 URL 반환
+            Map<String, String> response = new HashMap<>();
+            response.put("redirect", redirectUrl);
+
+            return response;
+        }
+
         
 //        @PostMapping("/verify-code")
 //        public ResponseEntity<Map<String, Boolean>> verifyCode(@RequestParam String phoneNum, @RequestParam String code) {

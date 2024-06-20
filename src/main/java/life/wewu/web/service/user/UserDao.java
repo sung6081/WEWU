@@ -25,6 +25,8 @@ public interface UserDao {
 	
 	public void updateAdmin(User user) throws Exception;
 	
+	public void updateNickName(User user) throws Exception;
+	
     public boolean checkUserId(String userId) throws Exception;
     
     public boolean checkNickName(String nickname) throws Exception;
