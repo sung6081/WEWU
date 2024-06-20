@@ -1,19 +1,123 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-
 <html>
+
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>íŒë§¤ë‚´ì—­ ëª©ë¡ì¡°íšŒ</title>
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+
+function fncListItesmSalesHistory(){
+	
+	$("form").attr("method" , "POST").attr("action" , "/item/getItemSalesHistoryList").submit(); //ì´ê±° controllerì— ìˆëŠ” ê±°ë‘ì€ ì¢€ ë‹¤ë¥´ë„¤...ê´œì°®ë‚˜..
+}
+
+	$(function() {
+		 $( "button.btn-primary:contains('ìƒì„¸ì¡°íšŒ')" ).on("click" , function() {
+			 //fncListRefundPoint();
+			 var rslt = $("input[type='radio']:checked").val();
+			 if(rslt == undefined)
+			 {
+			 	alert("ìƒì„¸ì¡°íšŒí•  íŒë§¤ ë‚´ì—­ì„ ì„ íƒí•˜ì„¸ìš”.");
+			 	return;
+			 }else
+			 {
+				 //alert(rslt);
+				 location.href="/item/getItemSalesHistory?itemPurchaseNo="+rslt;
+			 }
+			 
+		});
+	});	
+
+
+
+
+</script>
 </head>
+
 <body>
-	<c:set var="i" value="0" />
-		<c:forEach var="itemPurchase" items="${list}"> <!-- Çâ»óµÈ for¹® µ¹¸± ¶§ °ªÀ» ÀúÀåÇÏ´Â °÷ÀÇ ÀÌ¸§À» itemPurchase¶ó°í ÇÑ´Ù´Â ÀÇ¹Ì. µû¶ó¼­ refundCompdate, itemNameµµ ÀúÀåµÈ °÷ÀÇ ÀÌ¸§ÀÎ itemPurchase. À¸·Î °¡Á®¿È.   -->
-		<tr>
-			<a href="/item/getItemSalesHistory?itemPurchaseNo=${itemPurchase.itemPurchaseNo}">${itemPurchase.itemName}</a><br>
-		</tr>
-		</c:forEach>
-</body>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
+		
+			<form name="detailForm" id="detailForm" method="post">
+			<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
+			<input type="hidden" name="buyerNickname" value="${item.buyerNickname}">
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+				<div class="main-panel">
+	        		<div class="content-wrapper">
+		        		 <div class="row">
+		                    <div class="col-lg-12 grid-margin stretch-card">
+		                        <div class="card">
+		                            <div class="card-body">
+		                                <h4 class="card-title">íŒë§¤ë‚´ì—­ ëª©ë¡ì¡°íšŒ</h4>
+		                                <p class="card-description">
+		                                   
+		                                </p>
+		                                <div class="table-responsive">
+		                                    <table class="table">
+		                                        <thead>
+		                                            <tr>
+		                                            	<th>íŒë§¤ë‚ ì§œ</th>
+														<th>ì•„ì´í…œëª…</th>
+														<th>ê°œìˆ˜</th>
+														<th>ê°€ê²©</th>
+														<th> </th>
+													</tr>
+												</thead>
+											<tbody>
+												<c:set var="i" value="0" />
+												<c:forEach var="itemPurchase" items="${list}"> <!-- í–¥ìƒëœ forë¬¸ ëŒë¦´ ë•Œ ê°’ì„ ì €ì¥í•˜ëŠ” ê³³ì˜ ì´ë¦„ì„ itemPurchaseë¼ê³  í•œë‹¤ëŠ” ì˜ë¯¸. ë”°ë¼ì„œ refundCompdate, itemNameë„ ì €ì¥ëœ ê³³ì˜ ì´ë¦„ì¸ itemPurchase. ìœ¼ë¡œ ê°€ì ¸ì˜´.   -->
+													<tr>
+												 	  <td>${itemPurchase.itemPurchaseDate}</td>
+												 	  <td>${itemPurchase.itemName}</td>
+												 	  <td>${itemPurchase.itemCnt}</td>
+												 	  <td>${itemPurchase.itemPrice}</td>
+												 	  <td>
+												 	  	<div class="form-check">
+								                          <label class="form-check-label text-muted">
+								                            <input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}">
+								                          </label>
+								                        </div>
+													  </td>
+									         		</tr>
+												</c:forEach>
+												 
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                                 <div class="text-right mt-4">
+                                <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">ìƒì„¸ì¡°íšŒ</button>
+                                <!-- 
+							    <div class="text-right mt-4">
+	     		 						<button type="button" class="btn btn-primary">ëª©ë¡</button>
+		 					   	</div>
+		 					   	 -->
+		 					   	
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>  	
+    
+    
+    	    	<!-- FOOTER -->
+		    <jsp:include page="/footer.jsp" />
+		    <!-- FOOTER -->
+	</body>
 </html>
+					
+	
+
+		 					   	
