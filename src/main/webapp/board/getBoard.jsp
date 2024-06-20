@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -192,67 +192,86 @@
 
 <input type="hidden" name="boardNo" value="${param.boardNo}" >
 <input type="hidden" name="boardType" value="${param.boardType}" >
-	
-	<h2>게시판 종류</h2>
-	${board.boardType}
-	<br/>
-	
-	<h2>닉네임</h2>
-	${board.nickName}
-	<br/>
-	
-	<h2>제목</h2>
-	${board.title}
-	<br/>	
-	
-	<h2>내용</h2>
-	${board.contents}
-	<br/>
 
-	<h2>사용자 참가 모임 명</h2>
-	${board.userGroupNo}
-	<br/>
-	
-	<h2>등록 날짜</h2>
-	${board.regDate}
-	<br/>
-	
-	<h2>썸네일 이미지 번호</h2>
-	${board.thumnail}
-	<br/>
-	
-	<h2>즐겨찾기 수</h2>
-	${board.bookmarkCnt}
-	<br/>
-	
-	<h2>조회수</h2>
-	${board.views}
-	<br/>
-	
-	<h2>댓글 수</h2>
-	${board.commentCnt}
-	<br/>
-	
-	<h2>댓글</h2>
-	<form id="commentForm">
-			<input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">
-			닉네임 : nick1<input type="hidden" name="commentNickName" id="commentNickName" value="nick1">
-			<br>
-			댓글 내용 : <input type="text" name="commentContents" id="commentContents">
-			<br>
-			
-	</form>
-	<a href="javascript:addComment();">댓글 쓰기</a>
-	
-	<div id="commentList">
-		
-	</div>
-	<br/>
-		
+<!-- HEADER -->
+	<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
 
-	<button type="button" class="btn">삭제</button>
+	<div class="container-fluid page-body-wrapper">
+		<jsp:include page="boardSideBar.jsp" />
 
 
+		<div class="main-panel">
+				<div class="col-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<p class="card-description">
+							> 
+								<c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
+								<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
+								<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
+								<c:if test="${param.boardType eq '4'}"> 후원 </c:if></p>
+							
+							<h1 class="card-title">${board.title}</h1>
+							
+							<div class="form-group row">
+								<div class="col-sm-9">
+								<p class="card-description">
+									
+									
+								     ${board.nickName } &nbsp; &nbsp;
+								     등록일 : ${board.regDate}
+									<i class="mdi mdi-comment">
+										
+									</i>
+									
+								</p>
+								</div>
+								<div class="col-sm-3">
+									<p class="card-description">
+									 조회 : ${board.views} &nbsp; 댓글 : ${board.commentCnt} &nbsp;  즐겨찾기 :  ${board.bookmarkCnt }
+									</p>
+								</div>
+							</div>
+								<hr>
+							<br>
+							
+							<div class="form-group row">
+								<div class="col-sm-12">${board.contents}</div>
+						</div>
+							
+						</div>
+						
+						<div class="card-body">
+						<hr>
+							<p class="card-description">댓글 수 : ${board.commentCnt}
+							
+							<form id="commentForm">
+								<h1 class="card-title">
+									nick1 ${sessionScope.user.nickname}
+									<input type="hidden" name="commentNickName" id="commentNickName" value="nick1">
+								</h1>
+								<input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">  									
+								<input type="text" name="commentContents" id="commentContents"> <br>
+							</form>
+
+					</div>
+						
+						
+						<a href="javascript:addComment();">댓글 쓰기</a>
+						
+						<div id="commentList">
+						<
+							
+						</div>
+						<br/>
+							
+					
+						<button type="button" class="btn">삭제</button>
+					</div>
+								
+					</div>
+								</div>
 
 </body>
 </html>
