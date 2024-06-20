@@ -121,9 +121,12 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </li>
-            <!-- 관리자모드 -->
+     <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+   			 <a class="nav-link btn btn-primary text-white" href="/login">Login</a>
+  		</li>
             <li class="nav-item nav-settings">
               <a class="nav-link" href="#">
                 <i class="icon-ellipsis"></i>
