@@ -11,7 +11,6 @@
 
 <body>
 <jsp:include page="/header.jsp" flush="true" />
-
 <!-- partial -->
 <div class="main-panel">
 	<div class="content-wrapper">

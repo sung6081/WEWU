@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
   <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
   <!-- plugins:js -->
   <script src="/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
@@ -28,8 +28,6 @@
   <script src="/js/Chart.roundedBarCharts.js"></script>
   <!-- dropdown -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <!-- plugins:css -->
   <link rel="stylesheet" href="/vendors/feather/feather.css">
   <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
@@ -127,36 +125,8 @@
     </div>
   </nav>
 </div>
-      <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Quest</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <h4 class="px-5 text-muted mt-5 font-weight-light mb-0">Quest</h4>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
-                <span>Feb 11 2018</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
-              <p class="text-gray mb-0">The total number of sessions</p>
-            </div>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
-                <span>Feb 7 2018</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
-              <p class="text-gray mb-0 ">Call Sarah Graves</p>
-            </div>
-          </div>
-          <!-- To do section tab ends -->
-        </div>
-      </div>
+
+<jsp:include page="/plant/listQuest.jsp" />
 
 </body>
 </html>
