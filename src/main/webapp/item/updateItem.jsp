@@ -66,7 +66,7 @@ $(function() {
                             </div>
                             <div class="form-group">
                                 <label>아이템 이미지</label>
-                                <input type="file" name="img[]" class="file-upload-default">
+                                <input type="file" name="file" class="file-upload-default">
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled placeholder="이미지 파일 첨부">
                                     <span class="input-group-append">
