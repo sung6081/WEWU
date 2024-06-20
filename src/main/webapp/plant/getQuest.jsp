@@ -1,17 +1,11 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>List Quest</title>
-    <style>
-    .nav-tabs .nav-link {
-            font-size: 25px;
-        }
-    .nav-tabs .nav-link {
-            font-size: 20px;
-        }
-    </style>
+    <title>Quest</title>
 </head>
 <body>
       <div id="right-sidebar" class="settings-panel">

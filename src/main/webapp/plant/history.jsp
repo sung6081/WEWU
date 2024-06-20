@@ -1,35 +1,23 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>List Plant</title>
-  
-  <style>
-    .table-container {
-      max-height: 600px; /* 원하는 높이 설정 */
-      overflow-y: auto;
-    }
-    
-    .table-container::-webkit-scrollbar {
-      width: 12px;  /* 스크롤바의 너비 */
-    }
-    .table-container::-webkit-scrollbar-thumb {
-      height: 30%; /* 스크롤바의 길이 */
-      background: #4B49AC; /* 스크롤바의 색상 */
-      border-radius: 10px;
-    }
-    .table-container::-webkit-scrollbar-track {
-      background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+     <style>
+    /* input 필드의 너비를 조정 */
+    .input-small {
+      width: 40px;
     }
   </style>
-</head>
-<body>
-  <jsp:include page="/header.jsp" flush="true" />
-  <jsp:include page="/plant/plantSide.jsp" />
-  <div class="main-panel">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <jsp:include page="/header.jsp" />
+    <!-- HEADER -->
+    <form action="/plant/inventory" method="POST">
+      <!-- GetMyPlant -->
+        <div class="main-panel">
     <div class="content-wrapper">
       <div class="row mt-5">
         <div class="col-lg-10 grid-margin stretch-card mx-auto">
@@ -37,7 +25,7 @@
             <div class="card-body">
               <h4 class="card-title">HISTORY</h4>
               <p class="card-description">
-                History <code> 과거에 키웠던 식물 목록</code>
+                나의 식물들 
               </p>
               <div class="table-container">
                 <table class="table table-striped">
@@ -60,9 +48,6 @@
                           <td>${myPlant.levlImg}</td>
                         </c:if>
                       </tr>
-                      <tr>
-                        <td><label class="badge badge-success">수정</label></td>
-                      </tr>
                     </c:forEach>
                   </tbody>
                 </table>
@@ -73,8 +58,10 @@
       </div>
     </div>
   </div>
-  <!-- FOOTER -->
-  <jsp:include page="/footer.jsp" />
-  <!-- FOOTER -->
-</body>
-</html>
+  </form>
+    <!-- FOOTER -->
+    <jsp:include page="/footer.jsp" />
+    <!-- FOOTER -->
+  </body>
+
+  </html>

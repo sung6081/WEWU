@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 
 import java.io.BufferedReader;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
@@ -44,6 +46,7 @@ import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.domain.user.User;
+import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.plant.PlantService;
 
 @Controller
@@ -54,6 +57,9 @@ public class PlantController {
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
 	
+	@Autowired
+	@Qualifier("s3RepositoryImpl")
+	private S3Repository s3Repository;
 	
 	public PlantController() {
 		System.out.println(this.getClass());
@@ -128,10 +134,20 @@ public class PlantController {
 		
 		return "forward:/plant/addPlant.jsp";	
 	}
-	
+
 	@RequestMapping(value ="addPlant" , method = RequestMethod.POST)
-	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, @ModelAttribute("plant") Plant plant ,Model model) throws Exception{
+	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, @ModelAttribute("plant") Plant plant ,Model model,@RequestPart(required = false) MultipartFile file , @RequestParam("levlImg") Plant levlImg) throws Exception{
 		System.out.println(" /plant/addPlant : POST ");		
+		if(!file.isEmpty()) {
+	         Map<String, Object> map = new HashMap<String, Object>();
+	         map.put("file", file);
+	         map.put("folderName", "plant");
+	         
+	         String url = s3Repository.uplodaFile(map);
+	         
+	         levlImg.setFileName(s3Repository.getShortUrl(url));
+	      }
+		
 		plantService.addPlant(plant, plantLevl);
 		
 		return "forward:/plant/addPlant.jsp";	
@@ -156,15 +172,6 @@ public class PlantController {
 		model.addAttribute("search", search);
 		
 		return "forward:/plant/listPlant.jsp";
-	}
-	
-	@RequestMapping(value ="deletePlant" , method = RequestMethod.POST)
-	public String deletePlant(@RequestParam("plantNo") int plantNo , Model model) throws Exception{
-		System.out.println(" /plant/deletePlant : POST ");		
-		plantService.deletePlant(plantNo);
-		
-		return "redirect:/plant/getPlantList.jsp"; //<< 고민중
-	
 	}
 	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.GET)
