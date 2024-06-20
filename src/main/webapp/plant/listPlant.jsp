@@ -28,11 +28,11 @@
 </head>
 <body>
   <jsp:include page="/header.jsp" flush="true" />
-  <jsp:include page="/side.jsp" />
+  <jsp:include page="/plantSide.jsp" />
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row mt-5">
-        <div class="col-lg-10 grid-margin stretch-card mx-auto">
+        <div class="col-lg-12 grid-margin stretch-card mx-auto">
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">List Plant</h4>
@@ -63,7 +63,9 @@
                         <td>${plant.plantLevl.plantMinExp}</td>
                         <td>${plant.plantLevl.plantFinalLevl}</td>
                         <td>${plant.plantLevl.levlImg}</td>
-                        <td><label class="badge badge-success">수정</label></td>
+                        <td>
+                        	<button type = "button" class="badge badge-success">수정</button>
+                        </td>
                       </tr>
                     </c:forEach>
                   </tbody>
@@ -75,12 +77,7 @@
       </div>
     </div>
   </div>
-  
-  <!-- 헤더 부분 추가 -->
-  <header id="wewu">
-    <span>WEWU</span>
-  </header>
-
+ 
   <!-- FOOTER -->
   <jsp:include page="/footer.jsp" />
   <!-- FOOTER -->
