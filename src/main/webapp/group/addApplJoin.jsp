@@ -3,22 +3,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
-		
 			function addApplJoin()
 			{
-		        if(!confirm("정말 개설신청 하시겠습니까?")){
+		        if(!confirm("정말 가입신청 하시겠습니까?")){
 					return;
 					
 		        }else{
 		        	// form 데이터 가져오기
 		        	var form = document.getElementById('addApplJoin');
 		        	var formData = new FormData(form);
-
+	
 		        	// JSON으로 변환
 		        	var jsonData = Object.fromEntries(formData);
-
+	
 		        	//모임 리스트
 					$.ajax ({
 						url	: "/app/group/addApplJoin", // (Required) 요청이 전송될 URL 주소
@@ -52,37 +50,59 @@
 					});
 		        }
 			}
+
 		</script>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<h1>모임가입신청 View</h1>
-		<form id="addApplJoin" method="post" action="/group/getApplJoin">
-			<input type="hidden" name="groupNo" value="${group.groupNo}">
-			<input type="hidden" name="memberNickName" value="nick3">
-			<input type="hidden" name="frstQuest" value="${group.frstQuest}">
-			<input type="hidden" name="scndQuest" value="${group.scndQuest}">
-			<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
-			가입 모임 명 : ${group.groupName}
-			<br>
-			1번 질문 : ${group.frstQuest}
-			<br>
-			답변 : <input type="text" name="frstRepl">
-			<br>
-			2번 질문 : ${group.scndQuest}
-			<br>
-			답변 : <input type="text" name="scndRepl">
-			<br>
-			3번 질문 : ${group.thrdQuest}
-			<br>
-			답변 : <input type="text" name="thrdRepl">
-			<br>
-		</form>
-		<form id="getApplJoin" method="post" action="/group/getApplJoin">
-			
-		</form>
-		<a href="javascript:addApplJoin();">가입신청하기</a>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		
+		<!-- SIDEBAR -->
+		<jsp:include page="/group/groupSide.jsp"></jsp:include>
+		<!-- SIDEBAR -->
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+	        	<div class="col-md-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h1 class="card-title">모임가입신청</h1>
+	                  <h4 class="card-title">${group.groupName}</h4>
+	                  <form class="forms-sample" id="addApplJoin" method="post" action="/group/getApplJoin">
+	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+						<input type="hidden" name="memberNickName" value="nick3">
+						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
+						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
+						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
+	                    <div class="form-group">
+	                      <label>${group.frstQuest}</label>
+	                      <input type="text" class="form-control" name="frstRepl" placeholder="1번 답변">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>${group.scndQuest}</label>
+	                      <input type="text" class="form-control" name="scndRepl" placeholder="2번 답변">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>${group.thrdQuest}</label>
+	                      <input type="text" class="form-control" name="thrdRepl" placeholder="3번 답변">
+	                    </div>
+	                  </form>
+	                <button onclick="javascript:addApplJoin();"  class="btn btn-primary mr-2">신청</button>
+	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+	                </div>
+	              </div>
+	            </div>
+        	</div>
+        </div>
+        <form id="getApplJoin" method="post" action="/group/getApplJoin">
+					
+		</form>
+		
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>
