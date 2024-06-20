@@ -98,7 +98,7 @@ public class UserController {
 		
 		System.out.println("/user/findPwd : GET");
 		
-		return "forward:/user/findPwd.jsp";
+		return "forward:/user/findPwdView.jsp";
 	}
 	
 	@PostMapping("/user/updatePwd")
@@ -126,7 +126,7 @@ public class UserController {
 	
 	@RequestMapping( value="/addUser", method=RequestMethod.GET )
 	public String addUser() throws Exception{
-	
+		
 		System.out.println("/user/addUser : GET");
 		
 		return "redirect:/user/addUserView.jsp";
@@ -142,7 +142,7 @@ public class UserController {
 		return "redirect:/user/loginView.jsp";
 	}
 	
-	//내정보조회페이지로 이동
+	//user 내정보조회페이지로 이동
 	 @GetMapping("/myInfo")
 	    public String myInfo(HttpSession session, Model model) throws Exception {
 		 
@@ -160,7 +160,7 @@ public class UserController {
 	        return "forward:/user/myInfo.jsp"; // 뷰 이름 반환
 	    }
 	 
-	 //listUser에서 유저상세정보 보기
+	 //listUser (admin)에서 유저상세정보 보기
 		@RequestMapping( value="/getUser", method=RequestMethod.GET )
 		public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
 			
@@ -190,56 +190,26 @@ public class UserController {
 	            return "forward:/user/myInfo.jsp";
 	        }
 	    }
-	//myInfoView로 이동
-	@RequestMapping( value="updateUser", method=RequestMethod.GET )
-	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
-
-		System.out.println("/user/updateUser : GET");
-		//Business Logic
-		User user = userService.getUser(userId);
-		// Model 과 View 연결
-		model.addAttribute("user", user);
-		
-		return "forward:/user/myInfoView.jsp";
-	}
-
-	@RequestMapping( value="updateUser", method=RequestMethod.POST )
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
-
-		System.out.println("/user/updateUser : POST");
-		//Business Logic
-		userService.updateUser(user);
-		
-		String sessionId=((User)session.getAttribute("user")).getUserId();
-		if(sessionId.equals(user.getUserId())){
-			session.setAttribute("user", user);
-		}
-		
-		return "redirect:/user/myInfo?userId="+user.getUserId();
-	}
 	
-//	@RequestMapping(value = "userQuit", method = RequestMethod.POST)
-//	public String userQuit(@ModelAttribute("user") User user, HttpSession session) throws Exception {
-//	    System.out.println("/user/userQuit : POST");
-//
-//	    // User ID로 사용자 정보 조회
-//	    User dbUser = userService.getUser(user.getUserId());
-//
-//	    // role 값에 따라 다른 페이지로 리다이렉트
-//	    if ("1".equals(dbUser.getRole())) {
-//	        // 관리자일 경우 사용자 삭제 후 listUser.jsp로 리다이렉트
-//	        userService.deleteUser(user.getUserId());
-//	        return "redirect:/user/listUser";
-//	    } else if ("2".equals(dbUser.getRole())) {
-//	        // 일반 사용자일 경우 사용자 삭제 후 home.jsp로 리다이렉트
-//	        userService.deleteUser(user.getUserId());
-//	        return "redirect:/home.jsp";
-//	    }
-//
-//	    // 기본적으로 관리자 페이지로 리다이렉트
-//	    return "redirect:/user/listUser";
-//	}
+	//myInfoView submit => myInfo
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public String updateUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+		
+	    System.out.println("/user/updateUser : POST");
+	    
+	    // Business Logic: 유저 정보 수정
+	    userService.updateUser(user);
 
+	    // 수정된 유저 정보 조회
+	    User updatedUser = userService.getUser(user.getUserId());
+
+	    // 수정된 유저 정보를 모델에 담아 전달
+	    model.addAttribute("user", updatedUser);
+
+	    return "/user/myInfo";  // 수정된 유저 정보를 보여주는 JSP 페이지로 리다이렉트
+	}
+
+	
 
 
 	@RequestMapping( value="listUser" )
@@ -268,16 +238,6 @@ public class UserController {
 	}
 	
 	
-//    @PostMapping("/updateAdmin")
-//    public String updateUser(@ModelAttribute User user) throws Exception {
-//       
-//		System.out.println("/user/updateAdmin : POST");
-//
-//    	userService.updateUser(user);
-//    	
-//        return "redirect:/user/myInfo?userId=" + user.getUserId();
-//    }
-
     @PostMapping("/delete")
     public String deleteUser(@RequestParam("userId") String userId) throws Exception {
         

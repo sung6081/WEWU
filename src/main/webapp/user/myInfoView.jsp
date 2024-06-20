@@ -7,46 +7,74 @@
     <meta charset="UTF-8">
     <title>Update User Info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        .info-label {
+            font-weight: bold;
+        }
+        .info-value {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .password-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .password-input {
+            width: 50%;
+        }
+        .btn-block {
+            width: 48%;
+            display: inline-block;
+        }
+        .form-control-lg {
+            font-size: 1.1rem;
+        }
+        .text-danger {
+            color: #dc3545 !important;
+        }
+        .text-success {
+            color: #28a745 !important;
+        }
+    </style>
 </head>
 <body>
 
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-    
+
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
                 <div class="row w-100 mx-0">
                     <div class="col-lg-8 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                            <h4>회원 정보 수정</h4>
-                            <form class="pt-3 form-horizontal">
-                                <input type="hidden" name="userId" value="${user.userId}">
-                                <div class="form-group">
-                                    <label for="userName" class="col-sm-3 control-label">이름</label>
+                            <h4 class="mb-4">회원 정보 수정</h4>
+                            <form id="updateForm" class="pt-3 form-horizontal" method="POST" action="/user/update">
+                                <input type="hidden" name="userId" id="userId" value="${user.userId}">
+                                <div class="form-group row">
+                                    <label for="userName" class="col-sm-3 col-form-label info-label">이름</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${user.userName}" required 
-                                               <c:if test="${user.role == 2}">disabled</c:if>>
+                                        <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${user.userName}" required <c:if test="${user.role == 2}">disabled</c:if>>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="nickname" class="col-sm-3 control-label">닉네임</label>
+                                <div class="form-group row">
+                                    <label for="nickname" class="col-sm-3 col-form-label info-label">닉네임</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${user.nickname}" required 
-                                               <c:if test="${user.role == 2}">disabled</c:if>>
+                                        <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${user.nickname}" required <c:if test="${user.role == 2}">disabled</c:if>>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="email" class="col-sm-3 control-label">이메일</label>
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-3 col-form-label info-label">이메일</label>
                                     <div class="col-sm-9">
                                         <input type="email" class="form-control form-control-lg" id="email" name="email" value="${user.email}" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="phoneNum" class="col-sm-3 control-label">휴대전화번호</label>
+                                <div class="form-group row">
+                                    <label for="phoneNum" class="col-sm-3 col-form-label info-label">휴대전화번호</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" value="${user.phoneNum}" required readonly>
@@ -57,8 +85,8 @@
                                         <span id="verificationCodeMsg" class="help-block"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="password" class="col-sm-3 control-label">비밀번호</label>
+                                <div class="form-group row">
+                                    <label for="password" class="col-sm-3 col-form-label info-label">비밀번호</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-lg" id="password" name="password" value="비밀번호를 변경하시려면 비밀번호 변경버튼을 누르세요." readonly>
@@ -68,24 +96,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="addr" class="col-sm-3 control-label">주소</label>
+                                <div class="form-group row">
+                                    <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${user.addr}" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="getAddr" class="col-sm-3 control-label">상세주소</label>
+                                <div class="form-group row">
+                                    <label for="getAddr" class="col-sm-3 col-form-label info-label">상세주소</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control form-control-lg" id="getAddr" name="getAddr" value="${user.getAddr}" required>
                                     </div>
                                 </div>
                                 <div class="form-group text-center mt-4">
-                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">정보 수정</button>
-                                    <a class="btn btn-block btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button">취소</a>
+                                    <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn">정보 수정</button>
+                                    <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button">취소</a>
                                 </div>
                                 <div class="form-group text-center mt-4">
-                                    <button type="button" class="btn btn-block btn-danger btn-lg font-weight-medium auth-form-btn" onclick="openDeleteModal()">회원 탈퇴</button>
+                                    <button type="button" class="btn btn-danger btn-lg font-weight-medium auth-form-btn" onclick="openDeleteModal()">회원 탈퇴</button>
                                 </div>
                             </form>
                         </div>
@@ -111,6 +139,7 @@
                         <input type="text" id="newPhoneNumber" class="form-control" placeholder="새 핸드폰 번호 입력">
                         <button type="button" class="btn btn-primary" onclick="sendVerificationCode()">인증번호 전송</button>
                     </div>
+                    <div id="phoneNumMsg" class="text-danger"></div>
                     <div class="form-group">
                         <label for="verificationCode">인증번호</label>
                         <input type="text" id="verificationCode" class="form-control" placeholder="인증번호 입력">
@@ -143,11 +172,8 @@
                             <label for="confirmPassword">새 비밀번호 확인</label>
                             <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required />
                         </div>
-                        <div id="errorMessage" style="color: red;">
-                            <c:if test="${not empty error}">
-                                ${error}
-                            </c:if>
-                        </div>
+                        <div id="passwordCheckMsg" class="text-danger"></div>
+                        <div id="passwordConfirmMsg" class="text-danger"></div>
                         <button type="button" class="btn btn-primary" onclick="checkPassword()">비밀번호 변경</button>
                     </form>
                 </div>
@@ -197,6 +223,28 @@
 
         function sendVerificationCode() {
             var phoneNum = document.getElementById("newPhoneNumber").value;
+            var phoneNumMsg = document.getElementById("phoneNumMsg");
+
+            // 숫자만 입력되었는지 확인
+            if (!/^\d+$/.test(phoneNum)) {
+                phoneNumMsg.textContent = "숫자만 입력해주세요.";
+                return;
+            }
+
+            // 번호가 010으로 시작하는지 확인
+            if (!/^010/.test(phoneNum)) {
+                phoneNumMsg.textContent = "휴대전화번호는 010으로 시작해야 합니다.";
+                return;
+            }
+
+            // 번호가 11자리인지 확인
+            if (phoneNum.length !== 11) {
+                phoneNumMsg.textContent = "휴대전화번호는 11자리여야 합니다.";
+                return;
+            }
+
+            phoneNumMsg.textContent = "";
+
             // 서버로 인증번호 전송 요청
             $.ajax({
                 url: "/user/send-verification-code",
@@ -286,6 +334,60 @@
             });
         }
 
+        function submitForm() {
+            var form = document.getElementById("updateForm");
+            var userId = document.getElementById("userId").value;
+            form.action = "/user/update?userId=" + userId;
+            form.submit();
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // 비밀번호 유효성 검사 및 일치 여부 확인
+        $("#newPasswordModal").on("keyup", debounce(function() {
+            var password = $(this).val();
+            $.ajax({
+                type: "GET",
+                url: "/user/validatePassword",
+                data: { password: password },
+                success: function(response) {
+                    if (response.isValid) {
+                        $("#passwordCheckMsg").text("사용 가능한 비밀번호입니다.").removeClass("text-danger").addClass("text-success");
+                    } else {
+                        $("#passwordCheckMsg").text("비밀번호는 8자 이상 16자 이하, 영문과 특수기호를 포함해야 합니다.").removeClass("text-success").addClass("text-danger");
+                    }
+                },
+                error: function() {
+                    $("#passwordCheckMsg").text("비밀번호 유효성 검사 중 오류가 발생했습니다.").removeClass("text-success").addClass("text-danger");
+                }
+            });
+            checkPasswordMatch();
+        }, 300));
+
+        // 비밀번호 확인 일치 여부 검사
+        $("#confirmPassword").on("keyup", debounce(function() {
+            checkPasswordMatch();
+        }, 300));
+
+        function checkPasswordMatch() {
+            var password = $("#newPasswordModal").val();
+            var confirmPassword = $("#confirmPassword").val();
+            if (confirmPassword.length > 0) {
+                if (password === confirmPassword) {
+                    $("#passwordConfirmMsg").text("비밀번호가 일치합니다.").removeClass("text-danger").addClass("text-success");
+                } else {
+                    $("#passwordConfirmMsg").text("비밀번호가 일치하지 않습니다.").removeClass("text-success").addClass("text-danger");
+                }
+            } else {
+                $("#passwordConfirmMsg").text("").removeClass("text-success text-danger");
+            }
+        }
     </script>
 </body>
 </html>

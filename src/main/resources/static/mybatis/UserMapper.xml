@@ -27,7 +27,7 @@
 
     <insert id="addUser" parameterType="life.wewu.web.domain.user.User">
         INSERT INTO user (user_id, email, phone_num, resident_num, nickname, user_pwd, addr, get_addr, gender, current_point, role, user_name)
-        VALUES (#{userId}, #{email}, #{phoneNum}, #{residentNum}, #{nickname}, #{userPwd}, #{addr}, #{getAddr}, #{gender}, #{currentPoint}, 2, #{userName})
+        VALUES (#{userId}, #{email}, #{phoneNum}, #{residentNum}, #{nickname}, #{userPwd}, #{addr}, #{getAddr}, #{gender}, 0, 2, #{userName})
     </insert>
 
     <update id="updateUser" parameterType="life.wewu.web.domain.user.User">
@@ -52,7 +52,7 @@
 	</update>
 
     
-    <select id="checknickname" parameterType="String" resultType="boolean">
+    <select id="checkNickName" parameterType="String" resultType="boolean">
 	    SELECT COUNT(*) > 0
 	    FROM user
 	    WHERE nickname = #{nickname}
