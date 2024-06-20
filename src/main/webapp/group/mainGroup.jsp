@@ -8,8 +8,9 @@
 	      height: 550px; /* 고정 높이 */
 	    }
 		</style>
-		<!-- JQuery -->
-  		<script type="text/javascript" src="/javascript/jquery-2.1.4.min.js"></script>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 			$(function() 
 			{
@@ -258,9 +259,6 @@
 	        
 	    </script>
 		<meta charset="UTF-8">
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
 	<title>Insert title here</title>
 	</head>
 	<body>
@@ -307,7 +305,16 @@
 							    <div class="card-body fixed-card-body">
 									<p class="card-title">지도</p>
 									<div class="pt-4">
-								        <!-- 여기 지도공간 -->
+								        <div id="map">
+				        <div class="search" style="">
+				        	<select id="condition" >
+				        		<option value="map" >지도</option>
+				        		<option value="active" >활동</option>
+				        	</select>
+				            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
+				            <input id="submit" type="button" value="주소 검색" />
+				        </div>
+				    </div>
 									</div>
 								</div>
 							</div>
