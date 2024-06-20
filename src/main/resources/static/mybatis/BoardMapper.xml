@@ -189,7 +189,8 @@
 	 	 title,user_group_no, contents, reg_date,
 	 	 bookmark_cnt, views, comments_cnt)
         VALUES (#{boardType}, #{nickName}, 
-        #{title}, #{userGroupNo}, #{contents}, now(), 
+        #{title}, #{userGroupNo},
+        #{contents}, now(), 
         0, 0, 0)
     </insert>
     

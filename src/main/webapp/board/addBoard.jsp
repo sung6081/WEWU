@@ -11,12 +11,32 @@
 <script type="text/javascript">
 	$(function(){
 		$("button.btn:contains('취소')").on("click", function() {
-			self.location="/board/listQuestion?questionType=${param.questionType}"
+			self.location="/board/listBoard?boardType=${param.boardType}"
 		});
+		 $('footer').removeClass('fixed-bottom');
 
 	});
+
 	
+	function upload() {
+		
+		$('.file').click();
+		
+	};
+	
+	$('.file').on('change', function() {
+	
+		if($('.file').val() != null || $('.file').val() != '') {
+			
+			$('.upload-btn').html('<i class="ti-upload btn-icon-prepend"></i>'+$('.file').val());
+			
+		}
+		
+	});
+	
+
 </script>
+
 </head>
 <body>
 
@@ -45,49 +65,36 @@
 						<form class="forms-sample" method="post" action="/board/addBoard" enctype="multipart/form-data">
 
 							<input type="hidden" name="boardType" value="${param.boardType}">
+							<input type="hidden" name="nickName" value="nick1">
 						
 							<div class="form-group row">
 								<label for="title" class="col-sm-3 col-form-label">제목</label>
-								<div class="col-sm-3">
+								<div class="col-sm-12">
 									<input type="text" class="form-control" name="title">
 								</div>
 							</div>
-							
+							<c:if test="${param.boardType eq '3'}">
 							<div class="form-group row">
 									<label class="col-sm-3 col-form-label">모임 명</label>
 									<div class="col-sm-3">
 										<select id="userGroupNo" name="userGroupNo" class="form-control">
 										
-											<option value="배송" selected>배송</option>
-											<option value="환불">환불</option>
-											<option value="회원">회원 정보</option>
-											<option value="주문">주문/결제</option>
+											<option value="1" selected>플로깅</option>
+											<option value="2">리필스테이션</option>
+											
 										</select>
 									</div>
 								</div>
-							
+							</c:if>
 							<div class="form-group row">
-								<label for="userGroupNo" class="col-sm-3 col-form-label">사용자 모임 명</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" name="userGroupNo">
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label for="contents" class="col-sm-3 col-form-label">내용</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" name="contents">
+								<label for="exampleFormControlTextarea1" class="col-sm-3 col-form-label">내용</label>
+								<div class="col-sm-12">
+									<textarea type="text" class="form-control" name="contents">
+									</textarea>
 								</div>
 							</div>
 							
-							<div class="form-group row">
-								<label for="fileName" class="col-sm-3 col-form-label">파일이름</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" name="fileName">
-								</div>
-							</div>
-
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label>파일 등록</label> 
 								<input type="file" name="img[]" class="file-upload-default">
 								<div class="input-group col-xs-12">
@@ -97,15 +104,16 @@
 										<button class="file-upload-browse btn btn-primary" type="button">Upload</button>
 									</span>
 								</div>
-							</div>
+							</div> -->
+							
+							<div class="row">
+							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
+		                      <i class="ti-upload btn-icon-prepend"></i>                                                    
+		                      파일 등록
+		                    </button>
+		                    <input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" >
+						</div>
 
-
-							<div class="form-group row">
-								<label for="fileName" class="col-sm-3 col-form-label">파일이름</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" name="fileName">
-								</div>
-							</div>
 							
 							<div class="form-group row">
 								<label for="fileUUID" class="col-sm-3 col-form-label">파일UUID</label>
@@ -114,7 +122,7 @@
 								</div>
 							</div>
 							
-							<div class="form-group row">
+						 	<div class="form-group row">
 								<label for="fileExt" class="col-sm-3 col-form-label">파일EXT</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control" name="fileExt">
