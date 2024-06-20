@@ -158,6 +158,7 @@ public class GroupServiceTest{
 	}
 	
 	//@Test
+	/*
 	public void testgetApplJoinList() throws Exception {
 		
 		System.out.println("\n===================================");
@@ -169,7 +170,7 @@ public class GroupServiceTest{
 		System.out.println("groupMember Rslt = user :: " + list);
 		System.out.println("===================================\n");
 	}
-	
+	*/
 	//@Test
 	public void testupdateApplJoinForm() throws Exception {
 		
@@ -218,6 +219,7 @@ public class GroupServiceTest{
 	}
 	
 	//@Test
+	/*
 	public void testGetMemberGroupList() throws Exception {
 		
 		System.out.println("\n===================================");
@@ -228,7 +230,7 @@ public class GroupServiceTest{
 		System.out.println("groupMember getMemberGroupList :: " + list);
 		System.out.println("===================================\n");
 	}
-	
+	*/
 	//@Test
 	public void testGetScrab() throws Exception {
 		

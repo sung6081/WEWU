@@ -10,14 +10,24 @@
 .custom-title-space {
 	padding-left: 20px; /* 20px의 왼쪽 여백을 설정 */
 }
+
 </style>
 </head>
 <body>
 	<jsp:include page="/header.jsp" flush="true" />
-	<jsp:include page="/side.jsp" />
+	
+	<script>
+		$(function(){
+			$("button[name='cancel']").on("click",function(){
+				$("form")[0].reset();
+			});
+		});
+	</script>
+	
+	<jsp:include page="/plant/plantSide.jsp" />
 	<div class="main-panel">
 		<div class="content-wrapper">
-			<form action="/plant/addQuest" method="POST">
+			<form name="addQuest">
 				<div class="row mt-5">
 					<div class="col-lg-6 grid-margin stretch-card mx-auto">
 						<div class="card">
@@ -34,14 +44,14 @@
 								</div>
 								<div class="form-group">
 									<label for="questReward">Quest Reward ( 퀘스트 보상 )</label>
-										<input type="text" class="form-control" name="questReward" id="questReward" placeholder="questReward">
+										<input type="number" class="form-control" name="questReward" id="questReward" placeholder="questReward">
 								</div>
 								<div class="form-group">
 									<label for="questState">Quest Count ( 퀘스트 목표치)</label>
 										<input type="text" class="form-control" name="questState" id="questState" placeholder="questState">
 								</div>
-									<button type="submit" class="btn btn-primary mr-2">Submit</button>
-									<button class="btn btn-light">Cancel</button>
+									<input type="submit" class="btn btn-primary mr-2" value="수정">
+            <button type = "button" class="btn btn-white" name="cancel">취소</button>
 							</div>
 						</div>
 					</div>
@@ -49,10 +59,6 @@
 			</form>
 		</div>
 	</div>
-			<!-- side.jsp -->
-		</div>
-		</div>
-		<!-- side.jsp -->
 		<!-- FOOTER -->
 	    <jsp:include page="/footer.jsp" />
 	<!-- FOOTER -->

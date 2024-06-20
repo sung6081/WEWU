@@ -6,7 +6,7 @@
 <html>
 
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 <title>환불내역 목록조회</title>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -20,96 +20,104 @@ function fncListRefundPoint(){
 }
 
 	$(function() {
-		 $( "td.ct_btn01:contains('상세조회')" ).on("click" , function() {
+		 $( "button.btn-primary:contains('상세조회')" ).on("click" , function() {
 			 //fncListRefundPoint();
-			 location.href="/item/getRefundPoint"
+			 var rslt = $("input[type='radio']:checked").val();
+			 if(rslt == undefined)
+			 {
+			 	alert("상세조회할 환불내역을 선택하세요.");
+			 	return;
+			 }else
+			 {
+				 //alert(rslt);
+				 location.href="/item/getRefundPoint?itemPurchaseNo="+rslt;
+			 }
+			 
 		});
 	});	
 
-	 $(function() {
-			 $( "td.ct_btn01:contains('목록')" ).on("click" , function() {
-				location.href="/item/getItemList"
-		});
-	});
-	
-
-
 </script>
 </head>
-<body>
 <body bgcolor="#ffffff" text="#000000">
-
-<form name="detailForm" id="detailForm" method="post">
-<input type="hidden" name="buyerNickname" value="nick1">
-<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
-
-	<table>
-	<thead>
-		<tr>환불완료날짜</tr>
-		<tr>아이템명</tr>
-		<tr>환불된 포인트</tr>
-	</thead>
-	<tbody>
-	<c:set var="i" value="0" />
-		<c:forEach var="itemPurchase" items="${list}"> <!-- 향상된 for문 돌릴 때 값을 저장하는 곳의 이름을 itemPurchase라고 한다는 의미. 따라서 refundCompdate, itemName도 저장된 곳의 이름인 itemPurchase. 으로 가져옴.   -->
-		<tr>
-			<td>${itemPurchase.refundCompdate}</td>
-			<td><a href="/item/getRefundPoint?itemPurchaseNo=${itemPurchase.itemPurchaseNo}">${itemPurchase.itemName}</a></td>
-			<td>${itemPurchase.refundPoint}</td>
-		</tr>
-		</c:forEach>
-	</tbody>
-	
-	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>					
-					<td width="17" height="23">
-					
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-					상세조회
-					</td>
-					<td width="17" height="23">
-					
-					</td>
-					<td width="30"></td>					
-					<td width="17" height="23">
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-					목록
-					</td>
-					<td width="14" height="23">
-					
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-	
-	
-	
-	
-</table>
-
-
-
-<!-- 
-	<c:set var="i" value="0" />
-	<c:forEach var="item" items="${item}">
-		<c:set var="i" value="${ i+1 }" />
-		${ i } == ${item.itemNo } === ${item.itemName } === 
-		<a href="/item/updateItem?itemNo=${item.itemNo}">수정하기</a>=== 
-		<a href="javascript:deleteItem(${item.itemNo })">삭제하기</a>===
-		<a href="/item/getItem?itemNo=${item.itemNo}">상세보기</a>===<br>
-	</c:forEach>
- -->
-	
+			<!-- HEADER -->
+			<jsp:include page="/header.jsp"/>
+			<!-- HEADER -->
 
 	
-	
-</body>
+			<form name="detailForm" id="detailForm" method="post">
+			<input type="hidden" name="buyerNickname" value="nick1">
+			<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
+			
+			<div class="main-panel">
+	        		<div class="content-wrapper">
+		        		 <div class="row">
+		                    <div class="col-lg-12 grid-margin stretch-card">
+		                        <div class="card">
+		                            <div class="card-body">
+		                                <h4 class="card-title">환불내역 목록조회</h4>
+		                                <p class="card-description">
+		                                   
+		                                </p>
+		                                <div class="table-responsive">
+		                                    <table class="table">
+		                                        <thead>
+		                                            <tr>
+		                                            	<th>환불완료날짜</th>
+														<th>아이템명</th>
+														<th>환불된 포인트</th>
+														<th> </th>
+													</tr>
+												</thead>
+											<tbody>
+											<c:set var="i" value="0" />
+											<c:forEach var="itemPurchase" items="${list}"> <!-- 향상된 for문 돌릴 때 값을 저장하는 곳의 이름을 itemPurchase라고 한다는 의미. 따라서 refundCompdate, itemName도 저장된 곳의 이름인 itemPurchase. 으로 가져옴.   -->
+												<tr>
+											 	  <td>${itemPurchase.refundCompdate}</td>
+											 	  <td>${itemPurchase.itemName}</td>
+											 	  <td>${itemPurchase.refundPoint}</td>
+											 	  <td>
+											 	  	<div class="form-check">
+							                          <label class="form-check-label text-muted">
+							                            <input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}">
+							                          </label>
+							                        </div>
+												  </td>
+								         		</tr>
+											</c:forEach>
+											 
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-right mt-4">
+                                <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">상세조회</button>
+                                <!-- 
+							    <div class="text-right mt-4">
+	     		 						<button type="button" class="btn btn-primary">목록</button>
+		 					   	</div>
+		 					   	 -->
+		 					   	
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>  	
+    
+    
+    	    	<!-- FOOTER -->
+		    <jsp:include page="/footer.jsp" />
+		    <!-- FOOTER -->
+	</body>
 </html>
+					
+		 					   	
+		 					   	
+		 					   				 
+											 
+											
+											
+	
+	
+
+

@@ -30231,9 +30231,9 @@ div.tagsinput span.tag a {
   display: block;
   position: fixed;
   top: 60px;
-  right: -600px;
+  right: -400px;
   bottom: 0;
-  width: 600px;
+  width: 400px;
   height: 100vh;
   min-height: 100%;
   background: #ffffff;

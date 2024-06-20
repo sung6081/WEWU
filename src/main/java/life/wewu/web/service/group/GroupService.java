@@ -49,9 +49,9 @@ public interface GroupService {
 	
 	public GroupMember getMemberGroupForNick(Map<String,Object> map) throws Exception;
 	
-	public List<GroupMember> getMemberGroupList(Search search) throws Exception;
+	public List<GroupMember> getMemberGroupList(Map<String, Object> map) throws Exception;
 	
-	public List<GroupMember> getApplJoinList(Search search) throws Exception;
+	public List<GroupMember> getApplJoinList(Map<String, Object> map) throws Exception;
 	
 	public GroupMember updateApplJoin(GroupMember groupMember) throws Exception;
 	
