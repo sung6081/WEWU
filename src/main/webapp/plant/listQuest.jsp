@@ -1,6 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,30 +7,56 @@
     <title>List Quest</title>
 </head>
 <body>
-      <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Quest</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <h4 class="px-5 text-muted mt-5 font-weight-light mb-0">Quest</h4>
-            <c:forEach var="quest" items="${map.list}">
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-              
-                <i class="ti-control-record text-primary mr-2"></i>
-                <span>${quest.regDate}</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">${quest.questContents}</p>
-              <p class="text-gray mb-0">${quest.questState}</p>
+	<jsp:include page="/header.jsp" flush="true" />
+	<jsp:include page="/plantSide.jsp" />
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row mt-5">
+            <div class="col-lg-12 grid-margin stretch-card mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">List Quest</h4>
+                        <p class="card-description">
+                            Add class <code>.table-striped</code>
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Quest No</th>
+                                    <th>Reg Date</th>
+                                    <th>Quest Contents</th>
+                                    <th>Quest State</th>
+                                    <th>Quest Reg Date</th>
+                                    <th>Quest Target</th>
+                                    <th>Quest Target Count</th>
+                                    <th>Quest Reward</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="quest" items="${map.list}">
+                                    <tr>
+                                        <td class="questNo">${quest.questNo}</td>
+                                        <td>${quest.regDate}</td>
+                                        <td>${quest.questContents}</td>
+                                        <td>${quest.questState}</td>
+                                        <td>${quest.questRegDate}</td>
+                                        <td>${quest.questTarget}</td>
+                                        <td>${quest.questTargetCnt}</td>
+                                        <td>${quest.questReward}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </c:forEach>
-          </div>
-          <!-- To do section tab ends -->
         </div>
-      </div>
+    </div>
+    	<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	<!-- FOOTER -->
+</div>
 </body>
 </html>

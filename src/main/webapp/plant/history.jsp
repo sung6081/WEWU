@@ -28,7 +28,7 @@
 </head>
 <body>
   <jsp:include page="/header.jsp" flush="true" />
-  <jsp:include page="/side.jsp" />
+  <jsp:include page="/plantSide.jsp" />
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row mt-5">
@@ -69,12 +69,6 @@
       </div>
     </div>
   </div>
-  
-  <!-- 헤더 부분 추가 -->
-  <header id="wewu">
-    <span>WEWU</span>
-  </header>
-
   <!-- FOOTER -->
   <jsp:include page="/footer.jsp" />
   <!-- FOOTER -->

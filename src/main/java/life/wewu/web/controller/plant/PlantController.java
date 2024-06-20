@@ -103,16 +103,16 @@ public class PlantController {
 		Quest quest = plantService.getQuest(questNo);		
 		model.addAttribute("quest", quest);	
 		
-		return "plant/.jsp";
+		return "forward:/plant/mainQuest.jsp";
 	}
 	
 	@RequestMapping(value ="listQuest" , method = RequestMethod.GET)
-	public String getQuestList(@ModelAttribute("search") Search search, Model model,@RequestParam("questNo")int questNo) throws Exception{
+	public String getQuestList(@ModelAttribute("search") Search search, Model model,@RequestParam(required= false)int questNo) throws Exception{
 		
 		Map<String,Object> map = plantService.getQuestList(search);
 		
 		model.addAttribute("map", map);
-		model.addAttribute("searh", search);
+		model.addAttribute("search", search);
 		
 		return "forward:/plant/listQuest.jsp";
 	}
@@ -142,11 +142,11 @@ public class PlantController {
 		Plant plant = plantService.getPlant(plantNo);
 		model.addAttribute("plant", plant);
 		
-		return "plant/getPlant.jsp";
+		return "forward:/plant/getPlant.jsp";
 	}
 	
 	@RequestMapping(value ="listPlant" , method = RequestMethod.GET)
-	public String getPlantList( Model model,@ModelAttribute("search") Search search ,@RequestParam("plantNo") int PlantNo) throws Exception{
+	public String getPlantList( Model model,@ModelAttribute("search") Search search ,@RequestParam(required= false) int plantNo) throws Exception{
 		
 		System.out.println(" /plant/listPlant : GET ");	 
 		Map<String,Object> map = plantService.getPlantList(search);
@@ -208,7 +208,7 @@ public class PlantController {
 	
 	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
-	public String getMyPlant(@RequestParam("myPlantNo") int myPlantNo,Model model) throws Exception{
+	public String getMyPlant(@RequestParam(required= false) int myPlantNo,Model model) throws Exception{
 		System.out.println(" /plant/getMyPlant : GET ");
 		MyPlant myPlant = plantService.getMyPlant(myPlantNo);
 		System.out.println(myPlant);

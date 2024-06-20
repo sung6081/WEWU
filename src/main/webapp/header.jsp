@@ -1,9 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page pageEncoding="UTF-8"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
   <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -49,84 +51,94 @@
   <script src="/js/swiper.js"></script>
   <!-- footer 고정제거 -->
   <script type="text/javascript">
-     $('footer').removeClass('fixed-bottom');
+    $('footer').removeClass('fixed-bottom');
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>WEWU</title>
 </head>
+
 <body>
-<div class="fixed-top">
+  <div class="fixed-top">
+    <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
+      <div class="container d-flex justify-content-center">
+        <span class="navbar-brand mb-0 h1">WEWU</span>
+      </div>
+    </header>
 
-  <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
-    <div class="container d-flex justify-content-center">
-      <span class="navbar-brand mb-0 h1">WEWU</span>
-    </div>
-  </header>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom-height">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/index.jsp"> <img src="/images/logo.svg" alt="Skydash" style="height: 40px;">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse bg-light" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" href="#">공지사항</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">게시판</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">모임</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">모임활동지도</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">식물키우기</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">아이템상점</a></li>
-          <!-- 관리자모드 -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 관리자모드 </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-             <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropupMenuSplitButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropupMenuSplitButton3">
-                <h6 class="dropdown-header">Settings</h6>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle" href="#">More options</a>
-                    <div class="dropdown-menu">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom-height">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index.jsp"> <img src="/images/logo.svg" alt="Skydash"
+            style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse bg-light" id="navbarNavDropdown">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="/board/listBoard?boardType=1">게시판</a></li>
+            <li class="nav-item"><a class="nav-link" href="/group/mainGroup.jsp">모임</a></li>
+            <li class="nav-item"><a class="nav-link" href="/active/activeMap">모임활동지도</a></li>
+            <li class="nav-item">
+              <c:if test="${ empty user }">
+                <a class="nav-link" href="/plant/getMyPlant.jsp">식물키우기</a>
+              </c:if>
+              <c:if test="${ ! empty user }">
+                <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>
+              </c:if>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
+            <!-- 관리자모드 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 관리자모드 </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropupMenuSplitButton3"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropupMenuSplitButton3">
+                    <h6 class="dropdown-header">Settings</h6>
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-submenu">
+                      <a class="dropdown-item dropdown-toggle" href="#">More options</a>
+                      <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Submenu action 1</a>
                         <a class="dropdown-item" href="#">Submenu action 2</a>
                         <a class="dropdown-item" href="#">Submenu action 3</a>
+                      </div>
                     </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                  </div>
                 </div>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-            </div>
-        	</div>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          <!-- 관리자모드 -->    
-         </ul>  
-         <ul class="navbar-nav ml-auto"> 
-           <li class="nav-item nav-settings">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
-          </li>
-         </ul>
-        
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-        </div>    
-    </div>
-  </nav>
-</div>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <!-- 관리자모드 -->
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item nav-settings">
+              <a class="nav-link" href="#">
+                <i class="icon-ellipsis"></i>
+              </a>
+            </li>
+          </ul>
 
-<jsp:include page="/plant/listQuest.jsp" />
-
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+            data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </div>
 </body>
+  <jsp:include page="/plant/mainQuest.jsp" flush="true" />
 </html>
