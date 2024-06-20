@@ -67,14 +67,14 @@ public class UserRestController {
                 model.addAttribute("phoneNum", phoneNum);
                 model.addAttribute("userName", userName);
                 model.addAttribute("error", "사용자를 찾을 수 없습니다.");
-                return "user/verification";
+                return "user/findUserIdView";
             }
         } else {
             // 인증 실패
             model.addAttribute("phoneNum", phoneNum);
             model.addAttribute("userName", userName);
             model.addAttribute("error", "인증 실패");
-            return "user/verification";
+            return "user/findUserIdView";
         }
     }
     
@@ -95,7 +95,7 @@ public class UserRestController {
             User user = userService.findUserPwd(phoneNum, userId);
             if (user != null) {
                 model.addAttribute("userId", user.getUserId());
-                return "user/updatePwd";
+                return "user/updatePwdView";
             } else {
                 model.addAttribute("phoneNum", phoneNum);
                 model.addAttribute("userId", userId);
@@ -140,8 +140,8 @@ public class UserRestController {
 	
 	    @GetMapping("/checkNickname")
 	    public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam String nickname) {
+	        Map<String, Boolean> response = new HashMap<>();
 	        if (!nickname.matches("^[a-zA-Z가-힣0-9]{2,10}$")) {
-	            Map<String, Boolean> response = new HashMap<>();
 	            response.put("available", false);
 	            return ResponseEntity.ok(response);
 	        }
@@ -149,12 +149,13 @@ public class UserRestController {
 	        try {
 	            available = !userService.checkNickName(nickname);
 	        } catch (Exception e) {
+	            e.printStackTrace(); // 예외 로그를 출력하여 확인합니다.
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	        }
-	        Map<String, Boolean> response = new HashMap<>();
 	        response.put("available", available);
 	        return ResponseEntity.ok(response);
 	    }
+
     
        //비밀번호 유효성검사, 같음 검사
         @PostMapping("/pwdCheck")

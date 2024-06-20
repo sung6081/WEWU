@@ -24,7 +24,7 @@
 		});
 	</script>
 	
-	<jsp:include page="/plantSide.jsp" />
+	<jsp:include page="/plant/plantSide.jsp" />
 	<div class="main-panel">
 		<div class="content-wrapper">
 			<form name="addQuest">

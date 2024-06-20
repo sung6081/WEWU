@@ -46,7 +46,7 @@
 
 <body>
   <jsp:include page="/header.jsp" flush="true" />
-  <jsp:include page="/plantSide.jsp" />
+  <jsp:include page="/plant/plantSide.jsp" />
 
   <div class="main-panel">
     <div class="content-wrapper title-card">

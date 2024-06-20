@@ -52,7 +52,7 @@ public interface PlantService {
 	
 	public MyPlant getMyPlant(int myPlantNo) throws Exception;
 	
-	public List<MyPlant> getMyPlantList(Map map) throws Exception;
+	public List<MyPlant> getMyPlantList(Map<String,Object> map) throws Exception;
 	
 	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
 

@@ -44,7 +44,7 @@
                 <div class="form-group">
                   <label for="password" class="col-sm-3 control-label">비밀번호</label>
                   <div class="col-sm-9">
-                    <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="비밀번호">
+                    <input type="password" class="form-control form-control-lg" id="password" name="userPwd" placeholder="비밀번호">
                     <span id="passwordCheckMsg" class="help-block"></span>
                   </div>
                 </div>
@@ -93,7 +93,7 @@
                 <div class="form-group">
                   <label for="addrDetail" class="col-sm-3 control-label">상세주소</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="addrDetail" name="addrDetail" placeholder="상세주소">
+                    <input type="text" class="form-control form-control-lg" id="addrDetail" name="getAddr" placeholder="상세주소">
                   </div>
                 </div>
                 <div class="form-group">
@@ -152,10 +152,10 @@
 
     function fncAddUser() {
         var id = $("input[name='userId']").val();
-        var pw = $("input[name='password']").val();
+        var pw = $("input[name='userPwd']").val();
         var pw_confirm = $("input[name='password2']").val();
         var name = $("input[name='userName']").val();
-        var phone = $("input:hidden[name='phone']").val();
+        var phone = $("input:hidden[name='phoneNum']").val();
         var verificationCode = $("#verificationCode").val();
 
         if (id == null || id.length < 1) {
@@ -250,33 +250,35 @@
         }, 300));
 
         // 닉네임 실시간 중복 체크 및 유효성 검사
-        $("#nickname").on("keyup", debounce(function() {
-            var nickname = $(this).val();
-            var nicknamePattern = /^[a-zA-Z가-힣0-9]{2,10}$/;
-            if (nickname.length > 0) {
-                if (!nicknamePattern.test(nickname)) {
-                    $("#nicknameCheckMsg").text("닉네임은 2자 이상 10자 이하, 영어, 한글, 숫자만 가능합니다.").removeClass("text-success").addClass("text-danger");
-                } else {
-                    $.ajax({
-                        type: "GET",
-                        url: "/user/checkNickname",
-                        data: { nickname: nickname },
-                        success: function(response) {
-                            if (response.available) {
-                                $("#nicknameCheckMsg").text("사용 가능한 닉네임입니다.").removeClass("text-danger").addClass("text-success");
-                            } else {
-                                $("#nicknameCheckMsg").text("이미 사용 중인 닉네임입니다.").removeClass("text-success").addClass("text-danger");
-                            }
-                        },
-                        error: function() {
-                            $("#nicknameCheckMsg").text("닉네임 중복 체크 중 오류가 발생했습니다.").removeClass("text-success").addClass("text-danger");
-                        }
-                    });
-                }
-            } else {
-                $("#nicknameCheckMsg").text("").removeClass("text-success text-danger");
-            }
-        }, 300));
+		$("#nickname").on("keyup", debounce(function() {
+		    var nickname = $(this).val();
+		    var nicknamePattern = /^[a-zA-Z가-힣0-9]{2,10}$/;
+		    if (nickname.length > 0) {
+		        if (!nicknamePattern.test(nickname)) {
+		            $("#nicknameCheckMsg").text("닉네임은 2자 이상 10자 이하, 영어, 한글, 숫자만 가능합니다.").removeClass("text-success").addClass("text-danger");
+		        } else {
+		            $.ajax({
+		                type: "GET", // 여기서 메서드가 서버에서 허용되는지 확인하세요.
+		                url: "/user/checkNickname", // URL이 올바른지 확인하세요.
+		                data: { nickname: nickname },
+		                success: function(response) {
+		                    if (response.available) {
+		                        $("#nicknameCheckMsg").text("사용 가능한 닉네임입니다.").removeClass("text-danger").addClass("text-success");
+		                    } else {
+		                        $("#nicknameCheckMsg").text("이미 사용 중인 닉네임입니다.").removeClass("text-success").addClass("text-danger");
+		                    }
+		                },
+		                error: function(xhr, status, error) {
+		                    console.log("AJAX error: ", status, error); // 콘솔에 오류 로그를 추가하여 디버깅을 쉽게 합니다.
+		                    $("#nicknameCheckMsg").text("닉네임 중복 체크 중 오류가 발생했습니다.").removeClass("text-success").addClass("text-danger");
+		                }
+		            });
+		        }
+		    } else {
+		        $("#nicknameCheckMsg").text("").removeClass("text-success text-danger");
+		    }
+		}, 300));
+
 
         // 비밀번호 유효성 검사 및 일치 여부 확인
         $("#password").on("keyup", debounce(function() {
