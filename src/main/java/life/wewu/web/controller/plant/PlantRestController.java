@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,7 @@ import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
 
@@ -49,6 +52,21 @@ public class PlantRestController {
 		System.out.println(this.getClass());
 	}
 
+	
+	@RequestMapping(value ="getQuestList" , method = RequestMethod.POST)
+	public Map<String, Object> getQuestList(@RequestBody Search search , Model model,HttpSession session) throws Exception{
+		System.out.println("/getQuestList");
+
+		Map<String,Object> map = plantService.getQuestList(search);
+		model.addAttribute("map", map);
+		model.addAttribute("search", search);
+
+		session.setAttribute("questList", map.get("list"));
+		System.out.println(map.get("list"));
+		
+		return map;
+	}
+	
 	
 	@RequestMapping(value ="completeQuest" , method = RequestMethod.POST)
 	public Quest completeQuest(@RequestBody Quest quest , Model model) throws Exception{
