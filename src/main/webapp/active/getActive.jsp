@@ -47,7 +47,7 @@
 	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script type="text/javascript">
 	
-	$.datepicker.setDefaults({
+	/* $.datepicker.setDefaults({
 		dateFormat: 'yy-mm-dd',
 		prevText: '이전 달',
 		nextText: '다음 달',
@@ -64,7 +64,7 @@
 		$('.datepicker').datepicker({
 			inline: true
 		});
-	});
+	}); */
 	
 	$(document).ready(function() {
 		
