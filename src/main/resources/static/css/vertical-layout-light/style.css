@@ -28441,6 +28441,7 @@ div.tagsinput span.tag a {
   -webkit-flex-direction: column;
   flex-direction: column;
   margin-top: 160px;
+  margin-bottom : 77px;
 }
 
 @media (max-width: 991px) {
