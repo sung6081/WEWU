@@ -58,7 +58,7 @@ public class UserController {
             if (dbUser != null) {
                 session.setAttribute("user", dbUser);
                 System.out.println("로그인 성공: " + dbUser.getUserId());
-                return "redirect:/main.jsp";
+                return "redirect:/index.jsp";
             } else {
                 System.out.println("로그인 실패: 비밀번호 불일치 또는 사용자 없음");
                 return "redirect:/user/loginView.jsp?error=login_failed";

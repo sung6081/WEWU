@@ -145,11 +145,11 @@ public class UserServiceImpl implements UserService {
     }
     
     //인증번호 testCode화
-    public String sendTestVerificationCode(String phoneNum) {
-        String verificationCode = smsService.generateTestVerificationCode();
-        verificationCodes.put(phoneNum, verificationCode);
-        return verificationCode;
-    }
+//    public String sendTestVerificationCode(String phoneNum) {
+//        String verificationCode = smsService.generateTestVerificationCode();
+//        verificationCodes.put(phoneNum, verificationCode);
+//        return verificationCode;
+//    }
     
     //사용자 비밀번호 찾기
 	public User findUserPwd(String phoneNum, String userId) throws Exception {
