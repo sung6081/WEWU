@@ -53,7 +53,7 @@ public interface UserService {
 	
 	public Map<String, String> getVerificationCodes();
 	
-    public String sendTestVerificationCode(String phoneNum);
+//    public String sendTestVerificationCode(String phoneNum);
     
     public User findUserPwd(String phoneNum, String userId) throws Exception;
 
