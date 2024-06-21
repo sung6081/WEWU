@@ -8,6 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>활동 목록 조회</title>
+<style>
+    .clickable-text {
+        cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+    }
+</style>
 </head>
 <body>
 
@@ -25,11 +30,47 @@
 			
 			currentPage = 1;
 			
+			$('.spread-btn').attr('hidden', 'hidden');
+			
+			if(currentPage == 1) {
+				//alert('check');
+        		$('.hold-btn').attr('hidden', 'hidden');
+        	}
+			
+			if(${isLast}) {
+				//alert('check');
+        		$('.more-btn').attr('hidden', 'hidden');
+			}
+			
+			searchCondition = $('.condition').val();
+    		searchKeyword = $('.keyword').val();
+    		groupNo = ${groupNo};
+    		url = '/app/active/listGroupActive?groupNo=' + ${groupNo};
+			
 			$('.dropdown-item').on('click', function(event) {
 				
 				$('.dropdown-btn').html($(event.target).html().trim());
 				$('.condition').val($(event.target).html().trim());
 				console.log($('.condition').val());
+				
+			});
+			
+			$('.search-btn').on('click', function() {
+				
+				var searchKeyword = $('.keyword').val();
+				var searchCondition = $('.condition').val();
+				
+				//alert(searchKeyword);
+				//alert(searchCondition);
+				
+				/* if(searchKeyword == '') {
+					return;
+				} */
+				
+				
+				$('form').attr('method', 'post');
+				$('form').attr('action', '/active/listActive/?groupNo='+${groupNo});
+				$('#searchForm')[0].submit();
 				
 			});
 			
@@ -47,7 +88,7 @@
        		
 	       			<div class="col-lg-6 grid-margin stretch-card">
 	       			
-		       			<form class="search-form" >
+		       			<form id="searchForm" class="searchForm" >
 		       			
 			              <div class="card">
 			                <div class="card-body">
@@ -66,7 +107,14 @@
 								<div class="input-group text-right">
 								
 									<div class="input-group-prepend">
-										<button class="dropdown-btn btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">활동 상태</button>
+										<button class="dropdown-btn btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<c:if test="${search.searchCondition == null || search.searchCondition == ''}">
+												활동 상태
+											</c:if>
+											<c:if test="${search.searchCondition != ''}">
+												${search.searchCondition}
+											</c:if>
+										</button>
 										<div class="dropdown-menu" style="">
 											<a class="dropdown-item" href="#">전체</a>
 											<div role="separator" class="dropdown-divider"></div>
@@ -75,12 +123,12 @@
 											<a class="dropdown-item" href="#">활동 종료</a>
 										</div>
 									</div>
-									<input type="hidden" class="condition" name="searchCondition">
+									<input type="hidden" class="condition" name="searchCondition" value="${search.searchCondition}" >
 								
-									<input type="text" name="searchKeyword" class="form-control-sm keyword" placeholder="활동명 해쉬태그 검색">
+									<input type="text" name="searchKeyword" class="form-control-sm keyword" value="${search.searchKeyword}" placeholder="활동명 해쉬태그 검색">
 									
 									<div class="input-group-append">
-									  <button class="btn btn-sm btn-primary" type="button">Search</button>
+									  <button class="btn btn-sm btn-primary search-btn" type="button">Search</button>
 									</div>
 									
 					 			</div>
@@ -108,7 +156,7 @@
 			                        
 			                        	<tr>
 											<td>${i}</td>
-											<td class="name" >
+											<td class="name clickable-text" >
 												${active.activeName}
 												<input type="hidden" name="activeNo" value="${active.activeNo}">
 											</td>
@@ -136,35 +184,57 @@
 			                    		//alert(activeNo);
 			                    		
 			                    		self.location = '/active/getActive/'+activeNo;
-			                    	})
+			                    	});
 			                    
 			                    </script>
 			                    
-			                    <button type="button" class="more-btn btn btn-secondary btn-lg btn-block">
-			                    	<c:if test="${!isLast}">
-			                    		더보기
-			                    	</c:if>
-			                    	<c:if test="${isLast}">
-			                    		접기
-			                    	</c:if>
-			                    </button>
+			                   
+			                    	
+	                    	 	<button type="button" class="more-btn btn btn-secondary btn-lg btn-block">
+	                    			더보기
+	                    		</button>
+	                    		<button type="button" class="hold-btn btn btn-secondary btn-lg btn-block">
+	                    			접기
+	                    		</button>
+	                    		<button type="button" class="spread-btn btn btn-secondary btn-lg btn-block">
+	                    			펼치기
+	                    		</button>
+			                    
 			                    
 			                    <script type="text/javascript">
+			                    
+			                    	$('.hold-btn').on('click', function() {
+			                    		
+			                    		$('.append').attr('hidden', 'hidden');
+			                    		$('.hold-btn').attr('hidden', 'hidden');
+			                    		$('.spread-btn').removeAttr('hidden');
+			                    		
+			                    	});
+			                    	
+			                    	$('.spread-btn').on('click', function() {
+			                    		
+			                    		$('.spread-btn').attr('hidden', 'hidden');
+			                    		$('.hold-btn').removeAttr('hidden');
+			                    		$('.append').removeAttr('hidden');
+			                    		
+			                    	});
 			                    
 			                    	$('.more-btn').on('click', function() {
 			                    	
 			                    		//alert(${isLast});
-			                    		var body = new Object();
-			                    		body.searchCondition = $('.condition').val();
-			                    		body.searchKeyword = $('.keyword').val();
-			                    		body.groupNo = ${groupNo};
-			                    		body.currentPage = currentPage
-			                    		var url = '/app/active/listGroupActive?groupNo=' + ${groupNo};
+			                    		
+			                    		currentPage++;
+			                    		body = new Object();
+			                			body.searchCondition = searchCondition;
+			                    		body.searchKeyword = searchKeyword;
+			                    		body.groupNo = groupNo;
+			                    		body.currentPage = currentPage;
+			                    		
 			                    		let data = new Array();
 			                    		data.push(body);
 			                    		let json = JSON.stringify(body);
 			                    		
-			                    		currentPage++;
+			                    		console.log(json);
 			                    		
 			                    		$.ajax({
 			                    			url: url,
@@ -174,26 +244,55 @@
 			                    			success: function(JSONData, status) {
 			                    				
 			                    				console.log(JSONData);
+			                    				console.log(JSONData.isLast);
+			                    				
+			                    				var list = JSONData.list;
+			                    				
+			                    				console.log(list);
+			                    				
+			                    				if(JSONData.isLast) {
+						                    		$('.more-btn').attr('hidden', 'hidden');
+						                    		$('.hold-btn').removeAttr('hidden');
+						                    	}
 			                					
-			                					if(JSONData.length == 0){
+			                					if(list.length == 0){
 			                						return;
 			                					}
 			                    				
-			                    				/* for(int i = 0; i < response.list.length; i++) {
+			                					var appendEl = '';
+			                					
+			                    				for(let i = 0; i < list.length; i++) {
 			                    					
-			                    					let append = '<tr class="append">\n'+
-																	'<td>${i}</td>\n'+
-																	'<td class="name" >\n'+
-																		+
-																		<input type="hidden" name="activeNo" value="${active.activeNo}">
-																	</td>
-																	<td>${active.activeStartDate}</td>
-																	<td>${active.activeEndDate}</td>
-																	<td>${active.activeRegDate}</td>
-																	<td>${active.stateFlag}</td>
-																</tr>
+			                    					let j = (currentPage-1) * 10 + i + 1;
 			                    					
-			                    				} */
+			                    					appendEl += '<tr class="append">\n'+
+																	'<td>'+j+'</td>\n'+
+																	'<td class="name clickable-text" >\n'+
+																		list[i].activeName+
+																		'<input type="hidden" name="activeNo" value="'+list[i].activeNo+'">\n'+
+																	'</td>\n'+
+																	'<td>'+list[i].activeStartDate+'</td>\n'+
+																	'<td>'+list[i].activeEndDate+'</td>\n'+
+																	'<td>'+list[i].activeRegDate+'</td>\n'+
+																	'<td>'+list[i].stateFlag+'</td>\n'+
+																'</tr>';
+			                    					
+			                    				}
+			                    				
+			                    				//console.log(appendEl);
+			                    				
+			                    				$('.list-body').append(appendEl);
+			                    				
+			                    				$('.name').css('color', 'blue');
+						                    	
+						                    	$('.name').on('click', function(event) {
+						                    		
+						                    		var activeNo = $(event.target).children().val();
+						                    		
+						                    		//alert(activeNo);
+						                    		
+						                    		self.location = '/active/getActive/'+activeNo;
+						                    	});
 			                    				
 			                    			},
 			                    		    error: function(xhr, status, error) {
@@ -202,7 +301,7 @@
 			                    		    }
 			                    		});
 			                    		
-			                    	})
+			                    	});
 			                    
 			                    </script>
 			                    

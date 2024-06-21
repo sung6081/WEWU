@@ -105,6 +105,7 @@
 		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>
 			TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
+			AND state_flag = 'Y'
 			<if test="searchKeyword != null">
 				AND INSTR(active_name, #{searchKeyword}) > 0 OR INSTR(hash_name, #{searchKeyword}) > 0
 			</if>
@@ -121,16 +122,15 @@
 		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>
 			a.group_no = #{groupNo}
-			<if test="search.searchCondition != null and search.searchCondition == '활동중'">
-				TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
+			AND state_flag = 'Y'
+			<if test='search.searchCondition == "활동중" '>
+				AND TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
 			</if>
-			<if test="search.searchCondition != null and search.searchCondition == '활동 종료'">
-				<![CDATA[
-	                TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) < 0
-	            ]]>
+			<if test='search.searchCondition == "활동 종료" '>
+				AND TIMESTAMPDIFF(DAY, date(active_end_date), date(now())) > 0
 			</if>
-			<if test="search.searchKeyword != null and search.searchKeyword != ''">
-				AND INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0
+			<if test='search.searchKeyword != null and search.searchKeyword != ""'>
+				AND ( INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0 )
 			</if>
 		</where>
 		ORDER BY a.active_no DESC
@@ -189,16 +189,15 @@
 			LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 			<where>
 				a.group_no = #{groupNo}
-				<if test="search.searchCondition != null and search.searchCondition == '활동중'">
-					TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
+				AND state_flag = 'Y'
+				<if test='search.searchCondition == "활동중" '>
+					AND TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
 				</if>
-				<if test="search.searchCondition != null and search.searchCondition == '활동 종료'">
-					<![CDATA[
-		                TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) < 0
-		            ]]>
+				<if test='search.searchCondition == "활동 종료" '>
+					AND TIMESTAMPDIFF(DAY, date(active_end_date), date(now())) > 0
 				</if>
-				<if test="search.searchKeyword != null and search.searchKeyword != ''">
-					AND INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0
+				<if test='search.searchKeyword != null and search.searchKeyword != ""'>
+					AND ( INSTR(active_name, #{search.searchKeyword}) > 0 OR INSTR(hash_name, #{search.searchKeyword}) > 0 )
 				</if>
 			</where>
 		

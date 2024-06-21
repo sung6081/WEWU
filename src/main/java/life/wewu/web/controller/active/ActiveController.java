@@ -32,6 +32,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
@@ -180,6 +181,7 @@ public class ActiveController {
 		List<Active> list = activeService.getGroupActiveList(map);
 		
 		model.addAttribute("list", list);
+		model.addAttribute("search", search);
 		
 		return "forward:/active/listActive.jsp";
 		
@@ -190,6 +192,8 @@ public class ActiveController {
 	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo) throws Exception {
 		
 		System.out.println("listActive Post");
+		
+		//System.out.println("::::: " + search);
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -202,6 +206,10 @@ public class ActiveController {
 		Boolean isLast = activeService.isLastPage(map);
 		
 		model.addAttribute("isLast", isLast);
+		
+		model.addAttribute("groupNo", groupNo);
+		
+		model.addAttribute("search", search);
 		
 		model.addAttribute("list", activeService.getGroupActiveList(map));
 		
@@ -220,10 +228,10 @@ public class ActiveController {
 		search.setSearchCondition("T");
 		search.setCurrentPage(1);
 		
-		model.addAttribute("groupList", groupService.getGroupList(search));
+		model.addAttribute("groupList", new ObjectMapper().writeValueAsString(groupService.getGroupList(search)));
 		
 		//Ȱ�� ����Ʈ(��ü)
-		model.addAttribute("activeList", activeService.getActiveList(search));
+		model.addAttribute("activeList", new ObjectMapper().writeValueAsString(activeService.getActiveList(search)));
 		
 		//System.out.println("::::: "+clientId);
 		
