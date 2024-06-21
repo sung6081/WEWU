@@ -99,16 +99,7 @@ public class PlantController {
 		System.out.println(questNo);
 		return "forward:/plant/updateQuest.jsp";
 	}
-	
-	@RequestMapping(value ="getQuest" , method = RequestMethod.POST)
-	public String getQuest(@RequestParam("questNo") int questNo , Model model) throws Exception{
-		System.out.println(" /plant/getQuest : POST ");		
-		Quest quest = plantService.getQuest(questNo);		
-		model.addAttribute("quest", quest);	
-		
-		return "forward:/plant/mainQuest.jsp";
-	}
-	
+
 	@RequestMapping(value ="listQuest" , method = RequestMethod.GET)
 	public String getQuestList(@ModelAttribute("search") Search search, Model model,@RequestParam(required= false)int questNo) throws Exception{
 		
