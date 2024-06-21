@@ -26,20 +26,20 @@ public class SmsService {
     }
     
     public String sendVerificationCode(String to) {
-        String verificationCode = generateTestVerificationCode();
-//        Message message = new Message();
-//        message.setFrom(FROM);
-//        message.setTo(to);
-//        message.setText("인증번호: " + verificationCode);
-//
-//        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-//        String statusCode = response.getStatusCode();
-//        if (statusCode.equals("2000")) {
-//            return verificationCode;
-//        } else {
-//            throw new RuntimeException("SMS 전송 실패");
-//        }
-        return verificationCode;
+        String verificationCode = generateVerificationCode();
+        Message message = new Message();
+        message.setFrom(FROM);
+        message.setTo(to);
+        message.setText("인증번호: " + verificationCode);
+
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        String statusCode = response.getStatusCode();
+        if (statusCode.equals("2000")) {
+            return verificationCode;
+        } else {
+            throw new RuntimeException("SMS 전송 실패");
+        }
+//        return verificationCode;
 
     }
 
@@ -50,8 +50,8 @@ public class SmsService {
     }
     
  // 테스트용으로 임의의 값을 반환하는 메소드 추가
-    public String generateTestVerificationCode() {
-        String code = "123456";
-    	return code; // 임의의 고정된 값 반환
-    }
+//    public String generateTestVerificationCode() {
+//        String code = "123456";
+//    	return code; // 임의의 고정된 값 반환
+//    }
 }

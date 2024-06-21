@@ -216,13 +216,17 @@ public class PlantController {
 	
 	//history.jsp
 	@RequestMapping(value ="history" , method = RequestMethod.GET)
-	public String getMyPlantList(@ModelAttribute("search") Search search, Model model ) throws Exception{
+	public String getMyPlantList(@ModelAttribute("search") Search search, Model model, HttpSession session) throws Exception{
 		System.out.println("/plant/history : GET");
+		
+		User user = (User) session.getAttribute("user");
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		search.setSearchKeyword("past");
+	
 		
 		map.put("search",search);
+		map.put("user",user);
 		
 		List<MyPlant> list = plantService.getMyPlantList(map);
 		System.out.println("map = " + map);
@@ -240,7 +244,7 @@ public class PlantController {
 		 System.out.println("All List Size: " + allList.size());
 		
 		model.addAttribute("allList", allList);
-		
+
 		return "forward:/plant/history.jsp";
 	}
 	

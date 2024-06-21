@@ -32,20 +32,20 @@
                   <thead>
                     <tr>
                       <th>과거 나의 식물들</th>
+                      <td>최신순 과거순 경험치 높은 순 경험치 낮은 순</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <c:forEach var="myPlant" items="${allList}" varStatus="status">
                       <tr>
-                        <td class="plantNo">최신순 과거순 경험치 높은 순 경험치 낮은 순</td>
                       </tr>
+                      <c:forEach var="myPlant" items="${allList}" varStatus="status">
                       <tr class="plantName">
                         <c:if test="${myPlant.myPlantState eq 'N'}">
-                          <td>${myPlant.levlImg}</td>
-                          <td>${myPlant.levlImg}</td>
-                          <td>${myPlant.levlImg}</td>
-                          <td>${myPlant.levlImg}</td>
-                          <td>${myPlant.levlImg}</td>
+                          <td>${myPlant.plantLevl.levlImg}</td>
+                          <td>${myPlant.plantLevl.levlImg}</td>
+                          <td>${myPlant.plantLevl.levlImg}</td>
+                          <td>${myPlant.plantLevl.levlImg}</td>
+                          <td>${myPlant.plantLevl.levlImg}</td>
                         </c:if>
                       </tr>
                     </c:forEach>

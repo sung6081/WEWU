@@ -113,11 +113,11 @@ public class UserRestController {
     
     
     // 테스트용 인증번호 발송 메소드
-    @PostMapping("/send-test-verification-code")
-    public ResponseEntity<String> sendTestVerificationCode(@RequestParam String phoneNum) {
-        userService.sendTestVerificationCode(phoneNum);
-        return ResponseEntity.ok("테스트용 인증번호가 전송되었습니다.");
-    }
+//    @PostMapping("/send-test-verification-code")
+//    public ResponseEntity<String> sendTestVerificationCode(@RequestParam String phoneNum) {
+//        userService.sendTestVerificationCode(phoneNum);
+//        return ResponseEntity.ok("테스트용 인증번호가 전송되었습니다.");
+//    }
     
     //아이디 닉네임 중복체크 검사
 	    @GetMapping("/checkId")
