@@ -23,13 +23,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.item.Item;
 import life.wewu.web.domain.item.ItemPurchase;
 import life.wewu.web.domain.item.ShoppingCart;
-
+import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.item.ItemService;	
 import life.wewu.web.service.item.ItemPurchaseService;	
 import life.wewu.web.service.item.ShoppingCartService;
@@ -53,6 +56,10 @@ public class ItemController {
    private ShoppingCartService shoppingCartService; //itemService에 itemPurchaseServiceImpl가 담김. 
 
    
+   @Autowired 
+   @Qualifier("s3RepositoryImpl") 
+   private S3Repository s3Repository;
+   
    public ItemController(){
 	   
       System.out.println(this.getClass());
@@ -71,11 +78,35 @@ public class ItemController {
  		return "forward:/item/addItem.jsp"; 
  	}
    
-   
+   /*
    @RequestMapping( value="addItem", method=RequestMethod.POST ) 
-	public String addItem(@ModelAttribute Item item) throws Exception{
+	public String addItem(@ModelAttribute Item item, @RequestParam String hash, @RequestPart(required = false) MultipartFile file) throws Exception{
 	
 		System.out.println("item addItem :: POST ");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("file", file);
+		
+		itemService.addItem(item);
+		return "redirect:/item/getItemList"; 
+	}
+   */
+   
+   
+   @RequestMapping( value="addItem", method=RequestMethod.POST ) 
+	public String addItem(@ModelAttribute Item item, @RequestPart MultipartFile file) throws Exception{
+	
+		System.out.println("item addItem :: POST ");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("file", file);
+		map.put("folderName", "item");
+		
+		String url = s3Repository.uplodaFile(map);
+		
+		item.setItemImg(s3Repository.getShortUrl(url));
+		
 		
 		itemService.addItem(item);
 		return "redirect:/item/getItemList"; 
@@ -201,7 +232,7 @@ public class ItemController {
 	
 	   
    @RequestMapping( value="getRefundPointList", method=RequestMethod.GET )
-	public String getRefundPointList(String buyerNickname, Model model) throws Exception{ 
+	public String getRefundPointList(@RequestParam String buyerNickname, Model model) throws Exception{ 
 	
 		System.out.println(":: /itemPurchase/getRefundPointList ::GET");
 		
@@ -239,7 +270,7 @@ public class ItemController {
    	}
 	
    @RequestMapping( value="getItemSalesHistory", method=RequestMethod.GET )
-	public String getItemSalesHistory(int itemPurchaseNo, Model model) throws Exception{ 
+	public String getItemSalesHistory(@RequestParam int itemPurchaseNo, Model model) throws Exception{ 
 
 		System.out.println(":: /itemPurchase/getItemSalesHistory ::GET");
 		
@@ -274,7 +305,7 @@ public class ItemController {
 		
 		model.addAttribute("item", item);
 		
-		return "forward:/itemPurchase/getItemPurchaseHistory.jsp"; 
+		return "forward:/item/getItemPurchaseHistory.jsp"; 
    	}
    
    @RequestMapping( value="updatePurchase")  

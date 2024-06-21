@@ -49,7 +49,7 @@ $(function(){
 
   <body>
     <jsp:include page="/header.jsp" flush="true" />
-    <jsp:include page="/plantSide.jsp" />
+    <jsp:include page="/plant/plantSide.jsp" />
     <div class="main-panel">
       <div class="content-wrapper">
         <form name = "addPlant">
@@ -215,7 +215,7 @@ $(function(){
                   </div>
                   <div class="form-group">
                     <label>식물단계이미지</label>
-                    <input type="file" name="levlImg" class="file-upload-default">
+                    <input type="file" name="file" class="file-upload-default">
                     <div class="input-group col-xs-12">
                       <input type="text" class="form-control file-upload-info" disabled="" placeholder="levlImg">
                       <span class="input-group-append">

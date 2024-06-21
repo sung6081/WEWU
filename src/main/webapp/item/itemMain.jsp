@@ -4,8 +4,33 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script>
+<head>
+	<link rel="stylesheet" href="item.css">
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	
+	<style>
+       .card-footer {
+            padding: 0.5rem 1rem;
+        }
+        
+        .card-footer + .card-footer {
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-title h4 {
+           font-size: 2em; /* 글씨 크기 설정 */
+           font-weight: bold; /* 글씨 진하게 설정 */
+           text-align: center;
+       }
+    </style>
+    
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script>
 	
 	function deleteItem(itemNo){
 		
@@ -96,42 +121,108 @@
 		});
 	    
 	}
-</script>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	</script>
 </head>
 <body>
-	<c:set var="i" value="0" />
-	<c:forEach var="item" items="${item}">
-		<c:set var="i" value="${ i+1 }" />
-		${ i } == ${item.itemNo } === ${item.itemName } === 
-		<a href="/item/updateItem?itemNo=${item.itemNo}">수정하기</a>=== 
-		<a href="javascript:deleteItem(${item.itemNo })">삭제하기</a>===
-		<a href="/item/getItem?itemNo=${item.itemNo}">상세보기</a>===
-		<!-- <a href="/item/addShoppingCart?itemNo=${item.itemNo}">장바구니</a>===<br>  -->
-		
-		<a href="javascript:addShoppingCart(${item.itemNo})">장바구니</a>===<br>
-	</c:forEach>
-	<br>
-	<a href="/item/addItem">아이템 등록하기</a>
-	<a href="/item/deleteItem">아이템 삭제하기</a>  <!-- 지금 안 되는 게 맞음.  -->
-	<form id="getItemList" method="post" action="/item/getItemList">
-		<input type="hidden" name="searchCondition" value="N">
-		<input type="hidden" name="searchKeyword" value="추추">
-		<input type="submit" value="검색하기">
-	</form>
-	<a href="/item/getRefundPointList?buyerNickname=nick1">환불내역 목록</a> <!-- 누구의 환불내역인지 보여주려면 buyernickname이 들어가야 하므로. 나중엔 session 넣을 것임.  -->
-	<a href="/item/getItemSalesHistoryList">판매내역 목록</a>
-	<a href="/item/getItemPurchaseHistoryList?buyerNickname=nick1">구매내역 목록</a>
+	<!-- HEADER -->
+	<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
 	
-	<form id="addShoppingCart" method="post" action="/item/addShoppingCart">
+	<div class="main-panel">
+        	<div class="content-wrapper">
 	
-	</form>
-	
-	<a href="/item/getShoppingCartList?nickname=nick1">장바구니 목록</a>
-	
-	
-	
+			<div class="row">
+			<div class="col-lg-12 grid-margin stretch-card">
+				<div class="col-lg-4 col-md-4">
+                <div class="section-title">
+                    <h4>아이템 상점</h4>
+                </div>
+            </div>
+            
+            
+            <%-- 
+             <div class="col-lg-8 col-md-8">
+           
+                <ul class="filter__controls">
+            
+                    <li class="active mixitup-control-active" data-filter="*">All</li>
+                    <li data-filter=".women" class="active mixitup-control-active">식물 아이템</li>
+                    <li data-filter=".men" class="active mixitup-control-active">장식 아이템</li>
+                </ul>
+            </div>
+            --%>
+			</div>
+        </div>
+					
+				  <section class="py-5">
+		            <div class="container px-4 px-lg-5 mt-5">
+		                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+	                     <c:set var="i" value="0" />
+	                     <c:forEach var="item" items="${item}">
+		                    <div class="col mb-5">
+		                        <div class="card h-100">
+		                            <!-- Product image-->
+		                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
+		                            <!-- Product details-->
+		                            <div class="card-body p-4">
+		                                <div class="text-left">
+		                                 	<h5 class="fw-bolder">${item.itemCategory}</h5>
+		                                    <!-- Product name-->
+		                                    <h5 class="fw-bolder">${item.itemName}</h5>
+		                                    <!-- Product price-->
+		                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
+		                                </div>
+		                                <!-- Product actions-->
+			                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+			                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">장바구니</a></div>
+			                            </div>
+			                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+			                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">구매하기</a></div>
+			                            </div>
+		                            </div>
+		                        </div>
+		                    </div>
+                            </c:forEach>
+		                </div>
+		            </div>
+	              </section>   
+                </div>
+            </div>
+	        
+	        
+	        		<%--  
+	        		<a href="/item/updateItem?itemNo=${item.itemNo}">수정하기</a>=== 
+					<a href="javascript:deleteItem(${item.itemNo })">삭제하기</a>===
+					<a href="/item/getItem?itemNo=${item.itemNo}">상세보기</a>===
+					<a href="javascript:addShoppingCart(${item.itemNo})">장바구니</a>===<br>
+					 --%>
+				<br>
+				<a href="/item/addItem">아이템 등록하기</a>
+				<a href="/item/deleteItem">아이템 삭제하기</a>  <!-- 지금 안 되는 게 맞음.  -->
+				<form id="getItemList" method="post" action="/item/getItemList">
+					<input type="hidden" name="searchCondition" value="N">
+					<input type="hidden" name="searchKeyword" value="추추">
+					<input type="submit" value="검색하기">
+				</form>
+				<a href="/item/getRefundPointList?buyerNickname=nick1">환불내역 목록</a> <!-- 누구의 환불내역인지 보여주려면 buyernickname이 들어가야 하므로. 나중엔 session 넣을 것임.  -->
+				<a href="/item/getItemSalesHistoryList">판매내역 목록</a>
+				<a href="/item/getItemPurchaseHistoryList?buyerNickname=nick1">구매내역 목록</a>
+				
+				<form id="addShoppingCart" method="post" action="/item/addShoppingCart">
+				
+				</form>
+				
+				<a href="/item/getShoppingCartList?nickname=nick1">장바구니 목록</a>
+				
+				</div>
+       	 </div>
+       	 
+	        
+        </div>
+	</div>
+	                    
+	<!-- FOOTER -->
+    <jsp:include page="/footer.jsp" />
+    <!-- FOOTER -->
 </body>
 </html>

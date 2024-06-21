@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 
 import java.io.BufferedReader;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
@@ -44,6 +46,7 @@ import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.domain.user.User;
+import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.plant.PlantService;
 
 @Controller
@@ -82,7 +85,7 @@ public class PlantController {
 	public String updateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception{
 		System.out.println(" /plant/updateQuest : GET ");
 		Quest quest = plantService.getQuest(questNo);
-		model.addAttribute("quest", quest);
+		model.addAttribute("qeust", quest);
 		return "forward:/plant/updateQuest.jsp";
 	}
 	
@@ -93,7 +96,7 @@ public class PlantController {
 		int questNo = quest.getQuestNo();
 		plantService.updateQuest(quest);		
 		model.addAttribute("quest", quest);	
-		
+		System.out.println(questNo);
 		return "forward:/plant/updateQuest.jsp";
 	}
 	
@@ -114,6 +117,8 @@ public class PlantController {
 		model.addAttribute("map", map);
 		model.addAttribute("search", search);
 		
+		System.out.println(map);
+		
 		return "forward:/plant/listQuest.jsp";
 	}
 	
@@ -126,10 +131,11 @@ public class PlantController {
 		
 		return "forward:/plant/addPlant.jsp";	
 	}
-	
+
 	@RequestMapping(value ="addPlant" , method = RequestMethod.POST)
 	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, @ModelAttribute("plant") Plant plant ,Model model) throws Exception{
 		System.out.println(" /plant/addPlant : POST ");		
+		
 		plantService.addPlant(plant, plantLevl);
 		
 		return "forward:/plant/addPlant.jsp";	
@@ -154,15 +160,6 @@ public class PlantController {
 		model.addAttribute("search", search);
 		
 		return "forward:/plant/listPlant.jsp";
-	}
-	
-	@RequestMapping(value ="deletePlant" , method = RequestMethod.POST)
-	public String deletePlant(@RequestParam("plantNo") int plantNo , Model model) throws Exception{
-		System.out.println(" /plant/deletePlant : POST ");		
-		plantService.deletePlant(plantNo);
-		
-		return "redirect:/plant/getPlantList.jsp"; //<< 고민중
-	
 	}
 	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.GET)
@@ -221,26 +218,26 @@ public class PlantController {
 	@RequestMapping(value ="history" , method = RequestMethod.GET)
 	public String getMyPlantList(@ModelAttribute("search") Search search, Model model ) throws Exception{
 		System.out.println("/plant/history : GET");
-		User user = new User();
-		user.setNickname(null);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		search.setSearchKeyword("N");
+		search.setSearchKeyword("past");
 		
 		map.put("search",search);
-		map.put("nickname",user.getNickname());
 		
 		List<MyPlant> list = plantService.getMyPlantList(map);
+		System.out.println("map = " + map);
+		System.out.println("List = " +list);
 		List<MyPlant> allList= new ArrayList<MyPlant>();
 		
-		for(MyPlant m : list)
+		for(MyPlant myPlant : list)
 		{
-			m.setPlant(plantService.getPlant(m.getPlant().getPlantNo()));
-			m.setPlantLevl(plantService.getPlantLevl(m.getPlantLevl().getPlantLevlNo()));
+			myPlant.setPlant(plantService.getPlant(myPlant.getPlant().getPlantNo()));
+			myPlant.setPlantLevl(plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo()));
 			
-			allList.add(m);
+			allList.add(myPlant);
 		}
 		
+		 System.out.println("All List Size: " + allList.size());
 		
 		model.addAttribute("allList", allList);
 		

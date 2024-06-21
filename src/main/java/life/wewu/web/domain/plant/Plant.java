@@ -17,6 +17,10 @@ public class Plant {
 	private String plantName;	 //식물이름
 	private PlantLevl plantLevl; //PlantLevl
 	//private MyPlant myPlant;	 //MyPlant
+	public void setFileName(String shortUrl) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	

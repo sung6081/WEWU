@@ -4,19 +4,30 @@
  */
 package life.wewu.web.controller.group;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import life.wewu.web.common.Search;
@@ -42,12 +53,19 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="getGroup",method = RequestMethod.POST)
-	public ModelAndView getGroup(@RequestParam("groupNo") int groupNo) throws Exception 
+	public ModelAndView getGroup(@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getGroup ::");
 		// Business logic 수행
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickNmae","nick4");
+		
 		ModelAndView model = new ModelAndView("forward:/group/getGroup.jsp");
+		
 		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
+		
 		return model;
 	}
 	
@@ -76,13 +94,17 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="getApplJoinList",method = RequestMethod.POST)
-	public ModelAndView getApplJoinList(@ModelAttribute Search search) throws Exception 
+	public ModelAndView getApplJoinList(@ModelAttribute Search search, @RequestParam String joinFlag) throws Exception 
 	{
 		System.out.println(":: /group/getApplJoinList ::");
-		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("search", search);
+		map.put("joinFlag", joinFlag);
 		// Business logic 수행
+		System.out.println(search);
+		System.out.println(joinFlag);
 		ModelAndView model = new ModelAndView("forward:/group/getApplJoinList.jsp");
-		model.addObject("groupMember", groupService.getApplJoinList(search));
+		model.addObject("groupMember", groupService.getApplJoinList(map));
 		return model;
 	}
 	
@@ -97,14 +119,34 @@ public class GroupController {
 		return model;
 	}
 	
+	@RequestMapping(value="getMemberGroupForNick",method = RequestMethod.POST)
+	public ModelAndView getMemberGroupForNick(@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
+	{
+		System.out.println(":: /group/getMemberGroupForNick ::");
+		// Business logic 수행
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickNmae","nick4");
+		
+		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
+		
+		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
+		
+		return model;
+	}
+	
 	@RequestMapping(value="getGroupAcle",method = RequestMethod.POST)
-	public ModelAndView getGroupAcle(@RequestParam("boardNo") int boardNo) throws Exception 
+	public ModelAndView getGroupAcle(@RequestParam("boardNo") int boardNo, @RequestParam("groupNo") int groupNo) throws Exception 
 	{
 		System.out.println(":: /group/getGroupAcle ::");
 		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getGroupAcle.jsp");
+		GroupAcle groupAcle = groupService.getGroupAcle(boardNo);
 		model.addObject("groupAcle", groupService.getGroupAcle(boardNo));
+		model.addObject("groupBoard", groupService.getGroupBoard(groupAcle.getTypeNo()));
+		model.addObject("group", groupService.getGroup(groupNo));
 		return model;
 	}
 	
@@ -202,23 +244,24 @@ public class GroupController {
 	{
 		
 		System.out.println(":: /group/addGroupBoard ::");
-		
+		Group group = groupService.getGroup(groupNo);
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/addGroupBoard.jsp");
-		model.addObject("groupNo", groupNo);
+		model.addObject("group", group);
 		
 		return model;
 	}
 	
 	@RequestMapping(value="getGroupBoard",method = RequestMethod.POST)
-	public ModelAndView getGroupBoard(@RequestParam int typeNo) throws Exception 
+	public ModelAndView getGroupBoard(@RequestParam("typeNo") int typeNo, @RequestParam("groupNo") int groupNo) throws Exception 
 	{
-		
 		System.out.println(":: /group/getGroupBoard ::");
 		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
+		Group group = groupService.getGroup(groupNo);
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getGroupBoard.jsp");
 		model.addObject("groupBoard", groupBoard);
+		model.addObject("group", group);
 		
 		return model;
 	}
@@ -265,9 +308,22 @@ public class GroupController {
 		GroupMember groupMember = groupService.getMemberGroupForNick(map);
 		
 		ModelAndView model = new ModelAndView("forward:/group/addGroupAcle.jsp");
+		
+		model.addObject("group", groupService.getGroup(groupNo));
 		model.addObject("typeNo", typeNo);
 		model.addObject("groupMember", groupMember);
+		model.addObject("groupBoard", groupService.getGroupBoard(typeNo));
 		
+		return model;
+	}
+	
+	@RequestMapping(value="getMemberGroupList",method = RequestMethod.POST)
+	public ModelAndView getMemberGroupList(@RequestParam("groupNo") int groupNo) throws Exception 
+	{
+		System.out.println(":: /group/getMemberGroupList ::");
+		// Business logic 수행
+		ModelAndView model = new ModelAndView("forward:/group/getMemberGroupList.jsp");
+		model.addObject("group", groupService.getGroup(groupNo));
 		return model;
 	}
 	
@@ -283,4 +339,43 @@ public class GroupController {
 		
 		return model;
 	}
+	
+	@RequestMapping(value="/uploadFile", method = RequestMethod.POST)
+    public void smarteditorImageUpload2(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("1");
+		String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
+        try{
+            if(file.isEmpty()) {
+                System.out.println("이미지 미등록");
+            } else {
+                File saveDir = new File(fileDir);
+                if(!saveDir.exists()){
+                    saveDir.mkdir();
+                }
+                String rfileName = file.getOriginalFilename();
+                String extension = StringUtils.getFilenameExtension(rfileName);
+                String pFileName = UUID.randomUUID().toString() + "." + extension;
+                File saveFile = new File(saveDir, pFileName);
+                try {
+                    file.transferTo(saveFile);
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+                String sFileInfo = "";
+                sFileInfo += "&bNewLine=true";
+                // img 태그의 title 속성을 원본파일명으로 적용시켜주기 위함
+                sFileInfo += "&sFileName=" + pFileName;
+                sFileInfo += "&sFileURL=../group/upload/" + pFileName;
+                PrintWriter print = response.getWriter();
+                print.print(sFileInfo);
+                System.out.println(sFileInfo);
+                print.flush();
+                print.close();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

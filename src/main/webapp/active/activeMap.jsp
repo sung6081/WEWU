@@ -15,21 +15,6 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <style>
 
-	body, html {
-         overflow: hidden; /* 스크롤바 숨기기 */
-    }
-
-	#header {
-	    width: 100%;
-	    height: 60px;
-	    margin: 45px;
-	}
-	
-	#footer {
-	    width: 100%;
-	    height: 60px;
-	}
-	
 	#left {
 	    width: 300px;
 	    height: 100%;
@@ -383,32 +368,6 @@ $(document).ready(function() {
 	<div id="header">
 	    <c:import url="/header.jsp"></c:import>
 	</div>
-	
-	<%-- <div id="container">
-		<div id="left">
-		    <!-- <div id="list">
-		        여기에 리스트 항목을 추가합니다
-		        <ul>
-		            <li>리스트 항목 1</li>
-		            <li>리스트 항목 2</li>
-		            <li>리스트 항목 3</li>
-		        </ul>
-		    </div> -->
-		    <div id="chatList">
-		    	<c:import url="/chat/listServer.jsp"></c:import>
-		    </div>
-	    </div>
-	    <div id="map">
-	        <div class="search" style="">
-	        	<select id="condition" >
-	        		<option value="map" >지도</option>
-	        		<option value="active" >활동</option>
-	        	</select>
-	            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-	            <input id="submit" type="button" value="주소 검색" />
-	        </div>
-	    </div>
-	</div> --%>
 	
 	<div class="main-panel">
        	<div class="content-wrapper">

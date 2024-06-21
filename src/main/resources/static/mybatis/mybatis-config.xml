@@ -76,5 +76,7 @@
         <mapper resource="static/mybatis/ShoppingCartMapper.xml"/>
         
         <mapper resource="static/mybatis/PayMapper.xml"/>
+        
+        <mapper resource="static/mybatis/InventoryMapper.xml"/>
 	</mappers>
 </configuration>

@@ -42,18 +42,16 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-              <i class="icon-columns menu-icon"></i>
+          <li class="nav-item active">
+            <a class="nav-link" href="/board/listBoard?boardType=2">
+              <i class="icon-grid menu-icon"></i>
               <span class="menu-title">모임 홍보</span>
-
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-              <i class="icon-bar-graph menu-icon"></i>
+          <li class="nav-item active">
+            <a class="nav-link" href="/board/listBoard?boardType=3">
+              <i class="icon-grid menu-icon"></i>
               <span class="menu-title">모임 후기</span>
-
             </a>
           </li>
           

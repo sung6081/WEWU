@@ -33,7 +33,7 @@
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
-	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+	.search #searchBtn { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
     
 </style>
 
@@ -351,7 +351,7 @@
 		        }
 		    });
 	
-		    $('#submit').on('click', function(e) {
+		    $('#searchBtn').on('click', function(e) {
 		    	
 		        e.preventDefault();
 	
@@ -446,14 +446,14 @@
 	</script>
 	
 	<!-- SIDE -->
-	<jsp:include page="/side.jsp"></jsp:include>
+	<jsp:include page="/activeSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<div class="main-panel">
 	
        	<div class="content-wrapper">
        	
-       		<form class="add-form" >
+       		<form class="addForm" id="addForm" encType="multipart/form-data" >
        		
 	       		<div class="row" >
 	       		
@@ -490,14 +490,14 @@
 	                   		
 	                   		<div class="row">
 	                   		
-	                    		<div class="col-md-4 grid-margin" >
+	                    		<div class="col-md-5 grid-margin" >
 	                    			<input type="time" name="activeStartTime" class="time form-control">
 	                    		</div>
 	                    		<div class="col-md-1 grid-margin" >
 	                    			<br/>
 	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
 	                    		</div>
-	                    		<div class="col-md-4 grid-margin" >
+	                    		<div class="col-md-5 grid-margin" >
 	                    			<input type="time" name="activeEndTime" class="time form-control">
 	                    		</div>
 	                    		
@@ -507,61 +507,16 @@
 	                   		
 	                    		<div class="col-md-6 grid-margin" >
 	                    			<label>활동 시작일</label>
-	                    			<input type="text" name="activeStartTime" class="datepicker form-control" placeholder="활동 시작일" >
+	                    			<input type="text" name="activeStartDate" class="datepicker form-control" placeholder="활동 시작일" >
 	                    		</div>
 	                    		<div class="col-md-6 grid-margin" >
 	                    			<label>활동 종료일</label>
-	                    			<input type="text" name="activeEndTime" class="datepicker form-control" placeholder="활동 종료일" >
+	                    			<input type="text" name="activeEndDate" class="datepicker form-control" placeholder="활동 종료일" >
 	                    		</div>
 	                    		
 	                   		</div>
 	                   		
-	                   		<div class="row">
 	                   		
-	                   				<div class="col-md-6 grid-margin" >
-			                   			<label>해쉬 태그</label>
-			                      		<input type="hidden" name="hash" class="form-control hash" placeholder="해쉬 태그">
-		                      		</div>
-	                      		
-	                      		<!-- <div class="row">
-	                      		
-	                      			<div class="col-md-6 grid-margin" >
-	                      				<button type="button" class="btn btn-primary btn-lg btn-block"></button>
-	                      			</div>
-	                      			
-	                      		</div> -->
-	                      		
-	                   		</div>
-	                   		
-	                   		<div class="row">
-	                   			<c:forEach begin="1" end="5" var="i">
-	                   				<div class="col-md-2 grid-margin" >
-		                   				<input id="hash${i}" type="text" class="form-control" >
-		                   			</div>
-	                   			</c:forEach>
-	               			</div>
-	                      	
-	                      	<div class="row">
-	                      		<label>활동 코멘트</label>
-	                      		<textarea class="form-control" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
-	                      	</div>
-	                      	
-	                      	<div class="row">
-	                      		<button type="button" onclick="addActive()" class="btn btn-primary btn-lg btn-block">
-		                      		등록하기
-			                    </button>
-	                      	</div>
-	                      	
-	                      	<script type="text/javascript">
-	                      	
-		                      	//submit함수
-		                    	function addActive() {
-		                    		
-		                    		alert('등록');
-		                    		
-		                    	}
-	                      	
-	                      	</script>
 	                      
 	                    </div>
 	                    
@@ -573,7 +528,7 @@
 							<div id="map">
 							    <div class="search" style="">
 							        <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-							        <input id="submit" type="button" value="주소 검색" />
+							        <input id="searchBtn" type="button" value="주소 검색" />
 							    </div>
 							</div>
 						
@@ -601,12 +556,96 @@
 									
 									$('.upload-btn').html('<i class="ti-upload btn-icon-prepend"></i>'+$('.file').val());
 									
+								}else {
+									$('.upload-btn').html('마커 사진 upload');
 								}
 								
 							});
 							
 						
 						</script>
+					
+					</div>
+					
+					<div class="col-md-12 grid-margin">
+					
+						<div class="row">
+	                   		
+	                   				<div class="col-md-6 grid-margin" >
+			                   			<label>해쉬 태그</label>
+			                      		<input type="hidden" name="hash" class="form-control hash" placeholder="해쉬 태그">
+		                      		</div>
+	                      		
+	                   		</div>
+	                   		
+	                   		<div class="row">
+	                   			<c:forEach begin="1" end="5" var="i">
+	                   				<div class="col-md-2 grid-margin" >
+		                   				<input id="hash${i}" type="text" class="form-control" >
+		                   			</div>
+	                   			</c:forEach>
+	               			</div>
+	                      	
+	                      	<div class="row">
+	                      		<label>활동 코멘트</label>
+	                      		<textarea class="form-control" rows="10" name="activeInfo" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+	                      	</div>
+	                      	
+	                      	<div class="row">
+	                      		<button type="button" onclick="addActive()" class="btn btn-primary btn-lg btn-block">
+		                      		등록하기
+			                    </button>
+	                      	</div>
+	                      	
+	                      	<script type="text/javascript">
+	                      	
+		                      	//submit함수
+		                    	function addActive() {
+		                    		
+		                    		alert('등록');
+		                    		
+		                    		var hashString = '';
+		                    		
+		                    		if($('.activeName').val() == ''){
+		                    			alert('활동 이름을 입력해 주세요.');
+		                    			return;
+		                    		}
+		                    		
+		                    		if($('.activeX').val() == '' || $('.activeY').val() == ''){
+		                    			alert('활동 마커를 지도에 찍어주세요.');
+		                    			return;
+		                    		}
+		                    		
+		                    		if($('.activeStartDate').val() == '' || $('.activeEndDate').val() == ''){
+		                    			alert('활동 기간을 입력해 주세요.');
+		                    			return;
+		                    		}
+		                    		
+		                    		for(let i = 1; i <= 5; i++) {
+		                    			
+		                    			if(i == 1 && $('#hash'+i).val() != '') {
+		                    				hashString += $('#hash'+i).val();
+		                    				console.log($('#hash'+i).val());
+		                    			}else if($('#hash'+i).val() != '') {
+		                    				hashString += ',' + $('#hash'+i).val();
+		                    				console.log($('#hash'+i).val());
+		                    			}
+		                    			
+		                    		}
+		                    		
+		                    		console.log(hashString);
+		                    		
+		                    		$('.hash').val(hashString);
+		                    		
+		                    		$('form').attr('method', 'post');
+		                    		$('form').attr('action', '/active/addActive');
+		                    		
+		                    		//document.getElementById("addForm").submit();
+		                    		$('#addForm')[0].submit();
+		                    		
+		                    	}
+	                      	
+	                      	</script>
 					
 					</div>
 					

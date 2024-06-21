@@ -36,17 +36,17 @@
 .navbar-custom-height .navbar-brand img {
 	height: 100%; /* 로고 이미지가 네비게이션 바 높이에 맞게 조정 */
 }
+    .dropdown:hover>.dropdown-menu {
+      display: block;
+    }
 
-/*header*/
-.dropdown-submenu {
-	position: relative;
-}
+    .dropdown-submenu:hover>.dropdown-menu {
+      display: block;
+    }
 
-.dropdown-submenu .dropdown-menu {
-	top: 0;
-	left: 100%;
-	margin-top: -1px;
-}
-
-
+    .dropdown-submenu>.dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -1px;
+    }
 

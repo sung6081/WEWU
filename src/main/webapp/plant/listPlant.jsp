@@ -28,7 +28,7 @@
 </head>
 <body>
   <jsp:include page="/header.jsp" flush="true" />
-  <jsp:include page="/plantSide.jsp" />
+  <jsp:include page="/plant/plantSide.jsp" />
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row mt-5">
@@ -56,15 +56,15 @@
                   <tbody>
                     <c:forEach var="plant" items="${map.list}" varStatus="status">
                       <tr>
-                        <td class="plantNo">${plant.plantNo}</td>
-                        <td class="plantName">${plant.plantName}</td>
+                        <td>${plant.plantNo}</td>
+                        <td>${plant.plantName}</td>
                         <td>${plant.plantLevl.plantLevl}</td>
                         <td>${plant.plantLevl.plantMaxExp}</td>
                         <td>${plant.plantLevl.plantMinExp}</td>
                         <td>${plant.plantLevl.plantFinalLevl}</td>
                         <td>${plant.plantLevl.levlImg}</td>
                         <td>
-                        	<button type = "button" class="badge badge-success">수정</button>
+                        	<a href = "/plant/updatePlant" type = "button" class="badge badge-success">수정</a>
                         </td>
                       </tr>
                     </c:forEach>

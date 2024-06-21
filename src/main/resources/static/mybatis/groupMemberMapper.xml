@@ -85,18 +85,21 @@
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  
   	
   	<!-- SELECT 매핑구문 (select SQL 등록) :: select element -->  	
-  	<select id="getMemberGroupList" parameterType="search" resultMap="groupMemberSelectMap">
+  	<select id="getMemberGroupList" parameterType="map" resultMap="groupMemberSelectMap">
 		SELECT 
 			*
 		FROM group_member
-		<if test='searchCondition != null and searchCondition == "user"'>
+		<if test='search.searchCondition != null and search.searchCondition == "user"'>
 			<where>
-				member_nickname = #{searchKeyword}
+				member_nickname = #{search.searchKeyword}
 			</where>
 		</if>
-		<if test='searchCondition != null and searchCondition == "group"'>
+		<if test='search.searchCondition != null and search.searchCondition == "group"'>
 			<where>
-				group_no = #{searchKeyword}
+				group_no = #{search.searchKeyword}
+				<if test='joinFlag != null and joinFlag != ""'>
+					AND join_flag = #{joinFlag}
+				</if>
 			</where>
 		</if>
   	</select>

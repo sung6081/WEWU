@@ -7,6 +7,56 @@
 <meta charset="UTF-8">
 <title>게시글 상세 보기</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<style>
+        .comment-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .comment-header {
+            font-weight: bold;
+        }
+        .comment-content {
+            margin: 10px 0;
+        }
+        .comment-date {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .comment-actions {
+            margin-top: 10px;
+        }
+        .comment-actions a {
+            margin-right: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .comment-actions a:hover {
+            text-decoration: underline;
+        }
+        .comment-form {
+            margin-top: 10px;
+             /* 수정 폼을 기본적으로 숨김 display: none; */
+        }
+        .comment-form textarea {
+            width: 100%;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        .comment-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .comment-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 <script type="text/javascript">
 	window.onload = function() {
 		getCommentList();
@@ -89,9 +139,7 @@
 			});
         }
 	}
-	function showUpdateForm(commentNo) {
-	    $('#updateCommentForm_' + commentNo).toggle();
-	}
+
 	
 	function updateComment(commentNo){
 		var form = document.getElementById('updateCommentForm_'+commentNo);
@@ -151,19 +199,23 @@
 			  success : function(data, status, xhr) {
 				  var str = "";
 				  for(var i = 0 ; i < data.length ; i ++){
-					  str += "작성자 : " + data[i].commentNickName + 
-					  	" ===  내용 : " + data[i].commentContents + 
-					  	" ===  작성날짜 : " + data[i].commentDate +
-					  	"<a href=javascript:deleteComment("+ data[i].commentNo +");>댓글 삭제</a>"+
-					  	"<a href=javascript:updateComment("+ data[i].commentNo +");>댓글 수정</a><br>" +
-					  "<form id='updateCommentForm_" + data[i].commentNo + "'>" +
-                      "<input type='hidden' name='commentNo' value='" + data[i].commentNo + "'>" +
-                      "<input type='hidden' name='boardNo' value='" + '${board.boardNo}' + "'>" +
-                      "<input type='hidden' name='commentNickName' value='" + data[i].commentNickName + "'>" +
-                      "<textarea name='commentContents'>" + data[i].commentContents + "</textarea>" +
-                      "<button type='button' onclick='updateComment(" + data[i].commentNo + ");'>수정 완료</button>" +
-                      "</form><br>";
-				  }
+			            str += "<div class='comment-container'>" +
+			                   "<div class='comment-header'>작성자 : " + data[i].commentNickName + "</div>" +
+			                   "<div class='comment-content'>내용 : " + data[i].commentContents + "</div>" +
+			                   "<div class='comment-date'>작성날짜 : " + data[i].commentDate + "</div>" +
+			                   "<div class='comment-actions'>" +
+			                   "<a href='javascript:deleteComment("+ data[i].commentNo + ");'>댓글 삭제</a>" +
+			                   "<a href='javascript:updateComment("+ data[i].commentNo + ");'>댓글 수정</a>" +
+			                   "</div>" +
+			                   "<form id='updateCommentForm_" + data[i].commentNo + "' class='comment-form'>" +
+			                   "<input type='hidden' name='commentNo' value='" + data[i].commentNo + "'>" +
+			                   "<input type='hidden' name='boardNo' value='" + '${board.boardNo}' + "'>" +
+			                   "<input type='hidden' name='commentNickName' value='" + data[i].commentNickName + "'>" +
+			                   "<textarea name='commentContents'>" + data[i].commentContents + "</textarea>" +
+			                   
+			                   "</form>" +
+			                   "</div><br>";
+			        }
 				  $('#commentList').append(str);
 				  str = "";
 			  },
@@ -175,6 +227,11 @@
 			  }
 		});
 	}
+	$(function(){
+		$("div.comment-content").on("click",function(){
+			style.display = 'block';
+		})
+	})
 
 	 function showUpdateForm(commentNo) {
 	        document.getElementById('updateCommentForm_' + commentNo).style.display = 'block';
@@ -237,41 +294,48 @@
 							<br>
 							
 							<div class="form-group row">
+								<div class="col-sm-12">
+								<%-- ${boardFile.fileName} --%>
+							</div>
+							</div>
+							<div class="form-group row">
 								<div class="col-sm-12">${board.contents}</div>
-						</div>
+							</div>
 							
 						</div>
 						
 						<div class="card-body">
 						<hr>
 							<p class="card-description">댓글 수 : ${board.commentCnt}
-							
-							<form id="commentForm">
+							<div class="form-group row">
 								<h1 class="card-title">
-									nick1 ${sessionScope.user.nickname}
-									<input type="hidden" name="commentNickName" id="commentNickName" value="nick1">
+									nick1 ${sessionScope.user.nickname} 
 								</h1>
-								<input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">  									
-								<input type="text" name="commentContents" id="commentContents"> <br>
-							</form>
-
-					</div>
-						
-						
-						<a href="javascript:addComment();">댓글 쓰기</a>
-						
+								<div class="col-sm-12">
+									<form id="commentForm">
+									<input type="hidden"
+										name="commentNickName" id="commentNickName" value="nick1">
+										<input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">  									
+										<textarea name="commentContents" class="form-control" id="commentContents"></textarea> <br>
+									</form>
+									<button class="btn btn-link btn-fw" onClick="addComment();">
+									댓글 쓰기
+									</button>
+								</div>
+						</div>
 						<div id="commentList">
-						<
-							
+		
+						</div>
+						
+	
+						
 						</div>
 						<br/>
 							
-					
-						<button type="button" class="btn">삭제</button>
 					</div>
 								
 					</div>
-								</div>
+			</div>
 
 </body>
 </html>

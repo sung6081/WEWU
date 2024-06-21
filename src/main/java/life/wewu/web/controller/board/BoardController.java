@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import life.wewu.web.common.Search;
@@ -27,6 +29,7 @@ import life.wewu.web.domain.board.Bookmark;
 import life.wewu.web.domain.board.Comment;
 import life.wewu.web.domain.board.Donation;
 import life.wewu.web.domain.board.Question;
+import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.board.BoardService;
 
 @Controller
@@ -38,6 +41,9 @@ public class BoardController {
 	@Qualifier("boardService")
 	private BoardService boardService;
 	
+	@Autowired
+	@Qualifier("s3RepositoryImpl")
+	private S3Repository s3Repository;
 	
 	//메소드
 	
@@ -57,9 +63,19 @@ public class BoardController {
 	@PostMapping(value = "addBoard")
 	public String addBoard(@RequestParam("boardType") int boardType, @ModelAttribute("board") Board board,
 			@ModelAttribute("boardFile") BoardFile boardFile,
-			Model model) throws Exception{
+			Model model, @RequestPart(required = false) MultipartFile file) throws Exception{
 		
 		System.out.println("/board/addBoard : POST");
+		
+		if(!file.isEmpty()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("file", file);
+			map.put("folderName", "board");
+			
+			String url = s3Repository.uplodaFile(map);
+			
+			boardFile.setFileName(s3Repository.getShortUrl(url));
+		}
 		
 		board = boardService.addBoard(board);	//board 등록
 		System.out.println("::::::::::;;"+board);

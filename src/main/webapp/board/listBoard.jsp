@@ -7,7 +7,20 @@
 <meta charset="UTF-8">
 <title>게시글 목록 보기</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <style>
+     .thumbnail {
+         padding: 10px;
+     }
+     .thumbnail img {
+         width: 100%;
+         height: auto;
+     }
+ </style>
 <script type="text/javascript">
+
 
 	function addBookmark(boardNo){
 		
@@ -76,53 +89,131 @@
 			}
 		});
     }
+	$(function(){
+		$("td:nth-child(2)").on(
+				"click",
+				function() {
+					self.location = "/board/getBoard?boardType=${param.boardType}"
+							+"&boardNo="
+							+ $($(this).children()).val();
+
+				});
+	});
+	
+	 $(function(){
+			$("button.btn.btn-outline-primary").on("click", function() {
+				self.location="/board/addBoard?boardType=${param.boardType}"
+			});
+
+		});
 </script>
 
 </head>
 <body>
 <input type="hidden" name="boardType" value="${param.boardType}" >
+<!-- HEADER -->
+	<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
 	
-	<table>
-	<thead>
-		<tr>게시글 종류</tr>
-		<tr>No</tr>
-		<tr>제목</tr>
-		<tr>닉네임</tr>
-		<tr>등록일</tr>
-		<tr>썸네일 이미지 번호</tr>
-		<tr>즐겨찾기 수</tr>
-		<tr>조회수</tr>
-		<tr>댓글 수</tr>
-		<tr>북마크 플래그</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="board" items="${list}">
-		<tr>
-			<td>${board.boardType}</td>
-			<td>${board.boardNo}</td>
-			<td>${board.title}</td>
-			<td>${board.nickName}</td>
-			<td>${board.regDate}</td>
-			<td>${board.thumnail}</td>
-			<td>${board.bookmarkCnt}</td>
-			<td>${board.views}</td>
-			<td>${board.commentCnt}</td>
-			<td>${board.bookmarkFlag}
-				<form id="bookmarkForm">
-				<input type="hidden" name="nickName" id="nickName" value="nick1">
-				<input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">
-				</form>
-				
-				<a href="javascript:addBookmark(${board.boardNo});">즐겨찾기 추가</a>
-				<a href="javascript:deleteBookmark(${board.boardNo});">즐겨찾기 삭제</a>
-			</td>
+	<div class="container-fluid page-body-wrapper">
+		<jsp:include page="boardSideBar.jsp" />
 
-		</tr>
-		</c:forEach>
-	</tbody>
-</table>
+
+		<div class="main-panel">
+				<div class="col-12 grid-margin stretch-card">
 	
-	<br/>
+					<div class="card">
+		                <div class="card-body">
+		                  <h1 class="card-title">
+							<c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
+							<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
+							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
+							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
+						</h1>
+		                
+		                  <div class="table-responsive">
+		                    <table class="table table-striped">
+		                      <thead>
+		                        <tr>
+		                          <th>
+		                            No
+		                          </th>
+		                          <th>
+		                            제목
+		                          </th>
+		                          <th>
+		                            닉네임
+		                          </th>
+		                          <th>
+		                            등록일
+		                          </th>
+		                          <th>
+		                            즐겨찾기 수
+		                          </th>
+		                          <th>
+		                            조회수
+		                          </th>
+		                          <th>
+		                            댓글 수
+		                          </th>
+		                     
+		                        </tr>
+		                      </thead>
+		                      <tbody>
+		                      	<c:set var="i" value="0" />
+		                      	<c:forEach var="board" items="${list}">
+		                      	<c:set var="i" value="${ i+1 }" />
+		                        <tr>
+		                          <td>
+		                           
+		                            ${i}
+		                            
+		                          </td>
+		                          <td>
+		                            ${board.title}
+		                             <input type="hidden" value="${board.boardNo}"> 
+		                          </td>
+		                          <td>
+		                          	${board.nickName}
+		                          </td>
+		                          <td>
+		                            ${board.regDate}
+		                          </td>
+		                          <td>
+		                            ${board.bookmarkCnt}
+		                          </td>
+		                          <td>
+		                            ${board.views}
+		                          </td>
+		                          <td>
+		                            ${board.commentCnt}
+		                          </td>
+		                          
+		                        </tr>
+		                        </c:forEach>
+		                      </tbody>
+		                    </table>
+		                  </div>
+		                  
+		                  
+		                  
+		                  <button type="button" class="btn btn-outline-primary btn-fw"> 
+		                  <c:if test="${param.boardType eq '1'}"> 공지 </c:if>
+							<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
+							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
+							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
+							글 등록하기
+		                   </button>
+		                  
+		              </div>
+		         </div>
+		         
+		         </div>
+		        </div>
+		       </div>
+				<!-- FOOTER -->
+		<jsp:include page="/footer.jsp" />
+		<!-- FOOTER -->
 
 </body>
 </html>
