@@ -38,7 +38,7 @@
     
 </style>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="http://223.130.157.128:3000/socket.io/socket.io.js"></script>
+<script src="https://223.130.157.128:3000/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 	
 	$(function () {
@@ -51,7 +51,7 @@
 			
 		console.log(data);
 			
-		socket = io('http://223.130.157.128:3000');
+		socket = io('https://223.130.157.128:3000');
 		
 		socket.emit('join_room', data);
 		
