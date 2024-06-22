@@ -51,7 +51,7 @@
 										<input type="text" class="form-control" name="questState" id="questState" placeholder="questState">
 								</div>
 									<input type="submit" class="btn btn-primary mr-2" value="수정">
-            <button type = "button" class="btn btn-white" name="cancel">취소</button>
+           							 <button type = "button" class="btn btn-white" name="cancel">취소</button>
 							</div>
 						</div>
 					</div>

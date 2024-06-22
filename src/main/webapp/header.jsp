@@ -46,6 +46,7 @@
  <link rel="stylesheet" href="/css/swiper.css">
  <!-- endinject -->
  <link rel="shortcut icon" href="/images/favicon.ico" />
+ <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
  <!-- swiper -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
@@ -99,7 +100,7 @@
                <a class="nav-link" href="/plant/emptyUser.jsp">식물키우기</a>
              </c:if>
              <c:if test="${ ! empty user }">
-               <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>
+               <a class="nav-link" href="/plant/getMyPlant.jsp">식물키우기</a>
              </c:if>
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
