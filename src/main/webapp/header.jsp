@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:set var="sessionQuest" value="${sessionScope.sessionQuest}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,6 +64,19 @@
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
      <div class="container d-flex justify-content-center">
        <span class="navbar-brand mb-0 h1">WEWU</span>
+                   <!-- 세션에서 퀘스트 리스트 가져오기 -->
+            <c:set var="sessionQuestList" value="${sessionScope.questList}" />
+            
+            <!-- 퀘스트 정보 표시 -->
+            <c:if test="${not empty questList}">
+                <ul class="navbar-nav">
+                    <c:forEach var="quest" items="${questList}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">퀘스트 번호: ${quest.questNo}, 내용: ${quest.questContents}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:if>
      </div>
    </header>
    <!-- Navbar -->
@@ -77,7 +91,7 @@
        </button>
        <div class="collapse navbar-collapse bg-light" id="navbarNavDropdown">
          <ul class="navbar-nav mr-auto">
-           <li class="nav-item"><a class="nav-link" href="/board/listBoard">게시판</a></li>
+           <li class="nav-item"><a class="nav-link" href="/board/listBoard?boardType=1">게시판</a></li>
            <li class="nav-item"><a class="nav-link" href="/group/mainGroup.jsp">모임</a></li>
            <li class="nav-item"><a class="nav-link" href="/active/activeMap">모임활동지도</a></li>
            <li class="nav-item">
@@ -107,7 +121,7 @@
                <div class="dropdown-submenu">
                  <a class="dropdown-item dropdown-toggle" href="#">후원관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="#">후원목록</a></li>
+                   <li><a class="dropdown-item" href="/board/listDonation?payType=1">후원목록</a></li>
                  </ul>
                </div>
                <!-- Menu 3 with nested dropdown -->
@@ -134,14 +148,23 @@
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
+          <c:if test = "${ empty user }">
+          <li class="nav-item">
+              <a class="nav-link" href="/user/addUserView.jsp">회원가입</a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link btn btn-primary text-white " href="/user/login">Login</a>
+              <a class="nav-link " href="/user/login">Login</a>
             </li>
-            <li class="nav-item nav-settings">
-              <a class="nav-link" href="#">
-                <i class="icon-ellipsis"></i>
-              </a>
+            </c:if>
+            <c:if test = "${ ! empty user }">
+            <li class="nav-item">
+              <a class="nav-link " href="/user/login">LogOut</a>
             </li>
+            </c:if>
+            <li class="nav-settings">
+   			 <button type="button" class="btn btn-info btn-inverse-info btn-icon">
+        		<i class="mdi mdi-human-greeting"></i>
+    		</button>
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">
@@ -150,7 +173,7 @@
           
           
           <!--  -->
-          <jsp:include page="plant/getQuest.jsp" />
+          <jsp:include page="plant/getQuestList.jsp" />
           <!--  -->
         </div>
       </div>

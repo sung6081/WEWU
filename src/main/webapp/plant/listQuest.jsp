@@ -49,7 +49,6 @@
                                         <td>${quest.regDate}</td>
                                         <td>${quest.questContents}</td>
                                         <td>${quest.questState}</td>
-                                        <td>${quest.questRegDate}</td>
                                         <td>${quest.questTarget}</td>
                                         <td>${quest.questTargetCnt}</td>
                                         <td>${quest.questReward}</td>
