@@ -22,12 +22,24 @@
        <br>
        <br>
        <br>
+       <!-- 식물 없을때 랜덤 뽑기로 이동 -->
+       <div class = "container">
+       		<div class="row mt-5">
+           <div class="col-lg-5 grid-margin stretch-card ">
+             <div class="card mr-4">
+               <div class="card-body">
+<img src="">
+               </div>
+             </div>
+           </div>
+       </div>
+       <!-- 식물 없을때 랜덤 뽑기로 이동 -->
+       <!-- 식물 존재하면 뜨는 화면 -->
        <div class="container">
          <div class="row mt-5">
            <div class="col-lg-5 grid-margin stretch-card">
              <div class="card mr-4">
-               <div class="card-body">
-               
+               <div class="card-body">          
                </div>
              </div>
            </div>
@@ -76,6 +88,7 @@
      </div>
    </div>
  </form>
+ <!-- 식물 존재하면 뜨는 화면 -->
  <!-- FOOTER -->
  <jsp:include page="/footer.jsp" />
  <!-- FOOTER -->
