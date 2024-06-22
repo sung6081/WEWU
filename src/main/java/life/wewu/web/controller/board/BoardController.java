@@ -53,7 +53,7 @@ public class BoardController {
 	//게시글 등록 GET
 	@GetMapping(value = "addBoard")
 	public String addBoard(@RequestParam("boardType") int boardType) throws Exception{
-		System.out.println("/baord/addBoard : GET");
+		System.out.println("/board/addBoard : GET");
 		
 		return "forward:/board/addBoard.jsp?";
 	}
@@ -88,6 +88,7 @@ public class BoardController {
 		
 		int boardNo = board.getBoardNo();
 		System.out.println(boardNo);
+		System.out.println(":::::::::::::::::::::"+fileList.size());
 		
 		model.addAttribute("board", boardService.getBoard(boardNo));
 		model.addAttribute("boardFile", fileList);
@@ -139,9 +140,9 @@ public class BoardController {
 		System.out.println("/board/updateBoard : POST");
 		
 		boardService.updateBoard(board);
-		boardService.updateBoardFile(boardFile);
+		//boardService.updateBoardFile(boardFile);
 		
-		return "forward:/board/getBoard?boardType="+boardType+"&boarNo="+boardNo;
+		return "redirect:/board/getBoard?boardType="+boardType+"&boardNo="+boardNo;
 	}
 	
 	//게시글 상세 조회 GET
