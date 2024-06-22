@@ -65,6 +65,7 @@
   justify-content: center;
   align-items: center;
   height: 28%; /* Adjust this value to the desired height */
+  max-width: 100%;
 }
 .navbar-header {
   width: 70%;
