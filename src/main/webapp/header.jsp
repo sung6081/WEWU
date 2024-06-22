@@ -148,14 +148,23 @@
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
+          <c:if test = "${ empty user }">
+          <li class="nav-item">
+              <a class="nav-link" href="/user/addUserView.jsp">회원가입</a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link btn btn-primary text-white " href="/user/login">Login</a>
+              <a class="nav-link " href="/user/login">Login</a>
             </li>
-            <li class="nav-item nav-settings">
-              <a class="nav-link" href="#">
-                <i class="icon-ellipsis"></i>
-              </a>
+            </c:if>
+            <c:if test = "${ ! empty user }">
+            <li class="nav-item">
+              <a class="nav-link " href="/user/login">LogOut</a>
             </li>
+            </c:if>
+            <li class="nav-settings">
+   			 <button type="button" class="btn btn-info btn-inverse-info btn-icon">
+        		<i class="mdi mdi-human-greeting"></i>
+    		</button>
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">

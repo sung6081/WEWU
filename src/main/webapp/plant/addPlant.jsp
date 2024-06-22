@@ -4,9 +4,7 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>AddPlant</title>
-  <style>
+<style>
   /* h1 요소에 앞 여백 추가 */
   .custom-title-space {
     padding-left: 20px;
@@ -33,8 +31,8 @@
 
     // JSON으로 변환
     var jsonData = Object.fromEntries(formData);
-
-    for (int i; i <= 5 ; i++) {
+	
+    for (var i = 1 ; i <= 5 ; i++) {
       $.ajax({
         url: "/app/plant/addPlant_" + i,
         type: "POST",
@@ -291,7 +289,7 @@
               </div>
               <div class="form-group">
                 <label>식물단계이미지</label>
-                <input type="file" name="levlImg" class="file-upload-default">
+                <input type="file" name="file" class="file-upload-default">
                 <div class="input-group col-xs-12">
                   <input type="text" class="form-control file-upload-info" disabled="" placeholder="levlImg">
                   <span class="input-group-append">

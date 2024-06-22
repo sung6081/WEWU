@@ -5,7 +5,29 @@
 <html>
 <head>
 <script>
-
+function getQuestList(){
+	
+	$.ajax({
+		url : "/app/plant/getQuestList",
+		type : "POST",
+		data : JSON,stringify({
+			questNo:'${questNo}'
+		}),
+		contentType : "application/json",
+		dataType : "json",
+		success : function () {
+			퀘스트완료된퀘스트는 밑으로 내린다음 줄긋기로 마무
+		},
+			
+		error: function (xhr, status, error) {
+		         // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
+	    },
+	    complete: function (xhr, status) {
+	        // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
+	    }
+	}
+	});
+}
 </script>
 </head>
 <body>
