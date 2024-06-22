@@ -4,8 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Quest</title>
+<script>
+
+</script>
 </head>
 <body>
       <div id="right-sidebar" class="settings-panel">
@@ -21,12 +22,13 @@
             <c:forEach var="quest" items="${map.list}">
             <div class="events pt-4 px-3">
               <div class="wrapper d-flex mb-2">
-              
                 <i class="ti-control-record text-primary mr-2"></i>
                 <span>${quest.regDate}</span>
               </div>
               <p class="mb-0 font-weight-thin text-gray">${quest.questContents}</p>
-              <p class="text-gray mb-0">${quest.questState}</p>
+              <p class="text-gray mb-0"></p>
+              <c:if test = "${quest.questState eq 'N'}">퀘스트완료</c:if>
+              <c:if test = "${quest.questState eq 'Y'}">진행중</c:if>             
             </div>
             </c:forEach>
           </div>
