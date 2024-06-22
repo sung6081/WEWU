@@ -14,11 +14,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import kotlinx.serialization.json.JsonObject;
 import life.wewu.web.domain.active.Local;
 import life.wewu.web.service.local.LocalService;
 
@@ -102,7 +100,7 @@ public class LocalServiceImpl implements LocalService {
                 return local;
             }
 			
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
