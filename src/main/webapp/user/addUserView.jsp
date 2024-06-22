@@ -18,129 +18,135 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-    
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-8 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <h4>회 원 가 입</h4>
-              <form class="pt-3 form-horizontal">
-                <div class="form-group">
-                  <label for="userId" class="col-sm-3 control-label">아 이 디</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="userId" name="userId" placeholder="중복확인하세요">
-                    <span id="idCheckMsg" class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="nickname" class="col-sm-3 control-label">닉네임</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" placeholder="중복확인하세요">
-                    <span id="nicknameCheckMsg" class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="password" class="col-sm-3 control-label">비밀번호</label>
-                  <div class="col-sm-9">
-                    <input type="password" class="form-control form-control-lg" id="password" name="userPwd" placeholder="비밀번호">
-                    <span id="passwordCheckMsg" class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="password2" class="col-sm-3 control-label">비밀번호 확인</label>
-                  <div class="col-sm-9">
-                    <input type="password" class="form-control form-control-lg" id="password2" name="password2" placeholder="비밀번호 확인">
-                    <span id="passwordConfirmMsg" class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="userName" class="col-sm-3 control-label">이름</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="userName" name="userName" placeholder="회원이름">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="residentNum" class="col-sm-3 control-label">주민번호</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="residentNum" name="residentNum" placeholder="주민번호">
-                    <span id="helpBlock" class="help-block">
-                      <strong class="text-danger">" - " 제외 13자리입력하세요</strong>
-                    </span>
-                  </div>
-                </div>
-                
-        <div class="form-group">
-            <label for="identityGender" class="col-sm-3 control-label">성별</label>
-            <div class="col-sm-9">
-                <div style="display: inline-block; margin-right: 10px;">
-                    <input type="radio" id="identityGender1" name="gender" value="M">
-                    <label for="identityGender1">남자</label>
-                </div>
-                <div style="display: inline-block; margin-right: 10px;">
-                    <input type="radio" id="identityGender2" name="gender" value="F">
-                    <label for="identityGender2">여자</label>
-                </div>
-            </div>
-        </div>
-                <div class="form-group">
-                  <label for="addr" class="col-sm-3 control-label">주소</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="addr" name="addr" placeholder="주소">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="addrDetail" class="col-sm-3 control-label">상세주소</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="addrDetail" name="getAddr" placeholder="상세주소">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="phoneNum" class="col-sm-3 control-label">휴대전화번호</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" placeholder="휴대전화번호">
-                    <button type="button" class="btn btn-primary" id="sendVerificationCode">인증번호 전송</button>
-                    <span id="verificationCodeMsg" class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="verificationCode" class="col-sm-3 control-label">인증번호</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="verificationCode" name="verificationCode" placeholder="인증번호 입력">
-                    <button type="button" class="btn btn-primary" id="verifyCode">인증번호 확인</button>
-                    <span id="verificationCodeMsg" class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="email" class="col-sm-3 control-label">이메일</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="email" name="email" placeholder="이메일">
-                  </div>
-                </div>
-                <div class="form-group text-center mt-4">
-                  <button type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="fncAddUser()">가입하기</button>
-                  <a class="btn btn-block btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button">취소</a>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="../../vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <!-- End plugin js for this page -->
+	<div class = "main-panel">
+		 <div class = "content-wrapper">
+		  <div class="container-scroller">
+		    <div class="container-fluid page-body-wrapper full-page-wrapper">
+		      <div class="content-wrapper d-flex align-items-center auth px-0">
+		        <div class="row w-100 mx-0">
+		          <div class="col-lg-8 mx-auto">
+		            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+		              <h4>회 원 가 입</h4>
+		              <form class="pt-3 form-horizontal">
+		                <div class="form-group">
+		                  <label for="userId" class="col-sm-3 control-label">아 이 디</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="userId" name="userId" placeholder="중복확인하세요">
+		                    <span id="idCheckMsg" class="help-block"></span>
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="nickname" class="col-sm-3 control-label">닉네임</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" placeholder="중복확인하세요">
+		                    <span id="nicknameCheckMsg" class="help-block"></span>
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="password" class="col-sm-3 control-label">비밀번호</label>
+		                  <div class="col-sm-9">
+		                    <input type="password" class="form-control form-control-lg" id="password" name="userPwd" placeholder="비밀번호">
+		                    <span id="passwordCheckMsg" class="help-block"></span>
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="password2" class="col-sm-3 control-label">비밀번호 확인</label>
+		                  <div class="col-sm-9">
+		                    <input type="password" class="form-control form-control-lg" id="password2" name="password2" placeholder="비밀번호 확인">
+		                    <span id="passwordConfirmMsg" class="help-block"></span>
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="userName" class="col-sm-3 control-label">이름</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="userName" name="userName" placeholder="회원이름">
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="residentNum" class="col-sm-3 control-label">주민번호</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="residentNum" name="residentNum" placeholder="주민번호">
+		                    <span id="helpBlock" class="help-block">
+		                      <strong class="text-danger">" - " 제외 13자리입력하세요</strong>
+		                    </span>
+		                  </div>
+		                </div>
+		                
+		        <div class="form-group">
+		            <label for="identityGender" class="col-sm-3 control-label">성별</label>
+		            <div class="col-sm-9">
+		                <div style="display: inline-block; margin-right: 10px;">
+		                    <input type="radio" id="identityGender1" name="gender" value="M">
+		                    <label for="identityGender1">남자</label>
+		                </div>
+		                <div style="display: inline-block; margin-right: 10px;">
+		                    <input type="radio" id="identityGender2" name="gender" value="F">
+		                    <label for="identityGender2">여자</label>
+		                </div>
+		            </div>
+		        </div>
+		                <div class="form-group">
+		                  <label for="addr" class="col-sm-3 control-label">주소</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="addr" name="addr" placeholder="주소">
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="addrDetail" class="col-sm-3 control-label">상세주소</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="addrDetail" name="getAddr" placeholder="상세주소">
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="phoneNum" class="col-sm-3 control-label">휴대전화번호</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" placeholder="휴대전화번호">
+		                    <button type="button" class="btn btn-primary" id="sendVerificationCode">인증번호 전송</button>
+		                    <span id="verificationCodeMsg" class="help-block"></span>
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="verificationCode" class="col-sm-3 control-label">인증번호</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="verificationCode" name="verificationCode" placeholder="인증번호 입력">
+		                    <button type="button" class="btn btn-primary" id="verifyCode">인증번호 확인</button>
+		                    <span id="verificationCodeMsg" class="help-block"></span>
+		                  </div>
+		                </div>
+		                <div class="form-group">
+		                  <label for="email" class="col-sm-3 control-label">이메일</label>
+		                  <div class="col-sm-9">
+		                    <input type="text" class="form-control form-control-lg" id="email" name="email" placeholder="이메일">
+		                  </div>
+		                </div>
+		                <div class="form-group text-center mt-4">
+		                  <button type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="fncAddUser()">가입하기</button>
+		                  <a class="btn btn-block btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button">취소</a>
+		                </div>
+		              </form>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		      <!-- content-wrapper ends -->
+		    </div>
+		    <!-- page-body-wrapper ends -->
+		  </div>
+	  </div>
+	 </div>
+	  <!-- container-scroller -->
+	  <!-- plugins:js -->
+	  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+	  <!-- endinject -->
+	  <!-- Plugin js for this page -->
+	  <!-- End plugin js for this page -->
   
-    <!-- FOOTER -->
-    <jsp:include page="/footer.jsp" />
-    <!-- FOOTER -->
+	    <!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
+	    <script type="text/javascript">
+	    	$('footer').removeClass('fixed-bottom');
+	    </script>
 
   <script type="text/javascript">
     //============= "취소"  Event 처리 및  연결 =============

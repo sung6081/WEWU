@@ -48,12 +48,15 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-
-    <div class="container-scroller">
-        <div class="auth-form-light py-5 px-4 px-sm-5">
-            <h1>비밀번호가 성공적으로 변경되었습니다.</h1>
-            <a href="/user/login" class="btn btn-primary">로그인 페이지로 이동</a>
-        </div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+		    <div class="container-scroller">
+		        <div class="auth-form-light py-5 px-4 px-sm-5">
+		            <h1>비밀번호가 성공적으로 변경되었습니다.</h1>
+		            <a href="/user/login" class="btn btn-primary">로그인 페이지로 이동</a>
+		        </div>
+		    </div>
+	     </div>
     </div>
 
     <!-- FOOTER -->

@@ -45,86 +45,88 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-center auth px-0">
-                <div class="row w-100 mx-0">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                            <h4 class="mb-4">회원 정보 수정</h4>
-                            <form id="updateForm" class="pt-3 form-horizontal" method="POST" action="/user/update">
-                                <input type="hidden" name="userId" id="userId" value="${user.userId}">
-                                <div class="form-group row">
-                                    <label for="userName" class="col-sm-3 col-form-label info-label">이름</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${user.userName}" required <c:if test="${user.role == 2}">disabled</c:if>>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="nickname" class="col-sm-3 col-form-label info-label">닉네임</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${user.nickname}" required <c:if test="${user.role == 2}">disabled</c:if>>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="email" class="col-sm-3 col-form-label info-label">이메일</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control form-control-lg" id="email" name="email" value="${user.email}" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="phoneNum" class="col-sm-3 col-form-label info-label">휴대전화번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" value="${user.phoneNum}" required readonly>
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-primary" onclick="openPhoneNumberModal()">핸드폰 번호 변경</button>
-                                            </div>
-                                        </div>
-                                        <span id="verificationCodeMsg" class="help-block"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="password" class="col-sm-3 col-form-label info-label">비밀번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-control-lg" id="password" name="password" value="비밀번호를 변경하시려면 비밀번호 변경버튼을 누르세요." readonly>
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-warning" onclick="openPasswordModal()">비밀번호 변경</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${user.addr}" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="getAddr" class="col-sm-3 col-form-label info-label">상세주소</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-lg" id="getAddr" name="getAddr" value="${user.getAddr}" required>
-                                    </div>
-                                </div>
-                                <div class="form-group text-center mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn">정보 수정</button>
-                                    <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button">취소</a>
-                                </div>
-                                <div class="form-group text-center mt-4">
-                                    <button type="button" class="btn btn-danger btn-lg font-weight-medium auth-form-btn" onclick="openDeleteModal()">회원 탈퇴</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- content-wrapper ends -->
-        </div>
-        <!-- page-body-wrapper ends -->
-    </div>
-
+    <div class="main-panel">
+        <div class="content-wrapper">
+		    <div class="container-scroller">
+		        <div class="container-fluid page-body-wrapper full-page-wrapper">
+		            <div class="content-wrapper d-flex align-items-center auth px-0">
+		                <div class="row w-100 mx-0">
+		                    <div class="col-lg-8 mx-auto">
+		                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+		                            <h4 class="mb-4">회원 정보 수정</h4>
+		                            <form id="updateForm" class="pt-3 form-horizontal" method="POST" action="/user/update">
+		                                <input type="hidden" name="userId" id="userId" value="${user.userId}">
+		                                <div class="form-group row">
+		                                    <label for="userName" class="col-sm-3 col-form-label info-label">이름</label>
+		                                    <div class="col-sm-9">
+		                                        <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${user.userName}" required <c:if test="${user.role == 2}">disabled</c:if>>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label for="nickname" class="col-sm-3 col-form-label info-label">닉네임</label>
+		                                    <div class="col-sm-9">
+		                                        <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${user.nickname}" required <c:if test="${user.role == 2}">disabled</c:if>>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label for="email" class="col-sm-3 col-form-label info-label">이메일</label>
+		                                    <div class="col-sm-9">
+		                                        <input type="email" class="form-control form-control-lg" id="email" name="email" value="${user.email}" required>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label for="phoneNum" class="col-sm-3 col-form-label info-label">휴대전화번호</label>
+		                                    <div class="col-sm-9">
+		                                        <div class="input-group">
+		                                            <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" value="${user.phoneNum}" required readonly>
+		                                            <div class="input-group-append">
+		                                                <button type="button" class="btn btn-primary" onclick="openPhoneNumberModal()">핸드폰 번호 변경</button>
+		                                            </div>
+		                                        </div>
+		                                        <span id="verificationCodeMsg" class="help-block"></span>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label for="password" class="col-sm-3 col-form-label info-label">비밀번호</label>
+		                                    <div class="col-sm-9">
+		                                        <div class="input-group">
+		                                            <input type="text" class="form-control form-control-lg" id="password" name="password" value="비밀번호를 변경하시려면 비밀번호 변경버튼을 누르세요." readonly>
+		                                            <div class="input-group-append">
+		                                                <button type="button" class="btn btn-warning" onclick="openPasswordModal()">비밀번호 변경</button>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
+		                                    <div class="col-sm-9">
+		                                        <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${user.addr}" required>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label for="getAddr" class="col-sm-3 col-form-label info-label">상세주소</label>
+		                                    <div class="col-sm-9">
+		                                        <input type="text" class="form-control form-control-lg" id="getAddr" name="getAddr" value="${user.getAddr}" required>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group text-center mt-4">
+		                                    <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn">정보 수정</button>
+		                                    <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button">취소</a>
+		                                </div>
+		                                <div class="form-group text-center mt-4">
+		                                    <button type="button" class="btn btn-danger btn-lg font-weight-medium auth-form-btn" onclick="openDeleteModal()">회원 탈퇴</button>
+		                                </div>
+		                            </form>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		            <!-- content-wrapper ends -->
+		        </div>
+		        <!-- page-body-wrapper ends -->
+		    </div>
+          </div>
+      </div>
     <!-- 핸드폰 번호 변경 모달 창 -->
     <div id="phoneNumberModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="phoneNumberModalLabel">
         <div class="modal-dialog" role="document">
