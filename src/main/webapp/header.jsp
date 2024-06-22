@@ -60,11 +60,11 @@
   <title>WEWU</title>
   <style>
 .navbar-header img{
-  width: 28%;
+  width: auto%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 28%; /* Adjust this value to the desired height */
+  height: 100px; /* Adjust this value to the desired height */
   max-width: 100%;
 }
 .navbar-header {
