@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import kotlinx.serialization.json.JsonObject;
 import life.wewu.web.domain.active.Local;
 import life.wewu.web.service.local.LocalService;
 
@@ -59,33 +59,53 @@ public class LocalServiceImpl implements LocalService {
         
         String responseBody = get(reqUrl,requestHeaders);
         
-        //System.out.println(responseBody);
+//        JsonObject jsonObject = JsonParser.parseString(responseBody.toString()).getAsJsonObject();
+//        
+//        if (jsonObject.has("items")) {
+//        	
+//        	JsonArray itemsArray = jsonObject.getAsJsonArray("items");
+//        	
+//        	if(itemsArray.size() == 0) {
+//        		return local;
+//        	}
+//        	
+//        	JsonObject resultObject = itemsArray.get(0).getAsJsonObject();
+//
+//        	local.setTitle(resultObject.get("title").getAsString());
+//        	local.setAddress(resultObject.get("address").getAsString());
+//        	local.setRoadAddress(resultObject.get("roadAddress").getAsString());
+//        	local.setMapX(resultObject.get("mapx").getAsString());
+//        	local.setMapY(resultObject.get("mapy").getAsString());
+//        	
+//        } else {
+//        	return local;
+//        }
         
-        JsonObject jsonObject = JsonParser.parseString(responseBody.toString()).getAsJsonObject();
-        
-        //System.out.println(":::: " + jsonObject);
-        
-        if (jsonObject.has("items")) {
-        	
-        	JsonArray itemsArray = jsonObject.getAsJsonArray("items");
-        	
-        	if(itemsArray.size() == 0) {
-        		return local;
-        	}
-        	
-        	JsonObject resultObject = itemsArray.get(0).getAsJsonObject();
+        try {
+			JSONObject jsonObject = new JSONObject(responseBody.toString());
+			
+			if (jsonObject.has("items")) {
+                JSONArray itemsArray = jsonObject.getJSONArray("items");
 
-        	local.setTitle(resultObject.get("title").getAsString());
-        	local.setAddress(resultObject.get("address").getAsString());
-        	local.setRoadAddress(resultObject.get("roadAddress").getAsString());
-        	local.setMapX(resultObject.get("mapx").getAsString());
-        	local.setMapY(resultObject.get("mapy").getAsString());
-        	
-        } else {
-        	return local;
-        }
-        
-        //System.out.println("::::: " + local);
+                if (itemsArray.length() == 0) {
+                    return local;
+                }
+
+                JSONObject resultObject = itemsArray.getJSONObject(0);
+
+                local.setTitle(resultObject.getString("title"));
+                local.setAddress(resultObject.getString("address"));
+                local.setRoadAddress(resultObject.getString("roadAddress"));
+                local.setMapX(resultObject.getString("mapx"));
+                local.setMapY(resultObject.getString("mapy"));
+            } else {
+                return local;
+            }
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return local;
 	}

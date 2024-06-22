@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +38,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
+import life.wewu.web.domain.group.Group;
+import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.active.ActiveService;
 import life.wewu.web.service.group.GroupService;
@@ -219,7 +224,7 @@ public class ActiveController {
 	
 	//���� Ȱ�� ����
 	@GetMapping(value = "activeMap")
-	public String activeMap(Model model) throws Exception {
+	public String activeMap(Model model, HttpSession session) throws Exception {
 		
 		System.out.println("activeMap");
 		
@@ -228,7 +233,17 @@ public class ActiveController {
 		search.setSearchCondition("T");
 		search.setCurrentPage(1);
 		
-		model.addAttribute("groupList", new ObjectMapper().writeValueAsString(groupService.getGroupList(search)));
+		User user = (User)session.getAttribute("user");
+		
+		List<Group> list = groupService.getGroupList(search);
+		
+		for( Group group : list ) {
+			
+			GroupMember groupMember = groupService.getMemberGroupForNick(null);
+			
+		}
+		
+		model.addAttribute("groupList", new ObjectMapper().writeValueAsString(list));
 		
 		//Ȱ�� ����Ʈ(��ü)
 		model.addAttribute("activeList", new ObjectMapper().writeValueAsString(activeService.getActiveList(search)));

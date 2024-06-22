@@ -32,8 +32,6 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import life.wewu.web.repository.S3Repository;
 
@@ -176,12 +174,21 @@ public class S3RepositoryImpl implements S3Repository {
             br.close();
             //System.out.println(response.toString());
             
-            JsonObject jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
-            if (jsonObject.has("result")) {
-            	JsonObject resultObject = jsonObject.getAsJsonObject("result");
-            	return resultObject.get("url").getAsString(); // ���� URL ��ȯ
+//            JsonObject jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
+//            if (jsonObject.has("result")) {
+//            	JsonObject resultObject = jsonObject.getAsJsonObject("result");
+//            	return resultObject.get("url").getAsString(); // ���� URL ��ȯ
+//            } else {
+//            	return null;
+//            }
+            
+            // JSON 파싱
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            if (jsonResponse.has("result")) {
+                JSONObject resultObject = jsonResponse.getJSONObject("result");
+                return resultObject.getString("url"); // 결과 URL 반환
             } else {
-            	return null;
+                return null;
             }
             
         } catch (Exception e) {
