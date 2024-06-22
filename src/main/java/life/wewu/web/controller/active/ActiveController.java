@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +34,13 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
+import life.wewu.web.domain.group.Group;
+import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.active.ActiveService;
 import life.wewu.web.service.group.GroupService;
@@ -180,6 +186,7 @@ public class ActiveController {
 		List<Active> list = activeService.getGroupActiveList(map);
 		
 		model.addAttribute("list", list);
+		model.addAttribute("search", search);
 		
 		return "forward:/active/listActive.jsp";
 		
@@ -190,6 +197,8 @@ public class ActiveController {
 	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo) throws Exception {
 		
 		System.out.println("listActive Post");
+		
+		//System.out.println("::::: " + search);
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -203,6 +212,10 @@ public class ActiveController {
 		
 		model.addAttribute("isLast", isLast);
 		
+		model.addAttribute("groupNo", groupNo);
+		
+		model.addAttribute("search", search);
+		
 		model.addAttribute("list", activeService.getGroupActiveList(map));
 		
 		return "forward:/active/listActive.jsp";
@@ -211,7 +224,7 @@ public class ActiveController {
 	
 	//���� Ȱ�� ����
 	@GetMapping(value = "activeMap")
-	public String activeMap(Model model) throws Exception {
+	public String activeMap(Model model, HttpSession session) throws Exception {
 		
 		System.out.println("activeMap");
 		
@@ -220,10 +233,20 @@ public class ActiveController {
 		search.setSearchCondition("T");
 		search.setCurrentPage(1);
 		
-		model.addAttribute("groupList", groupService.getGroupList(search));
+		User user = (User)session.getAttribute("user");
+		
+		List<Group> list = groupService.getGroupList(search);
+		
+		for( Group group : list ) {
+			
+			GroupMember groupMember = groupService.getMemberGroupForNick(null);
+			
+		}
+		
+		model.addAttribute("groupList", new ObjectMapper().writeValueAsString(list));
 		
 		//Ȱ�� ����Ʈ(��ü)
-		model.addAttribute("activeList", activeService.getActiveList(search));
+		model.addAttribute("activeList", new ObjectMapper().writeValueAsString(activeService.getActiveList(search)));
 		
 		//System.out.println("::::: "+clientId);
 		

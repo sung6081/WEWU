@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:set var="sessionQuest" value="${sessionScope.sessionQuest}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,6 +64,19 @@
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
      <div class="container d-flex justify-content-center">
        <span class="navbar-brand mb-0 h1">WEWU</span>
+                   <!-- 세션에서 퀘스트 리스트 가져오기 -->
+            <c:set var="sessionQuestList" value="${sessionScope.questList}" />
+            
+            <!-- 퀘스트 정보 표시 -->
+            <c:if test="${not empty questList}">
+                <ul class="navbar-nav">
+                    <c:forEach var="quest" items="${questList}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">퀘스트 번호: ${quest.questNo}, 내용: ${quest.questContents}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:if>
      </div>
    </header>
    <!-- Navbar -->
@@ -105,28 +119,28 @@
                </div>
                <!-- Menu 2 with nested dropdown -->
                <div class="dropdown-submenu">
-                 <a class="dropdown-item dropdown-toggle" href="#">아이템판매관리</a>
+                 <a class="dropdown-item dropdown-toggle" href="#">후원관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="/item/addItem">아이템 판매 등록</a></li>
-                   <li><a class="dropdown-item" href="/item/updateItem?itemNo=1">아이템 판매 수정</a></li>
-                   <li><a class="dropdown-item" href="/item/getItemSalesHistoryList">아이템 판매 내역</a></li>
+                   <li><a class="dropdown-item" href="/board/listDonation?payType=1">후원목록</a></li>
                  </ul>
                </div>
                <!-- Menu 3 with nested dropdown -->
                <div class="dropdown-submenu">
-                 <a class="dropdown-item dropdown-toggle" href="#">후원관리</a>
+                 <a class="dropdown-item dropdown-toggle" href="#">아이템판매관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="#">후원목록</a></li>
+                   <li><a class="dropdown-item" href="/item/addItem">아이템 판매 등록</a></li>
+                   <li><a class="dropdown-item" href="/item/updateItem">아이템 판매 수정</a></li>
+                   <li><a class="dropdown-item" href="/item/getItemSalesHistoryList">아이템 판매 내역</a></li>
                  </ul>
                </div>
                <!-- Menu 4 with nested dropdown -->
                <div class="dropdown-submenu">
                  <a class="dropdown-item dropdown-toggle" >식물관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="/plant/addPlant.jsp">식물등록</a></li>
-                   <li><a class="dropdown-item" href="/plant/listPlant.jsp">식물관리</a></li>
-                   <li><a class="dropdown-item" href="/plant/addQuest.jsp">퀘스트등록</a></li>
-                   <li><a class="dropdown-item" href="/plant/listQuest.jsp">퀘스트관리</a></li>
+                   <li><a class="dropdown-item" href="/plant/addPlant">식물등록</a></li>
+                   <li><a class="dropdown-item" href="/plant/listPlant">식물관리</a></li>
+                   <li><a class="dropdown-item" href="/plant/addQuest">퀘스트등록</a></li>
+                   <li><a class="dropdown-item" href="/plant/listQuest">퀘스트관리</a></li>
                  </ul>
                </div>
              </div>
@@ -134,42 +148,33 @@
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
+          <c:if test = "${ empty user }">
+          <li class="nav-item">
+              <a class="nav-link" href="/user/addUserView.jsp">회원가입</a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link btn btn-primary text-white " href="/user/login">Login</a>
+              <a class="nav-link " href="/user/login">Login</a>
             </li>
-            <li class="nav-item nav-settings">
-              <a class="nav-link" href="#">
-                <i class="icon-ellipsis"></i>
-              </a>
+            </c:if>
+            <c:if test = "${ ! empty user }">
+            <li class="nav-item">
+              <a class="nav-link " href="/user/login">LogOut</a>
             </li>
+            </c:if>
+            <li class="nav-settings">
+   			 <button type="button" class="btn btn-info btn-inverse-info btn-icon">
+        		<i class="mdi mdi-human-greeting"></i>
+    		</button>
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">
             <span class="icon-menu"></span>
           </button>
-          <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Quest</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <h4 class="px-5 text-muted mt-5 font-weight-light mb-0">Quest</h4>
-            <c:forEach var="quest" items="${map.list}">
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-              
-                <i class="ti-control-record text-primary mr-2"></i>
-                <span>${quest.regDate}</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">${quest.questContents}</p>
-              <p class="text-gray mb-0">${quest.questState}</p>
-            </div>
-            </c:forEach>
-          </div>
-          <!-- To do section tab ends -->
+          
+          
+          <!--  -->
+          <jsp:include page="plant/getQuestList.jsp" />
+          <!--  -->
         </div>
       </div>
         </div>

@@ -596,7 +596,7 @@
 	                      	
 	                      	<div class="row">
 	                      		<label>활동 코멘트</label>
-	                      		<textarea class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+	                      		<textarea name="activeInfo" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
 	                      	</div>
 	                      	
 	                      	<script type="text/javascript">

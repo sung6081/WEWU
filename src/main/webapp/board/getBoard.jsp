@@ -62,6 +62,19 @@
 		getCommentList();
 		
 	}
+	
+	$(function(){
+		$("button.btn:contains('삭제')").on("click",function(){
+			self.location="/board/deleteBoard?boardType=${param.boardType}&boardNo=${param.boardNo}"
+		});
+	});
+	
+	$(function(){
+		$("button.btn:contains('수정')").on("click",function(){
+			self.location="/board/updateBoard?boardType=${param.boardType}&boardNo=${param.boardNo}"
+		});
+	});
+	
 	function addComment(){
 		// form 데이터 가져오기
     	var form = document.getElementById('commentForm');
@@ -296,6 +309,10 @@
 							<div class="form-group row">
 								<div class="col-sm-12">
 								<%-- ${boardFile.fileName} --%>
+								<c:forEach var="file" items="${boardFile}">
+									<img src="${file.fileName }">
+								</c:forEach>
+								
 							</div>
 							</div>
 							<div class="form-group row">
@@ -326,11 +343,13 @@
 						<div id="commentList">
 		
 						</div>
-						
-	
-						
 						</div>
 						<br/>
+						<div class="card-body">
+						
+							<button type="button" class="btn btn-primary mr-2">삭제</button>							
+							<button type="button" class="btn btn-primary mr-2">수정</button>
+						</div>
 							
 					</div>
 								
