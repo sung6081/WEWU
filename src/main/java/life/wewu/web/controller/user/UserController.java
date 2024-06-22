@@ -57,6 +57,7 @@ public class UserController {
 
             if (dbUser != null) {
                 session.setAttribute("user", dbUser);
+                session.setAttribute("isAdmin", "1".equals(dbUser.getRole()));
                 System.out.println("로그인 성공: " + dbUser.getUserId());
                 return "redirect:/index.jsp";
             } else {
@@ -73,6 +74,7 @@ public class UserController {
             return "redirect:/user/loginView.jsp?error=unexpected_error";
         }
     }
+
 
     
 	@RequestMapping( value="/logout", method=RequestMethod.GET )
@@ -173,23 +175,51 @@ public class UserController {
 			return "forward:/user/myInfo.jsp";
 		}
 	//내정보 조회페이지에서 비번입력하면 내정보수정페이지로 이동
-	 @PostMapping("/checkPassword")
-	    public String checkPassword(@RequestParam("userId") String userId, 
-					                                @RequestParam(value="password") String password, 
-					                                Model model) throws Exception {
-		 
-		 System.out.println("/user/checkPassword : POST");
-		 
-	        User user = userService.getUser(userId);
-	        if (user != null && user.getUserPwd().equals(password)) {
-	        	 model.addAttribute("user", user);
-	        	 //return "forward:/user/myInfo.jsp";
-	            return "forward:/user/myInfoView.jsp?userId=" + userId;
-	        } else {
-	            model.addAttribute("error", "유효하지 않은 비밀번호 입니다. 다시 입력하세요.");
-	            return "forward:/user/myInfo.jsp";
-	        }
-	    }
+//		@PostMapping("/checkPassword")
+//		public String checkPassword(@RequestParam("userId") String userId, 
+//		                            @RequestParam("password") String password, 
+//		                            Model model) throws Exception {
+//
+//		    System.out.println("/user/checkPassword : POST");
+//
+//		    User user = userService.getUser(userId);
+//		    if (user != null && user.getUserPwd().equals(password)) {
+//		        model.addAttribute("user", user);
+//		        return "forward:/user/myInfoView.jsp?userId=" + userId;
+//		    } else {
+//		        model.addAttribute("error", "유효하지 않은 비밀번호 입니다. 다시 입력하세요.");
+//		        return "forward:/user/myInfo.jsp";
+//		    }
+//		}
+		@PostMapping("/checkPassword")
+		public String checkPassword(@RequestParam("userId") String userId, 
+		                            @RequestParam(value = "password", required = false) String password, 
+		                            HttpSession session,
+		                            Model model) throws Exception {
+
+		    System.out.println("/user/checkPassword : POST");
+
+		    User user = userService.getUser(userId);
+		    User loggedInUser = (User) session.getAttribute("user");
+
+		    if (user != null && loggedInUser != null) {
+		        boolean isAdmin = Boolean.TRUE.equals(session.getAttribute("isAdmin"));
+
+		        if (isAdmin || (password != null && user.getUserPwd().equals(password))) {
+		            model.addAttribute("user", user);
+		            return "forward:/user/myInfoView.jsp?userId=" + userId;
+		        } else {
+		            model.addAttribute("error", "유효하지 않은 비밀번호 입니다. 다시 입력하세요.");
+		            return "forward:/user/myInfo.jsp";
+		        }
+		    } else {
+		        model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+		        return "forward:/user/myInfo.jsp";
+		    }
+		}
+
+
+
 	
 	//myInfoView submit => myInfo
 	@RequestMapping(value = "update", method = RequestMethod.POST)

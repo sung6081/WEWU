@@ -139,44 +139,47 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-
-    <div class="container-scroller">
-        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-            <div class="form-section">
-                <h1>비밀번호 변경</h1>
-                <form id="myForm" action="/user/updatePwd" method="post">
-                    <input type="hidden" name="userId" value="${userId}" />
-                    <div class="form-group">
-                        <label for="newPassword">새 비밀번호:</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control form-control-lg" id="newPassword" name="newPassword" required />
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary toggle-password" type="button" toggle="#newPassword"><i class="fa fa-eye"></i></button>
-                            </div>
-                        </div>
-                        <small class="form-text">비밀번호는 8자 이상 16자 이하, 영문과 특수기호를 포함해주세요.</small>
-                        <div id="passwordCheckMsg" class="text-danger"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">새 비밀번호 확인:</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword" required />
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary toggle-password" type="button" toggle="#confirmPassword"><i class="fa fa-eye"></i></button>
-                            </div>
-                        </div>
-                        <div id="passwordConfirmMsg" class="text-danger"></div>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="check();">비밀번호 변경</button>
-                </form>
-            </div>
-
-            <div id="errorMessage" class="text-danger text-center">
-                <c:if test="${not empty error}">
-                    ${error}
-                </c:if>
-            </div>
-        </div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+		    <div class="container-scroller">
+		        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+		            <div class="form-section">
+		                <h1>비밀번호 변경</h1>
+		                <form id="myForm" action="/user/updatePwd" method="post">
+		                    <input type="hidden" name="userId" value="${userId}" />
+		                    <div class="form-group">
+		                        <label for="newPassword">새 비밀번호:</label>
+		                        <div class="input-group">
+		                            <input type="password" class="form-control form-control-lg" id="newPassword" name="newPassword" required />
+		                            <div class="input-group-append">
+		                                <button class="btn btn-outline-secondary toggle-password" type="button" toggle="#newPassword"><i class="fa fa-eye"></i></button>
+		                            </div>
+		                        </div>
+		                        <small class="form-text">비밀번호는 8자 이상 16자 이하, 영문과 특수기호를 포함해주세요.</small>
+		                        <div id="passwordCheckMsg" class="text-danger"></div>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="confirmPassword">새 비밀번호 확인:</label>
+		                        <div class="input-group">
+		                            <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword" required />
+		                            <div class="input-group-append">
+		                                <button class="btn btn-outline-secondary toggle-password" type="button" toggle="#confirmPassword"><i class="fa fa-eye"></i></button>
+		                            </div>
+		                        </div>
+		                        <div id="passwordConfirmMsg" class="text-danger"></div>
+		                    </div>
+		                    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="check();">비밀번호 변경</button>
+		                </form>
+		            </div>
+		
+		            <div id="errorMessage" class="text-danger text-center">
+		                <c:if test="${not empty error}">
+		                    ${error}
+		                </c:if>
+		            </div>
+		        </div>
+		    </div>
+      	</div>
     </div>
 
     <!-- FOOTER -->

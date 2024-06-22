@@ -52,13 +52,16 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-
-    <div class="container-scroller">
-        <div class="auth-form-light py-5 px-4 px-sm-5">
-            <h1>사용자 아이디</h1>
-            <p>아이디: ${userId}</p>
-            <a href="/user/login" class="btn btn-primary">로그인 페이지로 이동</a>
-        </div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+		    <div class="container-scroller">
+		        <div class="auth-form-light py-5 px-4 px-sm-5">
+		            <h1>사용자 아이디</h1>
+		            <p>아이디: ${userId}</p>
+		            <a href="/user/login" class="btn btn-primary">로그인 페이지로 이동</a>
+		        </div>
+		    </div>
+	    </div>
     </div>
 
     <!-- FOOTER -->

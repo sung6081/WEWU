@@ -104,38 +104,41 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-
     <div class="main-panel">
         <div class="content-wrapper">
-            <div class="row w-100 mx-0">
-                <div class="col-lg-4 mx-auto">
-                    <div class="auth-form-light text-left py-5 px-5 px-sm-6">
-                        <div class="brand-logo">
-                        	
-                        </div>
-                        <h3 class="welcome-message">WeWu에 오신걸 환영합니다.</h3>
-                        <h6 class="font-weight-light">로그인을 진행해주세요.</h6>
-                        <form class="pt-3">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" name="userId" id="userId" placeholder="아이디">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" name="userPwd" id="password" placeholder="패스워드">
-                            </div>
-                            <div class="mt-3">
-                                <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn login-btn" href="../../index.html">로 그 인</a>
-                            </div>
-                            <div class="link-group">
-								<a href="#" class="text-primary register-link">회원가입</a>
-                                <a href="#" class="auth-link find-id">아이디 찾기</a>
-                                <a href="#" class="auth-link find-pw">비밀번호 찾기</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	    	<div class="main-panel">
+	        <div class="content-wrapper">
+	            <div class="row w-100 mx-0">
+	                <div class="col-lg-4 mx-auto">
+	                    <div class="auth-form-light text-left py-5 px-5 px-sm-6">
+	                        <div class="brand-logo">
+	                        	
+		                        </div>
+		                        <h3 class="welcome-message">WeWu에 오신걸 환영합니다.</h3>
+		                        <h6 class="font-weight-light">로그인을 진행해주세요.</h6>
+		                        <form class="pt-3">
+		                            <div class="form-group">
+		                                <input type="text" class="form-control form-control-lg" name="userId" id="userId" placeholder="아이디">
+		                            </div>
+		                            <div class="form-group">
+		                                <input type="password" class="form-control form-control-lg" name="userPwd" id="password" placeholder="패스워드">
+		                            </div>
+		                            <div class="mt-3">
+		                                <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn login-btn" href="../../index.html">로 그 인</a>
+		                            </div>
+		                            <div class="link-group">
+										<a href="#" class="text-primary register-link">회원가입</a>
+		                                <a href="#" class="auth-link find-id">아이디 찾기</a>
+		                                <a href="#" class="auth-link find-pw">비밀번호 찾기</a>
+		                            </div>
+		                        </form>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
 
     <!-- FOOTER -->
     <jsp:include page="/footer.jsp" />

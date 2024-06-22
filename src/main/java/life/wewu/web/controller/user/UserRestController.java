@@ -244,6 +244,33 @@ public class UserRestController {
 
             return response;
         }
+        
+//     // 예제: Java Spring Controller
+//        @PostMapping("/user/login")
+//        @ResponseBody
+//        public ResponseEntity<Map<String, String>> login(@RequestParam String userId, @RequestParam String userPwd) {
+//            Map<String, String> response = new HashMap<>();
+//            if (userId == null || userId.isEmpty()) {
+//                response.put("error", "ID 를 입력하지 않으셨습니다.");
+//                return ResponseEntity.badRequest().body(response);
+//            }
+//
+//            if (userPwd == null || userPwd.isEmpty()) {
+//                response.put("error", "패스워드를 입력하지 않으셨습니다.");
+//                return ResponseEntity.badRequest().body(response);
+//            }
+//            
+//            User user = userService.login(user);
+//            // 로그인 로직
+//            boolean loginSuccess = user;
+//            if (!loginSuccess) {
+//                response.put("error", "아이디 또는 패스워드가 잘못되었습니다.");
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+//            }
+//
+//            response.put("message", "로그인 성공");
+//            return ResponseEntity.ok(response);
+//        }
 
         
 //        @PostMapping("/verify-code")
