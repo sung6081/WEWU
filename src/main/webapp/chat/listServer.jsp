@@ -20,6 +20,8 @@
 			        // 서버 목록을 성공적으로 가져왔을 때의 처리
 			        console.log('Received server list:', response);
 			        
+			        //왜 안바뀌지?
+			        
 			     	// 서버 목록을 테이블에 추가
 			        var tbody = $('#tableBody');
 			     	
