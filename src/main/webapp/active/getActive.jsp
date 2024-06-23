@@ -581,25 +581,8 @@
 				                </div>
 	                      	</div>
 	                      	
-	                      	<script type="text/javascript">
-	                      	
-		                      	//submit함수
-		                    	function updateActive() {
-		                    		
-		                    		alert('수정');
-		                    		
-		                    	}
-		                      	
-		                    	//submit함수
-		                    	function deleteActive() {
-		                    		
-		                    		alert('삭제');
-		                    		
-		                    	}
-	                      	
-	                      	</script>
 	                   	</div>
-                   	</c:if>
+                   	<</c:if>
                    	
                    	<c:if test="${user.role == 1}">
                    	
@@ -610,6 +593,26 @@
                    		</div>
                    	
                    	</c:if>
+                   	
+                   	<script type="text/javascript">
+	                      	
+	                  	//submit함수
+	                	function updateActive() {
+	                		
+	                		//alert('수정');
+	                		self.location = '/active/updateActive/'+${active.activeNo};
+	                		
+	                	}
+	                  	
+	                	//submit함수
+	                	function deleteActive() {
+	                		
+	                		alert('삭제');
+	                		self.location = '/active/deleteActive/'+${active.activeNo}+'?groupNo='+${active.groupNo};
+	                		
+	                	}
+                 	
+                 	</script>
                    	
                    	<div class="col-md-3 grid-margin" >
                    	</div>

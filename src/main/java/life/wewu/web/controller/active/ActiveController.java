@@ -3,6 +3,7 @@ package life.wewu.web.controller.active;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,16 @@ public class ActiveController {
 	private String clientId;
 	
 	//�޼ҵ�
+	@GetMapping(value = "map")
+	public String map(Model model) {
+		
+		System.out.println("give map");
+		
+		model.addAttribute("clientId", clientId);
+		
+		return "/active/map";
+	}
+	
 	//Ȱ�� ��� ������ �׺� GET
 	@GetMapping(value = "addActive/{groupNo}")
 	public String addActive(@PathVariable int groupNo, Model model) throws Exception {
@@ -154,13 +165,13 @@ public class ActiveController {
 	}
 	
 	@GetMapping(value = "deleteActive/{activeNo}")
-	public String deleteActive(@PathVariable int activeNo) throws Exception {
+	public String deleteActive(@PathVariable int activeNo, @RequestParam int groupNo) throws Exception {
 		
 		System.out.println("deleteActive B/L");
 		
 		activeService.deleteActive(activeNo);
 		
-		return "forward:/active/listActive";
+		return "forward:/active/listActive?groupNo="+groupNo;
 		
 	}
 	
@@ -230,23 +241,42 @@ public class ActiveController {
 		
 		//�׷� ����Ʈ(T) => �����Ϸ�Ǹ�
 		Search search = new Search();
-		search.setSearchCondition("T");
+		search.setSearchCondition("Ranking");
 		search.setCurrentPage(1);
 		
 		User user = (User)session.getAttribute("user");
 		
+		List<Active> activeList = activeService.getActiveList(search);
 		List<Group> list = groupService.getGroupList(search);
+		List<GroupMember> memberList = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(user != null) {
+			map.put("memberNickNmae", user.getNickname());
+		}
 		
 		for( Group group : list ) {
 			
-			GroupMember groupMember = groupService.getMemberGroupForNick(null);
+			if(user == null) {
+				memberList.add(new GroupMember());
+				continue;
+			}
+			
+			map.put("groupNo", group.getGroupNo());
+			GroupMember groupMember = groupService.getMemberGroupForNick(map);
+			memberList.add(groupMember);
 			
 		}
 		
-		model.addAttribute("groupList", new ObjectMapper().writeValueAsString(list));
+		model.addAttribute("groupListString", new ObjectMapper().writeValueAsString(list));
 		
 		//Ȱ�� ����Ʈ(��ü)
-		model.addAttribute("activeList", new ObjectMapper().writeValueAsString(activeService.getActiveList(search)));
+		model.addAttribute("activeListString", new ObjectMapper().writeValueAsString(activeService.getActiveList(search)));
+		model.addAttribute("memberListString", new ObjectMapper().writeValueAsString(memberList));
+		
+		model.addAttribute("groupList", list);
+		model.addAttribute("activeList", activeList);
+		model.addAttribute("memberList", memberList);
 		
 		//System.out.println("::::: "+clientId);
 		
