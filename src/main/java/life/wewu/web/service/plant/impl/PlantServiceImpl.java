@@ -22,6 +22,7 @@ import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
+import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
@@ -89,11 +90,21 @@ public class PlantServiceImpl implements PlantService{
 	//------------- 식물정보
 	
 	@Transactional
-	public void addPlant(Plant plant,PlantLevl plantLevl) throws Exception {
-		plantDao.addPlantName(plant);		
-		int plantNo = plant.getPlantNo();
-		plantLevl.setPlantNo(plantNo);		
-		plantDao.addPlantLevl(plantLevl);
+	public void addPlant(PlantRequest plantRequest) throws Exception {
+		System.out.println("PlantRequest: " + plantRequest);
+	    System.out.println("Plant: " + plantRequest.getPlant());
+	    System.out.println("PlantLevl: " + plantRequest.getPlantLevl());
+	    
+	 // Plant 삽입
+	    plantDao.addPlant(plantRequest.getPlant());
+	    
+	    // 삽입된 Plant의 plantNo를 가져와서 PlantLevl에 설정
+	    int plantNo = plantRequest.getPlant().getPlantNo();
+	    plantRequest.getPlantLevl().setPlantNo(plantNo);
+	    
+	    // PlantLevl 삽입
+	    plantDao.addPlantLevl(plantRequest.getPlantLevl());
+
 	}
 	
 	@Override
@@ -106,8 +117,8 @@ public class PlantServiceImpl implements PlantService{
 		return plantDao.getPlantLevl(plantLevlNo);
 	}
 	
-	public void addPlantLevl(PlantLevl plantLevl) throws Exception {
-		plantDao.addPlantLevl(plantLevl);	
+	public void addPlantLevl(PlantLevl plantlevl) throws Exception {
+		plantDao.addPlantLevl(plantlevl);	
 	}
 
 	public void updatePlantLevl(Plant plant) throws Exception{
