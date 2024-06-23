@@ -35,7 +35,7 @@ import life.wewu.web.service.plant.PlantService;
 
 
 @RestController
-@RequestMapping("/plant/")
+@RequestMapping("/app/plant/")
 public class PlantRestController {
 	
 	@Autowired
@@ -69,11 +69,8 @@ public class PlantRestController {
 	
 	
 	@RequestMapping(value ="completeQuest" , method = RequestMethod.POST)
-	public Quest completeQuest(@RequestBody Quest quest , Model model) throws Exception{
-		System.out.println("/completeQuest");
-		
-		int questNo = quest.getQuestNo();
-		quest.setQuestNo(questNo);
+	public Quest completeQuest(@RequestBody Quest quest) throws Exception{
+		System.out.println("completeQuest");
 		
 		plantService.completeQuest(quest);
 

@@ -149,7 +149,6 @@ public class PlantServiceImpl implements PlantService{
 	
 
 	
-	
 	//------------- 나의식물	
 	
 	@Override
@@ -191,39 +190,6 @@ public class PlantServiceImpl implements PlantService{
 		return plantDao.deleteMyPlant(myPlantNo);
 	}
 
-
-	//------------- 파일업로드
-	@Override
-	public void fileUpload(String filePath) throws Exception {
-		// 업로드할 파일이 저장될 경로
-	    String uploadDir = "uploads/";
-
-	    // 업로드 디렉토리가 존재하지 않는 경우 생성
-	    Path uploadPath = Paths.get(uploadDir);
-	    if (!Files.exists(uploadPath)) {
-	        Files.createDirectories(uploadPath);
-	    }
-
-	    // 파일 읽기
-	    File file = new File(filePath);
-	    if (!file.exists()) {
-	        throw new IOException("파일이 존재하지 않습니다: " + filePath);
-	    }
-
-	    // 파일 이름 가져오기
-	    String fileName = file.getName();
-
-	    // 업로드할 파일의 전체 경로 생성
-	    Path filePathToSave = uploadPath.resolve(fileName);
-
-	    // 파일을 업로드 디렉토리로 복사
-	    try (FileOutputStream fos = new FileOutputStream(filePathToSave.toFile())) {
-	        Files.copy(file.toPath(), fos);
-	    } catch (IOException e) {
-	        throw new IOException("파일 업로드 중 오류가 발생했습니다.", e);
-	    }
-	}
-		
 
 	@Override
 	public String getWeather(String location) throws Exception {

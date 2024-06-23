@@ -191,22 +191,7 @@ public class PlantServiceTest {
         System.out.println("===============================");	
     }
 
-    //@Test
-    public void testFileUpload() throws Exception {
-        System.out.println("===============================");	
-        plantService.fileUpload("/path/to/file");
-        System.out.println("===============================");	
-    }
-
-//    //@Test
-//    //check
-//    public void testDonateMyPlant() throws Exception {
-//        System.out.println("===============================");	
-//        plantService.donateMyPlant(1, "donor_nickname");
-//        MyPlant myPlant = plantService.getMyPlant(1);
-//        System.out.println("===============================");	
-//    }
-//    
+ 
     //@Test
 	//check
     public void testAddQuest() throws Exception {
