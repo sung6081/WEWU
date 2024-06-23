@@ -24,12 +24,6 @@
     	WHERE plant_levl_no = #{plantLevlNo}	
 	</select>
 	
-    <!-- plant_levl 테이블에 데이터 삽입 -->
-    <insert id="addPlantLevl" parameterType="plantLevl">
-        INSERT INTO plant_levl ( plant_no ,plant_levl, plant_min_exp, plant_max_exp, plant_final_levl, levl_img)
-        VALUES ( #{plantNo}, #{plantLevl}, #{plantMinExp}, #{plantMaxExp}, #{plantFinalLevl}, #{levlImg})
-    </insert>
-	
 	
 	<!-- UPDATE PLANTLEVL -->
 	<update id="updatePlantLevl" parameterType="plantLevl">

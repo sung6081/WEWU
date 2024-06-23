@@ -80,9 +80,9 @@
   <div class="fixed-top">
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
      <div class="container-fluid" style="display: flex; justify-content: center;">
-     <div class="navbar-header">
-          <img src="/images/wewu.png" alt="WEWU Title" >
-     </div>
+     <a class="navbar-header" href="/index.jsp">
+          <img src="/images/wewu.png"  alt="WEWU Title" >
+     </a>
      </div>
    </header>
    <!-- Navbar -->
@@ -110,6 +110,7 @@
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
            <!-- 관리자모드 -->
+           <c:if test="${user.role == 'admin'}">
            <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,6 +152,7 @@
                </div>
              </div>
            </li>
+           </c:if>
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
