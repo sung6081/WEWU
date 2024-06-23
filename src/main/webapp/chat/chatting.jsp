@@ -49,9 +49,9 @@
 		data.nick = nick;
 		data.room = room;
 			
-		console.log(data);
+		//console.log(data);
 			
-		socket = io('https://www.wewu.life');
+		var socket = io('https://www.wewu.life', { path: '/chatting/' });
 		
 		socket.emit('join_room', data);
 		
