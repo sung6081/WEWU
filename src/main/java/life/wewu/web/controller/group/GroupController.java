@@ -109,12 +109,14 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="getMemberGroup",method = RequestMethod.POST)
-	public ModelAndView getMemberGroup(@RequestParam("memberNo") int memberNo) throws Exception 
+	public ModelAndView getMemberGroup(@RequestParam("memberNo") int memberNo,@RequestParam("groupNo") int groupNo) throws Exception 
 	{
 		System.out.println(":: /group/getMemberGroup ::");
 		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
+		
+		model.addObject("group", groupService.getGroup(groupNo));
 		model.addObject("groupMember", groupService.getMemberGroup(memberNo));
 		return model;
 	}
@@ -267,13 +269,13 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="updateGroupBoard",method = RequestMethod.POST)
-	public ModelAndView updateGroupBoard(@RequestParam int typeNo) throws Exception 
+	public ModelAndView updateGroupBoard(@RequestParam("typeNo") int typeNo) throws Exception 
 	{
-		
 		System.out.println(":: /group/updateGroupBoard ::");
 		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/updateGroupBoard.jsp");
+		model.addObject("group", groupService.getGroup(groupBoard.getGroupNo()));
 		model.addObject("groupBoard", groupBoard);
 		
 		return model;
@@ -328,19 +330,33 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="updateGroupAcle",method = RequestMethod.POST)
-	public ModelAndView updateGroupAcle(@RequestParam int boardNo) throws Exception 
+	public ModelAndView updateGroupAcle(@RequestParam("boardNo") int boardNo,@RequestParam("typeNo") int typeNo) throws Exception 
 	{
 		
 		System.out.println(":: /group/updateGroupAcle ::");
-		GroupAcle groupAcle = groupService.getGroupAcle(boardNo);
+		
+		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
+		Group group = groupService.getGroup(groupBoard.getGroupNo());
+		
+		User user = User.builder()
+				.nickname("nick3")
+				.build();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("groupNo", group.getGroupNo());
+		map.put("memberNickNmae", user.getNickname());
+		
+		GroupMember groupMember = groupService.getMemberGroupForNick(map);
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/updateGroupAcle.jsp");
-		model.addObject("groupAcle", groupAcle);
+		model.addObject("groupAcle", groupService.getGroupAcle(boardNo));
+		model.addObject("groupBoard", groupBoard);
+		model.addObject("groupMember", groupMember);
+		model.addObject("group", group);
 		
 		return model;
 	}
 	
-	@RequestMapping(value="/uploadFile", method = RequestMethod.POST)
+	@RequestMapping(value="uploadFile", method = RequestMethod.POST)
     public void smarteditorImageUpload2(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		System.out.println("1");
 		String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";

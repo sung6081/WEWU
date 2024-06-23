@@ -10,8 +10,25 @@
 			$(document).ready(function() {
 				getCommentList();
 			});
+			
+			$(function() 
+			{
+				$( "span:contains('신고')" ).on("click" , function() 
+			 	{
+					addReport();
+				}); 
 				
-		
+				$( "span:contains('수정')" ).on("click" , function() 
+			 	{
+					updateGroupAcle();
+				}); 
+				
+				$( "span:contains('삭제')" ).on("click" , function() 
+			 	{
+					deleteGroupAcle();
+				}); 
+			});
+
 			function deleteGroupAcle(){
 				
 		        if(!confirm("정말 삭제하시겠습니까?")){
@@ -116,6 +133,8 @@
 			function addReport(){
 				var form = document.getElementById("addReport");
 				form.action="/report/addReport";
+				window.open("", "report", "width=600,height=850");
+				form.target="report";
 				form.submit();
 			}
 		</script>
@@ -135,7 +154,7 @@
 	                <div class="card-body">
 	                    <h4 class="card-title">${groupBoard.boardName}</h4>
 	                    <div style="float:right;">
-	                    	<img src="/group/img/person-fill-add.svg"><span>가입신청</span>&nbsp;
+	                    	<img src="/group/img/person-fill-add.svg"><span>신고</span>&nbsp;
 	                    	<img src="/group/img/arrow-repeat.svg"><span>수정</span>&nbsp;
 	                    	<img src="/group/img/eraser-fill.svg"><span>삭제</span>
 	                    </div>
@@ -185,17 +204,14 @@
 	                </div>
 	            </div>
 				
-				<button type="button" class="btn">삭제</button>
-				
 				<form id="deleteGroupAcle" method="post">
 					<input type="hidden" name="boardNo" value="${groupAcle.boardNo}">
 				</form>
-					<a href="javascript:deleteGroupAcle();">삭제하기</a>
 					
 				<form id="updateGroupAcle" method="post">
 					<input type="hidden" name="boardNo" value="${groupAcle.boardNo}">
+					<input type="hidden" name="typeNo" value="${groupAcle.typeNo}">
 				</form>
-					<a href="javascript:updateGroupAcle();">수정하기</a>
 					
 				<form id="getGroupBoard" method="post" action="/group/getGroupBoard">
 					<input type="hidden" name="typeNo" value="${groupAcle.typeNo}">
@@ -205,7 +221,6 @@
 					<input type="hidden" name="targetNo" value="${groupAcle.boardNo}">
 					<input type="hidden" name="reportType" value="B">
 				</form>
-					<a href="javascript:addReport();">신고하기</a>
 
         	</div>
         </div>

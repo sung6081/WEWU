@@ -93,6 +93,11 @@
 			{
 				updateApplJoinFormSide();
 			});
+			
+			$(".nav-link:contains('모임활동구역')").on("click",function()
+			{
+				listActive();
+			});
 		});
 		
 		function getGroupSide(){
@@ -122,6 +127,12 @@
 		function getMemberGroupListSide(){
 			var form = document.getElementById("getMemberGroupListSide");
 			form.action="/group/getMemberGroupList";
+			form.submit();
+		}
+		
+		function listActive(){
+			var form = document.getElementById("listActive");
+			form.action="/active/listActive";
 			form.submit();
 		}
 		
@@ -172,6 +183,12 @@
 			              <span class="menu-title">가입신청서 양식</span>
 			            </a>
 			         </li>
+			         <li class="nav-item">
+			            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+			              <i class="icon-contract menu-icon"></i>
+			              <span class="menu-title">모임활동구역</span>
+			            </a>
+			         </li>
 			      </ul>
 			    </nav>
 			    
@@ -201,6 +218,10 @@
 				</form>
 				
 				<form id="getMemberGroupListSide" method="post">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
+				
+				<form id="listActive" method="GET">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
 				</form>
 	</body>

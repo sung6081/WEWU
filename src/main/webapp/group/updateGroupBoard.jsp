@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 		
 			function updateGroupBoard()
@@ -58,27 +60,72 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		${groupBoard}
-		<br>
-		<h1>게시판 수정</h1>
-		<form id="updateGroupBoard">
-			<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
-			게시판 명 : <input type="text" name="boardName" id="boardName" value="${groupBoard.boardName}">
-			<br>
-			소개 : <input type="text" name="boardIntro" id="boardIntro" value="${groupBoard.boardIntro}">
-			<br>
-			게시판 타입 <br>
-			 리스트 : <input type="radio" name="boardType" value="L"> 
-			 썸네일 : <input type="radio" name="boardType" value="T"> 
-			<br>
-			게시판 권한 <br>
-			 모임장 : <input type="radio" name="boardRole" value="G"> 
-			 전체 : <input type="radio" name="boardRole" value="A">
-		</form>
-		<a href="javascript:updateGroupBoard()">게시판 수정하기</a>
+		<!-- SIDEBAR -->
+		<jsp:include page="/group/groupSide.jsp"></jsp:include>
+		<!-- SIDEBAR -->
 		
-		<form id="getGroupBoard" method="post" action="/group/getGroupBoard">
-			
-		</form>
+		<div class="main-panel">
+        	<div class="content-wrapper">
+        		<div class="col-md-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h1 class="card-title">게시판 생성</h1>
+	                  <h4 class="card-title">${group.groupName}</h4>
+	                  <form class="forms-sample" id="updateGroupBoard" method="post">
+	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+	                  	<div class="form-group">
+	                      <label>게시판 명</label>
+	                      <input type="text" class="form-control" name="boardIntro" value="${group.groupNo}" placeholder="게시판 명">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>게시판 타입</label>
+	                      <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="boardType" value="L">
+		                      리스트
+		                    </label>
+		                  </div>
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="boardType" value="T">
+		                      썸네일
+		                    </label>
+		                  </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <label>게시판 소개</label>
+	                      <input type="text" class="form-control"  placeholder="게시판 소개" name="boardIntro" value="${group.groupIntro}">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>게시판 권한</label>
+	                      <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="boardRole" value="G">
+		                      모임장
+		                    </label>
+		                  </div>
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="boardRole" value="A">
+		                      전체
+		                    </label>
+		                  </div>
+	                    </div>
+	                  </form>
+	                <button onclick="javascript:addGroupBoard();"  class="btn btn-primary mr-2">개설</button>
+	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+	                </div>
+	              </div>
+	            </div>
+				<form id="getGroupBoard" method="post" action="/group/getGroupBoard">
+					
+				</form>
+
+        	</div>
+        </div>
+        
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>

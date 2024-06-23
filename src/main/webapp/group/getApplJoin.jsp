@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 			function deleteApplJoin(){
 				
@@ -63,10 +66,6 @@
 	<title>Insert title here</title>
 	</head>
 	<body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
-		
 		<div class="main-panel">
         	<div class="content-wrapper">
         		<h1>모임 가입신청서 조회</h1>

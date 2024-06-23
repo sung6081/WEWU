@@ -12,8 +12,17 @@
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
 		<script>
+		
 			$(function() 
 			{
+				
+				$( "span" ).css("cursor","pointer");
+				
+				$( "span:contains('모임개설신청')" ).on("click" , function() 
+			 	{
+					$("#MyForm").attr("action","/group/addApplGroup").attr("method","POST").submit();
+				}); 
+				
 				$( ".btn:contains('개설모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 신청정보
@@ -49,12 +58,32 @@
 				    $(document).on('mouseenter', '.groupNo', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
+				    
+				    $(document).on('mouseenter', '.getGroup', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $(document).on('mouseenter', '.getAddAppl', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
 				});
 				
 				$(document).on('click', '.groupNo', function() {
 					var id = $(this).attr("id");
-					$("#MyForm").append("<input type=hidden name=groupNo value="+id+">");
+					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
 					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getGroup").submit();
+				});
+				
+				$(document).on('click', '.getGroup', function() {
+					var id = $(this).attr("id");
+					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getGroup").submit();
+				});
+				
+				$(document).on('click', '.getAddAppl', function() {
+					var id = $(this).attr("id");
+					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getAddAppl").submit();
 				});
 				
 				function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
@@ -146,22 +175,33 @@
 									            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getMyGroupList"){
-		                        		str +=  "<tr>" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].openDate +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";        
+		                        		if(data[i].groupRslt == "T")
+		                        		{
+		                        			str +=  "<tr class='getGroup' id=" + data[i].groupNo + ">";
+		                        		}else
+		                        		{
+		                        			str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
+		                        		}
+		                        			str +=  "  <td>"+ data[i].groupName +"</td>" +
+										            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
+										            "  <td>"+ data[i].openDate +"</td>" +
+										            "  <td>"+ data[i].groupRslt +"</td>" +
+										            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getApplJoinList"){
-		                        		str +=  "<tr>" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";        
+		                        		str +=  "<tr class='getApplJoinList' id=" + data[i].groupMemberNo + ">";
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+							            if(data[i].joinFlag == "N")
+							            {
+							            	str += "  <td>"+ data[i].applDate +"</td>";
+							            }else
+							            {
+							            	str +=  "  <td>"+ data[i].joinDate +"</td>";
+							            }
+							            
+							            str +=  "  <td>"+ data[i].joinFlag +"</td>";
+							            str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListWait"){
 		                        		str +=  "<tr>" +
@@ -170,7 +210,6 @@
 									            "  <td>"+ data[i].groupPers +"</td>" +
 									            "  <td>"+ data[i].groupRslt +"</td>" +
 									            "</tr>";
-		                        		targetElementId = "MyInfo";       
 		                        	}else
 		                        	if(targetElementId == "getGroupListTrue"){
 		                        		str +=  "<tr>" +
@@ -179,7 +218,6 @@
 									            "  <td>"+ data[i].groupPers +"</td>" +
 									            "  <td>"+ data[i].groupRslt +"</td>" +
 									            "</tr>";
-		                        		targetElementId = "MyInfo";
 		                        	}else
 		                        	if(targetElementId == "getGroupListNone"){
 		                        		str +=  "<tr>" +
@@ -188,7 +226,6 @@
 									            "  <td>"+ data[i].groupPers +"</td>" +
 									            "  <td>"+ data[i].groupRslt +"</td>" +
 									            "</tr>";
-		                        		targetElementId = "MyInfo";
 		                        	}
                         		}
                         	}else{
@@ -222,6 +259,11 @@
 	                        		str +=  "데이터가 없습니다";
 	                        		targetElementId = "MyInfo";
 	                        	}
+                        	}
+                        	if(targetElementId == "getMyGroupList" || targetElementId == "getApplJoinList" || targetElementId == "getGroupListWait" || 
+                        			targetElementId == "getGroupListTrue" || targetElementId == "getGroupListNone")
+                        	{
+                        		targetElementId = "MyInfo";   
                         	}
                         	
 	                        $('#' + targetElementId).html(str);
@@ -306,15 +348,15 @@
 									<p class="card-title">지도</p>
 									<div class="pt-4">
 								        <div id="map">
-				        <div class="search" style="">
-				        	<select id="condition" >
-				        		<option value="map" >지도</option>
-				        		<option value="active" >활동</option>
-				        	</select>
-				            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-				            <input id="submit" type="button" value="주소 검색" />
-				        </div>
-				    </div>
+									        <div class="search" style="">
+									        	<select id="condition" >
+									        		<option value="map" >지도</option>
+									        		<option value="active" >활동</option>
+									        	</select>
+									            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
+									            <input id="submit" type="button" value="주소 검색" />
+									        </div>
+									    </div>
 									</div>
 								</div>
 							</div>
@@ -356,6 +398,9 @@
 					    <div class="col-md-7 grid-margin stretch-card">
 							<div class="card">
 							    <div class="card-body fixed-card-body">
+							    	<div style="float:right;">
+		                    			<img src="/group/img/building-add.svg"><span>&nbsp;모임개설신청</span>
+				                    </div>
 							    	<p class="card-title">관리</p>
 									 <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
@@ -379,7 +424,9 @@
 				</div>
 			</div>
 		</div>
-		<form id="MyForm"></form>
+		<form id="MyForm">
+		
+		</form>
 		<!-- FOOTER -->
 	    <jsp:include page="/footer.jsp" />
 	    <!-- FOOTER -->

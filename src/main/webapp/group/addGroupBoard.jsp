@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 			function addGroupBoard()
 			{
@@ -56,10 +59,6 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
-		
 		<!-- SIDEBAR -->
 		<jsp:include page="/group/groupSide.jsp"></jsp:include>
 		<!-- SIDEBAR -->
@@ -71,7 +70,7 @@
 	                <div class="card-body">
 	                  <h1 class="card-title">게시판 생성</h1>
 	                  <h4 class="card-title">${group.groupName}</h4>
-	                  <form class="forms-sample" id="addGroupBoard" method="post" action="/group/getApplJoin">
+	                  <form class="forms-sample" id="addGroupBoard" method="post">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
 	                  	<div class="form-group">
 	                      <label>게시판 명</label>

@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 			function addApplJoin()
 			{
@@ -56,9 +59,6 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
 		
 		<!-- SIDEBAR -->
 		<jsp:include page="/group/groupSide.jsp"></jsp:include>

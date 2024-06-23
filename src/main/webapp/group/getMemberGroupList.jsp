@@ -7,6 +7,17 @@
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
 		<script>
+			$(document).ready(function() {
+			    $(document).on('mouseenter', '.member', function() {
+			        $(this).css('cursor', 'pointer');
+			    });
+			    
+			    $(document).on('click', '.member', function() {
+			    	getMemberGroup($(this).attr("id"));
+			    });
+			    
+			});
+			
 			$(function() 
 			{
 				getMemberGroupList("");
@@ -29,7 +40,19 @@
 						getMemberGroupList("E");
 					}
 				})
+				
 			});
+			
+			function getMemberGroup(memberNo)
+			{
+				// form 데이터 가져오기
+				var form = document.getElementById('getMemberGroup');
+				
+				var str = "<input type='hidden' name='groupNo' value='${group.groupNo}'>" +
+						  "<input type='hidden' name='memberNo' value='"+memberNo+"'>";
+				$(form).html(str).submit();
+				
+			}
 			
 			function getMemberGroupList(joinFlag)
 			{
@@ -39,7 +62,7 @@
 				var str = "<input type='hidden' name='joinFlag' value='"+ joinFlag +"'>" +
 						  "<input type='hidden' name='searchCondition' value='group'>" + 
 						  "<input type='hidden' name='searchKeyword' value='${group.groupNo}'>";
-				$('#getMemberGroupList').append(str);
+				$('#getMemberGroupList').html(str);
 				var formData = new FormData(form);
 			
 				// JSON으로 변환
@@ -64,7 +87,7 @@
 						  var str = "";
 						  for(var i = 0 ; i < data.length ; i ++){
 							  
-							  str += "<tr class ='acle' id="+data[i].boardNo+">" +
+							  str += "<tr class='member' id="+data[i].memberNo+">" +
 						          		 "<td>" + data[i].memberNickName +"</td>" +
 						          		 "<td>" + data[i].joinDate +"</td>" +
 						          		 "<td>남</td>" +
@@ -130,6 +153,10 @@
         	</div>
         </div>
         <form id="getMemberGroupList" method="post">
+        
+		</form>
+		
+		<form id="getMemberGroup" method="post" action="/group/getMemberGroup">
         
 		</form>
 		
