@@ -4,9 +4,37 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Skydash Admin</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet" href="/vendors/feather/feather.css">
+	<link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+	<link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+	<!-- endinject -->
+	<!-- Plugin css for this page -->
+	<!-- End plugin css for this page -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+	<!-- endinject -->
+	<link rel="shortcut icon" href="/images/favicon.png" />
+	 <!-- plugins:js -->
+	<script src="/vendors/js/vendor.bundle.base.js"></script>
+	<script src="/js/off-canvas.js"></script>
+	<script src="/js/hoverable-collapse.js"></script>
+	<script src="/js/template.js"></script>
+	<script src="/js/settings.js"></script>
+	<script src="/js/todolist.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
-	
+		$(function() 
+		{
+			$(".btn:contains('제출')").on("click",function()
+			{
+				addReport();
+			});
+		});
 		function addReport()
 		{
 	        if(!confirm("정말 신고 하시겠습니까?")){
@@ -38,12 +66,8 @@
 					  
 					},
 					success : function(data, status, xhr) {
-						alert("신고 완료되었습니다. \n변경된 내용을 확인하세요");
-						var str = "";
-								
-						str += "<input type='hidden' name='reportNo' value = '"+ data.reportNo +"'>";
-						$('#getReport').append(str);
-						$('#getReport').submit();
+						alert("신고 완료되었습니다.");
+						window.close();
 						 
 					},
 					error	: function(xhr, status, error) {
@@ -60,34 +84,74 @@
 	<title>Insert title here</title>
 	</head>
 	<body>
-		<h1>신고하기</h1>
-		<c:if test="${reportType eq 'B'}">
-			게시글
-		</c:if>
-		<c:if test="${reportType eq 'C'}">
-			댓글
-		</c:if>
-		<c:if test="${reportType eq 'O'}">
-			채팅
-		</c:if>
-		${groupAcle }
-		<form id="addReport">
-			<input type="hidden" name="targetNo" value="${targetNo}">
-			<input type="hidden" name="reportNickname" value="nick1">
-			<input type="hidden" name="reportType" value="${reportType}">
-			<input type="hidden" name="targetNickname" value="${groupAcle.wrteName }">
-			<input type="hidden" name="reportContents" value="${groupAcle.acleContents }">
-			게시글 제목 : ${groupAcle.acleName }
-			<br>
-			게시글 내용 : ${groupAcle.acleContents }
-			<br>
-			작성자 : ${groupAcle.wrteName }
-			<br>
-			신고 사유 : <input type="text" name="reportNote">
-		</form>
-		<form id="getReport" method="post" action="/report/getReport">
-			
-		</form>
-		<a href="javascript:addReport();">개설하기</a>
+		<div class="container-scroller">
+		    <div class="container-fluid page-body-wrapper full-page-wrapper">
+		      <div class="content-wrapper d-flex align-items-center auth px-0">
+		        <div class="row w-100 mx-0">
+		          <div class="col-lg-4 mx-auto">
+		            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+		              <div class="brand-logo">
+		                <img src="../../images/logo.svg" alt="logo">
+		              </div>
+		              <form class="pt-3" id="addReport">
+		              	<input type="hidden" name="targetNo" value="${targetNo}">
+						<input type="hidden" name="reportNickname" value="nick1">
+						<input type="hidden" name="reportType" value="${reportType}">
+						<input type="hidden" name="targetNickname" value="${groupAcle.wrteName }">
+						<input type="hidden" name="reportContents" value="${groupAcle.acleContents }">
+			            <div class="col-md-12 grid-margin stretch-card">
+			              <div class="card">
+			                <div class="card-body">
+			                  <h4 class="card-title">신고하기</h4>
+			                  <p class="card-description">
+								<c:if test="${reportType eq 'B'}">
+									게시글 내용
+					  			</c:if>
+								<c:if test="${reportType eq 'C'}">
+									댓글 내용
+								</c:if>
+								<c:if test="${reportType eq 'O'}">
+									채팅 내용
+								</c:if>
+			                  </p>
+			                  <blockquote class="blockquote">
+			                    <p class="mb-0">
+			                    	${groupAcle.acleContents}
+			                    </p>
+			                  </blockquote>
+			                </div>
+			                <div class="card-body">
+			                  <p class="card-description">
+								신고사유
+			                  </p>
+			                  <blockquote class="blockquote blockquote-primary" style="height:200px;">
+			                    <textarea name="reportNote" style="width:100%; height:100%; border:0px; font-size:12px;" placeholder="사유를 입력하세요"></textarea>
+			                  </blockquote>
+			                </div>
+			              </div>
+			            </div>
+		                <div class="mb-4">
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="checkbox" class="form-check-input">
+		                      신고대상 "${groupAcle.wrteName}" 신고에 동의합니다.
+		                    </label>
+		                  </div>
+		                </div>
+		                <div class="mt-3">
+		                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">제출</a>
+		                </div>
+		              </form>
+		              <form id="getReport" method="post" action="/report/getReport">
+					
+					  </form>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		      <!-- content-wrapper ends -->
+		    </div>
+    <!-- page-body-wrapper ends -->
+  		</div>
 	</body>
 </html>

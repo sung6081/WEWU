@@ -331,6 +331,10 @@
 				<form id="deleteGroup" method="post">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
 				</form>
+				
+				<form id="updateGroup" method="post">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
 					
         	</div>
         </div>

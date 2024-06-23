@@ -86,19 +86,14 @@
 		<script>
 			$(function() 
 			{
-				$( "span:contains('가입신청')" ).on("click" , function() 
-			 	{
-					addApplJoin();
-				}); 
-				
 				$( "span:contains('수정')" ).on("click" , function() 
 			 	{
-					updateGroup();
+					updateMemberGroup();
 				}); 
 				
-				$( "span:contains('삭제')" ).on("click" , function() 
+				$( "span:contains('탈퇴')" ).on("click" , function() 
 			 	{
-					deleteGroup()
+					deleteMemberGroup();
 				}); 
 				
 				$( "#scrab" ).on("click" , function() 
@@ -183,7 +178,7 @@
 						success : function(data, status, xhr) {
 							if(data.flag == "Y"){
 								alert("삭제가 완료되었습니다");
-								location.href="/";
+								$("#getGroup").submit();
 							}else{
 								alert("삭제 실패 : 기타 원인.");
 							}
@@ -198,11 +193,6 @@
 		        }
 			}
 			
-			function updateMemberGroup(){
-				var form = document.getElementById("updateMemberGroup");
-				form.action="/group/updateMemberGroup";
-				form.submit();
-			}
 		</script>
 	</head>
 	<body>
@@ -216,7 +206,6 @@
 		                <div class="card-body">
 		                    <h4 class="card-title">내 정보</h4>
 		                    <div style="float:right;">
-                    			<img src="/group/img/arrow-repeat.svg"><span>수정</span>&nbsp;
                     			<img src="/group/img/eraser-fill.svg"><span>탈퇴</span>
 		                    </div>
 		                        ${groupMember.memberNickName}
@@ -244,17 +233,18 @@
 		            </div>
 		        </div>
 		        
-		        
-				${groupMember}
 				<form id="deleteMemberGroup" method="post">
 					<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
 				</form>
-					<a href="javascript:deleteMemberGroup();">모임원 삭제하기</a>
 					
-				<form id="updateMemberGroup" method="post">
+				<form id="deleteMemberGroup" method="post">
 					<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
 				</form>
-					<a href="javascript:updateMemberGroup();">내 정보 수정하기</a>
+				
+				<form id="getGroup" method="post" action="/group/getGroup">
+					<input type="hidden" name="groupNo" value="${groupMember.groupNo}">
+				</form>
+				
         	</div>
         </div>
         

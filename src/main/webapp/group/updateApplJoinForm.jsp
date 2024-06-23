@@ -65,21 +65,21 @@
 	        	<div class="col-md-12 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <h1 class="card-title">모임가입신청</h1>
+	                  <h1 class="card-title">가입질문 수정</h1>
 	                  <h4 class="card-title">${group.groupName}</h4>
-	                  <form class="forms-sample" id="addApplJoinForm" method="post" action="/group/addApplJoinForm">
+	                  <form class="forms-sample" id="updateApplJoinForm" method="post">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
 	                    <div class="form-group">
 	                      <label>1번 질문</label>
-	                      <input type="text" class="form-control" name="frstRepl" value="${group.frstQuest}" placeholder="1번 질문">
+	                      <input type="text" class="form-control" name="frstQuest" value="${group.frstQuest}" placeholder="1번 질문">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>2번 질문</label>
-	                      <input type="text" class="form-control" name="scndRepl" value="${group.scndQuest}"  placeholder="2번 질문">
+	                      <input type="text" class="form-control" name="scndQuest" value="${group.scndQuest}"  placeholder="2번 질문">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>3번 질문</label>
-	                      <input type="text" class="form-control" name="thrdRepl" value="${group.thrdQuest}"  placeholder="3번 질문">
+	                      <input type="text" class="form-control" name="thrdQuest" value="${group.thrdQuest}"  placeholder="3번 질문">
 	                    </div>
 	                  </form>
 	                <button onclick="javascript:updateApplJoinForm();" class="btn btn-primary mr-2">수정</button>

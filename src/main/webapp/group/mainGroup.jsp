@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,36 +13,53 @@
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
 		<script>
+		
 			$(function() 
 			{
+				
+				$( "span" ).css("cursor","pointer");
+				
+				$( "span:contains('모임개설신청')" ).on("click" , function() 
+			 	{
+					$("#MyForm").attr("action","/group/addApplGroup").attr("method","POST").submit();
+				}); 
+				
 				$( ".btn:contains('개설모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 신청정보
-					sendAjaxRequest("/app/group/getGroupList", "My", "nick1", "getMyGroupList");
+					sendAjaxRequest("/app/group/getGroupList", "My", "${user.nickname}", "getMyGroupList");
+					$(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+					$(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				$( ".btn:contains('가입모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 가입신청 정보
-		            sendAjaxRequest("/app/group/getApplJoinList", "user", "nick2", "getApplJoinList");
+		            sendAjaxRequest("/app/group/getApplJoinList", "user", "${user.nickname}", "getApplJoinList");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				$( ".btn:contains('대기신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설대기)
 		            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
-					
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				
 				$( ".btn:contains('승인신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설승인)
 		            sendAjaxRequest("/app/group/getGroupList", "T", "", "getGroupListTrue");
-					
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				
 				$( ".btn:contains('거부신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설거부)
 		            sendAjaxRequest("/app/group/getGroupList", "F", "", "getGroupListNone");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+					$(this).attr("class","btn btn-outline-secondary btn-primary");
 					
 				}); 
 				
@@ -49,12 +67,45 @@
 				    $(document).on('mouseenter', '.groupNo', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
+				    
+				    $(document).on('mouseenter', '.getGroup', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $(document).on('mouseenter', '.getAddAppl', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $(document).on('mouseenter', '.getApplJoinList', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
 				});
 				
 				$(document).on('click', '.groupNo', function() {
 					var id = $(this).attr("id");
-					$("#MyForm").append("<input type=hidden name=groupNo value="+id+">");
+					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
 					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getGroup").submit();
+				});
+				
+				$(document).on('click', '.getGroup', function() {
+					var id = $(this).attr("id");
+					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getGroup").submit();
+				});
+				
+				$(document).on('click', '.getAddAppl', function() {
+					var id = $(this).attr("id");
+					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getAddAppl").submit();
+				});
+				
+				$(document).on('click', '.getApplJoinList', function() {
+					var id = $(this).attr("id");
+					var name = $(this).attr("name");
+					
+					$("#MyForm").html("<input type=hidden name=groupNo value="+name+">"+
+									  "<input type=hidden name=memberNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getMemberGroup").submit();
 				});
 				
 				function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
@@ -146,49 +197,107 @@
 									            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getMyGroupList"){
-		                        		str +=  "<tr>" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].openDate +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";        
+		                        		if(data[i].groupRslt == "T")
+		                        		{
+		                        			str +=  "<tr class='getGroup' id=" + data[i].groupNo + ">";
+		                        		}else
+		                        		{
+		                        			str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
+		                        		}
+		                        			str +=  "  <td>"+ data[i].groupName +"</td>" +
+										            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+										            if(data[i].groupRslt == "T")
+					                        		{
+										            	str +=  "<td>"+ data[i].openDate +"</td>";
+					                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+					                        		}else
+					                        		if(data[i].groupRslt == "F"){
+					                        			str +=  "<td>"+ data[i].rsltDate +"</td>";
+					                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+					                        		}
+					                        		else
+					                        		if(data[i].groupRslt == "E"){
+					                        			str +=  "<td>"+ data[i].applDate +"</td>";
+					                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+					                        		}
+										            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getApplJoinList"){
-		                        		str +=  "<tr>" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";        
+		                        		str +=  "<tr class='getApplJoinList' id=" + data[i].memberNo + " name=" + data[i].groupNo + ">";
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+							            if(data[i].joinFlag == "E")
+							            {
+							            	str += "  <td>"+ data[i].applDate +"</td>";
+							            	str +=  " <td><label class='badge badge-info'>가입대기</label></td>";
+							            }else
+							            if(data[i].joinFlag == "T"){
+							            	str +=  "  <td>"+ data[i].joinDate +"</td>";
+							            	str +=  " <td><label class='badge badge-success'>가입승인</label></td>";
+							            }else{
+							            	str +=  " <td>"+ data[i].applDate +"</td>";
+							            	str +=  " <td><label class='badge badge-danger'>가입거부</label></td>";
+							            }
+							            
+							            
+							            str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListWait"){
-		                        		str +=  "<tr>" +
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";       
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>";
+									            
+									            if(data[i].groupRslt == "T")
+				                        		{
+									            	str +=  "<td>"+ data[i].open_date +"</td>";
+				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+				                        		}else
+				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td>"+ data[i].rslt_date +"</td>";
+				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+				                        		}
+				                        		else
+				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td>"+ data[i].appl_date +"</td>";
+				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+				                        		}
+									            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListTrue"){
-		                        		str +=  "<tr>" +
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
+									            "  <td>"+ data[i].groupPers +"</td>";
+									            if(data[i].groupRslt == "T")
+				                        		{
+				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+				                        		}else
+				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+				                        		}
+				                        		else
+				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+				                        		}
+									            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListNone"){
-		                        		str +=  "<tr>" +
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
-		                        		targetElementId = "MyInfo";
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
+									            "  <td>"+ data[i].groupPers +"</td>";
+									            if(data[i].groupRslt == "T")
+				                        		{
+				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+				                        		}else
+				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+				                        		}
+				                        		else
+				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+				                        		}
+									            str += "</tr>";
 		                        	}
                         		}
                         	}else{
@@ -223,6 +332,11 @@
 	                        		targetElementId = "MyInfo";
 	                        	}
                         	}
+                        	if(targetElementId == "getMyGroupList" || targetElementId == "getApplJoinList" || targetElementId == "getGroupListWait" || 
+                        			targetElementId == "getGroupListTrue" || targetElementId == "getGroupListNone")
+                        	{
+                        		targetElementId = "MyInfo";   
+                        	}
                         	
 	                        $('#' + targetElementId).html(str);
 	                    },
@@ -246,12 +360,19 @@
 		
 		            // 모임 랭킹 리스트
 		            sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "getGroupRankingList");
-		
-		            // 내 모임 신청정보
-		            sendAjaxRequest("/app/group/getGroupList", "My", "nick1", "getMyGroupList");
-		
-		         	// 모든 모임 신청정보(개설대기)(관리자만)
-		            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
+					
+		            
+		            if("1" != "${user.role == '1'}")
+		            {
+		            	// 내 모임 신청정보
+			            sendAjaxRequest("/app/group/getGroupList", "My", "${user.nickname}", "getMyGroupList");
+		            }
+		            
+		            if("1" == "${user.role == '1'}")
+		            {
+		            	// 모든 모임 신청정보(개설대기)(관리자만)
+			            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
+		            }
 		
 		        }
 				
@@ -306,15 +427,15 @@
 									<p class="card-title">지도</p>
 									<div class="pt-4">
 								        <div id="map">
-				        <div class="search" style="">
-				        	<select id="condition" >
-				        		<option value="map" >지도</option>
-				        		<option value="active" >활동</option>
-				        	</select>
-				            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-				            <input id="submit" type="button" value="주소 검색" />
-				        </div>
-				    </div>
+									        <div class="search" style="">
+									        	<select id="condition" >
+									        		<option value="map" >지도</option>
+									        		<option value="active" >활동</option>
+									        	</select>
+									            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
+									            <input id="submit" type="button" value="주소 검색" />
+									        </div>
+									    </div>
 									</div>
 								</div>
 							</div>
@@ -356,14 +477,21 @@
 					    <div class="col-md-7 grid-margin stretch-card">
 							<div class="card">
 							    <div class="card-body fixed-card-body">
+							    	<div style="float:right;">
+		                    			<img src="/group/img/building-add.svg"><span>&nbsp;모임개설신청</span>
+				                    </div>
 							    	<p class="card-title">관리</p>
 									 <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
-				                        <button type="button" class="btn btn-outline-secondary">내 개설모임</button>
-				                        <button type="button" class="btn btn-outline-secondary">내 가입모임</button>
-				                        <button type="button" class="btn btn-outline-secondary">(관리자)대기신청서</button>
-				                        <button type="button" class="btn btn-outline-secondary">(관리자)승인신청서</button>
-				                        <button type="button" class="btn btn-outline-secondary">(관리자)거부신청서</button>
+										<c:if test="${user.role != '1'}">
+					                        <button type="button" class="btn btn-outline-secondary">내 개설모임</button>
+					                        <button type="button" class="btn btn-outline-secondary">내 가입모임</button>
+				                        </c:if>
+				                        <c:if test="${user.role == '1'}">
+					                        <button type="button" class="btn btn-outline-secondary">(관리자)대기신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary">(관리자)승인신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary">(관리자)거부신청서</button>
+				                        </c:if>
 				                        </div>
 					                </div>
 									<div class="list-wrapper pt-2">
@@ -379,7 +507,9 @@
 				</div>
 			</div>
 		</div>
-		<form id="MyForm"></form>
+		<form id="MyForm">
+		
+		</form>
 		<!-- FOOTER -->
 	    <jsp:include page="/footer.jsp" />
 	    <!-- FOOTER -->

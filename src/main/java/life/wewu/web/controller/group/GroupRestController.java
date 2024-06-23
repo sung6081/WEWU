@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.aspectj.apache.bcel.classfile.Module.Require;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +44,7 @@ import life.wewu.web.domain.group.Group;
 import life.wewu.web.domain.group.GroupAcle;
 import life.wewu.web.domain.group.GroupBoard;
 import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.service.active.ActiveService;
 import life.wewu.web.service.board.BoardService;
 import life.wewu.web.service.group.GroupService;
 
@@ -54,8 +58,15 @@ public class GroupRestController {
 	private GroupService groupService;
 	
 	@Autowired
+	@Qualifier("activeServiceImpl")
+	private ActiveService activeService;
+	
+	@Autowired
 	@Qualifier("boardService")
 	private BoardService boardService;
+	
+	@Value("${map.clientId}")
+	private String clientId;
 	
 	public GroupRestController()
 	{
@@ -83,16 +94,24 @@ public class GroupRestController {
 	}
 	
 	@RequestMapping(value="getApplJoinList",method = RequestMethod.POST)
-	public List<GroupMember> getApplJoinList(@RequestBody Search search) throws Exception 
+	public List<Object> getApplJoinList(@RequestBody Search search) throws Exception 
 	{
 		System.out.println(":: /app/group/getApplJoinList ::");
-		System.out.println(search);
 		// Business logic 수행
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("search", search);
+		List<Object> list = new ArrayList<Object>();
+		for(GroupMember groupMember : groupService.getMemberGroupList(map))
+		{
+			Group group = groupService.getGroup(groupMember.getGroupNo());
+			list.add(group);
+			list.add(groupMember);
+		}
+		
 		System.out.println(search);
+		System.out.println(list);
 		// Business logic 수행
-		return groupService.getMemberGroupList(map);
+		return list;
 	}
 	
 	@RequestMapping(value="updateGroupRslt",method = RequestMethod.POST)
@@ -297,12 +316,25 @@ public class GroupRestController {
 	}
 	
 	@RequestMapping(value="updateApplJoin",method = RequestMethod.POST)
-	public GroupMember updateApplJoin(@RequestBody GroupMember groupMember) throws Exception 
+	public String updateApplJoin(@RequestBody GroupMember groupMember) throws Exception 
 	{
 		System.out.println(":: /app/group/updateApplJoin ::");
 		// Business logic 수행
-		groupMember = groupService.updateApplJoin(groupMember);
-        return groupMember; 
+		System.out.println(groupMember);
+		String flag = "";
+		try {
+			groupMember = groupService.updateApplJoin(groupMember);
+			flag = "Y";
+		}catch(Exception e)
+		{
+			Throwable cause = e.getCause();
+
+		    System.out.println(cause);
+			flag = "N";
+		}
+		
+		// JSON 형식의 응답 반환
+        return "{\"flag\": \"" + flag + "\"}";
 	}
 	
 	@RequestMapping(value="updateApplJoinForm",method = RequestMethod.POST)
@@ -483,6 +515,21 @@ public class GroupRestController {
 		System.out.println(acleList);
 		return acleList;
 	}
+	
+	@GetMapping(value = "activeMap")
+	public Map<String,Object> activeMap() throws Exception {
+		
+		System.out.println("activeMap");
+		
+		Search search = new Search();
+		search.setSearchCondition("T");
+		search.setCurrentPage(1);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("activeList", activeService.getActiveList(search));
+		map.put("clientId", clientId);
+		return map;
+	}
+
 	
 	//오리날다............덕슨날다.....
 }

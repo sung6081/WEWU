@@ -10,6 +10,7 @@ import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
+import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
 
 @Mapper
@@ -27,7 +28,7 @@ public interface PlantDao {
 
 	public void completeQuest(Quest quest) throws Exception;
 
-	public void addPlant(Plant plant, PlantLevl plantLevl) throws Exception;
+	public void addPlant(Plant plant) throws Exception;
 
 	public void addPlantName(Plant plant) throws Exception;
 
