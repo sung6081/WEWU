@@ -92,6 +92,32 @@
 	                      <label>모임계획</label>
 	                      <input type="text" class="form-control" name="groupPlan" value="${group.groupPlan}" placeholder="모임계획">
 	                    </div>
+	                    <!-- 관리자만 -->
+	                    <div class="form-group">
+	                      <label>개설여부</label>
+	                      <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="groupRslt" value="E"
+		                      ${group.groupRslt == 'E' ? 'checked' : ''}>
+		                      개설대기
+		                    </label>
+		                  </div>
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="groupRslt" value="T"
+		                      ${group.groupRslt == 'T' ? 'checked' : ''}>
+		                      개설완료
+		                    </label>
+		                  </div>
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="groupRslt" value="F"
+		                      ${group.groupRslt == 'F' ? 'checked' : ''}>
+		                      개설누락
+		                    </label>
+		                  </div>
+	                    </div>
+	                    <!-- 관리자만 -->
 	                  </form>
 	                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
 					

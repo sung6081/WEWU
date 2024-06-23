@@ -27,30 +27,38 @@
 			 	{
 					// 내 모임 신청정보
 					sendAjaxRequest("/app/group/getGroupList", "My", "nick1", "getMyGroupList");
+					$(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+					$(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				$( ".btn:contains('가입모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 가입신청 정보
 		            sendAjaxRequest("/app/group/getApplJoinList", "user", "nick2", "getApplJoinList");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				$( ".btn:contains('대기신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설대기)
 		            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
-					
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				
 				$( ".btn:contains('승인신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설승인)
 		            sendAjaxRequest("/app/group/getGroupList", "T", "", "getGroupListTrue");
-					
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				
 				$( ".btn:contains('거부신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설거부)
 		            sendAjaxRequest("/app/group/getGroupList", "F", "", "getGroupListNone");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
+					$(this).attr("class","btn btn-outline-secondary btn-primary");
 					
 				}); 
 				
@@ -64,6 +72,10 @@
 				    });
 				    
 				    $(document).on('mouseenter', '.getAddAppl', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $(document).on('mouseenter', '.getApplJoinList', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
 				});
@@ -84,6 +96,15 @@
 					var id = $(this).attr("id");
 					$("#MyForm").html("<input type=hidden name=groupNo value="+id+">");
 					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getAddAppl").submit();
+				});
+				
+				$(document).on('click', '.getApplJoinList', function() {
+					var id = $(this).attr("id");
+					var name = $(this).attr("name");
+					
+					$("#MyForm").html("<input type=hidden name=groupNo value="+name+">"+
+									  "<input type=hidden name=memberNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getMemberGroup").submit();
 				});
 				
 				function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
@@ -184,48 +205,93 @@
 		                        		}
 		                        			str +=  "  <td>"+ data[i].groupName +"</td>" +
 										            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-										            "  <td>"+ data[i].openDate +"</td>" +
-										            "  <td>"+ data[i].groupRslt +"</td>" +
-										            "</tr>";
+										            "  <td>"+ data[i].openDate +"</td>";
+										            if(data[i].groupRslt == "T")
+					                        		{
+					                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+					                        		}else
+					                        		if(data[i].groupRslt == "F"){
+					                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+					                        		}
+					                        		else
+					                        		if(data[i].groupRslt == "E"){
+					                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+					                        		}
+										            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getApplJoinList"){
-		                        		str +=  "<tr class='getApplJoinList' id=" + data[i].groupMemberNo + ">";
+		                        		str +=  "<tr class='getApplJoinList' id=" + data[i].memberNo + " name=" + data[i].groupNo + ">";
 		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 		                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
-							            if(data[i].joinFlag == "N")
+							            if(data[i].joinFlag == "E")
 							            {
 							            	str += "  <td>"+ data[i].applDate +"</td>";
+							            	str +=  " <td><label class='badge badge-info'>가입대기</label></td>";
 							            }else
-							            {
+							            if(data[i].joinFlag == "T"){
 							            	str +=  "  <td>"+ data[i].joinDate +"</td>";
+							            	str +=  " <td><label class='badge badge-success'>가입승인</label></td>";
+							            }else{
+							            	str +=  " <td>"+ data[i].applDate +"</td>";
+							            	str +=  " <td><label class='badge badge-danger'>가입거부</label></td>";
 							            }
 							            
-							            str +=  "  <td>"+ data[i].joinFlag +"</td>";
+							            
 							            str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListWait"){
-		                        		str +=  "<tr>" +
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
+									            "  <td>"+ data[i].groupPers +"</td>";
+									            if(data[i].groupRslt == "T")
+				                        		{
+				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+				                        		}else
+				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+				                        		}
+				                        		else
+				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+				                        		}
+									            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListTrue"){
-		                        		str +=  "<tr>" +
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
+									            "  <td>"+ data[i].groupPers +"</td>";
+									            if(data[i].groupRslt == "T")
+				                        		{
+				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+				                        		}else
+				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+				                        		}
+				                        		else
+				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+				                        		}
+									            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListNone"){
-		                        		str +=  "<tr>" +
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "  <td>"+ data[i].groupRslt +"</td>" +
-									            "</tr>";
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
+									            "  <td>"+ data[i].groupPers +"</td>";
+									            if(data[i].groupRslt == "T")
+				                        		{
+				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
+				                        		}else
+				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
+				                        		}
+				                        		else
+				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
+				                        		}
+									            str += "</tr>";
 		                        	}
                         		}
                         	}else{
@@ -288,7 +354,8 @@
 		
 		            // 모임 랭킹 리스트
 		            sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "getGroupRankingList");
-		
+					
+		            
 		            // 내 모임 신청정보
 		            sendAjaxRequest("/app/group/getGroupList", "My", "nick1", "getMyGroupList");
 		

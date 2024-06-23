@@ -8,12 +8,20 @@
 		<!-- HEADER -->
 		<script>
 			$(document).ready(function() {
-			    $(document).on('mouseenter', '.member', function() {
+			    $(document).on('mouseenter', '.getMemberGroup', function() {
 			        $(this).css('cursor', 'pointer');
 			    });
 			    
-			    $(document).on('click', '.member', function() {
+			    $(document).on('click', '.getMemberGroup', function() {
 			    	getMemberGroup($(this).attr("id"));
+			    });
+			    
+			    $(document).on('mouseenter', '.getApplJoin', function() {
+			        $(this).css('cursor', 'pointer');
+			    });
+			    
+			    $(document).on('click', '.getApplJoin', function() {
+			    	getApplJoin($(this).attr("id"));
 			    });
 			    
 			});
@@ -54,6 +62,16 @@
 				
 			}
 			
+			function getApplJoin(memberNo)
+			{
+				// form 데이터 가져오기
+				var form = document.getElementById('getApplJoin');
+				
+				var str = "<input type='hidden' name='memberNo' value='"+memberNo+"'>";
+				$(form).html(str).submit();
+				
+			}
+			
 			function getMemberGroupList(joinFlag)
 			{
 				// form 데이터 가져오기
@@ -86,13 +104,29 @@
 					  success : function(data, status, xhr) {
 						  var str = "";
 						  for(var i = 0 ; i < data.length ; i ++){
+							  if(data[i].joinFlag == "T")
+							  {
+								  str += "<tr class='getMemberGroup' id="+data[i].memberNo+">";
+							  }else
+							  {
+								  str += "<tr class='getApplJoin' id="+data[i].memberNo+">";
+							  }
 							  
-							  str += "<tr class='member' id="+data[i].memberNo+">" +
-						          		 "<td>" + data[i].memberNickName +"</td>" +
-						          		 "<td>" + data[i].joinDate +"</td>" +
-						          		 "<td>남</td>" +
-						          		 "<td>" + data[i].joinFlag + "</td>";
-					          		 "</tr>";
+							  str += "<td>" + data[i].memberNickName +"</td>" +
+						          	 "<td>" + data[i].joinDate +"</td>" +
+						             "<td>남</td>";
+					          		if(data[i].joinFlag == "T")
+	                        		{
+	                        			str +=  "<td><label class='badge badge-success'>가입완료</label></td>";
+	                        		}else
+	                        		if(data[i].joinFlag == "F"){
+	                        			str +=  "<td><label class='badge badge-danger'>가입거부</label></td>";
+	                        		}
+	                        		else
+	                        		if(data[i].joinFlag == "E"){
+	                        			str +=  "<td><label class='badge badge-info'>가입대기</label></td>";
+	                        		}
+						            str += "</tr>";
 						  }
 						  $('#memberList').html(str);
 						  str = "";
@@ -157,6 +191,10 @@
 		</form>
 		
 		<form id="getMemberGroup" method="post" action="/group/getMemberGroup">
+        
+		</form>
+		
+		<form id="getApplJoin" method="post" action="/group/getApplJoin">
         
 		</form>
 		
