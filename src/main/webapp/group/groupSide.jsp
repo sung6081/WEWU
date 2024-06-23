@@ -214,7 +214,7 @@
 				
 				<form id="getMemberGroupSide" method="post">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
-					<input type="hidden" name="memberNickName" value="nick4">
+					<input type="hidden" name="memberNickName" value="${user.nickname }">
 				</form>
 				
 				<form id="getMemberGroupListSide" method="post">

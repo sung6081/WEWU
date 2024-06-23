@@ -36,8 +36,6 @@
 						<input type="hidden" name="groupNo" value="${group.groupNo}">
 						<input type="hidden" name="groupPers" id="groupPers" value="${group.groupPers}">
 						<input type="hidden" name="groupLevel" id="groupLevel" value="${group.groupLevel}">
-	                  	
-	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="nick1">
 	                    <div class="form-group">
 	                      <label>모임명</label>
 	                      <h4>${group.groupName}</h4>

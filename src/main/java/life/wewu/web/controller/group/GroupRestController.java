@@ -316,12 +316,25 @@ public class GroupRestController {
 	}
 	
 	@RequestMapping(value="updateApplJoin",method = RequestMethod.POST)
-	public GroupMember updateApplJoin(@RequestBody GroupMember groupMember) throws Exception 
+	public String updateApplJoin(@RequestBody GroupMember groupMember) throws Exception 
 	{
 		System.out.println(":: /app/group/updateApplJoin ::");
 		// Business logic 수행
-		groupMember = groupService.updateApplJoin(groupMember);
-        return groupMember; 
+		System.out.println(groupMember);
+		String flag = "";
+		try {
+			groupMember = groupService.updateApplJoin(groupMember);
+			flag = "Y";
+		}catch(Exception e)
+		{
+			Throwable cause = e.getCause();
+
+		    System.out.println(cause);
+			flag = "N";
+		}
+		
+		// JSON 형식의 응답 반환
+        return "{\"flag\": \"" + flag + "\"}";
 	}
 	
 	@RequestMapping(value="updateApplJoinForm",method = RequestMethod.POST)

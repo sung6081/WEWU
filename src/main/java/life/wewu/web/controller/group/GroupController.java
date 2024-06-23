@@ -56,10 +56,11 @@ public class GroupController {
 	public ModelAndView getGroup(@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getGroup ::");
+		User user = (User)session.getAttribute("user");
 		// Business logic 수행
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("groupNo", groupNo);
-		map.put("memberNickNmae","nick4");
+		map.put("memberNickName",user.getNickname());
 		
 		ModelAndView model = new ModelAndView("forward:/group/getGroup.jsp");
 		
@@ -86,10 +87,12 @@ public class GroupController {
 	{
 
 		System.out.println(":: /group/getApplJoin ::");
-		
+		GroupMember groupMember = groupService.getApplJoin(memberNo);
+		Group group = groupService.getGroup(groupMember.getGroupNo());
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getApplJoin.jsp");
-		model.addObject("groupMember", groupService.getApplJoin(memberNo));
+		model.addObject("groupMember", groupMember);
+		model.addObject("group", group);
 		return model;
 	}
 	
@@ -194,8 +197,9 @@ public class GroupController {
 		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/updateAddAppl.jsp");
+		group = groupService.getGroup(group.getGroupNo());
 		model.addObject("group", group);
-		
+		System.out.println(group);
 		return model;
 	}
 	
@@ -221,8 +225,10 @@ public class GroupController {
 		
 		// Business logic 수행
 		GroupMember groupMember = groupService.getMemberGroup(memberNo);
+		Group group = groupService.getGroup(groupMember.getGroupNo());
 		ModelAndView model = new ModelAndView("forward:/group/updateApplJoin.jsp");
 		model.addObject("groupMember", groupMember);
+		model.addObject("group", group);
 		
 		return model;
 	}

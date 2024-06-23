@@ -185,7 +185,7 @@
                                	<h5 class="card-title">댓글</h5>
                                	<form id="commentForm">
 									<input type="hidden" name="boardNo" id="boardNo" value="${groupAcle.boardNo}">
-									nick1<input type="hidden" name="commentNickName" id="commentNickName" value="nick1">
+									nick1<input type="hidden" name="commentNickName" id="commentNickName" value="${user.nickname }">
 									<input type="text" name="commentContents" id="commentContents">
 									<a href="javascript:addComment();">댓글 쓰기</a>
 								</form>

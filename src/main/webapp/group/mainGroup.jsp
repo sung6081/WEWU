@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -26,14 +27,14 @@
 				$( ".btn:contains('개설모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 신청정보
-					sendAjaxRequest("/app/group/getGroupList", "My", "nick1", "getMyGroupList");
+					sendAjaxRequest("/app/group/getGroupList", "My", "${user.nickname}", "getMyGroupList");
 					$(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
 					$(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
 				$( ".btn:contains('가입모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 가입신청 정보
-		            sendAjaxRequest("/app/group/getApplJoinList", "user", "nick2", "getApplJoinList");
+		            sendAjaxRequest("/app/group/getApplJoinList", "user", "${user.nickname}", "getApplJoinList");
 		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
 		            $(this).attr("class","btn btn-outline-secondary btn-primary");
 				}); 
@@ -204,17 +205,19 @@
 		                        			str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
 		                        		}
 		                        			str +=  "  <td>"+ data[i].groupName +"</td>" +
-										            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-										            "  <td>"+ data[i].openDate +"</td>";
+										            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 										            if(data[i].groupRslt == "T")
 					                        		{
+										            	str +=  "<td>"+ data[i].openDate +"</td>";
 					                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
 					                        		}else
 					                        		if(data[i].groupRslt == "F"){
+					                        			str +=  "<td>"+ data[i].rsltDate +"</td>";
 					                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
 					                        		}
 					                        		else
 					                        		if(data[i].groupRslt == "E"){
+					                        			str +=  "<td>"+ data[i].applDate +"</td>";
 					                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
 					                        		}
 										            str += "</tr>";
@@ -242,17 +245,20 @@
 		                        	if(targetElementId == "getGroupListWait"){
 		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
 									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>";
+									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>";
+									            
 									            if(data[i].groupRslt == "T")
 				                        		{
+									            	str +=  "<td>"+ data[i].open_date +"</td>";
 				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
 				                        		}else
 				                        		if(data[i].groupRslt == "F"){
+				                        			str +=  "<td>"+ data[i].rslt_date +"</td>";
 				                        			str +=  "<td><label class='badge badge-danger'>개설누락</label></td>";
 				                        		}
 				                        		else
 				                        		if(data[i].groupRslt == "E"){
+				                        			str +=  "<td>"+ data[i].appl_date +"</td>";
 				                        			str +=  "<td><label class='badge badge-info'>개설대기</label></td>";
 				                        		}
 									            str += "</tr>";
@@ -356,11 +362,17 @@
 		            sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "getGroupRankingList");
 					
 		            
-		            // 내 모임 신청정보
-		            sendAjaxRequest("/app/group/getGroupList", "My", "nick1", "getMyGroupList");
-		
-		         	// 모든 모임 신청정보(개설대기)(관리자만)
-		            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
+		            if("1" != "${user.role == '1'}")
+		            {
+		            	// 내 모임 신청정보
+			            sendAjaxRequest("/app/group/getGroupList", "My", "${user.nickname}", "getMyGroupList");
+		            }
+		            
+		            if("1" == "${user.role == '1'}")
+		            {
+		            	// 모든 모임 신청정보(개설대기)(관리자만)
+			            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
+		            }
 		
 		        }
 				
@@ -471,11 +483,15 @@
 							    	<p class="card-title">관리</p>
 									 <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
-				                        <button type="button" class="btn btn-outline-secondary">내 개설모임</button>
-				                        <button type="button" class="btn btn-outline-secondary">내 가입모임</button>
-				                        <button type="button" class="btn btn-outline-secondary">(관리자)대기신청서</button>
-				                        <button type="button" class="btn btn-outline-secondary">(관리자)승인신청서</button>
-				                        <button type="button" class="btn btn-outline-secondary">(관리자)거부신청서</button>
+										<c:if test="${user.role != '1'}">
+					                        <button type="button" class="btn btn-outline-secondary">내 개설모임</button>
+					                        <button type="button" class="btn btn-outline-secondary">내 가입모임</button>
+				                        </c:if>
+				                        <c:if test="${user.role == '1'}">
+					                        <button type="button" class="btn btn-outline-secondary">(관리자)대기신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary">(관리자)승인신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary">(관리자)거부신청서</button>
+				                        </c:if>
 				                        </div>
 					                </div>
 									<div class="list-wrapper pt-2">
