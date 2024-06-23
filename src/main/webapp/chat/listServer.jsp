@@ -14,7 +14,7 @@
 		function listServer() {
 			$.ajax({
 				
-				url: 'https://223.130.146.190:3000/listServer',
+				url: 'http://www.wewu.life:3000/listServer',
 				method: 'GET',
 				success: function(response) {
 			        // 서버 목록을 성공적으로 가져왔을 때의 처리
