@@ -10,6 +10,7 @@ import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
+import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
 
 public interface PlantService {
@@ -26,11 +27,11 @@ public interface PlantService {
 
 	public void completeQuest(Quest quest) throws Exception;
 
-	public void addPlant(Plant plant, PlantLevl plantLevl) throws Exception;
+	public void addPlant(PlantRequest plantRequest) throws Exception;
 
 	public void addPlantName(Plant plant) throws Exception;
 
-	public void addPlantLevl(PlantLevl plantLevl) throws Exception;
+	public void addPlantLevl(PlantLevl plantlevl) throws Exception;
 
 	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
 
@@ -61,5 +62,6 @@ public interface PlantService {
 	public Inventory getInventory(int itemPurno) throws Exception;
 
 	public Inventory getUseItem(int itemPurNo) throws Exception;
+
 
 }
