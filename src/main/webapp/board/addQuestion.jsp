@@ -37,8 +37,8 @@
 							<p class="card-description">nick1</p>
 							
 							<form class="forms-sample" method="post" action="/board/addQuestion" enctype="multipart/form-data">
-								<input type="hidden" name="questionNo" value="${question.questionNo}">
 								<input type="hidden" name="questionType"value="${param.questionType}">
+								<input type="hidden" name="nickName" value="nick1">
 								
 							<div class="form-group row">
 									<label for="title" class="col-sm-3 col-form-label">제목</label>

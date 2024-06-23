@@ -220,13 +220,7 @@
 			                   "<a href='javascript:deleteComment("+ data[i].commentNo + ");'>댓글 삭제</a>" +
 			                   "<a href='javascript:updateComment("+ data[i].commentNo + ");'>댓글 수정</a>" +
 			                   "</div>" +
-			                   "<form id='updateCommentForm_" + data[i].commentNo + "' class='comment-form'>" +
-			                   "<input type='hidden' name='commentNo' value='" + data[i].commentNo + "'>" +
-			                   "<input type='hidden' name='boardNo' value='" + '${board.boardNo}' + "'>" +
-			                   "<input type='hidden' name='commentNickName' value='" + data[i].commentNickName + "'>" +
-			                   "<textarea name='commentContents'>" + data[i].commentContents + "</textarea>" +
-			                   
-			                   "</form>" +
+			                  
 			                   "</div><br>";
 			        }
 				  $('#commentList').append(str);
@@ -240,6 +234,17 @@
 			  }
 		});
 	}
+	function commentmodi(data[i]){
+		var str =""
+		str +  "<form id='updateCommentForm_" + data[i].commentNo + "' class='comment-form'>" +
+        "<input type='hidden' name='commentNo' value='" + data[i].commentNo + "'>" +
+        "<input type='hidden' name='boardNo' value='" + '${board.boardNo}' + "'>" +
+        "<input type='hidden' name='commentNickName' value='" + data[i].commentNickName + "'>" +
+        "<textarea name='commentContents'>" + data[i].commentContents + "</textarea>" +      
+        "</form>" ;
+        return str;
+	}
+	
 	$(function(){
 		$("div.comment-content").on("click",function(){
 			style.display = 'block';
@@ -326,15 +331,16 @@
 							<p class="card-description">댓글 수 : ${board.commentCnt}
 							<div class="form-group row">
 								<h1 class="card-title">
-									nick1 ${sessionScope.user.nickname} 
+									${sessionScope.user.nickname} 
 								</h1>
 								<div class="col-sm-12">
 									<form id="commentForm">
 									<input type="hidden"
-										name="commentNickName" id="commentNickName" value="nick1">
+										name="commentNickName" id="commentNickName" value="${sessionScope.user.nickname}">
 										<input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">  									
 										<textarea name="commentContents" class="form-control" id="commentContents"></textarea> <br>
 									</form>
+									<c:if test="${sessionScope.user != null && sessionScope.user !='' }"></c:if>
 									<button class="btn btn-link btn-fw" onClick="addComment();">
 									댓글 쓰기
 									</button>
