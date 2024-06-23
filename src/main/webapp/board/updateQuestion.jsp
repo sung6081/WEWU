@@ -70,7 +70,7 @@
 									</div>
 								</c:if>
 									
-								<button type="submit" class="btn btn-primary mr-2">수정하기</button>
+								<button type="button" class="btn btn-primary mr-2">수정하기</button>
 								<button class="btn btn-light" >취&nbsp;소</button>
 							</form>
 						</div>

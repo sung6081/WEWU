@@ -5,42 +5,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의 등록</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="../../js/file-upload.js"></script>
-<script src="/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<title>게시글 수정</title>
 <script type="text/javascript">
-	$(function(){
+	$(function() {
 		$("button.btn:contains('취소')").on("click", function() {
-			self.location="/board/listBoard?boardType=${param.boardType}"
+			self.location = "/board/listBoard?boardType=${param.boardType}"
 		});
-		 $('footer').removeClass('fixed-bottom');
 
 	});
 
-	
 	function upload() {
-		
+
 		$('.file').click();
-		
+
 	};
-	
-	$('.file').on('change', function() {
-	
-		if($('.file').val() != null || $('.file').val() != '') {
-			
-			$('.upload-btn').html('<i class="ti-upload btn-icon-prepend"></i>'+$('.file').val());
-			
-		}
-		
-	});
-	
 
+	$('.file').on(
+			'change',
+			function() {
+
+				if ($('.file').val() != null || $('.file').val() != '') {
+
+					$('.upload-btn').html(
+							'<i class="ti-upload btn-icon-prepend"></i>'
+									+ $('.file').val());
+
+				}
+
+			});
 </script>
-
 </head>
 <body>
-
 	<!-- HEADER -->
 	<jsp:include page="/header.jsp" />
 	<!-- HEADER -->
@@ -58,21 +53,20 @@
 							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
 							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
 						</h1>
-
 						<p class="card-description">${sessionScpoe.user.usernickName}</p>
 						<p class="card-description">nick1</p>
-
-
-						<form class="forms-sample" method="post" action="/board/addBoard"
-							enctype="multipart/form-data">
+						<form class="forms-sample" method="post"
+							action="/board/updateBoard" enctype="multipart/form-data">
 
 							<input type="hidden" name="boardType" value="${param.boardType}">
+							<input type="hidden" name="boardNo" value="${param.boardNo}">
 							<input type="hidden" name="nickName" value="nick1">
 
 							<div class="form-group row">
 								<label for="title" class="col-sm-3 col-form-label">제목</label>
 								<div class="col-sm-12">
-									<input type="text" class="form-control" name="title">
+									<input type="text" class="form-control" name="title"
+										value="${board.title }">
 								</div>
 							</div>
 							<c:if test="${param.boardType eq '3'}">
@@ -89,24 +83,15 @@
 									</div>
 								</div>
 							</c:if>
-							
 							<div class="form-group row">
-									<div class="col-sm-12">
-									<textarea type="text" class="form-control" name="contents"  rows="30">
-									
+								<label for="exampleFormControlTextarea1"
+									class="col-sm-3 col-form-label">내용</label>
+								<div class="col-sm-12">
+									<textarea type="text" class="form-control" name="contents"
+										value="${board.contents}">
 									</textarea>
 								</div>
 							</div>
-							
-							<!-- <div class="form-group row">
-								<label for="exampleFormControlTextarea1"
-									class="col-sm-3 col-form-label">내용</label>
-								<div id="smarteditor" class="col-sm-3" >
-									<textarea name="contents" id="contents" rows="20" cols="100"
-									placeholder="내용을 입력해주세요"></textarea>
-								</div>
-							
-							</div> -->
 
 							<!-- <div class="form-group">
 								<label>파일 등록</label> 
@@ -120,6 +105,15 @@
 								</div>
 							</div> -->
 
+							<div class="form-group row">
+								<div class="col-sm-12">
+									<%-- ${boardFile.fileName} --%>
+									<c:forEach var="file" items="${boardFile}">
+										<img src="${file.fileName }">
+									</c:forEach>
+
+								</div>
+							</div>
 							<div class="row">
 								<button type="button" onclick="upload()"
 									class="upload-btn btn btn-outline-danger btn-icon-text">
@@ -129,8 +123,7 @@
 									accept=".jpg,.jpeg,.png,.gif" multiple>
 							</div>
 
-
-							<button type="submit" class="btn btn-primary mr-2">등&nbsp;록</button>
+							<button type="button" class="btn btn-primary mr-2">수&nbsp;정</button>
 							<button class="btn btn-light">취&nbsp;소</button>
 						</form>
 					</div>
