@@ -38,7 +38,7 @@
     
 </style>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="http://www.wewu.life:3000/socket.io/socket.io.js"></script>
+<script src="https://www.wewu.life/chat/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 	
 	$(function () {
@@ -51,7 +51,7 @@
 			
 		console.log(data);
 			
-		socket = io('http://www.wewu.life:3000');
+		socket = io('https://www.wewu.life/chat');
 		
 		socket.emit('join_room', data);
 		
@@ -213,7 +213,7 @@
 	               	//alert('check');
 	               	
 	               	$.ajax({
-	                    url: 'http://192.168.0.11:3000/upload',
+	                    url: 'https://www.wewu.life/chat/upload',
 	                    type: 'POST',
 	                    data: formData,
 	                    processData: false,
