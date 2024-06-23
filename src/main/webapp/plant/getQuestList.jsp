@@ -4,8 +4,77 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
+$(document).ready(function() {
+    $(".btn-white").on("click", function() {
+        var questNo = $(this).closest(".events").find("#questNo").val();
+        var $currentButton = $(this);
+
+        $.ajax({
+            url: "/app/plant/completeQuest",
+            type: "POST",
+            data: JSON.stringify({
+                questNo: questNo
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(response) {
+                console.log("Quest completed successfully", response);
+                // 완료된 퀘스트의 상태를 업데이트
+				$currentButton.prop("disabled", true);
+                // getQuestList 호출하여 화면 업데이트
+                updateQuestList();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error occurred while completing quest: ", error);
+            },
+            complete: function(xhr, status) {
+                // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
+            }
+        });
+    });
+});
+
+function updateQuestList() {
+    var form = document.getElementById('getQuestList');
+    
+    if (form) {
+        var formData = new FormData(form);
+        var jsonData = Object.fromEntries(formData.entries());
+
+        $.ajax({
+            url: "/app/plant/getQuestList",
+            type: "POST",
+            data: JSON.stringify(jsonData),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data, status, xhr) {
+                var str = "";
+                for (var i = 0; i < data.length; i++) {
+                    str += "<del><p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p></del>";
+                }
+                $("#questResult").html(str); // 데이터를 화면에 즉시 반영
+            },
+            error: function(xhr, status, error) {
+                console.error("Error occurred while fetching quest list: ", error);
+            },
+            complete: function(xhr, status) {
+                console.log("Quest list update completed.");
+            }
+        });
+    } else {
+        console.error('Form with id "getQuestList" not found.');
+    }
+}
+
+window.onload = function() {
+    updateQuestList();
+};
+
+	
+	
 </script>
 </head>
 <body>
@@ -23,17 +92,25 @@
             <div class="events pt-4 px-3">
               <div class="wrapper d-flex mb-2">
                 <i class="ti-control-record text-primary mr-2"></i>
-                <span>${quest.regDate}</span>
+                <input type = "hidden" id = "questNo" name = "questNo" value = "${quest.questNo}">
+                <c:if test = "${quest.questState eq 'N'}">퀘스트완료</c:if>
+                <c:if test = "${quest.questState eq 'Y'}">진행중</c:if>
               </div>
-              <p class="mb-0 font-weight-thin text-gray">${quest.questContents}</p>
-              <p class="text-gray mb-0"></p>
-              <c:if test = "${quest.questState eq 'N'}">퀘스트완료</c:if>
-              <c:if test = "${quest.questState eq 'Y'}">진행중</c:if>             
+              <p class="mb-0 font-weight-thin text-gray" id ="questContents">${quest.questContents}
+              <button type="button" class="btn btn-white"> 완료 </button>  
+              </p>              
+              <p class="text-gray mb-0" id = "questResult"></p>
+                
+                          
             </div>
             </c:forEach>
           </div>
           <!-- To do section tab ends -->
         </div>
       </div>
+      
+      <form id = "getQuestList" method = "post">
+      	<input type="hidden" name ="questNo" value = "${quest.questNo}"> 
+      </form>
 </body>
 </html>

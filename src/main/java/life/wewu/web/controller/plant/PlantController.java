@@ -57,6 +57,10 @@ public class PlantController {
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
 	
+	@Autowired
+	@Qualifier("s3RepositoryImpl")
+	private S3Repository s3Repository;
+	
 	
 	public PlantController() {
 		System.out.println(this.getClass());
@@ -124,10 +128,30 @@ public class PlantController {
 	}
 
 	@RequestMapping(value ="addPlant" , method = RequestMethod.POST)
-	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, @ModelAttribute("plant") Plant plant ,Model model) throws Exception{
-		System.out.println(" /plant/addPlant : POST ");		
+	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, 
+							@ModelAttribute("plant") Plant plant ,
+							Model model,
+							@RequestPart(required = false) MultipartFile file) throws Exception{
+		
+		System.out.println(" /plant/addPlant : POST ");	
+		
+		if(!file.isEmpty()) {
+	         Map<String, Object> map = new HashMap<String, Object>();
+	         map.put("file", file);
+	         map.put("folderName", "plant");
+	         
+	         String url = s3Repository.uplodaFile(map);
+	         
+	
+	         plantLevl.setLevlImg(s3Repository.getShortUrl(url));
+	         
+	      }
 		
 		plantService.addPlant(plant, plantLevl);
+		
+		model.addAttribute("file", file);
+		model.addAttribute("plantLevl", plantLevl);
+		model.addAttribute("plant", plant);
 		
 		return "forward:/plant/addPlant.jsp";	
 	}

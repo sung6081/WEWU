@@ -14,11 +14,13 @@
 		function listServer() {
 			$.ajax({
 				
-				url: 'https://223.130.157.128:3000/listServer',
+				url: 'https://www.wewu.life/listServer',
 				method: 'GET',
 				success: function(response) {
 			        // 서버 목록을 성공적으로 가져왔을 때의 처리
 			        console.log('Received server list:', response);
+			        
+			        //왜 안바뀌지?
 			        
 			     	// 서버 목록을 테이블에 추가
 			        var tbody = $('#tableBody');

@@ -44,7 +44,7 @@
 	<!-- GET QUESTLIST -->
 	<select  id="getQuestList"  parameterType="search" resultMap="questSelectMap">
 	  	SELECT * FROM quest	
-	  	order by quest_no
+	  	order by quest_state DESC;
 	</select>
 	
 	<update id = "completeQuest" parameterType ="quest">

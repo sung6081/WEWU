@@ -74,55 +74,58 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
-
-    <div class="container-scroller">
-        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-            <div class="form-section">
-                <h1>비밀번호 찾기</h1>
-                <form id="userInfoForm">
-                    <div class="form-group">
-                        <label for="userId">사용자 아이디:</label>
-                        <input type="text" class="form-control form-control-lg" id="userId" name="userId" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNum">전화번호:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" required />
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-primary" id="sendVerificationCode">인증번호 전송</button>
-                            </div>
-                        </div>
-                        <small id="phoneNumHelp" class="form-text text-muted"></small>
-                    </div>
-                </form>
-            </div>
-
-            <div class="form-section">
-                <h1>인증번호 입력</h1>
-                <form id="verificationForm" action="/user/verify-code-userPwd" method="post">
-                    <input type="hidden" id="verificationPhoneNum" name="phoneNum" value="${user.phoneNum}" />
-                    <input type="hidden" id="verificationUserId" name="userId" value="${user.userId}" />
-                    <div class="form-group">
-                        <label for="code">인증번호:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control form-control-lg" id="code" name="code" required />
-                            <div class="input-group-append hidden" id="resendContainer">
-                                <button type="button" class="btn btn-warning" id="resendVerificationCode">인증번호 재발송</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-success btn-block">확인</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="errorMessage" class="text-danger text-center">
-                <c:if test="${not empty error}">
-                    ${error}
-                </c:if>
-            </div>
-        </div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+		    <div class="container-scroller">
+		        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+		            <div class="form-section">
+		                <h1>비밀번호 찾기</h1>
+		                <form id="userInfoForm">
+		                    <div class="form-group">
+		                        <label for="userId">사용자 아이디:</label>
+		                        <input type="text" class="form-control form-control-lg" id="userId" name="userId" required />
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="phoneNum">전화번호:</label>
+		                        <div class="input-group">
+		                            <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" required />
+		                            <div class="input-group-append">
+		                                <button type="button" class="btn btn-primary" id="sendVerificationCode">인증번호 전송</button>
+		                            </div>
+		                        </div>
+		                        <small id="phoneNumHelp" class="form-text text-muted"></small>
+		                    </div>
+		                </form>
+		            </div>
+		
+		            <div class="form-section">
+		                <h1>인증번호 입력</h1>
+		                <form id="verificationForm" action="/user/verify-code-userPwd" method="post">
+		                    <input type="hidden" id="verificationPhoneNum" name="phoneNum" value="${user.phoneNum}" />
+		                    <input type="hidden" id="verificationUserId" name="userId" value="${user.userId}" />
+		                    <div class="form-group">
+		                        <label for="code">인증번호:</label>
+		                        <div class="input-group">
+		                            <input type="text" class="form-control form-control-lg" id="code" name="code" required />
+		                            <div class="input-group-append hidden" id="resendContainer">
+		                                <button type="button" class="btn btn-warning" id="resendVerificationCode">인증번호 재발송</button>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div class="form-group text-center">
+		                        <button type="submit" class="btn btn-success btn-block">확인</button>
+		                    </div>
+		                </form>
+		            </div>
+		
+		            <div id="errorMessage" class="text-danger text-center">
+		                <c:if test="${not empty error}">
+		                    ${error}
+		                </c:if>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
     </div>
 
     <!-- FOOTER -->

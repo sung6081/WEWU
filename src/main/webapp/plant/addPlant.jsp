@@ -4,9 +4,7 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>AddPlant</title>
-  <style>
+<style>
   /* h1 요소에 앞 여백 추가 */
   .custom-title-space {
     padding-left: 20px;
@@ -27,24 +25,25 @@
 <script>
 
   function addPlant() {
-
-    var form = document.getElementById('addPlant');
+	  
+	for (var i = 1 ; i <= 5 ; i++) {
+    		 
+    var form = document.getElementById('addPlant_'+i);
     var formData = new FormData(form);
 
     // JSON으로 변환
     var jsonData = Object.fromEntries(formData);
-
-    for (int i; i <= 5 ; i++) {
+	
       $.ajax({
-        url: "/app/plant/addPlant_" + i,
+        url: "/app/plant/addPlant",
         type: "POST",
-        data: JSON, stringify(
+        data: JSON.stringify(
           jsonData
         ),
         contentType: "application/json",
         dataType: "json",
         success: function (data, status, xhr) {
-
+        	alert(" 식물 등록이 완료 되었습니다 ! ");
         },
         error: function (xhr, status, error) {
           // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -53,8 +52,9 @@
           // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
         }
       });
-    }
-  }
+	}
+   }
+  
 
   $(document).ready(function () {
     'use strict';
@@ -92,7 +92,7 @@
           <div class="card-body">
             <h4 class="card-title">1단계</h4>
             <p class="card-description">Basic form elements</p>
-            <form name="addPlant_1">
+            <form id="addPlant_1">
               <div class="form-group">
                 <input type="hidden" id="plantNo" name="plantNo" value="${plant.plantNo}" />
                 <label for="plantName">식물이름</label>
@@ -136,7 +136,7 @@
           <div class="card-body">
             <h4 class="card-title">2단계</h4>
             <p class="card-description">Basic form elements</p>
-            <form name="addPlant_2">
+            <form id="addPlant_2">
               <div class="form-group">
                 <label for="questContents">식물이름</label>
                 <input type="text" class="form-control" name="plantName" id="plantName" placeholder=plantName>
@@ -179,7 +179,7 @@
           <div class="card-body">
             <h4 class="card-title">3단계</h4>
             <p class="card-description">Basic form elements</p>
-            <form name="addPlant_3">
+            <form id="addPlant_3">
               <div class="form-group">
                 <label for="questContents">식물이름</label>
                 <input type="text" class="form-control" name="plantName" id="plantName" placeholder=plantName>
@@ -222,7 +222,7 @@
           <div class="card-body">
             <h4 class="card-title">4단계</h4>
             <p class="card-description">Basic form elements</p>
-            <form name="addPlant_4">
+            <form id="addPlant_4">
               <div class="form-group">
                 <label for="questContents">식물이름</label>
                 <input type="text" class="form-control" name="plantName" id="plantName" placeholder=plantName>
@@ -265,7 +265,7 @@
           <div class="card-body">
             <h4 class="card-title">5단계</h4>
             <p class="card-description">Basic form elements</p>
-            <form name="addPlant_5">
+            <form id="addPlant_5">
               <div class="form-group">
                 <label for="questContents">식물이름</label>
                 <input type="text" class="form-control" name="plantName" id="plantName" placeholder=plantName>
@@ -291,7 +291,7 @@
               </div>
               <div class="form-group">
                 <label>식물단계이미지</label>
-                <input type="file" name="levlImg" class="file-upload-default">
+                <input type="file" name="file" class="file-upload-default">
                 <div class="input-group col-xs-12">
                   <input type="text" class="form-control file-upload-info" disabled="" placeholder="levlImg">
                   <span class="input-group-append">

@@ -38,7 +38,7 @@
     
 </style>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://223.130.157.128:3000/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 <script type="text/javascript">
 	
 	$(function () {
@@ -49,9 +49,9 @@
 		data.nick = nick;
 		data.room = room;
 			
-		console.log(data);
+		//console.log(data);
 			
-		socket = io('https://223.130.157.128:3000');
+		var socket = io('https://www.wewu.life', { path: '/chatting/' });
 		
 		socket.emit('join_room', data);
 		
@@ -213,7 +213,7 @@
 	               	//alert('check');
 	               	
 	               	$.ajax({
-	                    url: 'http://192.168.0.11:3000/upload',
+	                    url: 'https://www.wewu.life/upload',
 	                    type: 'POST',
 	                    data: formData,
 	                    processData: false,

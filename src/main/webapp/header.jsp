@@ -46,6 +46,7 @@
  <link rel="stylesheet" href="/css/swiper.css">
  <!-- endinject -->
  <link rel="shortcut icon" href="/images/favicon.ico" />
+ <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
  <!-- swiper -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
@@ -57,26 +58,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>WEWU</title>
+  <style>
+.navbar-header img{
+  width: auto%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust this value to the desired height */
+  max-width: 100%;
+}
+.navbar-header {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  </style>
 </head>
 <body>
 
   <div class="fixed-top">
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
-     <div class="container d-flex justify-content-center">
-       <span class="navbar-brand mb-0 h1">WEWU</span>
-                   <!-- 세션에서 퀘스트 리스트 가져오기 -->
-            <c:set var="sessionQuestList" value="${sessionScope.questList}" />
-            
-            <!-- 퀘스트 정보 표시 -->
-            <c:if test="${not empty questList}">
-                <ul class="navbar-nav">
-                    <c:forEach var="quest" items="${questList}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">퀘스트 번호: ${quest.questNo}, 내용: ${quest.questContents}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </c:if>
+     <div class="container-fluid" style="display: flex; justify-content: center;">
+     <div class="navbar-header">
+          <img src="/images/wewu.png" alt="WEWU Title" >
+     </div>
      </div>
    </header>
    <!-- Navbar -->
@@ -99,7 +105,7 @@
                <a class="nav-link" href="/plant/emptyUser.jsp">식물키우기</a>
              </c:if>
              <c:if test="${ ! empty user }">
-               <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>
+               <a class="nav-link" href="/plant/getMyPlant.jsp">식물키우기</a>
              </c:if>
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
@@ -148,14 +154,23 @@
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
+          <c:if test = "${ empty user }">
+          <li class="nav-item">
+              <a class="nav-link" href="/user/addUserView.jsp">회원가입</a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link btn btn-primary text-white " href="/user/login">Login</a>
+              <a class="nav-link " href="/user/login">Login</a>
             </li>
-            <li class="nav-item nav-settings">
-              <a class="nav-link" href="#">
-                <i class="icon-ellipsis"></i>
-              </a>
+            </c:if>
+            <c:if test = "${ ! empty user }">
+            <li class="nav-item">
+              <a class="nav-link " href="/user/login">LogOut</a>
             </li>
+            </c:if>
+            <li class="nav-settings">
+   			 <button type="button" class="btn btn-info btn-inverse-info btn-icon">
+        		<i class="mdi mdi-human-greeting"></i>
+    		</button>
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">

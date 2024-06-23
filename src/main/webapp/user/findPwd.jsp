@@ -9,36 +9,40 @@
 </head>
 <body>
     <h1>비밀번호 찾기</h1>
-    <form id="userInfoForm">
-        <label for="userId">사용자 아이디:</label>
-        <input type="text" id="userId" name="userId" required />
-        <br/>
-        <label for="phoneNum">전화번호:</label>
-        <input type="text" id="phoneNum" name="phoneNum" required />
-        <br/>
-        <button type="button" id="sendVerificationCode">인증번호 전송</button>
-    </form>
-
-    <h1>인증번호 입력</h1>
-    <form id="verificationForm" action="/user/verify-code-userPwd" method="post">
-        <input type="hidden" id="verificationPhoneNum" name="phoneNum" value="${user.phoneNum}" />
-        <input type="hidden" id="verificationUserId" name="userId" value="${user.userId}" />
-        <label for="code">인증번호:</label>
-        <input type="text" id="code" name="code" required />
-        <button type="submit">확인</button>
-    </form>
-    
-    <form id="resendForm" action="/user/send-verification-code" method="post">
-        <input type="hidden" id="resendPhoneNum" name="phoneNum" value="${phoneNum}" />
-        <input type="hidden" id="resendUserId" name="userId" value="${userId}" />
-        <button type="submit">인증번호 재발송</button>
-    </form>
-    
-    <div id="errorMessage" style="color: red;">
-        <c:if test="${not empty error}">
-            ${error}
-        </c:if>
-    </div>
+    <div class="main-panel">
+        <div class="content-wrapper">
+		    <form id="userInfoForm">
+		        <label for="userId">사용자 아이디:</label>
+		        <input type="text" id="userId" name="userId" required />
+		        <br/>
+		        <label for="phoneNum">전화번호:</label>
+		        <input type="text" id="phoneNum" name="phoneNum" required />
+		        <br/>
+		        <button type="button" id="sendVerificationCode">인증번호 전송</button>
+		    </form>
+		
+		    <h1>인증번호 입력</h1>
+		    <form id="verificationForm" action="/user/verify-code-userPwd" method="post">
+		        <input type="hidden" id="verificationPhoneNum" name="phoneNum" value="${user.phoneNum}" />
+		        <input type="hidden" id="verificationUserId" name="userId" value="${user.userId}" />
+		        <label for="code">인증번호:</label>
+		        <input type="text" id="code" name="code" required />
+		        <button type="submit">확인</button>
+		    </form>
+		    
+		    <form id="resendForm" action="/user/send-verification-code" method="post">
+		        <input type="hidden" id="resendPhoneNum" name="phoneNum" value="${phoneNum}" />
+		        <input type="hidden" id="resendUserId" name="userId" value="${userId}" />
+		        <button type="submit">인증번호 재발송</button>
+		    </form>
+		    
+		    <div id="errorMessage" style="color: red;">
+		        <c:if test="${not empty error}">
+		            ${error}
+		        </c:if>
+		    </div>
+	   </div>
+   </div>
 
     <script>
         $(document).ready(function() {
