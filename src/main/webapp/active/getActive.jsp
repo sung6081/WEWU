@@ -83,17 +83,40 @@
 		    mapTypeControl: true
 		});
 		
-		var markerOptions = {
-		    position: new naver.maps.LatLng(map_x, map_y),
-		    map: map,
-		    icon: {
-		        url: '${active.activeShortUrl}',
-		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-		    }
-		};
+		var markerOptions;
+		
+		if('${active.activeShortUrl}') {
+			//alert('exist');
+			
+			markerOptions = {
+			    position: new naver.maps.LatLng(map_x, map_y),
+			    map: map,
+			    icon: {
+			        url: '${active.activeShortUrl}',
+			        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+			        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+			        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+			        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+			    }
+			};
+		}else {
+			//alert('empty');
+			
+			let iconSpritePositionX = 1;
+		    let iconSpritePositionY = 1;
+			
+			markerOptions = {
+			    position: new naver.maps.LatLng(map_x, map_y),
+			    map: map,
+			    icon: {
+			    	url: '/images/icon/sp_pin_hd.png',
+					size: new naver.maps.Size(26, 36), // 이미지 크기
+					origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY), // 스프라이트 이미지에서 클리핑 위치
+					anchor: new naver.maps.Point(13, 36), // 지도상 위치에서 이미지 위치의 offset
+					scaledSize: new naver.maps.Size(395, 79)
+			    }
+			};
+		}
 		
 		activeMarker = new naver.maps.Marker(markerOptions);
 		
@@ -119,33 +142,8 @@
 		    map.controls[naver.maps.Position.RIGHT_BOTTOM].push(locationBtnEl);
 	
 		    naver.maps.Event.addDOMListener(locationBtnEl, 'click', function() {
+		    	
 		    	var markerLocation = new naver.maps.LatLng(map_x,map_y);
-		    	
-		    	/* if(activeMarker) {
-		    		activeMarker.setMap(null);
-		        }
-		    	
-		    	var markerOptions = {
-	    		    position: new naver.maps.LatLng(map_x,map_y),
-	    		    map: map,
-	    		    icon: {
-	    		        url: '${active.activeShortUrl}',
-	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-	    		    }
-	    		};
-		    	
-		    	$('.activeX').val('${active.activeX}');
-		    	$('.activeY').val('${active.activeY}');
-		    	$('.activeLocal').val('${active.activeLocal}');
-		    	
-		    	console.log('activeX: ' + $('.activeX').val());
-		        console.log('activeY: ' + $('.activeY').val());
-		        console.log('activeLocal: ' + $('.activeLocal').val());
-	    		
-	    		activeMarker = new naver.maps.Marker(markerOptions); */
 		    	
 		    	map.setCenter(markerLocation);
 		    });

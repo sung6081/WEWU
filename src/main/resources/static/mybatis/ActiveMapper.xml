@@ -10,6 +10,7 @@
 	<resultMap type="life.wewu.web.domain.active.Active" id="ActiveResultMap">
 		<result column="active_no" property="activeNo" jdbcType="INTEGER" />
 		<result column="group_no" property="groupNo" jdbcType="INTEGER" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
 		<result column="active_name" property="activeName" jdbcType="VARCHAR" />
 		<result column="active_start_date" property="activeStartDate" jdbcType="DATE" />
 		<result column="active_end_date" property="activeEndDate" jdbcType="DATE" />
@@ -100,7 +101,7 @@
 	<!-- 지도의 활동 -->
 	<select id="getActiveList" parameterType="life.wewu.web.common.Search" resultMap="ActiveResultMap">
 	
-		SELECT DISTINCT a.*, leader_nick FROM active a
+		SELECT DISTINCT a.*, leader_nick, group_name FROM active a
 		LEFT JOIN group_info g ON a.group_no = g.group_no
 		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>
