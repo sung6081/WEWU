@@ -106,7 +106,7 @@
 						<div class="card-body">
 
 							<c:if
-								test="${param.questionType eq 'FAQ' && sessionScope.user.role eq '1'}">
+								test="${param.questionType eq 'FAQ' && sessionScope.isAdmin}">
 								<button type="button" class="btn btn-inverse-primary btn-fw">
 									FAQ 등록</button>
 							</c:if>

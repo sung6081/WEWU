@@ -180,7 +180,7 @@
 								</c:if>
 
 								<c:if
-									test="${sessionScope.user.role eq '1' || sessionScope.user.role eq '3'}">
+									test="${sessionScope.isAdmin || sessionScope.user.role eq '3'}">
 									<button type="button" class="btn btn-outline-primary btn-fw">
 										<c:if test="${param.boardType eq '2'}"> 모임 홍보 글 등록하기</c:if>
 									</button>
@@ -192,7 +192,7 @@
 									</button>
 								</c:if>
 
-								<c:if test="${sessionScope.user.role eq '1' }">
+								<c:if test="${sessionScope.isAdmin }">
 									<button type="button" class="btn btn-outline-primary btn-fw">
 										<c:if test="${param.boardType eq '4'}"> 후원 글 등록하기</c:if>
 									</button>
