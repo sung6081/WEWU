@@ -35,6 +35,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import life.wewu.web.common.Search;
@@ -67,11 +68,16 @@ public class ActiveController {
 	
 	//�޼ҵ�
 	@GetMapping(value = "map")
-	public String map(Model model) {
+	public String map(@ModelAttribute Search search, Model model) throws Exception {
 		
 		System.out.println("give map");
 		
+		List<Active> activeList = activeService.getActiveList(search);
+		model.addAttribute("activeListString", new ObjectMapper().writeValueAsString(activeService.getActiveList(search)));
+		
 		model.addAttribute("clientId", clientId);
+		
+		model.addAttribute("activeList", activeList);
 		
 		return "/active/map";
 	}

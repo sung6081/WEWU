@@ -194,7 +194,139 @@
 		
 			async function searchAddressToCoordinate(address) {
 				
-				var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
+				var searchCondition = $('#condition').val();
+				
+				if(searchCondition == 'active') {
+					
+					alert('check');
+					
+					//var url = 'http://localhost:8080/app/active/listActive';
+					var url = 'https://www.wewu.life/app/active/listActive';
+					
+					await $.ajax({
+						
+						url: url,
+						method: 'POST',
+						data: JSON.stringify({ searchKeyword: address }), // JSON 형식으로 변환하여 전송,
+						contentType: 'application/json', // 요청 데이터의 타입을 명시
+						dataType: 'json',
+						success: function(res) {
+							console.log(res);
+							
+							activeListString = res;
+							
+							// 기존 마커들 제거
+			                for (let i = 0; i < activeMarkers.length; i++) {
+			                    activeMarkers[i].setMap(null);
+			                }
+							
+							activeMarkers = [];
+							
+							for(let i = 0; i < activeListString.length; i++) {
+								
+								let markerOptions = null;
+								
+								//console.log('start');
+								
+								if(activeListString[i].activeShortUrl != null) {
+								
+									markerOptions = {
+									    position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
+									    map: map,
+									    icon: {
+									        url: activeListString[i].activeShortUrl,
+									        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+									        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+									        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+									        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+									    }
+									};
+									
+									//console.log("::: "+markerOptions);
+								
+								}else {
+									
+									let iconSpritePositionX = 1;
+								    let iconSpritePositionY = 1;
+									
+									markerOptions = {
+									    position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
+									    map: map,
+									    icon: {
+											url: '/images/icon/sp_pin_hd.png',
+											size: new naver.maps.Size(26, 36), // 이미지 크기
+											origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY), // 스프라이트 이미지에서 클리핑 위치
+											anchor: new naver.maps.Point(13, 36), // 지도상 위치에서 이미지 위치의 offset
+											scaledSize: new naver.maps.Size(395, 79)
+									    }
+									};
+									
+									//console.log("::: "+markerOptions);
+									
+								}
+								
+								let activeMarker = new naver.maps.Marker(markerOptions);
+								
+								var infowindow = new naver.maps.InfoWindow();
+								
+								//console.log("::: "+activeMarker);
+								
+								naver.maps.Event.addListener(activeMarker, "click", function(e) {
+									
+									var contentString = [
+					                    '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
+					                    '   <h3 style="margin-top: 0;">' + activeListString[i].activeName + '</h3>',
+					                    '   <p><strong>모임 이름:</strong> ' + activeListString[i].groupName + '</p>',
+					                    '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
+					                    '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
+					                    '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
+					                    '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
+					                    '</div>'
+					                ].join('');
+					                
+					                infowindow.setContent(contentString);
+									
+									console.log(infowindow.getMap());
+									
+								    if (infowindow.getMap()) {
+								    	
+								        infowindow.close();
+								        
+								    } else {
+								    	
+								        infowindow.open(map, activeMarker);
+								        
+								        $('.info-btn').on('click', function() {
+								        	
+								        	var activeNo = $(this).children().val();
+								        	
+								        	//alert(activeNo);
+								        	self.location = '/active/getActive/'+activeNo;
+								        	
+								        });
+								    }
+								});
+					
+								//infowindow.open(map, activeMarker);
+								
+								activeMarkers.push(activeMarker);
+								
+								//console.log(activeMarkers);
+								
+							}
+							
+						},
+						error: function(xhr, status, error) {
+					        // 서버 목록을 가져오는 데 실패했을 때의 처리
+					        console.error('Failed to fetch server list:', error);
+					    }
+					});
+					
+					return;
+					
+				}
+				
+				var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
 				
 				var local;
 				
@@ -543,9 +675,9 @@
 				                '<td colspan="4">\n'+
 				                    '<div class="card info-panel">\n'+
 				                    	'<div class="card-body">\n'+
-					                        '<p><strong>모임활동레벨:</strong>'+group.groupLevel+'</p>\n'+
-					                        '<p><strong>모임원수:</strong>'+group.groupPers+'</p>\n'+
-					                        '<p><strong>모임주소:</strong>'+group.groupAddr+'</p>\n'+
+					                        '<p><strong>모임활동레벨 : </strong>'+group.groupLevel+'</p>\n'+
+					                        '<p><strong>모임원수 : </strong>'+group.groupPers+'</p>\n'+
+					                        '<p><strong>모임주소 : </strong>'+group.groupAddr+'</p>\n'+
 					                        '<button class="btn btn-primary info-button">모임게시판 가기<input type="hidden" value='+group.groupNo+'></button>\n'+
 				                        '</div>\n'+
 				                    '</div>\n'+
