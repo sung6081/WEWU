@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -234,24 +235,29 @@ public class PlantController {
 
 	//----------------Inventory
 	@RequestMapping(value ="inventory" , method = RequestMethod.GET)
-	public String getInventory(@RequestParam("itemPurNo") int itemPurNo,Model model) throws Exception{
-		System.out.println(" /plant/getInventory : POST ");
-		Inventory inventory = plantService.getInventory(itemPurNo);
-		model.addAttribute("inventory", inventory);
+	public String getInventory(@RequestParam("nickname")String nickname,
+							@ModelAttribute("inventory")Inventory inventory,
+							@ModelAttribute("myPlant")MyPlant myPlant,
+							HttpSession session,
+							Model model) throws Exception{
+		System.out.println(" /plant/getInventory : GET ");
+		User user = (User) session.getAttribute("user");
 		
+		System.out.println("nickname : " + nickname);
+		System.out.println("inventory : " + inventory);
+		System.out.println("myPlant : " + myPlant);
+		
+		List<Inventory> list = plantService.getInventory(nickname);
+		
+		model.addAttribute("nickname", nickname);
+		model.addAttribute("inventory", inventory);
+		model.addAttribute("myPlant", myPlant);
+		model.addAttribute("list", list);
+	
 		return "forward:/plant/inventory.jsp";
 	}
 
-	
-	//----------------etc
-	
 
-	@RequestMapping(value ="fileUpload" , method = RequestMethod.POST)
-	public void fileUpload() throws Exception{
-		
-	}
-	
-	
 		
 }
 	

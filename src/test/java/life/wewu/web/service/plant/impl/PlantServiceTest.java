@@ -263,26 +263,14 @@ public class PlantServiceTest {
 
     //@Test
     //check
-    public void getInventory() throws Exception {
-        System.out.println("===============================");	
-        Inventory inventory = plantService.getInventory(1);
-        System.out.println(inventory);
-        System.out.println("===============================");
-    }
-    
-    //@Test
-    //check
-    public void getUseItem() throws Exception {
-        System.out.println("===============================");	
-        
-        plantService.getUseItem(1);
-        MyPlant myPlant = plantService.getMyPlant(1);
-        
-        System.out.println(myPlant);
-        System.out.println("===============================");	
-
-    }
-    
+//	    public void getInventory() throws Exception {
+//	        System.out.println("===============================");	
+//	        Inventory inventory = plantService.getInventory(1);
+//	        System.out.println(inventory);
+//	        System.out.println("===============================");
+//	    }
+//	    
+//	   
 	
 }
 	

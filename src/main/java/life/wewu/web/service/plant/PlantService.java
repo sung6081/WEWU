@@ -59,9 +59,9 @@ public interface PlantService {
 
 	public String getWeather(String location) throws Exception;
 
-	public Inventory getInventory(int itemPurno) throws Exception;
+	public List<Inventory> getInventory(String nickname) throws Exception;
 
-	public Inventory getUseItem(int itemPurNo) throws Exception;
+	public Map<String, Object> getUseItem(Map<String, Object> map) throws Exception;
 
 
 }

@@ -18,6 +18,6 @@ public class Inventory {
 	private String itemExp;		//아이템별 경험치
 	private String itemType;	//아이템종류(식물인지 장식인지)
 	private int itemNum;		//가지고 있는 아이템 수
-	
+	private MyPlant myPlant;   // MyPlant 객체 추가
 
 }

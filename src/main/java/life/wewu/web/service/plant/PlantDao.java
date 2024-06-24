@@ -60,8 +60,10 @@ public interface PlantDao {
 
 	public String getWeather(String location);
 
-	public Inventory getInventory(int itemPurno) throws Exception;
+	public List<Inventory> getInventory(String nickname) throws Exception;
 
-	public Inventory getUseItem(int itemPurNo) throws Exception;
+	public List<MyPlant> getUseItem(int itemPurNo) throws Exception;
+
+	public void updateInventory(List<Inventory> inventory);
 
 }
