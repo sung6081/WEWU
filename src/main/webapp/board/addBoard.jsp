@@ -35,6 +35,35 @@
 		
 	});
 	
+	
+	function getGroupList() {
+        $.ajax({
+            url: "/app/group/getUserGroupList",
+            type: "POST",
+            async: true,
+            cache: true,
+            timeout: 3000,
+            data: JSON.stringify({ nickname:  'nick1'}),
+            processData: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data, status, xhr) {
+                var str = "";
+                for (var i = 0; i < data.length; i++) {
+                    str += "<select id='userGroupNo' name='userGroupNo' class='form-control'>" +
+                        "<option value="+i+"> " + data[i].groupName + "</option>" +                       
+                        "</select>" +                      
+                        "<input type='hidden' name='groupNo' value='" + data[i].groupNo + "'>" +
+                        <br>";
+                }
+                $('#groupList').append(str);
+            },
+            error: function(xhr, status, error) {
+                alert("그룹 목록 불러오기 실패.");
+            }
+        });
+    }
+	
 
 </script>
 
@@ -79,13 +108,7 @@
 								<div class="form-group row">
 									<label class="col-sm-3 col-form-label">모임 명</label>
 									<div class="col-sm-3">
-										<select id="userGroupNo" name="userGroupNo"
-											class="form-control">
-
-											<option value="1" selected>플로깅</option>
-											<option value="2">리필스테이션</option>
-
-										</select>
+										<div id="groupList"></div>
 									</div>
 								</div>
 							</c:if>

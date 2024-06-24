@@ -110,7 +110,7 @@
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
            <!-- 관리자모드 -->
-           <c:if test="${user.role == 'admin'}">
+           <c:if test="${sessionScope.isAdmin}">
            <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -166,7 +166,7 @@
             </c:if>
             <c:if test = "${ ! empty user }">
             <li class="nav-item">
-              <a class="nav-link " href="/user/login">LogOut</a>
+              <a class="nav-link " href="/user/logout">LogOut</a>
             </li>
             </c:if>
             <li class="nav-settings">

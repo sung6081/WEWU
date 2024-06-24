@@ -155,19 +155,14 @@ public class PlantRestController {
 
 	}
 
-	// REST로
 	@RequestMapping(value = "getUseItem", method = RequestMethod.POST)
-	public Map<String, Object> getUseItem(@RequestParam("myPlantNo") int myPlantNo,
-			@RequestParam("itemPurNo") int itemPurNo) throws Exception {
-		MyPlant myPlant = plantService.getMyPlant(myPlantNo);
-		Inventory inventory = plantService.getInventory(itemPurNo);
+	public Map<String, Object> getUseItem(@RequestBody Map<String, Object> map) throws Exception {
+	    int myPlantNo = (int) map.get("myPlantNo");
+	    int itemPurNo = (int) map.get("itemPurNo");
+	    int itemNum = (int) map.get("itemNum");
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("myPlant", myPlant);
-		map.put("inventory", inventory);
-
-		return map;
-
+	    Map<String, Object> item = plantService.getUseItem(map);
+	    return item;
 	}
 
 	@RequestMapping(value = "updateMyPlant", method = RequestMethod.POST)
