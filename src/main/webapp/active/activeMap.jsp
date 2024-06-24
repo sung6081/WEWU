@@ -52,6 +52,83 @@
 	    bottom: 10px;
 	    right: 10px;
 	}
+	
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 60px;
+	  height: 34px;
+	}
+	
+	.switch-btn {
+		float:right;
+	}
+	
+	/* Hide default HTML checkbox */
+	.switch input {display:none;}
+	
+	/* The slider */
+	.slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #ccc;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 26px;
+	  width: 26px;
+	  left: 4px;
+	  bottom: 4px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	input.default:checked + .slider {
+	  background-color: #444;
+	}
+	input.primary:checked + .slider {
+	  background-color: #2196F3;
+	}
+	input.success:checked + .slider {
+	  background-color: #8bc34a;
+	}
+	input.info:checked + .slider {
+	  background-color: #3de0f5;
+	}
+	input.warning:checked + .slider {
+	  background-color: #FFC107;
+	}
+	input.danger:checked + .slider {
+	  background-color: #f44336;
+	}
+	
+	input:focus + .slider {
+	  box-shadow: 0 0 1px #2196F3;
+	}
+	
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(26px);
+	  -ms-transform: translateX(26px);
+	  transform: translateX(26px);
+	}
+	
+	/* Rounded sliders */
+	.slider.round {
+	  border-radius: 34px;
+	}
+	
+	.slider.round:before {
+	  border-radius: 50%;
+	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
     .search #condition { width:50px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
@@ -128,8 +205,6 @@
 			    //infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
 		
 			    //infowindow.open(map, location);
-			    
-			    
 			    
 			    console.log('Coordinates: ' + location.toString());
 			}
@@ -600,25 +675,64 @@
 					<div class="card">
 					
 		                <div class="card-body left">
-		                  <h4 class="card-title">모임 목록 리스트</h4>
+		                  <h4 class="card-title">
+		                  	모임 목록 리스트
+		                  </h4>
 		                  <div class="table-responsive">
+		                  <div class="switch-btn">
+		                  <p class="btn-label">모임/채팅</p>
+		                  <label class="switch">
+								<input type="checkbox" id="listChanger" class="default">
+								<span class="slider round"></span>
+						  </label>
+						  <script type="text/javascript">
+						  
+						  	$('#listChanger').on('click', function() {
+						  		
+						  		 // 체크박스 요소를 가져옵니다.
+							    let checkbox = document.getElementById('listChanger');
+
+							    // 체크 상태를 확인합니다.
+							    if (checkbox.checked) {
+							        //alert('checked');
+							        $('.serverTable').removeAttr('hidden');
+							        $('.groupTable').attr('hidden', 'hidden');
+							        $('.groupSearch').attr('hidden', 'hidden');
+							        $('.more-btn').attr('hidden', 'hidden');
+							        $('.card-title').html('채팅 서버 리스트');
+							        $('.btn-label').html('채팅/모임');
+							    } else {
+							    	//alert('unchecked');
+							    	$('.groupTable').removeAttr('hidden');
+							        $('.serverTable').attr('hidden', 'hidden');
+							        $('.groupSearch').removeAttr('hidden');
+							        $('.more-btn').removeAttr('hidden');
+							        $('.card-title').html('모임 목록 리스트');
+							        $('.btn-label').html('모임/채팅')
+							    }
+						  		
+						  	});
+						  
+						  </script>
+						  </div>
 		                  <form >
-		                  	<div class="form-group">
+		                  	<div class="form-group groupSearch">
 							  <div class="input-group">
-							    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username">
+							    <input type="text" class="form-control" placeholder="모임 검색" aria-label="Recipient's username">
 							    <div class="input-group-append">
 							      <button class="btn btn-sm btn-primary" type="button">Search</button>
 							    </div>
 							  </div>
 							</div>
 		                  </form>
-		                    <table class="table">
+		                  	<c:import url="/chat/listServer.jsp"></c:import>
+		                    <table class="table groupTable">
 		                      <thead>
 		                        <tr>
 		                          <th>No</th>
 		                          <th>모임 이름</th>
 		                          <th>모임장</th>
-		                          <th></th>
+		                          <th>스크랩</th>
 		                        </tr>
 		                      </thead>
 		                      <tbody class="groupList">
@@ -655,6 +769,8 @@
 				</div>
 				
 				<script type="text/javascript">
+					
+					$('.serverTable').attr('hidden', 'hidden');
 				
 					$('.group-name').click(function(event) {
 				        var currentRow = $(this).closest('tr');
