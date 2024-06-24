@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>chat server</title>
+<style>
+    .clickable-text {
+        cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -86,7 +91,7 @@
 		<thead>
 			<tr>No</tr>
 			<tr></tr>
-			<tr>서버 이름</tr>
+			<tr class="clickable-text" >서버 이름</tr>
 			<tr></tr>
 			<tr>접속 인원</tr>
 		</thead>

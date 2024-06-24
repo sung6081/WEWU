@@ -157,7 +157,6 @@
 		<!-- SIDEBAR -->
 		<jsp:include page="/group/groupSide.jsp"></jsp:include>
 		<!-- SIDEBAR -->
-		
 		<div class="main-panel">
         	<div class="content-wrapper">
         		<jsp:include page="listBoard.jsp"></jsp:include>
@@ -170,6 +169,7 @@
 			
 			<form id="updateGroupBoard" method="post" action="/group/updateGroupBoard">
 				<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
+				<input type="hidden" name="groupNo" id="groupNo" value="${groupBoard.groupNo}">
 			</form>
 			
 			<form id="deleteGroupBoard" method="post">

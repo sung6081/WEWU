@@ -602,7 +602,7 @@
 		                      	//submit함수
 		                    	function addActive() {
 		                    		
-		                    		alert('등록');
+		                    		//alert('등록');
 		                    		
 		                    		var hashString = '';
 		                    		

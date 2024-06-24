@@ -77,7 +77,7 @@
 	                  <h1 class="card-title">게시글 작성</h1>
 	                  <h4 class="card-title">${group.groupName} > ${groupBoard.boardName }</h4>
 	                  <form class="forms-sample" id="addGroupAcle">
-	                  	<input type="hidden" name="typeNo" value="${typeNo }">
+	                  	<input type="hidden" name="typeNo" value="${typeNo}">
 						<input type="hidden" name="wrteName" value="${groupMember.memberNickName}">
 						<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
 						작성자 : ${groupMember.memberNickName}

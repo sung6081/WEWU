@@ -80,15 +80,15 @@
   <div class="fixed-top">
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
      <div class="container-fluid" style="display: flex; justify-content: center;">
-     <div class="navbar-header">
-          <img src="/images/wewu.png" alt="WEWU Title" >
-     </div>
+     <a class="navbar-header" href="/index.jsp">
+          <img src="/images/wewu.png"  alt="WEWU Title" >
+     </a>
      </div>
    </header>
    <!-- Navbar -->
    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom-height">
      <div class="container-fluid">
-       <a class="navbar-brand" href="/index.jsp"> <img src="/images/logo.svg" alt="Skydash"
+       <a class="navbar-brand" href="/index.jsp"> <img src="/images/wewuhome.png" alt="Skydash"
            style="height: 40px;">
        </a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -110,6 +110,7 @@
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
            <!-- 관리자모드 -->
+           <c:if test="${user.role == 'admin'}">
            <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,6 +152,7 @@
                </div>
              </div>
            </li>
+           </c:if>
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
@@ -168,9 +170,7 @@
             </li>
             </c:if>
             <li class="nav-settings">
-   			 <button type="button" class="btn btn-info btn-inverse-info btn-icon">
-        		<i class="mdi mdi-human-greeting"></i>
-    		</button>
+   			 <img src="/images/quest.png" alt="quest" style="height: 40px;">
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">

@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 			function addApplJoin()
 			{
@@ -56,9 +59,6 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
 		
 		<!-- SIDEBAR -->
 		<jsp:include page="/group/groupSide.jsp"></jsp:include>
@@ -73,7 +73,7 @@
 	                  <h4 class="card-title">${group.groupName}</h4>
 	                  <form class="forms-sample" id="addApplJoin" method="post" action="/group/getApplJoin">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
-						<input type="hidden" name="memberNickName" value="nick3">
+						<input type="hidden" name="memberNickName" value="${user.nickname }">
 						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
 						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
 						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
