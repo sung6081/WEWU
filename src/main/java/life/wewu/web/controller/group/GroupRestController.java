@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.aspectj.apache.bcel.classfile.Module.Require;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,11 @@ import life.wewu.web.domain.group.Group;
 import life.wewu.web.domain.group.GroupAcle;
 import life.wewu.web.domain.group.GroupBoard;
 import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.active.ActiveService;
 import life.wewu.web.service.board.BoardService;
 import life.wewu.web.service.group.GroupService;
+import life.wewu.web.service.user.UserService;
 
 @RestController
 @RequestMapping("/app/group/*")
@@ -65,8 +68,9 @@ public class GroupRestController {
 	@Qualifier("boardService")
 	private BoardService boardService;
 	
-	@Value("${map.clientId}")
-	private String clientId;
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	public GroupRestController()
 	{
@@ -77,8 +81,11 @@ public class GroupRestController {
 	public List<Group> getGroupList(@RequestBody Search search) throws Exception 
 	{
 		System.out.println(":: /app/group/getGroupList ::");
+		if(search.getCurrentPage() != 0){
+			search.setCurrentPage((search.getCurrentPage() - 1)*10);
+		}
 		System.out.println(search);
-		System.out.println("return Data :: " + groupService.getGroupList(search));
+		System.out.println("getGroupList :: " + groupService.getGroupList(search));
 		// Business logic 수행
 		return groupService.getGroupList(search);
 	}
@@ -87,8 +94,11 @@ public class GroupRestController {
 	public List<Group> getGroupRankingList(@RequestBody Search search) throws Exception 
 	{
 		System.out.println(":: /app/group/getGroupRankingList ::");
+		if(search.getCurrentPage() != 0){
+			search.setCurrentPage((search.getCurrentPage() - 1)*10);
+		}
 		System.out.println(search);
-		System.out.println("return Data :: " + groupService.getGroupRankingList(search));
+		System.out.println("getGroupRankingList :: " + groupService.getGroupRankingList(search));
 		// Business logic 수행
 		return groupService.getGroupRankingList(search);
 	}
@@ -98,6 +108,10 @@ public class GroupRestController {
 	{
 		System.out.println(":: /app/group/getApplJoinList ::");
 		// Business logic 수행
+		if(search.getCurrentPage() != 0){
+			search.setCurrentPage((search.getCurrentPage() - 1)*10);
+		}
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("search", search);
 		List<Object> list = new ArrayList<Object>();
@@ -107,7 +121,6 @@ public class GroupRestController {
 			list.add(group);
 			list.add(groupMember);
 		}
-		
 		System.out.println(search);
 		System.out.println(list);
 		// Business logic 수행
@@ -132,6 +145,7 @@ public class GroupRestController {
 	    String searchKeyword = (String) requestData.get("searchKeyword");
 	    String joinFlag = (String) requestData.get("joinFlag");
 		Search search = new Search();
+		
 		search.setSearchCondition(searchCondition);
 		search.setSearchKeyword(searchKeyword);
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -220,21 +234,39 @@ public class GroupRestController {
 	}
 	
 	@RequestMapping(value="addApplGroup",method = RequestMethod.POST)
-	public Group addApplGroup(@RequestBody Group group) throws Exception 
+	public Group addApplGroup(@RequestBody Group group, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /app/group/addApplGroup ::");
 		// Business logic 수행
 		groupService.addGroup(group);
-		System.out.println(group);
+		User user = (User)session.getAttribute("user");
+		GroupMember groupMember = GroupMember.builder()
+				.memberNickName(user.getNickname())
+				.groupNo(group.getGroupNo())
+				.joinFlag("L")
+				.frstQuest("Leader")
+				.scndQuest("Leader")
+				.thrdQuest("Leader")
+				.frstRepl("Leader")
+				.scndRepl("Leader")
+				.thrdRepl("Leader")
+				.build();
+		groupService.addMemberGroup(groupMember);
         return group;
 	}
 	
 	@RequestMapping(value="updateApplGroup",method = RequestMethod.POST)
-	public Group updateApplGroup(@RequestBody Group group) throws Exception 
+	public Group updateApplGroup(@RequestBody Group group, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /app/group/updateApplGroup ::");
 		// Business logic 수행
 		group = groupService.updateGroup(group);
+		User user = (User)session.getAttribute("user");
+		if(group.getGroupRslt().equals("T")){
+			groupService.updateRole(user.getNickname());
+			user = userService.getUser(user.getUserId());
+			session.setAttribute("user", user);
+		}
         return group;
 	}
 	
@@ -515,21 +547,6 @@ public class GroupRestController {
 		System.out.println(acleList);
 		return acleList;
 	}
-	
-	@GetMapping(value = "activeMap")
-	public Map<String,Object> activeMap() throws Exception {
-		
-		System.out.println("activeMap");
-		
-		Search search = new Search();
-		search.setSearchCondition("T");
-		search.setCurrentPage(1);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("activeList", activeService.getActiveList(search));
-		map.put("clientId", clientId);
-		return map;
-	}
-
 	
 	//오리날다............덕슨날다.....
 }

@@ -52,6 +52,83 @@
 	    bottom: 10px;
 	    right: 10px;
 	}
+	
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 60px;
+	  height: 34px;
+	}
+	
+	.switch-btn {
+		float:right;
+	}
+	
+	/* Hide default HTML checkbox */
+	.switch input {display:none;}
+	
+	/* The slider */
+	.slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #ccc;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 26px;
+	  width: 26px;
+	  left: 4px;
+	  bottom: 4px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	input.default:checked + .slider {
+	  background-color: #444;
+	}
+	input.primary:checked + .slider {
+	  background-color: #2196F3;
+	}
+	input.success:checked + .slider {
+	  background-color: #8bc34a;
+	}
+	input.info:checked + .slider {
+	  background-color: #3de0f5;
+	}
+	input.warning:checked + .slider {
+	  background-color: #FFC107;
+	}
+	input.danger:checked + .slider {
+	  background-color: #f44336;
+	}
+	
+	input:focus + .slider {
+	  box-shadow: 0 0 1px #2196F3;
+	}
+	
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(26px);
+	  -ms-transform: translateX(26px);
+	  transform: translateX(26px);
+	}
+	
+	/* Rounded sliders */
+	.slider.round {
+	  border-radius: 34px;
+	}
+	
+	.slider.round:before {
+	  border-radius: 50%;
+	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
     .search #condition { width:50px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
@@ -129,8 +206,6 @@
 		
 			    //infowindow.open(map, location);
 			    
-			    
-			    
 			    console.log('Coordinates: ' + location.toString());
 			}
 		
@@ -194,7 +269,139 @@
 		
 			async function searchAddressToCoordinate(address) {
 				
-				var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
+				var searchCondition = $('#condition').val();
+				
+				if(searchCondition == 'active') {
+					
+					alert('check');
+					
+					//var url = 'http://localhost:8080/app/active/listActive';
+					var url = 'https://www.wewu.life/app/active/listActive';
+					
+					await $.ajax({
+						
+						url: url,
+						method: 'POST',
+						data: JSON.stringify({ searchKeyword: address }), // JSON 형식으로 변환하여 전송,
+						contentType: 'application/json', // 요청 데이터의 타입을 명시
+						dataType: 'json',
+						success: function(res) {
+							console.log(res);
+							
+							activeListString = res;
+							
+							// 기존 마커들 제거
+			                for (let i = 0; i < activeMarkers.length; i++) {
+			                    activeMarkers[i].setMap(null);
+			                }
+							
+							activeMarkers = [];
+							
+							for(let i = 0; i < activeListString.length; i++) {
+								
+								let markerOptions = null;
+								
+								//console.log('start');
+								
+								if(activeListString[i].activeShortUrl != null) {
+								
+									markerOptions = {
+									    position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
+									    map: map,
+									    icon: {
+									        url: activeListString[i].activeShortUrl,
+									        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+									        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+									        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+									        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+									    }
+									};
+									
+									//console.log("::: "+markerOptions);
+								
+								}else {
+									
+									let iconSpritePositionX = 1;
+								    let iconSpritePositionY = 1;
+									
+									markerOptions = {
+									    position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
+									    map: map,
+									    icon: {
+											url: '/images/icon/sp_pin_hd.png',
+											size: new naver.maps.Size(26, 36), // 이미지 크기
+											origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY), // 스프라이트 이미지에서 클리핑 위치
+											anchor: new naver.maps.Point(13, 36), // 지도상 위치에서 이미지 위치의 offset
+											scaledSize: new naver.maps.Size(395, 79)
+									    }
+									};
+									
+									//console.log("::: "+markerOptions);
+									
+								}
+								
+								let activeMarker = new naver.maps.Marker(markerOptions);
+								
+								var infowindow = new naver.maps.InfoWindow();
+								
+								//console.log("::: "+activeMarker);
+								
+								naver.maps.Event.addListener(activeMarker, "click", function(e) {
+									
+									var contentString = [
+					                    '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
+					                    '   <h3 style="margin-top: 0;">' + activeListString[i].activeName + '</h3>',
+					                    '   <p><strong>모임 이름:</strong> ' + activeListString[i].groupName + '</p>',
+					                    '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
+					                    '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
+					                    '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
+					                    '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
+					                    '</div>'
+					                ].join('');
+					                
+					                infowindow.setContent(contentString);
+									
+									console.log(infowindow.getMap());
+									
+								    if (infowindow.getMap()) {
+								    	
+								        infowindow.close();
+								        
+								    } else {
+								    	
+								        infowindow.open(map, activeMarker);
+								        
+								        $('.info-btn').on('click', function() {
+								        	
+								        	var activeNo = $(this).children().val();
+								        	
+								        	//alert(activeNo);
+								        	self.location = '/active/getActive/'+activeNo;
+								        	
+								        });
+								    }
+								});
+					
+								//infowindow.open(map, activeMarker);
+								
+								activeMarkers.push(activeMarker);
+								
+								//console.log(activeMarkers);
+								
+							}
+							
+						},
+						error: function(xhr, status, error) {
+					        // 서버 목록을 가져오는 데 실패했을 때의 처리
+					        console.error('Failed to fetch server list:', error);
+					    }
+					});
+					
+					return;
+					
+				}
+				
+				var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
 				
 				var local;
 				
@@ -468,25 +675,64 @@
 					<div class="card">
 					
 		                <div class="card-body left">
-		                  <h4 class="card-title">모임 목록 리스트</h4>
+		                  <h4 class="card-title">
+		                  	모임 목록 리스트
+		                  </h4>
 		                  <div class="table-responsive">
+		                  <div class="switch-btn">
+		                  <p class="btn-label">모임/채팅</p>
+		                  <label class="switch">
+								<input type="checkbox" id="listChanger" class="default">
+								<span class="slider round"></span>
+						  </label>
+						  <script type="text/javascript">
+						  
+						  	$('#listChanger').on('click', function() {
+						  		
+						  		 // 체크박스 요소를 가져옵니다.
+							    let checkbox = document.getElementById('listChanger');
+
+							    // 체크 상태를 확인합니다.
+							    if (checkbox.checked) {
+							        //alert('checked');
+							        $('.serverTable').removeAttr('hidden');
+							        $('.groupTable').attr('hidden', 'hidden');
+							        $('.groupSearch').attr('hidden', 'hidden');
+							        $('.more-btn').attr('hidden', 'hidden');
+							        $('.card-title').html('채팅 서버 리스트');
+							        $('.btn-label').html('채팅/모임');
+							    } else {
+							    	//alert('unchecked');
+							    	$('.groupTable').removeAttr('hidden');
+							        $('.serverTable').attr('hidden', 'hidden');
+							        $('.groupSearch').removeAttr('hidden');
+							        $('.more-btn').removeAttr('hidden');
+							        $('.card-title').html('모임 목록 리스트');
+							        $('.btn-label').html('모임/채팅')
+							    }
+						  		
+						  	});
+						  
+						  </script>
+						  </div>
 		                  <form >
-		                  	<div class="form-group">
+		                  	<div class="form-group groupSearch">
 							  <div class="input-group">
-							    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username">
+							    <input type="text" class="form-control" placeholder="모임 검색" aria-label="Recipient's username">
 							    <div class="input-group-append">
 							      <button class="btn btn-sm btn-primary" type="button">Search</button>
 							    </div>
 							  </div>
 							</div>
 		                  </form>
-		                    <table class="table">
+		                  	<c:import url="/chat/listServer.jsp"></c:import>
+		                    <table class="table groupTable">
 		                      <thead>
 		                        <tr>
 		                          <th>No</th>
 		                          <th>모임 이름</th>
 		                          <th>모임장</th>
-		                          <th></th>
+		                          <th>스크랩</th>
 		                        </tr>
 		                      </thead>
 		                      <tbody class="groupList">
@@ -523,6 +769,8 @@
 				</div>
 				
 				<script type="text/javascript">
+					
+					$('.serverTable').attr('hidden', 'hidden');
 				
 					$('.group-name').click(function(event) {
 				        var currentRow = $(this).closest('tr');
@@ -543,9 +791,9 @@
 				                '<td colspan="4">\n'+
 				                    '<div class="card info-panel">\n'+
 				                    	'<div class="card-body">\n'+
-					                        '<p><strong>모임활동레벨:</strong>'+group.groupLevel+'</p>\n'+
-					                        '<p><strong>모임원수:</strong>'+group.groupPers+'</p>\n'+
-					                        '<p><strong>모임주소:</strong>'+group.groupAddr+'</p>\n'+
+					                        '<p><strong>모임활동레벨 : </strong>'+group.groupLevel+'</p>\n'+
+					                        '<p><strong>모임원수 : </strong>'+group.groupPers+'</p>\n'+
+					                        '<p><strong>모임주소 : </strong>'+group.groupAddr+'</p>\n'+
 					                        '<button class="btn btn-primary info-button">모임게시판 가기<input type="hidden" value='+group.groupNo+'></button>\n'+
 				                        '</div>\n'+
 				                    '</div>\n'+

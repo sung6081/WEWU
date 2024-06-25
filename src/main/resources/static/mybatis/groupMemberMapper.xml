@@ -46,7 +46,12 @@
   			#{groupNo},
   			#{memberNickName},
   			"N",
-  			"E",
+  			<if test='joinFlag != null'>
+				#{joinFlag},
+			</if>
+			<if test='joinFlag == null'>
+				'E',
+			</if>
   			NULL,
   			NOW(),
   			NOW(),
@@ -66,7 +71,7 @@
   			*
   		FROM group_member
   		<where>
-  			member_nickname = #{memberNickNmae}
+  			member_nickname = #{memberNickName}
   			AND
   			group_no = #{groupNo}
   		</where>

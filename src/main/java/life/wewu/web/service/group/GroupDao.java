@@ -31,4 +31,6 @@ public interface GroupDao {
 	
 	public List<Group> getGroupList(Search search) throws Exception;
 	
+	public void updateRole(String nickname) throws Exception;
+	
 }

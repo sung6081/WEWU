@@ -197,6 +197,7 @@
 									            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getMyGroupList"){
+		                        		
 		                        		if(data[i].groupRslt == "T")
 		                        		{
 		                        			str +=  "<tr class='getGroup' id=" + data[i].groupNo + ">";
@@ -223,22 +224,40 @@
 										            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getApplJoinList"){
-		                        		str +=  "<tr class='getApplJoinList' id=" + data[i].memberNo + " name=" + data[i].groupNo + ">";
-		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
-		                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
-							            if(data[i].joinFlag == "E")
+		                        		
+							            if(data[i+1].joinFlag == "E")
 							            {
-							            	str += "  <td>"+ data[i].applDate +"</td>";
-							            	str +=  " <td><label class='badge badge-info'>가입대기</label></td>";
+							            	str += "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+			                        		str += "  <td>"+ data[i].groupName +"</td>";
+			                        		str += "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+							            	str += "  <td>"+ data[i+1].applDate +"</td>";
+							            	str += " <td><label class='badge badge-info'>가입대기</label></td>";
 							            }else
-							            if(data[i].joinFlag == "T"){
-							            	str +=  "  <td>"+ data[i].joinDate +"</td>";
+							            if(data[i+1].joinFlag == "T"){
+							            	str +=  "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+							            	str +=  "  <td>"+ data[i+1].joinDate +"</td>";
 							            	str +=  " <td><label class='badge badge-success'>가입승인</label></td>";
+							            }else
+							            if(data[i+1].joinFlag == "L"){
+							            	if(data[i].groupRslt == "T")
+							            	{
+							            		str +=  "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+				                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+				                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+								            	str +=  "  <td>"+ data[i+1].applDate +"</td>";
+								            	str +=  " <td><label class='badge badge-warning'>모임장</label></td>";	
+							            	}
+							            	
 							            }else{
-							            	str +=  " <td>"+ data[i].applDate +"</td>";
+							            	str +=  "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+							            	str +=  " <td>"+ data[i+1].applDate +"</td>";
 							            	str +=  " <td><label class='badge badge-danger'>가입거부</label></td>";
 							            }
-							            
+							            i++;
 							            
 							            str +=  "</tr>";
 		                        	}else
@@ -303,32 +322,56 @@
                         	}else{
                         		if(targetElementId == "getGroupList"){
 	                        		str +=  "<tr>" +
-		    					            "  <td>데이터가 없습니다.</td>" +
+		    					            "  <td colspan=3>데이터가 없습니다.</td>" +
+		    					            "  <td></td>" +
+		    					            "  <td></td>" +
 		    					            "</tr>";
 	                        	}else
 	                        	if(targetElementId == "getGroupRankingList"){
 	                        		str +=  "<tr>" +
-		    					            "  <td>데이터가 없습니다.</td>" +
+		    					            "  <td colspan=3>데이터가 없습니다.</td>" +
+		    					            "  <td></td>" +
+		    					            "  <td></td>" +
 		    					            "</tr>";
 	                        	}else
 	                        	if(targetElementId == "getMyGroupList"){
-	                        		str +=  "데이터가 없습니다";
+	                        		str +=  "<tr>" +
+		    					            "  <td colspan=3>데이터가 없습니다.</td>" +
+		    					            "  <td></td>" +
+		    					            "  <td></td>" +
+		    					            "</tr>";
 	                        		targetElementId = "MyInfo";        
 	                        	}else
 	                        	if(targetElementId == "getApplJoinList"){
-	                        		str +=  "데이터가 없습니다";
+	                        		str +=  "<tr>" +
+			   					            "  <td colspan=3>데이터가 없습니다.</td>" +
+			   					            "  <td></td>" +
+			   					            "  <td></td>" +
+			   					            "</tr>";
                        				targetElementId = "MyInfo";       
 	                        	}else
 	                        	if(targetElementId == "getGroupListWait"){
-	                        		str +=  "데이터가 없습니다";
+	                        		str +=  "<tr>" +
+			   					            "  <td colspan=3>데이터가 없습니다.</td>" +
+			   					            "  <td></td>" +
+			   					            "  <td></td>" +
+			   					            "</tr>";
 	                        		targetElementId = "MyInfo";       
 	                        	}else
 	                        	if(targetElementId == "getGroupListTrue"){
-	                        		str +=  "데이터가 없습니다";
+	                        		str +=  "<tr>" +
+			   					            "  <td colspan=3>데이터가 없습니다.</td>" +
+			   					            "  <td></td>" +
+			   					            "  <td></td>" +
+			   					            "</tr>";
 	                        		targetElementId = "MyInfo";
 	                        	}else
 	                        	if(targetElementId == "getGroupListNone"){
-	                        		str +=  "데이터가 없습니다";
+	                        		str +=  "<tr>" +
+			   					            "  <td colspan=3>데이터가 없습니다.</td>" +
+			   					            "  <td></td>" +
+			   					            "  <td></td>" +
+			   					            "</tr>";
 	                        		targetElementId = "MyInfo";
 	                        	}
                         	}

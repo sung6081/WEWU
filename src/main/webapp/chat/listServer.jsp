@@ -5,12 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>chat server</title>
-<style>
-    .clickable-text {
-        cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
-    }
-</style>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		
@@ -35,9 +29,7 @@
 			        response.forEach(function(server, index) {
 			            var row = '<tr>' +
 			                          '<td>' + (index + 1) + '</td>' +
-			                          '<td></td>' +
-			                          '<td class="serverName" >' + server.server_name + '</td>' +
-			                          '<td></td>' +
+			                          '<td class="serverName clickable-text" >' + server.server_name + '</td>' +
 			                          '<td>' + server.server_pers + '명</td>' +
 			                      '</tr>';
 			            tbody.append(row);
@@ -48,10 +40,11 @@
 					$('.serverName').on('click', function(event) {
 						//alert('check');
 						
-						var nick = $('#nick').val();
+						var nick = '${user.nickname}';
 						
 						if(nick == '') {
-							alert('닉네임을 입력해주세요');
+							alert('로그인을 해주세요.');
+							self.location = '/user/login';
 							return;
 						}
 						
@@ -82,18 +75,13 @@
 
 	<!-- <img src="https://wewu-project-test.kr.object.ncloudstorage.com/677e32c7-b7b6-4d23-ba8f-f6270767d664"> -->
 
-	<h2>닉네임</h2>
-	<input type="text" id="nick" >
-	<br/>
-	<br/>
-
-	<table>
+	<table class="table serverTable">
 		<thead>
-			<tr>No</tr>
-			<tr></tr>
-			<tr class="clickable-text" >서버 이름</tr>
-			<tr></tr>
-			<tr>접속 인원</tr>
+			<tr>
+				<th>No</th>
+				<th>서버 이름</th>
+				<th>접속 인원</th>
+			</tr>
 		</thead>
 		<tbody id="tableBody" >
 			

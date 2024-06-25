@@ -6,27 +6,42 @@
 <mapper namespace = "life.wewu.web.service.plant.PlantDao">
 	
 	<resultMap id="InventorySelectMap" type="inventory" >
-		<result property="itemNo"		column="item_no" 			jdbcType="INTEGER" />
-		<result property="itemPurNo"	column="item_purchase_no" 	jdbcType="VARCHAR" />
-		<result property="itemExp"		column="item_effect"		jdbcType="VARCHAR" />
-		<result property="itemType"		column="item_category" 		jdbcType="VARCHAR" />
-		<result property="itemNum"		column="item_stock" 		jdbcType="INTEGER" />
+		<result property="itemNo"			column="item_no" 			jdbcType="INTEGER" />
+		<result property="itemPurNo"		column="item_purchase_no" 	jdbcType="VARCHAR" />
+		<result property="itemExp"			column="item_effect"		jdbcType="VARCHAR" />
+		<result property="itemType"			column="item_category" 		jdbcType="VARCHAR" />
+		<result property="itemNum"			column="item_stock" 		jdbcType="INTEGER" />
+		<association property="myPlant" javaType="myPlant">
+            <result property="myPlantNo" column="my_plant_no" jdbcType="INTEGER" />
+            <result property="myPlantExp" column="my_plant_exp" jdbcType="INTEGER" />
+        </association>
 	</resultMap>
-	
+
 	<!-- GET INVENTORY -->
-	<select id="getInventory" parameterType="int" resultMap="InventorySelectMap">
-		SELECT i.item_no ,ip.item_purchase_no , i.item_effect, i.item_category,ip.item_stock
-		FROM item i, item_purchase ip
+	<select id="getInventory" parameterType="string" resultMap="InventorySelectMap">
+		SELECT i.item_no ,ip.item_purchase_no , i.item_effect, i.item_category,ip.item_stock ,mp.my_Plant_exp
+		FROM item i, item_purchase ip , my_Plant mp
 		WHERE i.item_no = ip.item_no
-		AND item_purchase_no = #{itemPurNo.itemPurchaseNo}
+		AND mp.nickname = ip.buyer_nickname
+		AND mp.nickname = #{nickname}
 	</select>
 	<!-- 아이템 사용, 효과 가져오기 -->
-	<select id="getUseItem" parameterType="int" resultMap="InventorySelectMap">
-		SELECT i.item_no, i.item_effect , ip.item_stock
-		FROM item i , item_purchase ip
-		WHERE i.item_no = p.item_no 
-		AND item_purchase_no = #{itemPurNo.itemPurchaseNo} AND item_stock > 0;
+	<select id="getUseItem" parameterType="map" resultMap="InventorySelectMap">
+		SELECT i.item_no, i.item_effect , ip.item_stock , mp.nickname
+		FROM item i , item_purchase ip , my_Plant mp
+		WHERE i.item_no = ip.item_no 
+		AND mp.nickname = ip.buyer_nickname
+		AND item_purchase_no = #{itemPurNo.itemPurchaseNo} AND item_stock > 0
+		AND my_plant_no = #{myPlant.myPlantNo}
 	</select>
+	
+	<update id="updateInventory" parameterType="map">
+		UPDATE inventory
+		<set>
+			item_num = #{item_num}
+		</set>
+		WHERE itemNo = #{item_no}
+	</update>
 	
 	
 </mapper>

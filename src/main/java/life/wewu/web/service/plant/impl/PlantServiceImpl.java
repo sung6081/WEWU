@@ -215,34 +215,36 @@ public class PlantServiceImpl implements PlantService{
 
 	//------------- 인벤토리
 	@Override
-	public Inventory getInventory(int itemPurno) throws Exception {
-		return plantDao.getInventory(itemPurno);
+	public List<Inventory> getInventory(String nickname) throws Exception {
+		return plantDao.getInventory(nickname);
 	}
 	
-	@Override	
-	public Inventory getUseItem(int itemPurNo) throws Exception{
-	
-		MyPlant myPlant = plantDao.getMyPlant(1);
-		System.out.println(myPlant);
-		Inventory inventory = plantDao.getInventory(itemPurNo);
-		
-		int ItemExp = Integer.parseInt(inventory.getItemExp());
-		System.out.println("itemExp : "+ ItemExp);
-		int myPlantExp = myPlant.getMyPlantExp();
-		System.out.println("myPlnatExp : "+ myPlantExp);
-		int newExp = myPlantExp + ItemExp;
-		System.out.println("newExp : "+ newExp);
-		
-		myPlant.setMyPlantExp(newExp);	
-		plantDao.updateMyPlant(myPlant);
-		System.out.println("newExpMyPlant : "+ myPlant);
-		
-		int itemNum = inventory.getItemNum();
-		int newStock = itemNum - 1;
-		
-		inventory.setItemNum(newStock);
-		
-		return plantDao.getInventory(itemPurNo);
+	@Override
+	public Map<String, Object> getUseItem(Map<String, Object> map) throws Exception {
+	    int myPlantNo = (int) map.get("myPlantNo");
+	    String nickname = (String) map.get("nickname");
+	    int useItemNum = (int) map.get("useItemNum");
+
+	    MyPlant myPlant = plantDao.getMyPlant(myPlantNo);
+	    List<Inventory> inventory = plantDao.getInventory(nickname);
+
+	    int itemExp = Integer.parseInt(((Inventory) inventory).getItemExp());
+	    int myPlantExp = myPlant.getMyPlantExp();
+	    int newExp = myPlantExp + (itemExp * useItemNum );
+
+	    myPlant.setMyPlantExp(newExp);
+	    plantDao.updateMyPlant(myPlant);
+
+	    int itemNum = ((Inventory) inventory).getItemNum();
+	    int newStock = itemNum - useItemNum;
+
+	    ((Inventory) inventory).setItemNum(newStock);
+	    plantDao.updateInventory(inventory);
+
+	    Map<String, Object> list = new HashMap<>();
+	    list.put("myPlant", myPlant);
+	    list.put("inventory", plantDao.getInventory(nickname));
+	    return list;
 	}
 
 

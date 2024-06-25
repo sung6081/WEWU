@@ -112,21 +112,32 @@
 								  str += "<tr class='getApplJoin' id="+data[i].memberNo+">";
 							  }
 							  
-							  str += "<td>" + data[i].memberNickName +"</td>" +
-						          	 "<td>" + data[i].joinDate +"</td>" +
-						             "<td>남</td>";
-					          		if(data[i].joinFlag == "T")
-	                        		{
-	                        			str +=  "<td><label class='badge badge-success'>가입완료</label></td>";
-	                        		}else
-	                        		if(data[i].joinFlag == "F"){
-	                        			str +=  "<td><label class='badge badge-danger'>가입거부</label></td>";
-	                        		}
-	                        		else
-	                        		if(data[i].joinFlag == "E"){
-	                        			str +=  "<td><label class='badge badge-info'>가입대기</label></td>";
-	                        		}
-						            str += "</tr>";
+				          	  if(data[i].joinFlag == "T")
+	                       	  {
+			          			  str += "<td>" + data[i].memberNickName +"</td>";
+								  str += "<td>" + data[i].joinDate +"</td>";
+							  	  str += "<td>남</td>";
+                       			  str +=  "<td><label class='badge badge-success'>가입완료</label></td>";
+                       			  str += "</tr>";
+	                       	  }else
+	                       	  if(data[i].joinFlag == "F"){
+	                       		  str += "<td>" + data[i].memberNickName +"</td>";
+								  str += "<td>" + data[i].joinDate +"</td>";
+								  str += "<td>남</td>";
+	                       		  str +=  "<td><label class='badge badge-danger'>가입거부</label></td>";
+	                       		  str += "</tr>";
+	                       	  }
+	                       	  else
+	                       	  if(data[i].joinFlag == "E"){
+	                       		  str += "<td>" + data[i].memberNickName +"</td>";
+								  str += "<td>" + data[i].joinDate +"</td>";
+							  	  str += "<td>남</td>";
+	                       		  str +=  "<td><label class='badge badge-info'>가입대기</label></td>";
+	                       		  str += "</tr>";
+	                       	  }else
+	                       	  if(data[i].joinFlag == "L"){
+	                       		  
+	                       	  }
 						  }
 						  $('#memberList').html(str);
 						  str = "";

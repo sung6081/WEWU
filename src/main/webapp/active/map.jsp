@@ -11,6 +11,24 @@
         font-size: 50px; /* 아이콘 크기를 키웁니다 */
     }
     
+    .info-panel {
+	    margin-top: 10px;
+	    background-color: #f8f9fa;
+	    border: 1px solid #dee2e6;
+	    border-radius: 5px;
+	}
+	
+	.info-row td {
+	    padding: 0 !important;
+	    border-top: none !important;
+	}
+	
+	.info-button {
+	    position: absolute;
+	    bottom: 10px;
+	    right: 10px;
+	}
+    
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
@@ -27,6 +45,12 @@ $(document).ready(function() {
 	var selfMarker = null;
 	
 	var height = $(window).height() - 300;
+	
+	var infowindow = new naver.maps.InfoWindow();
+	
+	activeListString = JSON.parse('${activeListString}');
+	
+	console.log(activeListString);
 	
 	console.log(height);
 	
@@ -108,7 +132,7 @@ $(document).ready(function() {
 
 	async function searchAddressToCoordinate(address) {
 		
-		var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
+		var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
 		
 		var local;
 		
@@ -274,6 +298,101 @@ $(document).ready(function() {
 	}
 
 	naver.maps.onJSContentLoaded = initGeocoder;
+	
+	activeMarkers = [];
+	
+	for(let i = 0; i < activeListString.length; i++) {
+		
+		let markerOptions = null;
+		
+		//console.log('start');
+		
+		if(activeListString[i].activeShortUrl != null) {
+		
+			markerOptions = {
+			    position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
+			    map: map,
+			    icon: {
+			        url: activeListString[i].activeShortUrl,
+			        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+			        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+			        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+			        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+			    }
+			};
+			
+			//console.log("::: "+markerOptions);
+		
+		}else {
+			
+			let iconSpritePositionX = 1;
+		    let iconSpritePositionY = 1;
+			
+			markerOptions = {
+			    position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
+			    map: map,
+			    icon: {
+					url: '/images/icon/sp_pin_hd.png',
+					size: new naver.maps.Size(26, 36), // 이미지 크기
+					origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY), // 스프라이트 이미지에서 클리핑 위치
+					anchor: new naver.maps.Point(13, 36), // 지도상 위치에서 이미지 위치의 offset
+					scaledSize: new naver.maps.Size(395, 79)
+			    }
+			};
+			
+			//console.log("::: "+markerOptions);
+			
+		}
+		
+		let activeMarker = new naver.maps.Marker(markerOptions);
+		
+		var infowindow = new naver.maps.InfoWindow();
+		
+		//console.log("::: "+activeMarker);
+		
+		naver.maps.Event.addListener(activeMarker, "click", function(e) {
+			
+			var contentString = [
+                '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
+                '   <h3 style="margin-top: 0;">' + activeListString[i].activeName + '</h3>',
+                '   <p><strong>모임 이름:</strong> ' + activeListString[i].groupName + '</p>',
+                '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
+                '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
+                '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
+                '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
+                '</div>'
+            ].join('');
+            
+            infowindow.setContent(contentString);
+			
+			console.log(infowindow.getMap());
+			
+		    if (infowindow.getMap()) {
+		    	
+		        infowindow.close();
+		        
+		    } else {
+		    	
+		        infowindow.open(map, activeMarker);
+		        
+		        $('.info-btn').on('click', function() {
+		        	
+		        	var activeNo = $(this).children().val();
+		        	
+		        	//alert(activeNo);
+		        	self.location = '/active/getActive/'+activeNo;
+		        	
+		        });
+		    }
+		});
+
+		//infowindow.open(map, activeMarker);
+		
+		activeMarkers.push(activeMarker);
+		
+		//console.log(activeMarkers);
+		
+	}
     
 });
 
