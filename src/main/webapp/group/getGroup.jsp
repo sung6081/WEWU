@@ -184,6 +184,7 @@
 						success : function(data, status, xhr) {
 							if(data.flag == "Y"){
 								alert("삭제가 완료되었습니다");
+								location.href="/group/mainGroup";
 							}else{
 								alert("삭제 실패 : 모임장 이외의 모임원이 존재하는 경우.");
 							}
@@ -226,10 +227,12 @@
 		                    <h4 class="card-title">${group.groupName}</h4>
 		                    <div style="float:right;">
 		                    	<c:if test="${empty groupMember}">
-			                        <img src="/group/img/person-fill-add.svg"><span>가입신청</span>&nbsp;
+		                    		<c:if test="${user.nickname != group.leaderNick}">
+			                        	<img src="/group/img/person-fill-add.svg"><span>가입신청</span>&nbsp;
+			                        </c:if>
 		                        </c:if>
-		                    	<c:if test="${!empty groupMember}">
-		                    		<c:if test="${groupMember.memberNickName == group.leaderNick}">
+		                        <c:if test="${!empty groupMember}">
+		                    		<c:if test="${user.nickname == group.leaderNick}">
 		                    			<img src="/group/img/arrow-repeat.svg"><span>수정</span>&nbsp;
 		                    			<img src="/group/img/eraser-fill.svg"><span>삭제</span>
 		                    		</c:if>

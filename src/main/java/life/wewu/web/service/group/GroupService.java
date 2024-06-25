@@ -87,4 +87,6 @@ public interface GroupService {
 	
 	public int getGroupAcleCnt(Map map) throws Exception;
 	
+	public void updateRole(String nickname) throws Exception;
+	
 }

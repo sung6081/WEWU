@@ -15,61 +15,48 @@
 			self.location="/board/listBoard?boardType=${param.boardType}"
 		});
 		 $('footer').removeClass('fixed-bottom');
-
 	});
 
-	
 	function upload() {
-		
 		$('.file').click();
-		
 	};
-	
+
 	$('.file').on('change', function() {
-	
 		if($('.file').val() != null || $('.file').val() != '') {
-			
 			$('.upload-btn').html('<i class="ti-upload btn-icon-prepend"></i>'+$('.file').val());
-			
 		}
-		
 	});
-	
-	
+
 	function getGroupList() {
-        $.ajax({
-            url: "/app/group/getUserGroupList",
-            type: "POST",
-            async: true,
-            cache: true,
-            timeout: 3000,
-            data: JSON.stringify({ nickname:  'nick1'}),
-            processData: false,
-            contentType: "application/json",
-            dataType: "json",
-            success: function(data, status, xhr) {
-                var str = "";
-                for (var i = 0; i < data.length; i++) {
-                    str += "<select id='userGroupNo' name='userGroupNo' class='form-control'>" +
-                        "<option value="+i+"> " + data[i].groupName + "</option>" +                       
-                        "</select>" +                      
-                        "<input type='hidden' name='groupNo' value='" + data[i].groupNo + "'>" +
-                        <br>";
-                }
-                $('#groupList').append(str);
-            },
-            error: function(xhr, status, error) {
-                alert("그룹 목록 불러오기 실패.");
-            }
-        });
-    }
-	
-
+		$.ajax({
+			url: "/app/group/getUserGroupList",
+			type: "POST",
+			async: true,
+			cache: true,
+			timeout: 3000,
+			data: JSON.stringify({ nickname: '${sessionScope.user.nickname}' }),
+			processData: false,
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data, status, xhr) {
+				var str = "<ul class='list-group'>";
+				for (var i = 0; i < data.length; i++) {
+					str += "<li class='list-group-item'>" + 
+						   "<input type='radio' id='groupNo" + data[i].groupNo + "' name='groupNo' value='" + data[i].groupNo + "'>" +
+						   "<label for='groupNo" + data[i].groupNo + "'> " + data[i].groupName + "</label>" +
+						   "</li>";
+				}
+				str += "</ul>";
+				$('#groupList').append(str);
+			},
+			error: function(xhr, status, error) {
+				alert("그룹 목록 불러오기 실패.");
+			}
+		});
+	}
 </script>
-
 </head>
 <body>
-
 	<!-- HEADER -->
 	<jsp:include page="/header.jsp" />
 	<!-- HEADER -->
@@ -88,15 +75,12 @@
 							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
 						</h1>
 
-						<p class="card-description">${sessionScpoe.user.usernickName}</p>
-						<p class="card-description">nick1</p>
-
+						<p class="card-description">${sessionScope.user.nickname}</p>
 
 						<form class="forms-sample" method="post" action="/board/addBoard"
 							enctype="multipart/form-data">
-
 							<input type="hidden" name="boardType" value="${param.boardType}">
-							<input type="hidden" name="nickName" value="nick1">
+							<input type="hidden" name="nickName" value="${sessionScope.user.nickname }">
 
 							<div class="form-group row">
 								<label for="title" class="col-sm-3 col-form-label">제목</label>
@@ -104,54 +88,30 @@
 									<input type="text" class="form-control" name="title">
 								</div>
 							</div>
+
 							<c:if test="${param.boardType eq '3'}">
 								<div class="form-group row">
 									<label class="col-sm-3 col-form-label">모임 명</label>
 									<div class="col-sm-3">
-										<div id="groupList"></div>
+										<div id="groupList">
+										
+										</div>
 									</div>
 								</div>
 							</c:if>
-							
+
 							<div class="form-group row">
-									<div class="col-sm-12">
-									<textarea type="text" class="form-control" name="contents"  rows="30">
-									
-									</textarea>
+								<div class="col-sm-12">
+									<textarea type="text" class="form-control" name="contents" rows="30"></textarea>
 								</div>
 							</div>
-							
-							<!-- <div class="form-group row">
-								<label for="exampleFormControlTextarea1"
-									class="col-sm-3 col-form-label">내용</label>
-								<div id="smarteditor" class="col-sm-3" >
-									<textarea name="contents" id="contents" rows="20" cols="100"
-									placeholder="내용을 입력해주세요"></textarea>
-								</div>
-							
-							</div> -->
-
-							<!-- <div class="form-group">
-								<label>파일 등록</label> 
-								<input type="file" name="img[]" class="file-upload-default">
-								<div class="input-group col-xs-12">
-									<input type="text" class="form-control file-upload-info"
-									 disabled placeholder="Upload Image" multiple> 
-										<span class="input-group-append">
-										<button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-									</span>
-								</div>
-							</div> -->
 
 							<div class="row">
-								<button type="button" onclick="upload()"
-									class="upload-btn btn btn-outline-danger btn-icon-text">
+								<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
 									<i class="ti-upload btn-icon-prepend"></i> 파일 등록
 								</button>
-								<input class="file" type="file" hidden="true" name="file"
-									accept=".jpg,.jpeg,.png,.gif" multiple>
+								<input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" multiple>
 							</div>
-
 
 							<button type="submit" class="btn btn-primary mr-2">등&nbsp;록</button>
 							<button class="btn btn-light">취&nbsp;소</button>

@@ -50,7 +50,6 @@
 																<th>개수</th>
 																<th>가격</th>
 																<th>구매자 사용자 닉네임</th>
-																<th> </th>
 															</tr>
 														</thead>
 													<tbody>

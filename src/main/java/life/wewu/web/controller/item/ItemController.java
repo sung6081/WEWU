@@ -134,6 +134,7 @@ public class ItemController {
 		List<Item> item = itemService.getItemList(search);
 		System.out.println(search);
 		model.addAttribute("item", item);
+		System.out.println(item);
 		
 		return "forward:/item/itemMain.jsp"; //브라우저에 http://127.0.0.1:8080/item/getItemList 이렇게 뜨는 이유는 controller에서 경로를 getItemList쪽으로 보내기 때문임. item/getItemList에 연결된 mapping으로 보내면 아이템 리스트 정보 다 for문 돈 거 가져옴. 근데 item
 		//main.jsp로 바로 가면 아이템 정보를 받아서 저장하지 않기 때문에 등록하기 만 뜸. 
@@ -302,8 +303,7 @@ public class ItemController {
 		System.out.println(":: /itemPurchase/getItemPurchaseHistory ::GET");
 		 
         ItemPurchase item = itemPurchaseService.getItemPurchaseHistory(itemPurchaseNo);
-		
-		model.addAttribute("item", item);
+		model.addAttribute("itemPurchase", item);
 		
 		return "forward:/item/getItemPurchaseHistory.jsp"; 
    	}

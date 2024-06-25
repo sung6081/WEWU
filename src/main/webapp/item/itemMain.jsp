@@ -5,33 +5,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="item.css">
+	<!-- HEADER -->
+	<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	
-	<style>
-       .card-footer {
-            padding: 0.5rem 1rem;
-        }
-        
-        .card-footer + .card-footer {
-            margin-top: 0.5rem;
-        }
-
-        .btn {
-            margin-bottom: 0.5rem;
-        }
-        
-        .section-title h4 {
-           font-size: 2em; /* 글씨 크기 설정 */
-           font-weight: bold; /* 글씨 진하게 설정 */
-           text-align: center;
-       }
-    </style>
-    
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script>
-	
 	function deleteItem(itemNo){
 		
 	    if(!confirm("정말 삭제하시겠습니까?")){
@@ -74,6 +54,8 @@
 	    }
 	}
 	
+	
+	
 	function addShoppingCart(itemNo){
 		
     	var input = "<input type=hidden name=itemNo value="+itemNo+">";
@@ -87,7 +69,7 @@
        	// JSON으로 변환
        	var jsonData = Object.fromEntries(formData);
        	
-    	//모임 리스트
+    	
 		$.ajax ({
 			url	: "/app/item/addShoppingCart", // (Required) 요청이 전송될 URL 주소
 			type  : "POST", // (default: ‘GET’) http 요청 방식
@@ -106,7 +88,7 @@
 			},
 			success : function(data, status, xhr) {
 				if(data.flag == "Y"){
-					alert("등록완료");
+					alert("장바구니 담기 완료");
 					
 				}else{
 					alert("실패");
@@ -121,81 +103,128 @@
 		});
 	    
 	}
+	
+	
+	$(function() {
+		 $( ".btn-fw:contains('전체')" ).on("click" , function() {
+			location.href="/item/getItemList" 
+		 });
+	});
+	
+	
+	$(function() {
+		 $( ".btn-fw:contains('식물 아이템')" ).on("click" , function() {
+			location.href="/item/getItemList" 
+		 });
+	});
+	
+	
+	$(function() {
+		 $( ".btn-fw:contains('장식 아이템')" ).on("click" , function() {
+			location.href="/item/getItemList" 
+		 });
+	});
+	
+	
+	
 	</script>
 </head>
 <body>
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
+	
+	
+	
+	<div class="container-fluid page-body-wrapper">
+	<jsp:include page="ItemSideBar.jsp"/>
+	
 	
 	<div class="main-panel">
-        	<div class="content-wrapper">
+	       	<div class="content-wrapper">
 	
 			<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="col-lg-4 col-md-4">
-                <div class="section-title">
-                    <h4>아이템 상점</h4>
-                </div>
-            </div>
-            
-            
-            <%-- 
-             <div class="col-lg-8 col-md-8">
-           
-                <ul class="filter__controls">
-            
-                    <li class="active mixitup-control-active" data-filter="*">All</li>
-                    <li data-filter=".women" class="active mixitup-control-active">식물 아이템</li>
-                    <li data-filter=".men" class="active mixitup-control-active">장식 아이템</li>
-                </ul>
-            </div>
-            --%>
+	                <div class="section-title">
+	                    <h4>아이템 상점</h4>
+	                </div>
+	           	</div>
+	           
 			</div>
-        </div>
-					
-				  <section class="py-5">
-		            <div class="container px-4 px-lg-5 mt-5">
-		                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-	                     <c:set var="i" value="0" />
-	                     <c:forEach var="item" items="${item}">
-		                    <div class="col mb-5">
-		                        <div class="card h-100">
-		                            <!-- Product image-->
-		                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
-		                            <!-- Product details-->
-		                            <div class="card-body p-4">
-		                                <div class="text-left">
-		                                 	<h5 class="fw-bolder">${item.itemCategory}</h5>
-		                                    <!-- Product name-->
-		                                    <h5 class="fw-bolder">${item.itemName}</h5>
-		                                    <!-- Product price-->
-		                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
-		                                </div>
-		                                <!-- Product actions-->
-			                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-			                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">장바구니</a></div>
-			                            </div>
-			                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-			                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">구매하기</a></div>
-			                            </div>
-		                            </div>
-		                        </div>
-		                    </div>
-                            </c:forEach>
-		                </div>
-		            </div>
-	              </section>   
+	       	</div>
+			
+		  <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+            
+                <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" class="btn btn-outline-primary btn-fw">전체</button> 
+                          <button type="button" class="btn btn-outline-primary btn-fw">식물 아이템</button>
+                          <button type="button" class="btn btn-outline-primary btn-fw">장식 아이템</button>
+                        </div>
+                <br>  
+                <br>      
+            
+            
+            
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <c:set var="i" value="0" />
+                    <c:forEach var="item" items="${item}">
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-left">
+                                 	<h5 class="fw-bolder">${item.itemCategory}</h5> 
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">${item.itemName}</h5>
+                                    <!-- Product price-->
+                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
+                                </div>
+                                <!-- Product actions-->
+	                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+	                                <div class="text-center"><button class="btn btn-outline-dark mt-auto" type="button" onclick="addShoppingCart(${item.itemNo})">장바구니</button>
+	                            </div>
+	                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+	                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">구매하기</a></div>
+	                            </div>
+                            </div>
+                        </div>
+                    </div> 
+                          </c:forEach>
                 </div>
             </div>
+             </section>   
+              </div>
+          </div>
+           
+           
+           <form id="addShoppingCart" method="post" action="/item/addShoppingCart">
+    	   </form>  
+            
+            <%-- 오류남 
+            <form id="getItemList" method="post" action="/item/getItemList" class="input-group">
+					<input type="hidden" name="searchCondition" value="N">
+					<input type="hidden" name="searchKeyword" value="추추">
+					<button type="submit" class="btn btn-sm btn-primary">검색하기</button>
+          			<div class="form-group">
+                   		<div class="input-group">
+                    		<input type="submit" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" name="searchKeyword">
+                      <div class="input-group-append">
+                        <button class="btn btn-sm btn-primary" type="button">Search</button>
+                      </div>
+                    </div>
+                  </div>
+    		</form>
+	        --%>
 	        
 	        
-	        		<%--  
+	       <%-- 
+	        		
 	        		<a href="/item/updateItem?itemNo=${item.itemNo}">수정하기</a>=== 
 					<a href="javascript:deleteItem(${item.itemNo })">삭제하기</a>===
 					<a href="/item/getItem?itemNo=${item.itemNo}">상세보기</a>===
 					<a href="javascript:addShoppingCart(${item.itemNo})">장바구니</a>===<br>
-					 --%>
+					
 				<br>
 				<a href="/item/addItem">아이템 등록하기</a>
 				<a href="/item/deleteItem">아이템 삭제하기</a>  <!-- 지금 안 되는 게 맞음.  -->
@@ -216,8 +245,8 @@
 				
 				</div>
        	 </div>
-       	 
-	        
+       	--%> 
+	
         </div>
 	</div>
 	                    

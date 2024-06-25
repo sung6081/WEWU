@@ -71,13 +71,12 @@
 
 							<br />
 							<c:if
-								test="${question.nickName eq session.user.role || session.user.role eq '1'}">
+								test="${question.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
 								<button type="button" class="btn btn-primary mr-2">삭제</button>
 							</c:if>
 							<c:if
 								test="${question.questionType eq '문의' && sessionScope.user.role eq '1'}">
-								<button type="button" class="btn btn-primary mr-2">답변
-									등록</button>
+								<button type="button" class="btn btn-primary mr-2">답변 등록</button>
 							</c:if>
 							<button class="btn btn-light" >목록 보기</button>
 						</div>

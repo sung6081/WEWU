@@ -125,13 +125,13 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="getMemberGroupForNick",method = RequestMethod.POST)
-	public ModelAndView getMemberGroupForNick(@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
+	public ModelAndView getMemberGroupForNick(@RequestParam("groupNo") int groupNo, @RequestParam("memberNickName") String nickname) throws Exception 
 	{
 		System.out.println(":: /group/getMemberGroupForNick ::");
 		// Business logic 수행
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("groupNo", groupNo);
-		map.put("memberNickNmae","nick4");
+		map.put("memberNickName",nickname);
 		
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
 		
@@ -142,16 +142,21 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="getGroupAcle",method = RequestMethod.POST)
-	public ModelAndView getGroupAcle(@RequestParam("boardNo") int boardNo, @RequestParam("groupNo") int groupNo) throws Exception 
+	public ModelAndView getGroupAcle(@RequestParam("boardNo") int boardNo, @RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getGroupAcle ::");
-		
 		// Business logic 수행
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickName",((User)session.getAttribute("user")).getNickname());
+		
 		ModelAndView model = new ModelAndView("forward:/group/getGroupAcle.jsp");
 		GroupAcle groupAcle = groupService.getGroupAcle(boardNo);
 		model.addObject("groupAcle", groupService.getGroupAcle(boardNo));
 		model.addObject("groupBoard", groupService.getGroupBoard(groupAcle.getTypeNo()));
 		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
+		
 		return model;
 	}
 	
@@ -234,55 +239,80 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="updateApplJoinForm",method = RequestMethod.POST)
-	public ModelAndView updateApplJoinForm(@RequestParam int groupNo) throws Exception 
+	public ModelAndView updateApplJoinForm(@RequestParam int groupNo, HttpSession session) throws Exception 
 	{
 		
 		System.out.println(":: /group/updateApplJoinForm ::");
 		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("groupNo", groupNo);
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
+		
 		// Business logic 수행
-		Group group = groupService.getGroup(groupNo);
 		ModelAndView model = new ModelAndView("forward:/group/updateApplJoinForm.jsp");
-		model.addObject("group", group);
+		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return model;
 	}
 	
 	@RequestMapping(value="addGroupBoard",method = RequestMethod.POST)
-	public ModelAndView addGroupBoard(@RequestParam int groupNo) throws Exception 
+	public ModelAndView addGroupBoard(@RequestParam int groupNo, HttpSession session) throws Exception 
 	{
 		
 		System.out.println(":: /group/addGroupBoard ::");
-		Group group = groupService.getGroup(groupNo);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("groupNo", groupNo);
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
+		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/addGroupBoard.jsp");
-		model.addObject("group", group);
+		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return model;
 	}
 	
 	@RequestMapping(value="getGroupBoard",method = RequestMethod.POST)
-	public ModelAndView getGroupBoard(@RequestParam("typeNo") int typeNo, @RequestParam("groupNo") int groupNo) throws Exception 
+	public ModelAndView getGroupBoard(@RequestParam("typeNo") int typeNo, @RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getGroupBoard ::");
-		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
-		Group group = groupService.getGroup(groupNo);
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("groupNo", groupNo);
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
+		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getGroupBoard.jsp");
-		model.addObject("groupBoard", groupBoard);
-		model.addObject("group", group);
+		
+		model.addObject("groupBoard", groupService.getGroupBoard(typeNo));
+		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return model;
 	}
 	
 	@RequestMapping(value="updateGroupBoard",method = RequestMethod.POST)
-	public ModelAndView updateGroupBoard(@RequestParam("typeNo") int typeNo) throws Exception 
+	public ModelAndView updateGroupBoard(@RequestParam("typeNo") int typeNo,HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/updateGroupBoard ::");
-		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
+		
 		// Business logic 수행
+		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
+		Group group = groupService.getGroup(groupBoard.getGroupNo());
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("groupNo", group.getGroupNo());
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
+		
 		ModelAndView model = new ModelAndView("forward:/group/updateGroupBoard.jsp");
-		model.addObject("group", groupService.getGroup(groupBoard.getGroupNo()));
+		model.addObject("group", group);
 		model.addObject("groupBoard", groupBoard);
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return model;
 	}
@@ -301,17 +331,14 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="addGroupAcle",method = RequestMethod.POST)
-	public ModelAndView addGroupAcle(@RequestParam("typeNo") int typeNo, @RequestParam("groupNo") int groupNo) throws Exception 
+	public ModelAndView addGroupAcle(@RequestParam("typeNo") int typeNo,@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		
 		System.out.println(":: /group/addGroupAcle ::");
 		// Business logic 수행
-		User user = User.builder()
-				.nickname("nick3")
-				.build();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("groupNo", groupNo);
-		map.put("memberNickNmae", user.getNickname());
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
 		
 		GroupMember groupMember = groupService.getMemberGroupForNick(map);
 		
@@ -326,17 +353,24 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="getMemberGroupList",method = RequestMethod.POST)
-	public ModelAndView getMemberGroupList(@RequestParam("groupNo") int groupNo) throws Exception 
+	public ModelAndView getMemberGroupList(@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getMemberGroupList ::");
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroupList.jsp");
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("groupNo", groupNo);
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
+		
 		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
+		
 		return model;
 	}
 	
 	@RequestMapping(value="updateGroupAcle",method = RequestMethod.POST)
-	public ModelAndView updateGroupAcle(@RequestParam("boardNo") int boardNo,@RequestParam("typeNo") int typeNo) throws Exception 
+	public ModelAndView updateGroupAcle(@RequestParam("boardNo") int boardNo,@RequestParam("typeNo") int typeNo, HttpSession session) throws Exception 
 	{
 		
 		System.out.println(":: /group/updateGroupAcle ::");
@@ -344,12 +378,9 @@ public class GroupController {
 		GroupBoard groupBoard = groupService.getGroupBoard(typeNo);
 		Group group = groupService.getGroup(groupBoard.getGroupNo());
 		
-		User user = User.builder()
-				.nickname("nick3")
-				.build();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("groupNo", group.getGroupNo());
-		map.put("memberNickNmae", user.getNickname());
+		map.put("memberNickName", ((User)session.getAttribute("user")).getNickname());
 		
 		GroupMember groupMember = groupService.getMemberGroupForNick(map);
 		// Business logic 수행

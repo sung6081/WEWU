@@ -70,7 +70,7 @@
 	                  <h1 class="card-title">모임개설신청</h1>
 	                  <form class="forms-sample" id="addApplGroup" method="post" action="/group/addApplGroup">
 	                  	
-	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="nick1">
+	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${user.nickname }">
 	                    <div class="form-group">
 	                      <label>모임명</label>
 	                      <input type="text" class="form-control" name="groupName" placeholder="모임명">

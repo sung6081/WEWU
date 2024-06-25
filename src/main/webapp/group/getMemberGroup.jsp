@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -206,13 +207,16 @@
 		                <div class="card-body">
 		                    <h4 class="card-title">내 정보</h4>
 		                    <div style="float:right;">
-                    			<img src="/group/img/eraser-fill.svg"><span>탈퇴</span>
+			                    <c:if test="${groupMember.memberNickName != group.leaderNick}">
+	                    			<img src="/group/img/eraser-fill.svg"><span>탈퇴</span>
+	                    		</c:if>
 		                    </div>
 		                        ${groupMember.memberNickName}
 		                    <p class="card-description">
 		                        가입날짜 : #${groupMember.joinDate}<br>
 		                       	성별 : 남성
 		                    </p>
+	                        
 	                        <c:if test="${groupMember != null }">
 		                        <!-- 모임원만 출력 -->
 		                        <div class="col-md-12">
@@ -228,6 +232,7 @@
 		                        </div>
 		                        <!-- 모임원만 출력 -->
 	                        </c:if>
+	                        
 		                    </div>
 		                </div>
 		            </div>

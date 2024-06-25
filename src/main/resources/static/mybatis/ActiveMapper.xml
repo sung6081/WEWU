@@ -108,7 +108,7 @@
 			TIMESTAMPDIFF(DAY, date(now()), date(active_end_date)) >= 0
 			AND state_flag = 'Y'
 			<if test="searchKeyword != null">
-				AND INSTR(active_name, #{searchKeyword}) > 0 OR INSTR(hash_name, #{searchKeyword}) > 0
+				AND (INSTR(active_name, #{searchKeyword}) > 0 OR INSTR(hash_name, #{searchKeyword}) > 0)
 			</if>
 		</where>
 		ORDER BY a.active_no
