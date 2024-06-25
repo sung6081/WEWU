@@ -88,7 +88,8 @@
 									class="col-sm-3 col-form-label">내용</label>
 								<div class="col-sm-12">
 									<textarea type="text" class="form-control" name="contents"
-										value="${board.contents}">
+										placeholder="${board.contents}">
+										
 									</textarea>
 								</div>
 							</div>

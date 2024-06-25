@@ -24,14 +24,15 @@
 	height: auto;
 }
 </style>
-<script type="text/javascript">
-
-
+<script type="text/javascript">	
+/* alert("${sessionScope.user.nickname}");
+alert("${sessionScope.user.role}");
+ */
 	function addBookmark(boardNo){
 		
 		var formData = {
 				boardNo: boardNo,
-				nickName: "nick1"
+				nickName: "${sessionScope.user.nickname}"
 		};
 		
 		$.ajax ({
@@ -173,28 +174,28 @@
 						
 						<div class ="card">
 							<div class="card-body">
-								<c:if test="${sessionScope.user.role eq '1'}">
+								<c:if test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
 									<button type="button" class="btn btn-outline-primary btn-fw">
-										<c:if test="${param.boardType eq '1'}"> 공지 	글 등록하기</c:if>
+										 공지 글 등록하기
 									</button>
 								</c:if>
 
 								<c:if
-									test="${sessionScope.isAdmin || sessionScope.user.role eq '3'}">
+									test="${(sessionScope.isAdmin || sessionScope.user.role eq '3' )&& param.boardType eq '2'}">
 									<button type="button" class="btn btn-outline-primary btn-fw">
-										<c:if test="${param.boardType eq '2'}"> 모임 홍보 글 등록하기</c:if>
+										모임 홍보 글 등록하기
 									</button>
 								</c:if>
 
-								<c:if test="${sessionScope.user.role eq '2' }">
+								<c:if test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
 									<button type="button" class="btn btn-outline-primary btn-fw">
-										<c:if test="${param.boardType eq '3'}"> 모임 후기 글 등록하기</c:if>
+									모임 후기 글 등록하기								
 									</button>
 								</c:if>
 
-								<c:if test="${sessionScope.isAdmin }">
+								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
 									<button type="button" class="btn btn-outline-primary btn-fw">
-										<c:if test="${param.boardType eq '4'}"> 후원 글 등록하기</c:if>
+										후원 글 등록하기
 									</button>
 								</c:if>
 

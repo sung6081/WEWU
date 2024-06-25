@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,54 +8,64 @@
 <title>게시글 상세 보기</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <style>
-    .comment-container {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-    .comment-header {
-        font-weight: bold;
-    }
-    .comment-content {
-        margin: 10px 0;
-    }
-    .comment-date {
-        color: #888;
-        font-size: 0.9em;
-    }
-    .comment-actions {
-        margin-top: 10px;
-    }
-    .comment-actions a {
-        margin-right: 10px;
-        color: #007bff;
-        text-decoration: none;
-    }
-    .comment-actions a:hover {
-        text-decoration: underline;
-    }
-    .comment-form {
-        margin-top: 10px;
-        display: none;
-    }
-    .comment-form textarea {
-        width: 100%;
-        height: 60px;
-        margin-bottom: 10px;
-    }
-    .comment-form button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-    .comment-form button:hover {
-        background-color: #0056b3;
-    }
+.comment-container {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+}
+
+.comment-header {
+	font-weight: bold;
+}
+
+.comment-content {
+	margin: 10px 0;
+}
+
+.comment-date {
+	color: #888;
+	font-size: 0.9em;
+}
+
+.comment-actions {
+	margin-top: 10px;
+}
+
+.comment-actions a {
+	margin-right: 10px;
+	color: #007bff;
+	text-decoration: none;
+}
+
+.comment-actions a:hover {
+	text-decoration: underline;
+}
+
+.comment-form {
+	margin-top: 10px;
+	display: none;
+}
+
+.comment-form textarea {
+	width: 100%;
+	height: 60px;
+	margin-bottom: 10px;
+}
+
+.comment-form button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.comment-form button:hover {
+	background-color: #0056b3;
+}
 </style>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -90,6 +100,7 @@
                 alert("댓글 등록 완료.");
                 $("#commentList").empty();
                 getCommentList();
+                $("#commentContents").val("");  // 댓글 등록 후 textarea 비우기
             },
             error: function(xhr, status, error) {
                 alert("댓글 등록 실패.");
@@ -168,16 +179,22 @@
                         "<div class='comment-header'>작성자 : " + data[i].commentNickName + "</div>" +
                         "<div class='comment-content'>내용 : " + data[i].commentContents + "</div>" +
                         "<div class='comment-date'>작성날짜 : " + data[i].commentDate + "</div>" +
-                        "<div class='comment-actions'>" +
-                        "<a href='javascript:deleteComment(" + data[i].commentNo + ");'>댓글 삭제</a>" +
-                        "<a href='javascript:showUpdateForm(" + data[i].commentNo + ");'>댓글 수정</a>" +
-                        "</div>" +
+                        "<div class='comment-actions'>";
+                    
+                    if (data[i].commentNickName === '${sessionScope.user.nickname}') {
+                        str += "<a href='javascript:deleteComment(" + data[i].commentNo + ");'>댓글 삭제</a>" +
+                               "<a href='javascript:showUpdateForm(" + data[i].commentNo + ");'>댓글 수정</a>";
+                    }
+
+                    str += "</div>" +
                         "<form id='updateCommentForm_" + data[i].commentNo + "' class='comment-form'>" +
                         "<input type='hidden' name='commentNo' value='" + data[i].commentNo + "'>" +
                         "<input type='hidden' name='boardNo' value='" + '${board.boardNo}' + "'>" +
                         "<input type='hidden' name='commentNickName' value='" + data[i].commentNickName + "'>" +
                         "<textarea name='commentContents'>" + data[i].commentContents + "</textarea>" +
                         "<button type='button' onClick='updateComment(" + data[i].commentNo + ");'>수정</button>" +
+                        "&nbsp;&nbsp;" +
+                        "<button type='button' onClick='hideUpdateForm(" + data[i].commentNo + ");'>취소</button>" +
                         "</form>" +
                         "</div><br>";
                 }
@@ -192,85 +209,100 @@
     function showUpdateForm(commentNo) {
         document.getElementById('updateCommentForm_' + commentNo).style.display = 'block';
     }
+
+    function hideUpdateForm(commentNo) {
+        document.getElementById('updateCommentForm_' + commentNo).style.display = 'none';
+    }
 </script>
 </head>
 <body>
-<input type="hidden" name="boardNo" value="${param.boardNo}">
-<input type="hidden" name="boardType" value="${param.boardType}">
+	<input type="hidden" name="boardNo" value="${param.boardNo}">
+	<input type="hidden" name="boardType" value="${param.boardType}">
 
-<!-- HEADER -->
-<jsp:include page="/header.jsp"/>
-<!-- HEADER -->
+	<!-- HEADER -->
+	<jsp:include page="/header.jsp" />
+	<!-- HEADER -->
 
-<div class="container-fluid page-body-wrapper">
-    <jsp:include page="boardSideBar.jsp"/>
+	<div class="container-fluid page-body-wrapper">
+		<jsp:include page="boardSideBar.jsp" />
 
-    <div class="main-panel">
-        <div class="col-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-description">
-                        > 
-                        <c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
-                        <c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
-                        <c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
-                        <c:if test="${param.boardType eq '4'}"> 후원 </c:if>
-                    </p>
-                    <h1 class="card-title">${board.title}</h1>
-                    <div class="form-group row">
-                        <div class="col-sm-9">
-                            <p class="card-description">
-                                ${board.nickName } &nbsp; &nbsp;
-                                등록일 : ${board.regDate}
-                                <i class="mdi mdi-comment"></i>
-                            </p>
-                        </div>
-                        <div class="col-sm-3">
-                            <p class="card-description">
-                                조회 : ${board.views} &nbsp; 댓글 : ${board.commentCnt} &nbsp;  즐겨찾기 :  ${board.bookmarkCnt }
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
-                    <br>
-                    
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <c:forEach var="file" items="${boardFile}">
-                                <img src="${file.fileName}">
-                            </c:forEach>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12">${board.contents}</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <hr>
-                    <p class="card-description">댓글 수 : ${board.commentCnt}</p>
-                    <div class="form-group row">
-                        <h1 class="card-title">${sessionScope.user.nickname}</h1>
-                        <div class="col-sm-12">
-                            <form id="commentForm">
-                                <input type="hidden" name="commentNickName" id="commentNickName" value="nick1">
-                                <input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">
-                                <textarea name="commentContents" class="form-control" id="commentContents"></textarea>
-                                <br>
-                            </form>
-                            <c:if test="${sessionScope.user != null && sessionScope.user !='' }"></c:if>
-                            <button class="btn btn-link btn-fw" onClick="addComment();">댓글 쓰기</button>
-                        </div>
-                    </div>
-                    <div id="commentList"></div>
-                </div>
-                <br/>
-                <div class="card-body">
-                    <button type="button" class="btn btn-primary mr-2">삭제</button>
-                    <button type="button" class="btn btn-primary mr-2">수정</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+		<div class="main-panel">
+			<div class="col-12 grid-margin stretch-card">
+				<div class="card">
+					<div class="card-body">
+						<p class="card-description">
+							>
+							<c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
+							<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
+							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
+							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
+						</p>
+
+						<h1 class="card-title">${board.title}</h1>
+						<div class="form-group row">
+							<div class="col-sm-9">
+								<p class="card-description">${board.nickName } &nbsp; &nbsp;
+									등록일 : ${board.regDate}</p>
+							</div>
+							<div class="col-sm-3">
+								<p class="card-description">
+									<i class="mdi mdi-eye"></i> ${board.views} &nbsp;/&nbsp; <i
+										class="mdi mdi-comment"></i> ${board.commentCnt} &nbsp;/&nbsp;
+									<i class="mdi mdi-star"></i> ${board.bookmarkCnt }
+								</p>
+							</div>
+						</div>
+						<hr>
+						<br>
+						<div class="form-group row">
+							<div class="col-sm-9">
+								<c:forEach var="file" items="${boardFile}">
+									<img src="${file.fileName}">
+									<br>
+									<br>
+								</c:forEach>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-12">${board.contents}</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<hr>
+						<p class="card-description">댓글 수 : ${board.commentCnt}</p>
+						<div class="form-group row">
+							<c:if
+								test="${sessionScope.user != null && sessionScope.user !=''}">
+								<h1 class="card-title">${sessionScope.user.nickname}</h1>
+								<div class="col-sm-12">
+									<form id="commentForm">
+										<input type="hidden" name="commentNickName"
+											id="commentNickName" value="${sessionScope.user.nickname}">
+										<input type="hidden" name="boardNo" id="boardNo"
+											value="${board.boardNo}">
+										<textarea name="commentContents" class="form-control"
+											id="commentContents"></textarea>
+										<br>
+									</form>
+									<button class="btn btn-link btn-fw" onClick="addComment();">댓글
+										쓰기</button>
+								</div>
+							</c:if>
+							<c:if
+								test="${sessionScope.user == null || sessionScope.user ==''}">
+								<p>로그인 후 댓글을 작성할 수 있습니다.</p>
+							</c:if>
+						</div>
+						<div id="commentList"></div>
+					</div>
+					<br />
+					<div class="card-body">
+						<button type="button" class="btn btn-primary mr-2">삭제</button>
+						<button type="button" class="btn btn-primary mr-2">수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
