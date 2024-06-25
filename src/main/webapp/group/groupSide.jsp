@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -152,7 +153,11 @@
 			          <h4><img src="/group/img/house-door.svg">&nbsp;<span class="home">${group.groupName }</span></h4>
 			        </li>
 			      </ul>
-			      &nbsp;&nbsp;&nbsp;<img src="/group/img/journal-plus.svg">&nbsp;<span>게시판추가</span>
+			      <c:if test="${!empty groupMember}">
+			      	<c:if test="${user.nickname == group.leaderNick}">
+			      		&nbsp;&nbsp;&nbsp;<img src="/group/img/journal-plus.svg">&nbsp;<span>게시판추가</span>
+			      	</c:if>
+			      </c:if>
 			      <hr>
 			      <ul class="nav">
 			      	<li>
@@ -165,24 +170,30 @@
 				              <span class="menu-title">모임정보</span>
 				        </a>
 			        </li>
-			        <li class="nav-item">
-			            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+			        <c:if test="${!empty groupMember && groupMember.joinFlag == 'T'}">
+                		<li class="nav-item">
+			              <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
 			              <i class="icon-head menu-icon"></i>
 			              <span class="menu-title">내 정보</span>
 			            </a>
 			        </li>
-			        <li class="nav-item">
-			            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-			              <i class="icon-ellipsis menu-icon"></i>
-			              <span class="menu-title">모임원목록</span>
-			            </a>
-			         </li>
-			         <li class="nav-item">
-			            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-			              <i class="icon-grid-2 menu-icon"></i>
-			              <span class="menu-title">가입신청서 양식</span>
-			            </a>
-			         </li>
+                    </c:if>
+			        <c:if test="${!empty groupMember}">
+                		<c:if test="${user.nickname == group.leaderNick}">
+                			<li class="nav-item">
+					           <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+					             <i class="icon-ellipsis menu-icon"></i>
+					             <span class="menu-title">모임원목록</span>
+					           </a>
+					        </li>
+					        <li class="nav-item">
+					           <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+					             <i class="icon-grid-2 menu-icon"></i>
+					             <span class="menu-title">가입신청서 양식</span>
+					           </a>
+					        </li>
+                		</c:if>
+                    </c:if>
 			         <li class="nav-item">
 			            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
 			              <i class="icon-contract menu-icon"></i>
@@ -214,7 +225,7 @@
 				
 				<form id="getMemberGroupSide" method="post">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
-					<input type="hidden" name="memberNickName" value="${user.nickname }">
+					<input type="hidden" name="memberNickName" value="${user.nickname}">
 				</form>
 				
 				<form id="getMemberGroupListSide" method="post">

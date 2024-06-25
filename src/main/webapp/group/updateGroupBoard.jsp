@@ -43,6 +43,7 @@
 							var str = "";
 									
 							str += "<input type='hidden' name='typeNo' value = '"+ data.typeNo +"'>";
+							str += "<input type='hidden' name='groupNo' value = '${group.groupNo}'>";
 							$('#getGroupBoard').append(str);
 							$('#getGroupBoard').submit();
 						},
@@ -73,46 +74,51 @@
 	                  <h4 class="card-title">${group.groupName}</h4>
 	                  <form class="forms-sample" id="updateGroupBoard" method="post">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+	                  	<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
 	                  	<div class="form-group">
 	                      <label>게시판 명</label>
-	                      <input type="text" class="form-control" name="boardIntro" value="${group.groupNo}" placeholder="게시판 명">
+	                      <input type="text" class="form-control" name="boardName" value="${groupBoard.boardName}" placeholder="게시판 명">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 타입</label>
 	                      <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardType" value="L">
+		                      <input type="radio" class="form-check-input" name="boardType" value="L"
+		                      ${groupBoard.boardType == 'L' ? 'checked' : ''}>
 		                      리스트
 		                    </label>
 		                  </div>
 		                  <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardType" value="T">
+		                      <input type="radio" class="form-check-input" name="boardType" value="T"
+		                      ${groupBoard.boardType == 'T' ? 'checked' : ''}>
 		                      썸네일
 		                    </label>
 		                  </div>
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 소개</label>
-	                      <input type="text" class="form-control"  placeholder="게시판 소개" name="boardIntro" value="${group.groupIntro}">
+	                      <input type="text" class="form-control"  placeholder="게시판 소개" name="boardIntro" value="${groupBoard.boardIntro}">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 권한</label>
 	                      <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardRole" value="G">
+		                      <input type="radio" class="form-check-input" name="boardRole" value="G"
+		                      ${groupBoard.boardRole == 'G' ? 'checked' : ''}>
 		                      모임장
 		                    </label>
 		                  </div>
 		                  <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardRole" value="A">
+		                      <input type="radio" class="form-check-input" name="boardRole" value="A"
+		                      ${groupBoard.boardRole == 'A' ? 'checked' : ''}>
 		                      전체
 		                    </label>
 		                  </div>
 	                    </div>
 	                  </form>
-	                <button onclick="javascript:addGroupBoard();"  class="btn btn-primary mr-2">개설</button>
+	                <button onclick="javascript:updateGroupBoard();"  class="btn btn-primary mr-2">수정하기</button>
 	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 	                </div>
 	              </div>

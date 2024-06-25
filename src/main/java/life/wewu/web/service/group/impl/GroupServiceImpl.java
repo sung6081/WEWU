@@ -252,4 +252,8 @@ public class GroupServiceImpl implements GroupService{
 		//board_type pk를 인자로 해당 게시판의 게시글 총 갯수를 select
 		return groupAcleDao.getGroupAcleCnt(map);
 	}
+	
+	public void updateRole(String nickname) throws Exception{
+		groupDao.updateRole(nickname);
+	}
 }
