@@ -145,7 +145,7 @@
     <!-- Comment : DELETE ( 댓글 삭제하기 ) -->
 	<delete id="deleteComment" parameterType="int">
         DELETE FROM comment 
-        WHERE comment_no = #{commentNo}
+        WHERE board_no = #{boardNo}
     </delete>
     
     <!-- Comment : UPDATE ( 댓글 수정하기 ) -->

@@ -66,6 +66,7 @@
 .comment-form button:hover {
 	background-color: #0056b3;
 }
+
 </style>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -297,8 +298,10 @@
 					</div>
 					<br />
 					<div class="card-body">
-						<button type="button" class="btn btn-primary mr-2">삭제</button>
-						<button type="button" class="btn btn-primary mr-2">수정</button>
+						<c:if test="${board.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
+							<button type="button" class="btn btn-primary mr-2">삭제</button>
+							<button type="button" class="btn btn-primary mr-2">수정</button>
+						</c:if>
 					</div>
 				</div>
 			</div>
