@@ -564,7 +564,7 @@
                    	<div class="col-md-3 grid-margin" >
                    	</div>
                    	
-                   	<c:if test="${user.role == 3}">
+                   	<c:if test="${isLeader}">
 	                   	<div class="col-md-5 grid-margin" >
 							<div class="row">
 								<div class="col-md-6 grid-margin" >
