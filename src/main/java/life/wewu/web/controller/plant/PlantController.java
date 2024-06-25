@@ -188,11 +188,21 @@ public class PlantController {
 	
 	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
-	public String getMyPlant(@RequestParam(required= false) int myPlantNo,Model model) throws Exception{
+	public String getMyPlant( Model model,HttpSession session) throws Exception{
 		System.out.println(" /plant/getMyPlant : GET ");
-		MyPlant myPlant = plantService.getMyPlant(myPlantNo);
+		
+		User user = (User) session.getAttribute("user");
+		
+		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+		myPlant.setPlantLevl(plantLevl);
+		
 		System.out.println(myPlant);
+		System.out.println(plantLevl);
+		
+		model.addAttribute("user", user);
 		model.addAttribute("myPlant", myPlant);
+	
 		
 		return "forward:/plant/getMyPlant.jsp";
 	}
@@ -207,12 +217,13 @@ public class PlantController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		search.setSearchKeyword("past");
 	
-		
 		map.put("search",search);
-		map.put("user",user);
+		map.put("nickname",user.getNickname());
+		
+		System.out.println("map = " + map);
 		
 		List<MyPlant> list = plantService.getMyPlantList(map);
-		System.out.println("map = " + map);
+		
 		System.out.println("List = " +list);
 		List<MyPlant> allList= new ArrayList<MyPlant>();
 		
@@ -235,30 +246,33 @@ public class PlantController {
 
 	//----------------Inventory
 	@RequestMapping(value ="inventory" , method = RequestMethod.GET)
-	public String getInventory(@RequestParam("nickname")String nickname,
-							@ModelAttribute("inventory")Inventory inventory,
-							@ModelAttribute("myPlant")MyPlant myPlant,
+	public String getInventory(
 							HttpSession session,
 							Model model) throws Exception{
+		
 		System.out.println(" /plant/getInventory : GET ");
-		User user = (User) session.getAttribute("user");
-		
-		System.out.println("nickname : " + nickname);
-		System.out.println("inventory : " + inventory);
-		System.out.println("myPlant : " + myPlant);
-		
-		List<Inventory> list = plantService.getInventory(nickname);
-		
-		model.addAttribute("nickname", nickname);
-		model.addAttribute("inventory", inventory);
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("list", list);
-	
-		return "forward:/plant/inventory.jsp";
+	    User user = (User) session.getAttribute("user");
+	    
+	    if (user == null) {
+	        throw new Exception("User not found in session");
+	    }
+	    
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("nickname", user.getNickname());
+	    
+	    List<Inventory> list = plantService.getInventoryList(user.getNickname());
+	    
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	    
+	    System.out.println("list: " + list);
+	    
+	    model.addAttribute("user", user);
+	    model.addAttribute("list", list);
+	    model.addAttribute("myPlant", myPlant);
+
+	    return "forward:/plant/inventory.jsp";
+
 	}
-
-
-		
 }
 	
 	

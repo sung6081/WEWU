@@ -105,7 +105,7 @@
                <a class="nav-link" href="/plant/emptyUser.jsp">식물키우기</a>
              </c:if>
              <c:if test="${ ! empty user }">
-               <a class="nav-link" href="/plant/getMyPlant.jsp">식물키우기</a>
+               <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>
              </c:if>
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>

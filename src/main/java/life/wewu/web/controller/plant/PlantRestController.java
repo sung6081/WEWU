@@ -80,7 +80,7 @@ public class PlantRestController {
 			throw new IllegalArgumentException("PlantLevl is null");
 		}
 
-// 로그 추가
+
 		System.out.println("Plant: " + plant.toString());
 		System.out.println("PlantLevl: " + plantLevl.toString());
 
@@ -155,14 +155,21 @@ public class PlantRestController {
 
 	}
 
-	@RequestMapping(value = "getUseItem", method = RequestMethod.POST)
-	public Map<String, Object> getUseItem(@RequestBody Map<String, Object> map) throws Exception {
-	    int myPlantNo = (int) map.get("myPlantNo");
-	    int itemPurNo = (int) map.get("itemPurNo");
-	    int itemNum = (int) map.get("itemNum");
+	@RequestMapping(value = "useItem", method = RequestMethod.POST)
+	public Map<String, Object> useItem(@RequestBody Inventory inventory,
+										HttpSession session,
+										Model model) throws Exception {
 
-	    Map<String, Object> item = plantService.getUseItem(map);
-	    return item;
+		plantService.updateInventory(inventory);
+		User user = (User) session.getAttribute("user");
+		
+		model.addAttribute("inventory",inventory);
+		
+		Map<String, Object> map = new HashMap<>();
+        map.put("inventory", inventory);
+        map.put("user", user);
+
+	    return map;
 	}
 
 	@RequestMapping(value = "updateMyPlant", method = RequestMethod.POST)
@@ -174,7 +181,7 @@ public class PlantRestController {
 		return myPlant;
 	}
 
-	@RequestMapping(value = "/json/selectRandomPlant", method = RequestMethod.POST)
+	@RequestMapping(value = "selectRandomPlant", method = RequestMethod.POST)
 	public Plant selectRandomPlant(Model model) throws Exception {
 		System.out.println(" /plant/selectRandomPlant : POST ");
 		Plant plant = plantService.selectRandomPlant();

@@ -16,18 +16,7 @@ import life.wewu.web.domain.plant.Quest;
 @Mapper
 public interface PlantDao {
 
-	public void addQuest(Quest quest) throws Exception;
-
-	public void deleteQuest(int questNo) throws Exception;
-
-	public void updateQuest(Quest quest) throws Exception;
-
-	public Quest getQuest(int questNo) throws Exception;
-
-	public List<Quest> getQuestList(Search search) throws Exception;
-
-	public void completeQuest(Quest quest) throws Exception;
-
+	
 	public void addPlant(Plant plant) throws Exception;
 
 	public void addPlantName(Plant plant) throws Exception;
@@ -46,24 +35,6 @@ public interface PlantDao {
 
 	public List<Plant> getPlantList(Search search) throws Exception;
 
-	public Plant selectRandomPlant() throws Exception;
 
-	public void addRandomPlant(MyPlant myPlant) throws Exception;
-
-	public void updateMyPlant(MyPlant myPlant) throws Exception;
-
-	public MyPlant getMyPlant(int myPlantNo) throws Exception;
-
-	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception;
-
-	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
-
-	public String getWeather(String location);
-
-	public List<Inventory> getInventory(String nickname) throws Exception;
-
-	public List<MyPlant> getUseItem(int itemPurNo) throws Exception;
-
-	public void updateInventory(List<Inventory> inventory);
 
 }
