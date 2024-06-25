@@ -26,7 +26,7 @@
         height: 500px;
         overflow-y: scroll;
         padding: 20px;
-        background-color: #fff;
+        background-color: $background;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
     }
@@ -101,6 +101,78 @@
 		background-color: #4B49AC !important;
 		color: white !important;
 	}
+	
+	.chats {
+		margin-bottom: 10px;
+	}
+	
+	.chats.my video {
+        width: 100%;
+        max-width: 600px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    
+    .date {
+        font-size: 10px;
+        color: #999;
+    }
+    
+    .messages {
+		padding: 1rem;
+		background: $background;
+		flex-shrink: 2;
+		overflow-y: auto;
+		
+		box-shadow: 
+			inset 0 2rem 2rem -2rem rgba(black, 0.05),
+			inset 0 -2rem 2rem -2rem rgba(black, 0.05);
+		
+		.time {
+			font-size: 0.8rem;
+			background: $time-bg;
+			padding: 0.25rem 1rem;
+			border-radius: 2rem;
+			color: $text-3;
+			width: fit-content;
+			margin: 0 auto;
+		}
+		
+		.message {
+			box-sizing: border-box;
+			padding: 0.5rem 1rem;
+			margin: 1rem;
+			background: #FFF;
+			border-radius: 1.125rem 1.125rem 1.125rem 0;
+			min-height: 2.25rem;
+			width: fit-content;
+			max-width: 66%;
+			
+			box-shadow: 
+				0 0 2rem rgba(black, 0.075),
+				0rem 1rem 1rem -1rem rgba(black, 0.1);
+			
+			&.parker {
+				background-color: #4B49AC !important;
+				color: white !important;
+			}
+			
+			.typing {
+				display: inline-block;
+				width: 0.8rem;
+				height: 0.8rem;
+				margin-right: 0rem;
+				box-sizing: border-box;
+				background: #ccc;
+				border-radius: 50%;
+				
+				&.typing-1 { animation: typing 3s infinite }
+				&.typing-2 { animation: typing 3s 250ms infinite }
+				&.typing-3 { animation: typing 3s 500ms infinite }
+			}
+		}
+	}
     
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
@@ -145,22 +217,23 @@
 			        var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 			        if(chat.file_url != undefined && chat.file_type == 'img') {
 			        	if(chat.chat_nickname == nick) {
-			        		$('#chatBox').append('<div class="chats my">'+chat.file_name+'<br/><span style="font-size: 10px;">' + formattedDate + '</span><img class="chat-img" src="'+chat.file_short_url+'"></div>');
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><img class="chat-img" src="'+chat.file_short_url+'"></div>');
 			        	}else {
-			        		$('#chatBox').append('<div class="chats">'+chat.file_name+'<br/><img class="chat-img" src="'+chat.file_short_url+'"><span style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<div class="chats">'+chat.file_name+'<br/><img class="chat-img" src="'+chat.file_short_url+'"><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
 			        	}
 			        } else if(chat.file_url != undefined && chat.file_type == 'video') {
 			        	if(chat.chat_nickname == nick) {
-			        		$('#chatBox').append('<div class="chats my"><span style="font-size: 10px;">' + formattedDate + '</span>'+chat.file_name+'<br/><video src="'+chat.file_short_url+'" controls="controls" ></video></div>');
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '<video src="'+chat.file_short_url+'" controls="controls" ></video></div>');
 			        	}else {
-			        		$('#chatBox').append('<div class="chats"><strong>'+chat.chat_nickname+'</strong>: '+chat.file_name+'<br/><video src="'+chat.file_short_url+'" controls="controls" ></video><span style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<div class="chats"><strong>'+chat.chat_nickname+'</strong><video src="'+chat.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
 			        	}
 			        }  
 			        if(chat.chat_contents != '') {
 			        	if(chat.chat_nickname == nick) {
-			        		$('#chatBox').append('<div class="chats my"><span style="font-size: 10px;">' + formattedDate + '</span><span class="chat-text">' + chat.chat_contents + '</span></div>');
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><div class="message parker">' + chat.chat_contents + '</div></div>');
 			        	}else {
-			        		$('#chatBox').append('<div class="chats"><strong>'+ chat.chat_nickname +'</strong> : <span class="chat-text">' + chat.chat_contents + ' ' + '</span><span style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		//$('#chatBox').append('<div class="chats"><strong>'+ chat.chat_nickname +'</strong><br/><div class="chat-text">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<div class="chats"><strong>'+ chat.chat_nickname +'</strong><br/><div class="message">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
 			        	}
 			        }
 			        if (isScrolledToBottom) {
@@ -347,8 +420,9 @@
 				<h3 class="center-text">
 					${param.room}
 				</h3>
-				
+				<div class="messages">
 				<div id="chatBox"></div>
+				</div>
 				<div class="input-group text-right">
 				    <div class="input-group-prepend">
 				        <!-- 이미지 업로드 버튼 -->
