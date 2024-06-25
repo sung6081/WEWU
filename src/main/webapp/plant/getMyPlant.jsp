@@ -94,15 +94,14 @@ $(document).ready(function() {
 												<tbody>
 													<tr>
 														<td>현재단계</td>
-														<td>${myPlant.myPlantLevl}</td>
+														<td>${myPlant.plantLevl.plantLevl}</td>
 													</tr>
 													<tr>
-														<td>변화형태</td>
+														<td>변화형태</td>													
 													</tr>
 
 													<tr>
-														<td>이미지</td>
-														<td></td>
+														<td>${myPlant.plantLevl.levlImg}</td>													
 													</tr>
 													<tr>
 														<td>현재까지모은경험치</td>

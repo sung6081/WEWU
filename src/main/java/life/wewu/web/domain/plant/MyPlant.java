@@ -16,6 +16,7 @@ public class MyPlant {
 	
 	//field
 	
+	private String nickname;		//식물주인
 	private int myPlantNo; 			//나의식물식별번호
 	private String myPlantState;	//나의식물상태(Y,N)
 	private String myPlantName;		//나의식물이름
@@ -27,6 +28,6 @@ public class MyPlant {
 	private String weatherImg;		//날씨이미지
 	private PlantLevl plantLevl;	//PlantLevl
 	private Plant plant; 			//Plant
-	private String nickname;		//식물주인
+	
 	
 }
