@@ -64,7 +64,7 @@
                  <div class="card mx-auto">
                    <div class="card-body">
                      <div id="levlImgContainer">
-                       <img src="https://via.placeholder.com/200x200">
+                       <img src="${plantLevl.levlImg}" width="200">
                      </div>
 
                      <input type="hidden" name="nickname" value="" />

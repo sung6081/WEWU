@@ -30,19 +30,17 @@ public interface PlantService {
 	//---------------------------------------------------------------------------------------//
 	
 	public void addPlant(PlantRequest plantRequest) throws Exception;
-
 	public void addPlantName(Plant plant) throws Exception;
-
 	public void addPlantLevl(PlantLevl plantlevl) throws Exception;
 
 	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
 
-	public void deletePlant(int plantNo) throws Exception;
+	public void deletePlant(PlantRequest plantRequest) throws Exception;
+	public void deletePlantName(int plantNo) throws Exception;
+	public void deletePlantLevl(int plantNo) throws Exception;
 
 	public void updatePlant(PlantRequest plantRequest) throws Exception;
-	
 	public void updatePlantName(Plant plant) throws Exception;
-
 	public void updatePlantLevl(PlantLevl plantLevl) throws Exception;
 
 	public Plant getPlant(int PlantNo) throws Exception;
