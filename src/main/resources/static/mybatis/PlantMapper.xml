@@ -40,12 +40,16 @@
 
 	
 	<!-- UPDATE PLANT -->
-	<update id="updatePlant" parameterType="plant">
+	
+	
+	<update id="updatePlantName" parameterType="plant">
 		UPDATE plant
 		<set>
 			plant_name = #{plantName}
-		</set>
-			WHERE plant_no = #{plantNo}
+		</set>	
+		<where>
+			plant_no = #{plantNo}
+		</where>
 	</update>
 	
 
@@ -61,7 +65,7 @@
 		WHERE plant_no = #{value}
 	</select>
 	
-	<select id="getPlantList" parameterType="search" resultMap="PlantSelectMap">
+	<select id="getPlantList" parameterType="map" resultMap="PlantSelectMap">
 		SELECT p.*, l.*
 		FROM plant p , plant_levl l
 		WHERE p.plant_no = l.plant_no

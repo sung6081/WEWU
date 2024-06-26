@@ -27,9 +27,11 @@ public interface PlantDao {
 
 	public void deletePlant(int plantNo) throws Exception;
 
-	public void updatePlant(Plant plant) throws Exception;
+	public void updatePlant(PlantRequest plantRequest) throws Exception;
+	
+	public void updatePlantName(Plant plant) throws Exception;
 
-	public void updatePlantLevl(Plant plant) throws Exception;
+	public void updatePlantLevl(PlantLevl plantLevl) throws Exception;
 
 	public Plant getPlant(int PlantNo) throws Exception;
 
