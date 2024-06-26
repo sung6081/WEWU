@@ -165,8 +165,6 @@ public class PlantServiceImpl implements PlantService {
 		
 	}
 
-
-
 	@Override
 	public Plant getPlant(int PlantNo) throws Exception {
 		return plantDao.getPlant(PlantNo);
@@ -187,13 +185,12 @@ public class PlantServiceImpl implements PlantService {
 		return map;
 	}
 
-	// ---------------------------------------------------------------------------------------//
-
 	@Override
 	public Plant selectRandomPlant() throws Exception {
-		return myPlantDao.selectRandomPlant();
+		return plantDao.selectRandomPlant();
 	}
-
+	
+	// ---------------------------------------------------------------------------------------//
 	@Override
 	public void updateMyPlant(MyPlant myPlant) throws Exception {
 		myPlantDao.updateMyPlant(myPlant);

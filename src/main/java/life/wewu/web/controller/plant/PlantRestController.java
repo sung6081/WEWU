@@ -153,12 +153,12 @@ public class PlantRestController {
         return map;
 	}
 	
-	@RequestMapping(value = "deletePlant", method = RequestMethod.POST)
+	@RequestMapping(value = "deletePlant")
 	public PlantRequest deletePlant(@RequestBody PlantRequest plantRequest)throws Exception {
 		System.out.println("deletePlant");
 
 		plantService.deletePlant(plantRequest);
-		
+		System.out.println(plantRequest);
 		
 		return plantRequest;
 	}

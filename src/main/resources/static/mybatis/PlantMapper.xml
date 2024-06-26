@@ -57,8 +57,9 @@
 	
 
 	<!-- DELETE PLANT -->
-	<delete id="deletePlant">
-        DELETE FROM plant WHERE plant_no = #{plant_no}
+	<delete id="deletePlant" parameterType="int">
+        DELETE FROM plant 
+        WHERE plant_no = #{plantNo}
     </delete>
 	
 

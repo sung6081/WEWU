@@ -46,5 +46,5 @@ public interface PlantDao {
 
 	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
 
-
+	public Plant selectRandomPlant() throws Exception;
 }
