@@ -62,6 +62,15 @@
 				
 			});
 			
+			$('.keyword').on('keydown', function(e) {
+		        var keyCode = e.which;
+				
+		        if (keyCode === 13) { // Enter Key
+		        	
+		        	$('.search-btn').click();
+		        }
+		    });
+			
 			$('.search-btn').on('click', function() {
 				
 				var searchKeyword = $('.keyword').val();

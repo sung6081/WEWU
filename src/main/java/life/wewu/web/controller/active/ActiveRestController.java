@@ -1,8 +1,11 @@
 package life.wewu.web.controller.active;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +22,8 @@ import life.wewu.web.common.Search;
 import life.wewu.web.domain.active.Active;
 import life.wewu.web.domain.active.Local;
 import life.wewu.web.domain.group.Group;
+import life.wewu.web.domain.group.GroupMember;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.active.ActiveService;
 import life.wewu.web.service.group.GroupService;
 import life.wewu.web.service.local.LocalService;
@@ -73,13 +78,40 @@ public class ActiveRestController {
 	
 	//rest group ������, �˻�
 	@PostMapping(value = "listGroup")
-	public List<Group> getGroupList(@RequestBody Search search) throws Exception {
+	public Map<String, Object> getGroupList(@RequestBody Search search, HttpSession session) throws Exception {
 		
 		System.out.println("getGroupList");
 		
-		search.setSearchCondition("T");
+		User user = (User)session.getAttribute("user");
 		
-		return groupService.getGroupList(search);
+		search.setSearchCondition("search");
+		
+		List<Group> groupList = groupService.getGroupList(search);
+		List<GroupMember> memberList = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(user != null) {
+			map.put("memberNickNmae", user.getNickname());
+		}
+		
+		for( Group group : groupList ) {
+			
+			if(user == null) {
+				memberList.add(new GroupMember());
+				continue;
+			}
+			
+			map.put("groupNo", group.getGroupNo());
+			GroupMember groupMember = groupService.getMemberGroupForNick(map);
+			memberList.add(groupMember);
+			
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("groupList", groupList);
+		result.put("memberList", memberList);
+		
+		return result;
 		
 	}
 	

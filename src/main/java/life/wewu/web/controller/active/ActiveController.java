@@ -289,7 +289,7 @@ public class ActiveController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(user != null) {
-			map.put("memberNickNmae", user.getNickname());
+			map.put("memberNickName", user.getNickname());
 		}
 		
 		for( Group group : list ) {

@@ -605,7 +605,7 @@
 	                	//submit함수
 	                	function deleteActive() {
 	                		
-	                		alert('삭제');
+	                		//alert('삭제');
 	                		self.location = '/active/deleteActive/'+${active.activeNo}+'?groupNo='+${active.groupNo};
 	                		
 	                	}

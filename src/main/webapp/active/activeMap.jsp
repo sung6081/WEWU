@@ -715,16 +715,86 @@
 						  
 						  </script>
 						  </div>
-		                  <form >
 		                  	<div class="form-group groupSearch">
 							  <div class="input-group">
-							    <input type="text" class="form-control" placeholder="모임 검색" aria-label="Recipient's username">
+							    <input type="text" id="groupSearchKeyword" class="form-control group-search" placeholder="모임 검색" aria-label="Recipient's username">
 							    <div class="input-group-append">
-							      <button class="btn btn-sm btn-primary" type="button">Search</button>
+							      <button id="groupSearchBtn" class="btn btn-sm btn-primary group-btn" type="button">Search</button>
 							    </div>
 							  </div>
 							</div>
-		                  </form>
+		                  
+		                  <script type="text/javascript">
+		                  
+		                  	searchKeyword = '';
+		                  
+		                  	$('.group-search').on('keydown', function(e) {
+		        		        var keyCode = e.which;
+		        				
+		        		        if (keyCode === 13) { // Enter Key
+		        		        	
+		        		        	$('.group-btn').click();
+		        		        }
+		        		    });
+		                  
+		                  	$('.group-btn').click(async function() {
+		                  		
+		                  		searchKeyword = $('.group-search').val();
+		                  		
+		                  		alert('search');
+		                  		
+		                  		if(searchKeyword == '') {
+		                  			return;
+		                  		}
+		                  		
+		                  		$('.group-search').val('');
+		                  		
+		                  		var url = 'http://localhost:8080/app/active/listGroup';
+		                  		
+		                  		await $.ajax({
+		                  			
+		                  			url: url,
+		                  			type: "POST",
+		                  			data: JSON.stringify({
+		                  				searchKeyword: searchKeyword
+		                  			}),
+		                  			contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
+		        					dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) 응답 데이터 형식
+		        					success : function(data, status, xhr) {
+		        						console.log("::: "+data.groupList);
+		        						console.log("::: "+data.memberList);
+		        						
+		        						$('.groupList').children().remove();
+										
+		        						var newTable = '';
+		        						
+		        						var groupList = data.groupList;
+		        						
+		        						for(let i = 0; i < groupList.length; i++) {
+		        							
+		        							
+		        							
+		        							newTable += '<tr>\n'+
+		        											'<td>'+(i+1)+'</td>\n'+
+		        											'<td class="group-name clickable-text">'+groupList[i].groupName+'</td>\n'+
+		        											'<td>'+groupList[i].leaderNick+'</td>\n'+
+		        											'<td class="clickable-text">\n'+''+'</td>\n'+
+		        										'</tr>';
+		        							
+		        						}
+		        						
+		        						
+		        					},
+		        					error	: function(xhr, status, error) {
+		        					  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
+		        					  console.log(error);
+		        					}
+		                  		});
+		                  		
+		                  	});
+		                  
+		                  </script>
+		                  
 		                  	<c:import url="/chat/listServer.jsp"></c:import>
 		                    <table class="table groupTable">
 		                      <thead>
@@ -739,18 +809,24 @@
 		                      	<c:set var="i" value="1"></c:set>
 		                        <c:forEach var="group" items="${groupList}">
 		                        	<tr>
-		                        		<td>${i}</td>
+		                        		<td class="numb">${i}</td>
 		                        		<td class="group-name">
 		                        			${group.groupName}
 		                        			<input type="hidden" value="${i}" >
 		                        		</td>
 		                        		<td>${group.leaderNick}</td>
-		                        		<td class="clickable-text">
-		                        			<c:if test="${user != null and memberList[i].scrabFlag == 'Y'}">
+		                        		<td class="clickable-text groupScrab">
+		                        			<c:if test="${user != null and memberList[i-1].scrabFlag == 'Y'}">
 		                        				<i class="mdi mdi-star"></i>
 		                        			</c:if>
-		                        			<c:if test="${user == null or memberList[i].scrabFlag != 'Y'}">
+		                        			<c:if test="${user == null or memberList[i-1].scrabFlag != 'Y'}">
 		                        				<i class="mdi mdi-star-outline"></i>
+		                        			</c:if>
+		                        			<c:if test="${memberList[i-1] != null}">
+		                        				<input type="hidden" value="${memberList[i-1].memberNo}">
+		                        			</c:if>
+		                        			<c:if test="${memberList[i-1] == null}">
+		                        				<input type="hidden" value="0">
 		                        			</c:if>
 		                        		</td>
 		                        	</tr>
@@ -769,6 +845,14 @@
 				</div>
 				
 				<script type="text/javascript">
+				
+					$('.groupScrab').on('click', function() {
+						
+						alert($($(this).children()[1]).val());
+						
+						
+						
+					});
 					
 					$('.serverTable').attr('hidden', 'hidden');
 				

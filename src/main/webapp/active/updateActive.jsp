@@ -620,7 +620,7 @@
 		                      	//submit함수
 		                    	function updateActive() {
 		                    		
-		                    		alert('수정');
+		                    		//alert('수정');
 		                    		
 									var hashString = '';
 		                    		
