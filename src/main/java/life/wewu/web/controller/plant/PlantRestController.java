@@ -145,11 +145,22 @@ public class PlantRestController {
         plantService.updatePlant(plantRequest);
 
         System.out.println(plant);
+        System.out.println(plantRequest);
 
         map.put("plant", plant);
         map.put("plantLevl", plantLevl);
 
         return map;
+	}
+	
+	@RequestMapping(value = "deletePlant")
+	public PlantRequest deletePlant(@RequestBody PlantRequest plantRequest)throws Exception {
+		System.out.println("deletePlant");
+
+		plantService.deletePlant(plantRequest);
+		System.out.println(plantRequest);
+		
+		return plantRequest;
 	}
 
 
@@ -198,15 +209,6 @@ public class PlantRestController {
 		model.addAttribute("quest", quest);
 
 		return quest;
-	}
-
-	@RequestMapping(value = "deletePlant", method = RequestMethod.POST)
-	public String deletePlant(@RequestParam("plantNo") int plantNo, Model model) throws Exception {
-		System.out.println(" /plant/deletePlant : POST ");
-		plantService.deletePlant(plantNo);
-
-		return "redirect:/plant/getPlantList.jsp"; // << 고민중
-
 	}
 
 	@RequestMapping(value = "useItem", method = RequestMethod.POST)

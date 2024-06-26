@@ -128,7 +128,7 @@ public class ItemController {
 	
    @RequestMapping(value="getItemList") //완
 	public String getItemList(@ModelAttribute Search search , Model model) throws Exception{
-	
+	//("search")
 		System.out.println("item getItemList :: ");
 		
 		List<Item> item = itemService.getItemList(search);
@@ -378,9 +378,9 @@ public class ItemController {
   	
   		System.out.println("shoppingCart getShoppingCartList :: ");
   		
-  		 List<ShoppingCart> shoppingCart = shoppingCartService.getShoppingCartList(nickname);
+  		List<ShoppingCart> shoppingCart = shoppingCartService.getShoppingCartList(nickname);
   		 
-  		model.addAttribute("shoppingCart", shoppingCart);
+  		model.addAttribute("shoppingCart", shoppingCart); //key, value임
   		
   		return "forward:/item/listShoppingCart.jsp";
   	}
@@ -391,7 +391,7 @@ public class ItemController {
 		System.out.println("shoppingCart deleteShoppingCartList :: GET");
 		
 		shoppingCartService.deleteShoppingCartList(shoppingCartNo);
-		
+		System.out.println(shoppingCartNo);	
 		return "redirect:/item/getShoppingCartList?nickname=nick1";   
 		//return "redirect:/shoppingCart/getShoppingCartList?nickname="+nickname;   
 	}   //삭제 화면 따로 안 만들었는데...장바구니 목록에서 바로 삭제

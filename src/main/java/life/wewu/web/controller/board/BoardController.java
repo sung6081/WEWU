@@ -93,7 +93,7 @@ public class BoardController {
 		
 		List<BoardFile> fileList = boardService.getBoardFileList(board.getBoardNo());	//boardfileList 출력
 		
-		board.setThumnail(boardService.getBoardFile(board.getBoardNo()));
+		//board.setThumnail(boardService.getBoardFile(board.getBoardNo()));
 		
 		int boardNo = board.getBoardNo();
 		System.out.println(boardNo);
@@ -127,14 +127,34 @@ public class BoardController {
 	//게시글에 포함된 첨부파일 정보도 출력
 	@GetMapping(value = "updateBoard") //?boardType=""&boardNo=0
 	public String updateBoard(@RequestParam("boardType") int boardType, 
-			@RequestParam("boardNo") int boardNo, Model model) throws Exception{
+			@RequestParam("boardNo") int boardNo, Model model,
+			@ModelAttribute("boardFile") BoardFile boardFile,
+			 @RequestPart(required = false) List<MultipartFile> file) throws Exception{
 		System.out.println("/board/updateBoard : GET");
 		
 		Board board = boardService.getBoard(boardNo);
 		
+		if(file != null && file.size() != 0) {
+			for(MultipartFile s:file) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("file", s);
+				map.put("folderName", "board");
+				
+				String url = s3Repository.uplodaFile(map);
+				
+				boardFile.setFileName(s3Repository.getShortUrl(url));
+				
+				boardFile.setBoardNo(board.getBoardNo());
+				boardService.addBoardFile(boardFile);	//boardFile등록
+			}
+
+		}else {
+			System.out.println("-------파일 없음---------");
+		}
 		
 		
-		List<BoardFile> fileList = boardService.getBoardFileList(boardNo);
+		
+		List<BoardFile> fileList = boardService.getBoardFileList(board.getBoardNo());	//boardfileList 출력
 		
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", fileList);
@@ -195,9 +215,15 @@ public class BoardController {
 		
 		List<Board> list = boardService.getBoardList(map);
 		
+		List<BoardFile> fileName = boardService.getBoardFile(boardType);
+		
+		
 		System.out.println("--lll"+list);
+		System.out.println("|||--"+ fileName);
+		System.out.println();
 			
 		model.addAttribute("list",list);
+		model.addAttribute("file", fileName);
 		
 		return "forward:/board/listBoard.jsp";
 	}

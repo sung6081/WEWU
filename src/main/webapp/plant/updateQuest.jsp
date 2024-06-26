@@ -20,10 +20,7 @@
       var formData = new FormData(form);
       
 	  // JSON으로 변환
-	      var jsonData = {};
-		    formData.forEach((value, key) => {
-		        jsonData[key] = value;
-		    });
+	  var jsonData = Object.fromEntries(formData);
       
       $.ajax({
           url:"/app/plant/updateQuest",
@@ -35,6 +32,7 @@
           dataType: "json",
           success: function (data, status, xhr) {
               alert(" 퀘스트 업데이트가 완료 되었습니다 ! ");
+              window.location.href ="/plant/listQuest"
           },
           error: function (xhr, status, error) {
               console.error("Error: ", error); // 에러 로그

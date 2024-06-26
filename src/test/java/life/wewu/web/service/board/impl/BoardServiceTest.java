@@ -168,8 +168,8 @@ public class BoardServiceTest {
 		public void testGetBoardFile() throws Exception{
 			System.out.println("\n===================================");
 			
-			int file = boardService.getBoardFile(3);
-			System.out.println("getBoardFile :: "+ file);
+			//int file = boardService.getBoardFile(3);
+			//System.out.println("getBoardFile :: "+ file);
 		}
 		
 		//@Test

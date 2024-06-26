@@ -12,7 +12,7 @@
     <div class="text-center">
       <div class="btn-group d-inline-block" role="group" aria-label="Basic example">
 
-        <a href="/plant/getMyPlant.jsp" class="btn btn-success">My Plant</a>
+        <a href="/plant/getMyPlant" class="btn btn-success">My Plant</a>
      
         <a href="/plant/inventory" class="btn btn-info">Inventory</a>
 

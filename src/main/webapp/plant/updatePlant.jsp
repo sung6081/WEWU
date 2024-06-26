@@ -36,18 +36,32 @@
 	        plantName: formData.get("plantName"),
 	      },
 	      plantLevl: {
+	    	plantNo: formData.get("plantNo"),
 	        plantLevl: formData.get("plantLevl"),
 	        plantFinalLevl: formData.get("plantFinalLevl"),
 	        plantMinExp: formData.get("plantMinExp"),
 	        plantMaxExp: formData.get("plantMaxExp")
+	        
+	        
 	      }
 	    };
 
-	    // JSON 데이터를 FormData에 추가
+	 	// JSON 데이터를 FormData에 추가
 	    formData.append("plantRequest", new Blob([JSON.stringify(jsonData)], {
 	      type: "application/json"
 	    }));
 
+	    
+	   // 이미지를 FormData에 추가
+		  var levlImgFile = document.getElementById('levlImg').files[0];
+		  if (levlImgFile) {
+		    formData.append("levlImg", levlImgFile);
+		    alert("levlImg 추가됨: " + levlImgFile.name);
+		  } else {
+		    alert("levlImg 파일이 선택되지 않았습니다.");
+		  }
+		  
+		  
 	    $.ajax({
 	      url: "/app/plant/updatePlant",
 	      type: "POST",
@@ -56,6 +70,7 @@
 	      data: formData,
 	      success: function (data, status, xhr) {
 	        alert("식물 업데이트가 완료 되었습니다!");
+	        window.location.href ="/plant/listPlant";
 	      },
 	      error: function (xhr, status, error) {
 	        console.error("Error: ", error); // 에러 로그
@@ -125,9 +140,10 @@
                     name="plantFinalLevl" id="plantFinalLevl" value="${plantLevl.plantFinalLevl}">
                 </div>
                 <div class="form-group">
-                  <label>식물단계이미지</label> <input type="file" name="img[]" class="file-upload-default">
+                  <label>식물단계이미지</label> 
+                  <input type="file" name="levlImg" class="file-upload-default" id="levlImg" >
                   <div class="input-group col-xs-12">
-                    <input type="text" class="form-control file-upload-info" disabled value="${plantLevl.levlImg}">
+                    <input type="text" class="form-control file-upload-info"  disabled value="${plantLevl.levlImg}">
                     <span class="input-group-append">
                       <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                     </span>

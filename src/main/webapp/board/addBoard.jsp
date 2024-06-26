@@ -28,32 +28,32 @@
 	});
 
 	function getGroupList() {
-		$.ajax({
-			url: "/app/group/getUserGroupList",
-			type: "POST",
-			async: true,
-			cache: true,
-			timeout: 3000,
-			data: JSON.stringify({ nickname: '${sessionScope.user.nickname}' }),
-			processData: false,
-			contentType: "application/json",
-			dataType: "json",
-			success: function(data, status, xhr) {
-				var str = "<ul class='list-group'>";
-				for (var i = 0; i < data.length; i++) {
-					str += "<li class='list-group-item'>" + 
-						   "<input type='radio' id='groupNo" + data[i].groupNo + "' name='groupNo' value='" + data[i].groupNo + "'>" +
-						   "<label for='groupNo" + data[i].groupNo + "'> " + data[i].groupName + "</label>" +
-						   "</li>";
-				}
-				str += "</ul>";
-				$('#groupList').append(str);
-			},
-			error: function(xhr, status, error) {
-				alert("그룹 목록 불러오기 실패.");
-			}
-		});
-	}
+        $.ajax({
+            url: "/app/group/getUserGroupList",
+            type: "POST",
+            async: true,
+            cache: true,
+            timeout: 3000,
+            data: JSON.stringify({ nickname: '${sessionScope.user.nickname}' }),
+            processData: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data, status, xhr) {
+                var str = "<ul class='list-group'>";
+                for (var i = 0; i < data.length; i++) {
+                    str += "<li class='list-group-item'>" + 
+                           "<input type='radio' id='groupNo" + data[i].groupNo + "' name='groupNo' value='" + data[i].groupNo + "'>" +
+                           "<label for='groupNo" + data[i].groupNo + "'> " + data[i].groupName + "</label>" +
+                           "</li>";
+                }
+                str += "</ul>";
+                $('#groupList').append(str);
+            },
+            error: function(xhr, status, error) {
+                alert("그룹 목록 불러오기 실패.");
+            }
+        });
+    }
 </script>
 </head>
 <body>

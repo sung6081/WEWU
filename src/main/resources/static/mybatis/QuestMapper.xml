@@ -27,21 +27,23 @@
 	<update	id="updateQuest" parameterType ="map" >
 	   	UPDATE quest
 	   	<set>
-	   		<if test = "questContents != null "> 
+	   		<if test = "questContents != null and questContents != ''"> 
 	   		quest_contents = #{questContents},
 	   		</if>
-	   		<if test = "questTargetCnt != null "> 
+	   		<if test = "questTargetCnt != null and questTargetCnt != ''"> 
 	   		quest_target_cnt = #{questTargetCnt},
 	   		</if> 
-	   		<if test = "questTarget != null "> 
+	   		<if test = "questTarget != null and questTarget != ''"> 
 	   		quest_target = #{questTarget},
 	   		</if> 
-	   		<if test = "questReward != null "> 
+	   		<if test = "questReward != null and questReward != ''"> 
 	   		quest_reward = #{questReward},
 	   		</if> 
 	   		quest_no = #{questNo}
 	   	</set>
-	   	WHERE quest_no = #{questNo}
+	   	<where>
+	   	quest_no = #{questNo}
+	   	</where>
 	 </update>
 	 
 	 <!-- GET QUESTLIST -->

@@ -148,11 +148,22 @@ public class PlantServiceImpl implements PlantService {
 	}
 
 	@Override
-	public void deletePlant(int plantNo) throws Exception {
-		plantDao.deletePlant(plantNo);
+	public void deletePlant(PlantRequest plantRequest) throws Exception {
+		plantDao.deletePlant(plantRequest);
+		
 	}
 
+	@Override
+	public void deletePlantName(int plantNo) throws Exception {
+		plantDao.deletePlantName(plantNo);
+		
+	}
 
+	@Override
+	public void deletePlantLevl(int plantNo) throws Exception {
+		plantDao.deletePlantLevl(plantNo);
+		
+	}
 
 	@Override
 	public Plant getPlant(int PlantNo) throws Exception {
@@ -174,13 +185,12 @@ public class PlantServiceImpl implements PlantService {
 		return map;
 	}
 
-	// ---------------------------------------------------------------------------------------//
-
 	@Override
 	public Plant selectRandomPlant() throws Exception {
-		return myPlantDao.selectRandomPlant();
+		return plantDao.selectRandomPlant();
 	}
-
+	
+	// ---------------------------------------------------------------------------------------//
 	@Override
 	public void updateMyPlant(MyPlant myPlant) throws Exception {
 		myPlantDao.updateMyPlant(myPlant);
@@ -248,6 +258,7 @@ public class PlantServiceImpl implements PlantService {
 
 	}
 
+	
 
 
 

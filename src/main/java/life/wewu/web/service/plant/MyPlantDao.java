@@ -17,7 +17,7 @@ import life.wewu.web.domain.plant.Quest;
 public interface MyPlantDao {
 
 	
-	public Plant selectRandomPlant() throws Exception;
+	
 
 	public void addRandomPlant(MyPlant myPlant) throws Exception;
 
