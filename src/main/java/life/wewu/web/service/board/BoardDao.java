@@ -35,7 +35,7 @@ public interface BoardDao {
 	
 	public List<BoardFile> getBoardFileList(int boardNo) throws Exception;
 	
-	public int getBoardFile(int boardNo) throws Exception;
+	public List<BoardFile> getBoardFile(int baordType) throws Exception;
 	
 	//Comment Dao
 	public void addComment(Comment comment) throws Exception;

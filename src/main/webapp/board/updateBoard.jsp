@@ -6,7 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 수정</title>
+<style>
+  .large-icon {
+    font-size: 52px; /* 원하는 크기로 설정 */
+  }
+</style>
 <script type="text/javascript">
+
 	$(function() {
 		$("button.btn:contains('취소')").on("click", function() {
 			self.location = "/board/listBoard?boardType=${param.boardType}"
@@ -33,6 +39,13 @@
 				}
 
 			});
+	
+	$(function(){
+		$("i.")
+	})
+	
+	
+	
 </script>
 </head>
 <body>
@@ -111,6 +124,9 @@
 									<%-- ${boardFile.fileName} --%>
 									<c:forEach var="file" items="${boardFile}">
 										<img src="${file.fileName }">
+										<i class="mdi mdi-close-box-outline" style="font-size: 24px;"></i>
+										<br>
+									    <br>
 									</c:forEach>
 
 								</div>

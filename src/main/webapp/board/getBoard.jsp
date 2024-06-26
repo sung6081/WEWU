@@ -247,8 +247,8 @@
 							</div>
 							<div class="col-sm-3">
 								<p class="card-description">
-									<i class="mdi mdi-eye"></i> ${board.views} &nbsp;/&nbsp; <i
-										class="mdi mdi-comment"></i> ${board.commentCnt} &nbsp;/&nbsp;
+									<i class="mdi mdi-eye"></i> ${board.views} &nbsp;/&nbsp; 
+									<i class="mdi mdi-comment"></i> ${board.commentCnt} &nbsp;/&nbsp;
 									<i class="mdi mdi-star"></i> ${board.bookmarkCnt }
 								</p>
 							</div>

@@ -90,8 +90,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int getBoardFile(int boardNo) throws Exception {
-		return boardDao.getBoardFile(boardNo);
+	public List<BoardFile> getBoardFile(int boardType) throws Exception {
+		return boardDao.getBoardFile(boardType);
 	}
 
 	/*
