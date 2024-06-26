@@ -580,7 +580,7 @@
 	                      	</div>
 	                      	
 	                   	</div>
-                   	<</c:if>
+                   	</c:if>
                    	
                    	<c:if test="${user.role == 1}">
                    	
