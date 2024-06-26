@@ -182,6 +182,10 @@
 			}
 		}
 	}
+	
+	#loading {
+		padding: 20px; /* Loading 요소의 패딩을 조정하여 크기를 조절 */
+	}
     
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
@@ -275,12 +279,16 @@
 				var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 				//$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + '<span>' + data.date + '</span></div>');
 				if(data.file_url != undefined && data.fileType == 'img') {
+					$('#loading').remove();
+					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick) {
 		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
 					}else {
 						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
 					}
 				}else if(data.file_url != undefined && data.fileType == 'video') {
+					$('#loading').remove();
+					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick) {
 		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
 					}else {
@@ -296,6 +304,7 @@
 				}
 				if (isScrolledToBottom) {
 					chatBox.scrollTop(chatBox[0].scrollHeight);
+					$('#loading').appendTo('#chatBox');
 				}
 			});
 			
@@ -337,6 +346,12 @@
 				send_data.room = room;
 				send_data.msg = msg;
 				send_data.nick = nick;
+				var chatBox = $('#chatBox');
+				
+				var loadingHtml = '<div id="loading" class="chats my"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
+			    $('#chatBox').append(loadingHtml);
+			    $('#sendButton').prop('disabled', true); // sendButton을 비활성화
+			    chatBox.scrollTop(chatBox[0].scrollHeight);
 				
 				if($('#fileInput').val() != '') {
 					
@@ -365,8 +380,13 @@
 						};
 						
 						reader.readAsArrayBuffer(file);
+						//입력필드 초기화
+						$('#fileInput').val('');
+						$('#messageInput').val('');
 						
 					}
+					
+					$('.img-btn').removeClass('added');
 					
 					return;
 					
@@ -408,9 +428,13 @@
 		                    }
 		                });
 		               	
+		               	$('#videoInput').val('');
+		               	
 		               	//alert('check');
 		               	
 					}
+					
+					$('.video-btn').removeClass('added');
 					
 					return;
 					
