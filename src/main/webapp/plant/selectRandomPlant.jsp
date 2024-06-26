@@ -4,15 +4,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Image Popup</title>
+  <script>
+  $(document).ready(function() {
+      $('#selectRandomPlantButton').on('click', function(event) {
+          event.preventDefault(); // 기본 폼 제출 동작 방지
+
+          // 랜덤 이미지 요청
+          $.ajax({
+              url: "/app/group/selectRandomPlant",
+              type: "POST",
+              processData: false,
+              contentType: "application/json",
+              dataType: "json",
+              success: function(data) {
+                  // 이미지 출력
+                  $('#randomImage').attr('src', data.imageUrl);
+                  $('#randomImageContainer').show();
+              },
+              error: function(xhr, status, error) {
+                  console.error("Error: ", error);
+              },
+              complete: function(xhr, status) {
+                  console.log("Request completed");
+              }
+          });
+      });
+  });
+</script>
 </head>
 <body>
-  <div class="popup-content">
-    <img src="https://via.placeholder.com/200x200" class="rounded mx-auto d-block" alt="Popup Image">
-    <p>여기에 원하는 글씨를 입력하세요.</p>
+<div class="popup-content">
+  <form id="selectRandomPlant">
+      <button id="selectRandomPlantButton">랜덤 식물 선택</button>
+  
+  <div id="randomImageContainer" style="display: none;">
+      <img id="randomImage" src="${plant.plantLevl.levlImg}" class="rounded mx-auto d-block" alt="Random Plant Image">
   </div>
-<form id="selectRandomPlantForm" method="post" action="/plant/selectRandomPlant">
-     <input type="hidden" name="plantNo" value="{plant.plantNo}">
-     <button type="submit">Select Random Plant</button>
-</form>
+  </form>
+</div>
 </body>
 </html>

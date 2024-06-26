@@ -60,28 +60,27 @@ public class PlantRestController {
 		System.out.println(this.getClass());
 	}
 
-	@RequestMapping(value = "addPlant", method = RequestMethod.POST)
-	public Map<String, Object> addPlant(@RequestPart("plantRequest") PlantRequest plantRequest,
-			@RequestPart(required = false) MultipartFile file) throws Exception {
-
+	
+	@RequestMapping(value = "addPlantName", method = RequestMethod.POST)
+	public Map<String,Object> addPlant(@RequestPart("plant") Plant plant,Model model) throws Exception {
+        plantService.addPlantName(plant);
+        model.addAttribute("plant", plant);
+        System.out.println("plant:"+plant);
+        
+        Map<String,Object> map = new HashMap<>();
+        map.put("plantNo",plant.getPlantNo());
+        
+        return map;
+    }
+	
+	@RequestMapping(value = "addPlantLevl", method = RequestMethod.POST)
+	public PlantLevl addPlantLevel(@RequestPart("plantLevl") PlantLevl plantLevl,
+									@RequestPart(required = false) MultipartFile file) throws Exception {
+		
 		System.out.println(" /app/plant/addPlant : POST ");
-		System.out.println("Received PlantRequest: " + plantRequest);
-
-		Plant plant = plantRequest.getPlant();
-		PlantLevl plantLevl = plantRequest.getPlantLevl();
 
 		Map<String, Object> map = new HashMap<>();
 
-		if (plant == null) {
-			throw new IllegalArgumentException("Plant is null");
-		}
-
-		if (plantLevl == null) {
-			throw new IllegalArgumentException("PlantLevl is null");
-		}
-
-
-		System.out.println("Plant: " + plant.toString());
 		System.out.println("PlantLevl: " + plantLevl.toString());
 
 		if (file != null) {
@@ -103,15 +102,13 @@ public class PlantRestController {
 				throw new Exception("File upload failed", e);
 			}
 		}
-
-		plantService.addPlant(plantRequest);
-
-		System.out.println(plantRequest);
+		
+		plantService.addPlantLevl(plantLevl);
 		map.put("plantLevl", plantLevl);
-		map.put("plant", plant);
 
-		return map;
+		return plantLevl;
 	}
+	
 	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
 	public Map<String, Object> updatePlant(@RequestPart("plantRequest")PlantRequest plantRequest, Model model
@@ -153,16 +150,6 @@ public class PlantRestController {
         return map;
 	}
 	
-	@RequestMapping(value = "deletePlant")
-	public PlantRequest deletePlant(@RequestBody PlantRequest plantRequest)throws Exception {
-		System.out.println("deletePlant");
-
-		plantService.deletePlant(plantRequest);
-		System.out.println(plantRequest);
-		
-		return plantRequest;
-	}
-
 
 	@RequestMapping(value = "getQuestList", method = RequestMethod.POST)
 	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)

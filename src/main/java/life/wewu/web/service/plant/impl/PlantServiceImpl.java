@@ -124,45 +124,22 @@ public class PlantServiceImpl implements PlantService {
 		plantDao.addPlantName(plant);
 	}
 
-	@Override
-	public PlantLevl getPlantLevl(int plantNo) throws Exception {
-		return plantDao.getPlantLevl(plantNo);
-	}
-
 	public void addPlantLevl(PlantLevl plantlevl) throws Exception {
 		plantDao.addPlantLevl(plantlevl);
 	}
-	
+
 	@Override
 	public void updatePlant(PlantRequest plantRequest) throws Exception {
 		plantDao.updatePlantName(plantRequest.getPlant());
-        plantDao.updatePlantLevl(plantRequest.getPlantLevl());
+		plantDao.updatePlantLevl(plantRequest.getPlantLevl());
 	}
 
 	public void updatePlantName(Plant plant) throws Exception {
 		plantDao.updatePlantName(plant);
 	}
-	
+
 	public void updatePlantLevl(PlantLevl plantLevl) throws Exception {
 		plantDao.updatePlantLevl(plantLevl);
-	}
-
-	@Override
-	public void deletePlant(PlantRequest plantRequest) throws Exception {
-		plantDao.deletePlant(plantRequest);
-		
-	}
-
-	@Override
-	public void deletePlantName(int plantNo) throws Exception {
-		plantDao.deletePlantName(plantNo);
-		
-	}
-
-	@Override
-	public void deletePlantLevl(int plantNo) throws Exception {
-		plantDao.deletePlantLevl(plantNo);
-		
 	}
 
 	@Override
@@ -170,26 +147,27 @@ public class PlantServiceImpl implements PlantService {
 		return plantDao.getPlant(PlantNo);
 	}
 
+	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception {
+		return plantDao.getPlantLevl(plantLevlNo);
+	}
+
+	public List<PlantLevl> getPlantLevls(int plantLevlNo) throws Exception {
+		return plantDao.getPlantLevls(plantLevlNo);
+	}
+
 	@Override
-	public Map<String, Object> getPlantList(Search search) throws Exception {
-		List<Plant> list = plantDao.getPlantList(search);
-		for (Plant plant : list) {
-			PlantLevl plantLevl = plantDao.getPlantLevl(plant.getPlantLevl().getPlantLevlNo());
-			plant.setPlantLevl(plantLevl);
-
-		}
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("list", list);
-
-		return map;
+	public List<Plant> getPlantList(Map<String, Object> map) throws Exception {
+		List<Plant> list = plantDao.getPlantList(map);
+	    System.out.println("Retrieved Plant List: " + list); // 리스트 출력
+	    
+	    return list;
 	}
 
 	@Override
 	public Plant selectRandomPlant() throws Exception {
 		return plantDao.selectRandomPlant();
 	}
-	
+
 	// ---------------------------------------------------------------------------------------//
 	@Override
 	public void updateMyPlant(MyPlant myPlant) throws Exception {
@@ -200,13 +178,14 @@ public class PlantServiceImpl implements PlantService {
 	public MyPlant getMyPlant(String nickname) throws Exception {
 		return myPlantDao.getMyPlant(nickname);
 	}
-	
-	public MyPlant getMyPlantLevl(String nickname) throws Exception{
+
+	public MyPlant getMyPlantLevl(String nickname) throws Exception {
 		return myPlantDao.getMyPlantLevl(nickname);
 	}
 
 	@Override
 	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception {
+
 		return myPlantDao.getMyPlantList(map);
 	}
 
@@ -223,7 +202,7 @@ public class PlantServiceImpl implements PlantService {
 		} else {
 			return myPlantDao.deleteMyPlant(myPlant.getMyPlantNo());
 		}
-		
+
 		return myPlantDao.deleteMyPlant(myPlant.getMyPlantNo());
 	}
 
@@ -237,7 +216,7 @@ public class PlantServiceImpl implements PlantService {
 		myPlantDao.addRandomPlant(myPlant);
 	}
 
-	//---------------------------------------------------------------------------------------//
+	// ---------------------------------------------------------------------------------------//
 
 	@Override
 	public List<Inventory> getInventoryList(String nickname) throws Exception {
@@ -246,20 +225,15 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public void updateInventory(Inventory inventory) throws Exception {
-		
+
 		inventoryDao.updateInventory(inventory);
 	}
 
 	@Override
 	public Map<String, Object> UseItem(Inventory inventory) throws Exception {
-	
-		
-        return null;
+
+		return null;
 
 	}
-
-	
-
-
 
 }

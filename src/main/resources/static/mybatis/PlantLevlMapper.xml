@@ -19,8 +19,14 @@
 	<select id ="getPlantLevl" parameterType="int" resultMap="PlantLevlSelectMap">
 		SELECT * FROM 
     	plant_levl
-    	WHERE plant_no = #{plant_No}	
+    	WHERE plant_levl_no = #{plantLevlNo}	
 	</select>
+	
+	<select id="getPlantLevls" parameterType="map" resultType="PlantLevl">
+	    SELECT * FROM plant_levl 
+	    WHERE plant_levl_no = #{plantLevlNo}
+	</select>
+	
 	
 	
 	<!-- UPDATE PLANTLEVL -->
