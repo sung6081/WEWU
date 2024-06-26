@@ -45,7 +45,10 @@
 	<update id="updatePlantName" parameterType="plant">
 		UPDATE plant
 		<set>
-			plant_name = #{plantName}
+			<if test = "plantName != null and plantName != '' ">
+			plant_name = #{plantName},
+			</if>
+			plant_no = #{plantNo}
 		</set>	
 		<where>
 			plant_no = #{plantNo}
@@ -55,9 +58,8 @@
 
 	<!-- DELETE PLANT -->
 	<delete id="deletePlant">
-		DELETE FROM plant
-		WHERE plant_no = #{plant_no}
-	</delete>
+        DELETE FROM plant WHERE plant_no = #{plant_no}
+    </delete>
 	
 
 	<select id = "getPlant" parameterType="int" resultMap="PlantSelectMap">

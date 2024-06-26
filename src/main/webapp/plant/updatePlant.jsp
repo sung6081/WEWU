@@ -36,6 +36,7 @@
 	        plantName: formData.get("plantName"),
 	      },
 	      plantLevl: {
+	    	plantNo: formData.get("plantNo"),
 	        plantLevl: formData.get("plantLevl"),
 	        plantFinalLevl: formData.get("plantFinalLevl"),
 	        plantMinExp: formData.get("plantMinExp"),
@@ -56,6 +57,7 @@
 	      data: formData,
 	      success: function (data, status, xhr) {
 	        alert("식물 업데이트가 완료 되었습니다!");
+	        window.location.href ="/plant/listPlant";
 	      },
 	      error: function (xhr, status, error) {
 	        console.error("Error: ", error); // 에러 로그

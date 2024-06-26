@@ -42,8 +42,9 @@ $(document).ready(function () {
         }
     });
 
-    function addPlant() {
+    async function addPlant() {
         for (let i = 1; i <= 5; i++) {
+            
             var form = document.getElementById('addPlant_' + i);
             var formData = new FormData(form);
             
@@ -63,22 +64,20 @@ $(document).ready(function () {
             
             formData.append('plantRequest', new Blob([JSON.stringify(plantRequest)], { type: 'application/json' }));
 
-            $.ajax({
-            	url: "/app/plant/addPlant",
-                type: "POST",
-                data: formData,
-                processData: false,  // jQuery가 데이터를 자동으로 변환하지 않도록 설정
-                contentType: false,  // jQuery가 content type을 설정하지 않도록 설정
-                success: function (data, status, xhr) {
-                    alert(" 식물 등록이 완료 되었습니다 ! " + i + "단계");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error: ", error); // 에러 로그
-                },
-                complete: function (xhr, status) {
-                    console.log("Request completed for form " + i); // 완료 로그
-                }
-            });
+            try {
+                await $.ajax({
+                    url: "/app/plant/addPlant",
+                    type: "POST",
+                    data: formData,
+                    processData: false,  // jQuery가 데이터를 자동으로 변환하지 않도록 설정
+                    contentType: false  // jQuery가 content type을 설정하지 않도록 설정
+                });
+                alert("식물 등록이 완료 되었습니다! " + i + "단계");
+            } catch (error) {
+                console.error("Error: ", error); // 에러 로그
+            } finally {
+                console.log("Request completed for form " + i); // 완료 로그
+            }
         }
     }
 
@@ -246,21 +245,21 @@ $(document).ready(function () {
               </div>
               <div class="form-group">
                 <label for="questTarget">최소경험치</label>
-                <input type="number" class="form-control" name="plantMinExp" 
+                <input type="number" class="form-control" name="plantLevl.plantMinExp" 
                   placeholder="plantMinExp">
               </div>
               <div class="form-group">
                 <label for="questReward">최대경험치</label>
-                <input type="number" class="form-control" name="plantMaxExp" 
+                <input type="number" class="form-control" name="plantLevl.plantMaxExp" 
                   placeholder="plantMaxExp">
               </div>
               <div class="form-group">
                 <label for="questState">식물단계</label>
-                <input type="text" class="form-control" name="plantLevl"  placeholder="plantLevl">
+                <input type="text" class="form-control" name="plantLevl.plantLevl"  placeholder="plantLevl">
               </div>
               <div class="form-group">
                 <label for="questState">식물최종단계</label>
-                <input type="text" class="form-control" name="plantFinalLevl" 
+                <input type="text" class="form-control" name="plantLevl.plantFinalLevl" 
                   placeholder="plantFinalLevl">
               </div>
               <div class="form-group">

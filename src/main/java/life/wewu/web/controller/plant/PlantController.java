@@ -88,6 +88,8 @@ public class PlantController {
 	
 		Quest quest = plantService.getQuest(questNo);
 		model.addAttribute("quest", quest);
+		
+		System.out.println(quest);
 
 		return "forward:/plant/updateQuest.jsp";
 	}
@@ -113,7 +115,8 @@ public class PlantController {
 	
 	@RequestMapping(value ="addPlant" , method = RequestMethod.GET)
 	public String GetAddPlant() throws Exception{
-		System.out.println(" /plant/addPlant : get ");		
+		System.out.println(" /plant/addPlant : get ");	
+		
 		
 		return "forward:/plant/addPlant.jsp";	
 	}
@@ -147,7 +150,8 @@ public class PlantController {
 		System.out.println(" /plant/updatePlant : GET ");
 		Plant plant = plantService.getPlant(plantNo);
 		PlantLevl PlantLevl = plantService.getPlantLevl(plantNo);
-		System.out.println(plant);
+		
+		System.out.println(plantNo);
 		model.addAttribute("plant", plant);
 		model.addAttribute("plantLevl", PlantLevl);
 		
@@ -257,12 +261,16 @@ public class PlantController {
 	    List<Inventory> list = plantService.getInventoryList(user.getNickname());
 	    
 	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+	    System.out.println(myPlant);
+	    System.out.println(plantLevl);
 	    
 	    System.out.println("list: " + list);
 	    
 	    model.addAttribute("user", user);
 	    model.addAttribute("list", list);
 	    model.addAttribute("myPlant", myPlant);
+	    model.addAttribute("plantLevl", plantLevl);
 
 	    return "forward:/plant/inventory.jsp";
 

@@ -27,19 +27,19 @@
 	<update id="updatePlantLevl" parameterType="plantLevl">
 		UPDATE plant_levl	
 		<set>
-			<if test = "plantLevl != null">
+			<if test = "plantLevl != null and plantLevl != '' ">
 			plant_levl = #{plantLevl},
 			</if>
-			<if test = "plantMinExp != null">
+			<if test = "plantMinExp != null and plantMinExp != '' ">
 			plant_min_exp = #{plantMinExp},
 			</if>
-			<if test = "plantMaxExp != null">
+			<if test = "plantMaxExp != null and plantMaxExp != '' ">
 			plant_max_exp = #{plantMaxExp},
 			</if>
-			<if test = "plantFinalLevl != null">
+			<if test = "plantFinalLevl != null and plantFinalLevl != '' ">
 			plant_final_levl = #{plantFinalLevl},
 			</if>
-			<if test = "levlImg != null">
+			<if test = "levlImg != null and levlImg != '' ">
 			levl_img = #{levlImg},
 			</if>
 			plant_no = #{plantNo}
@@ -49,6 +49,11 @@
 		</where>
 		
 	</update>
+	
+	<delete id="deletePlantLevl">
+        DELETE FROM plant_levl 
+        WHERE plant_no = #{plant_no}
+    </delete>
 	
 </mapper>
 			
