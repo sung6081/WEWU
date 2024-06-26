@@ -112,6 +112,46 @@ public class PlantRestController {
 
 		return map;
 	}
+	
+	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
+	public Map<String, Object> updatePlant(@RequestPart("plantRequest")PlantRequest plantRequest, Model model
+			,@RequestPart(required = false) MultipartFile file) throws Exception{
+		System.out.println(" /plant/updatePlant : POST ");
+
+        Plant plant = plantRequest.getPlant();
+        PlantLevl plantLevl = plantRequest.getPlantLevl();
+        
+        if (file != null) {
+			System.out.println("File: " + file.getOriginalFilename());
+		} else {
+			System.out.println("File is null");
+		}
+
+		if (file != null && !file.isEmpty()) {
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("file", file);
+			fileMap.put("folderName", "plant");
+
+			try {
+				String url = s3Repository.uplodaFile(fileMap);
+				plantLevl.setLevlImg(s3Repository.getShortUrl(url));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("File upload failed", e);
+			}
+		}
+
+        Map<String, Object> map = new HashMap<>();
+        plantService.updatePlant(plantRequest);
+
+        System.out.println(plant);
+
+        map.put("plant", plant);
+        map.put("plantLevl", plantLevl);
+
+        return map;
+	}
+
 
 	@RequestMapping(value = "getQuestList", method = RequestMethod.POST)
 	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)
@@ -135,6 +175,20 @@ public class PlantRestController {
 		plantService.completeQuest(quest);
 
 		return quest;
+	}
+	
+	@RequestMapping(value ="updateQuest" , method = RequestMethod.POST)
+	public Map<String, Object> updateQuest(@RequestBody Quest quest) throws Exception{
+		System.out.println(" /app/plant/updateQuest : POST ");	
+		
+		Map<String,Object> map = new HashMap<>();
+		plantService.updateQuest(quest);
+	
+		System.out.println(quest);
+		
+		map.put("quest",quest);
+
+		return map;
 	}
 
 	@RequestMapping(value = "deleteQuest")

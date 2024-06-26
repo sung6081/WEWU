@@ -179,7 +179,7 @@
           
           
           <!--  -->
-          <jsp:include page="plant/getQuestList.jsp" />
+
           <!--  -->
         </div>
       </div>

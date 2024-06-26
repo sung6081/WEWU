@@ -132,9 +132,19 @@ public class PlantServiceImpl implements PlantService {
 	public void addPlantLevl(PlantLevl plantlevl) throws Exception {
 		plantDao.addPlantLevl(plantlevl);
 	}
+	
+	@Override
+	public void updatePlant(PlantRequest plantRequest) throws Exception {
+		plantDao.updatePlantName(plantRequest.getPlant());
+        plantDao.updatePlantLevl(plantRequest.getPlantLevl());
+	}
 
-	public void updatePlantLevl(Plant plant) throws Exception {
-		plantDao.updatePlantLevl(plant);
+	public void updatePlantName(Plant plant) throws Exception {
+		plantDao.updatePlantName(plant);
+	}
+	
+	public void updatePlantLevl(PlantLevl plantLevl) throws Exception {
+		plantDao.updatePlantLevl(plantLevl);
 	}
 
 	@Override
@@ -142,11 +152,7 @@ public class PlantServiceImpl implements PlantService {
 		plantDao.deletePlant(plantNo);
 	}
 
-	@Override
-	public void updatePlant(Plant plant) throws Exception {
-		plantDao.updatePlant(plant);
 
-	}
 
 	@Override
 	public Plant getPlant(int PlantNo) throws Exception {
@@ -157,7 +163,7 @@ public class PlantServiceImpl implements PlantService {
 	public Map<String, Object> getPlantList(Search search) throws Exception {
 		List<Plant> list = plantDao.getPlantList(search);
 		for (Plant plant : list) {
-			PlantLevl plantLevl = plant.getPlantLevl();
+			PlantLevl plantLevl = plantDao.getPlantLevl(plant.getPlantLevl().getPlantLevlNo());
 			plant.setPlantLevl(plantLevl);
 
 		}
@@ -241,5 +247,8 @@ public class PlantServiceImpl implements PlantService {
         return null;
 
 	}
+
+
+
 
 }

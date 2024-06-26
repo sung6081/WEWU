@@ -24,13 +24,22 @@
 	
 
 	<!-- UPDATE QUTES -->
-	<update	id="updateQuest" parameterType ="quest" >
+	<update	id="updateQuest" parameterType ="map" >
 	   	UPDATE quest
 	   	<set>
+	   		<if test = "questContents != null "> 
 	   		quest_contents = #{questContents},
-			quest_target = #{questTarget},
-			quest_target_cnt = #{questTargetCnt},
-			quest_reward = #{questReward}
+	   		</if>
+	   		<if test = "questTargetCnt != null "> 
+	   		quest_target_cnt = #{questTargetCnt},
+	   		</if> 
+	   		<if test = "questTarget != null "> 
+	   		quest_target = #{questTarget},
+	   		</if> 
+	   		<if test = "questReward != null "> 
+	   		quest_reward = #{questReward},
+	   		</if> 
+	   		quest_no = #{questNo}
 	   	</set>
 	   	WHERE quest_no = #{questNo}
 	 </update>

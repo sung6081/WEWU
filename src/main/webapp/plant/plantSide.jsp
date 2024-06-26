@@ -20,7 +20,7 @@
 		          <div class="collapse" id="ui-basic">
 		            <ul class="nav flex-column sub-menu">
 		              <li class="nav-item"> <a class="nav-link" href="/plant/addPlant.jsp">식물 등록</a></li>
-		              <li class="nav-item"> <a class="nav-link" href="/plant/listPlant?plantNo=1">식물 관리</a></li>
+		              <li class="nav-item"> <a class="nav-link" href="/plant/listPlant">식물 관리</a></li>
 		            </ul>
 		          </div>
 		        </li>
@@ -33,7 +33,7 @@
 		          <div class="collapse" id="form-elements">
 		            <ul class="nav flex-column sub-menu">
 		              <li class="nav-item"><a class="nav-link" href="/plant/addQuest.jsp">퀘스트 등록</a></li>
-		              <li class="nav-item"><a class="nav-link" href="/plant/listQuest?questNo=1">퀘스트 관리</a></li>
+		              <li class="nav-item"><a class="nav-link" href="/plant/listQuest">퀘스트 관리</a></li>
 		            </ul>
 		          </div>
 		        </li>

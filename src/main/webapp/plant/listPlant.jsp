@@ -25,6 +25,15 @@
       background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script>
+    $(function () {
+        $(".badge").on("click", function () {
+          var plantNo = $(this).data("plantno");
+          self.location = "/plant/updatePlant?plantNo="+plantNo;
+        });
+      });
+  </script>
 </head>
 <body>
   <jsp:include page="/header.jsp" flush="true" />
@@ -64,7 +73,7 @@
                         <td>${plant.plantLevl.plantFinalLevl}</td>
                         <td>${plant.plantLevl.levlImg}</td>
                         <td>
-                        	<a href = "/plant/updatePlant" type = "button" class="badge badge-success">수정</a>
+                        	<a  type = "button" class="badge badge-success" data-plantno="${plant.plantNo}">수정</a>
                         </td>
                       </tr>
                     </c:forEach>
