@@ -72,7 +72,7 @@
     .chat-img {
         height: 150px;
         width: 150px;
-        margin-top: 10px;
+        margin-top: 1rem;
         border-radius: 10px;
     }
     
@@ -89,7 +89,7 @@
      
      .my {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-end;
      }
      
@@ -106,11 +106,17 @@
 		margin-bottom: 10px;
 	}
 	
-	.chats.my video {
+	.other {
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-start;
+	}
+	
+	.chats video {
         width: 100%;
         max-width: 600px;
         border: 2px solid #ddd;
-        border-radius: 8px;
+        border-radius: 8px;s
         margin-top: 10px;
     }
     
@@ -142,7 +148,9 @@
 		.message {
 			box-sizing: border-box;
 			padding: 0.5rem 1rem;
-			margin: 1rem;
+			margin-top: 1rem;
+	        margin-right: 1rem;
+	        margin-bottom: 1rem;
 			background: #FFF;
 			border-radius: 1.125rem 1.125rem 1.125rem 0;
 			min-height: 2.25rem;
@@ -155,6 +163,7 @@
 			
 			&.parker {
 				background-color: #4B49AC !important;
+				margin-left: 1rem;
 				color: white !important;
 			}
 			
@@ -219,13 +228,13 @@
 			        	if(chat.chat_nickname == nick) {
 			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><img class="chat-img" src="'+chat.file_short_url+'"></div>');
 			        	}else {
-			        		$('#chatBox').append('<div class="chats">'+chat.file_name+'<br/><img class="chat-img" src="'+chat.file_short_url+'"><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<strong>'+chat.chat_nickname+'</strong><br/><div class="chats other"><img class="chat-img" src="'+chat.file_short_url+'"><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
 			        	}
 			        } else if(chat.file_url != undefined && chat.file_type == 'video') {
 			        	if(chat.chat_nickname == nick) {
-			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '<video src="'+chat.file_short_url+'" controls="controls" ></video></div>');
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><video src="'+chat.file_short_url+'" controls="controls" ></video></div>');
 			        	}else {
-			        		$('#chatBox').append('<div class="chats"><strong>'+chat.chat_nickname+'</strong><video src="'+chat.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<strong>'+chat.chat_nickname+'</strong><br/><div class="chats other"><video src="'+chat.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
 			        	}
 			        }  
 			        if(chat.chat_contents != '') {
@@ -233,7 +242,7 @@
 			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><div class="message parker">' + chat.chat_contents + '</div></div>');
 			        	}else {
 			        		//$('#chatBox').append('<div class="chats"><strong>'+ chat.chat_nickname +'</strong><br/><div class="chat-text">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
-			        		$('#chatBox').append('<div class="chats"><strong>'+ chat.chat_nickname +'</strong><br/><div class="message">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<strong>'+ chat.chat_nickname +'</strong><br/><div class="chats other"><div class="message">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
 			        	}
 			        }
 			        if (isScrolledToBottom) {
@@ -266,12 +275,24 @@
 				var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 				//$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + '<span>' + data.date + '</span></div>');
 				if(data.file_url != undefined && data.fileType == 'img') {
-		        	$('#chatBox').append('<div><strong>'+data.nick+'</strong>: '+data.fileName+'<br/><img class="chat-img" src="'+data.shortUrl+'"><span style="font-size: 10px;">' + data.date + '</span></div>');
-		        }else if(data.file_url != undefined && data.fileType == 'video') {
-		        	$('#chatBox').append('<div><strong>'+data.nick+'</strong>: '+data.file_name+'<br/><video src="'+data.file_short_url+'" controls="controls" ></video><span style="font-size: 10px;">' + data.date + '</span></div>');
+					if(data.nick == nick) {
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
+					}else {
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+					}
+				}else if(data.file_url != undefined && data.fileType == 'video') {
+					if(data.nick == nick) {
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
+					}else {
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><video src="'+data.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+					}
 		        }
 				if(data.msg != '') {
-					$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + ' ' + '<span style="font-size: 10px;">' + data.date + '</span></div>');
+					if(data.nick == nick){
+						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ data.date +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
+					}else {
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats other"><div class="message">' + data.msg + '</div><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+					}
 				}
 				if (isScrolledToBottom) {
 					chatBox.scrollTop(chatBox[0].scrollHeight);
@@ -480,7 +501,7 @@
 				    </script>
 				    
 				    <!-- 메시지 입력란 -->
-				    <input type="text" id="messageInput" class="form-control-sm keyword" placeholder="Type your message here...">
+				    <input type="text" id="messageInput" class="form-control-sm keyword" placeholder="채팅을 입력하세요...">
 				    <!-- 전송 버튼 -->
 				    <div class="input-group-append">
 				        <button id="sendButton" class="btn btn-sm btn-primary search-btn">Send</button>
