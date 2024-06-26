@@ -59,7 +59,7 @@
 				                                   	</table>
 				                               	</div>
 				                                <div class="text-right mt-4">
-				     		 						<button type="button" class="btn-primary">목록</button>
+				     		 						<button type="button" class="btn btn-primary">목록</button>
 			   		 					   		</div>
 				                            </div>
 				                        </div>

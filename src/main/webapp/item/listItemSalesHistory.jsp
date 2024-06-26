@@ -112,7 +112,7 @@ function fncListItesmSalesHistory(){
     </form>  	
     
     
-    	    	<!-- FOOTER -->
+   	    	<!-- FOOTER -->
 		    <jsp:include page="/footer.jsp" />
 		    <!-- FOOTER -->
 	</body>
