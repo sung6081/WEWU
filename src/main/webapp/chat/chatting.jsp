@@ -296,6 +296,8 @@
 					}
 		        }
 				if(data.msg != '') {
+					$('#loading').remove();
+					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick){
 						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ data.date +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
 					}else {
