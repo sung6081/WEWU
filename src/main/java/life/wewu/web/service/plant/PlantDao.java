@@ -16,54 +16,35 @@ import life.wewu.web.domain.plant.Quest;
 @Mapper
 public interface PlantDao {
 
-	public void addQuest(Quest quest) throws Exception;
-
-	public void deleteQuest(int questNo) throws Exception;
-
-	public void updateQuest(Quest quest) throws Exception;
-
-	public Quest getQuest(int questNo) throws Exception;
-
-	public List<Quest> getQuestList(Search search) throws Exception;
-
-	public void completeQuest(Quest quest) throws Exception;
-
+	//add start
 	public void addPlant(Plant plant) throws Exception;
 
 	public void addPlantName(Plant plant) throws Exception;
 
 	public void addPlantLevl(PlantLevl plantLevl) throws Exception;
+	//add end
 
-	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
+	//delete start
+	public void deletePlant(PlantRequest plantRequest) throws Exception;
+	
+	public void deletePlantName(int plantNo) throws Exception;
+	
+	public void deletePlantLevl(int plantNo) throws Exception;	
+	//delete end
+	
+	//update start
+	public void updatePlant(PlantRequest plantRequest) throws Exception;
+	
+	public void updatePlantName(Plant plant) throws Exception;
 
-	public void deletePlant(int plantNo) throws Exception;
-
-	public void updatePlant(Plant plant) throws Exception;
-
-	public void updatePlantLevl(Plant plant) throws Exception;
+	public void updatePlantLevl(PlantLevl plantLevl) throws Exception;
+	//update end
 
 	public Plant getPlant(int PlantNo) throws Exception;
 
 	public List<Plant> getPlantList(Search search) throws Exception;
 
+	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
+
 	public Plant selectRandomPlant() throws Exception;
-
-	public void addRandomPlant(MyPlant myPlant) throws Exception;
-
-	public void updateMyPlant(MyPlant myPlant) throws Exception;
-
-	public MyPlant getMyPlant(int myPlantNo) throws Exception;
-
-	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception;
-
-	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
-
-	public String getWeather(String location);
-
-	public List<Inventory> getInventory(String nickname) throws Exception;
-
-	public List<MyPlant> getUseItem(int itemPurNo) throws Exception;
-
-	public void updateInventory(List<Inventory> inventory);
-
 }

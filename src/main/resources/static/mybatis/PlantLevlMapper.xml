@@ -17,11 +17,9 @@
 	
 
 	<select id ="getPlantLevl" parameterType="int" resultMap="PlantLevlSelectMap">
-		SELECT 
-			*
-    	FROM 
-    		plant_levl
-    	WHERE plant_levl_no = #{plantLevlNo}	
+		SELECT * FROM 
+    	plant_levl
+    	WHERE plant_no = #{plant_No}	
 	</select>
 	
 	
@@ -29,17 +27,33 @@
 	<update id="updatePlantLevl" parameterType="plantLevl">
 		UPDATE plant_levl	
 		<set>
+			<if test = "plantLevl != null and plantLevl != '' ">
 			plant_levl = #{plantLevl},
-			plant_min_exp = #{plant_min_exp},
-			plant_max_exp = #{plant_max_exp},
-			plant_final_levl = #{plant_final_levl},
-			levl_img = #{levl_img}
-		</set>
+			</if>
+			<if test = "plantMinExp != null and plantMinExp != '' ">
+			plant_min_exp = #{plantMinExp},
+			</if>
+			<if test = "plantMaxExp != null and plantMaxExp != '' ">
+			plant_max_exp = #{plantMaxExp},
+			</if>
+			<if test = "plantFinalLevl != null and plantFinalLevl != '' ">
+			plant_final_levl = #{plantFinalLevl},
+			</if>
+			<if test = "levlImg != null and levlImg != '' ">
+			levl_img = #{levlImg},
+			</if>
+			plant_no = #{plantNo}
+		</set>	
 		<where>
 			plant_no = #{plantNo}
 		</where>
 		
 	</update>
+	
+	<delete id="deletePlantLevl">
+        DELETE FROM plant_levl 
+        WHERE plant_no = #{plant_no}
+    </delete>
 	
 </mapper>
 			

@@ -40,20 +40,27 @@
 
 	
 	<!-- UPDATE PLANT -->
-	<update id="updatePlant" parameterType="plant">
+	
+	
+	<update id="updatePlantName" parameterType="plant">
 		UPDATE plant
 		<set>
-			plant_name = #{plantName}
-		</set>
-			WHERE plant_no = #{plantNo}
+			<if test = "plantName != null and plantName != '' ">
+			plant_name = #{plantName},
+			</if>
+			plant_no = #{plantNo}
+		</set>	
+		<where>
+			plant_no = #{plantNo}
+		</where>
 	</update>
 	
 
 	<!-- DELETE PLANT -->
-	<delete id="deletePlant">
-		DELETE FROM plant
-		WHERE plant_no = #{plant_no}
-	</delete>
+	<delete id="deletePlant" parameterType="int">
+        DELETE FROM plant 
+        WHERE plant_no = #{plantNo}
+    </delete>
 	
 
 	<select id = "getPlant" parameterType="int" resultMap="PlantSelectMap">
@@ -61,7 +68,7 @@
 		WHERE plant_no = #{value}
 	</select>
 	
-	<select id="getPlantList" parameterType="search" resultMap="PlantSelectMap">
+	<select id="getPlantList" parameterType="map" resultMap="PlantSelectMap">
 		SELECT p.*, l.*
 		FROM plant p , plant_levl l
 		WHERE p.plant_no = l.plant_no

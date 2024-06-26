@@ -26,24 +26,28 @@ public interface PlantService {
 	public Map<String, Object> getQuestList(Search search) throws Exception;
 
 	public void completeQuest(Quest quest) throws Exception;
-
+	
+	//---------------------------------------------------------------------------------------//
+	
 	public void addPlant(PlantRequest plantRequest) throws Exception;
-
 	public void addPlantName(Plant plant) throws Exception;
-
 	public void addPlantLevl(PlantLevl plantlevl) throws Exception;
 
 	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
 
-	public void deletePlant(int plantNo) throws Exception;
+	public void deletePlant(PlantRequest plantRequest) throws Exception;
+	public void deletePlantName(int plantNo) throws Exception;
+	public void deletePlantLevl(int plantNo) throws Exception;
 
-	public void updatePlant(Plant plant) throws Exception;
-
-	public void updatePlantLevl(Plant plant) throws Exception;
+	public void updatePlant(PlantRequest plantRequest) throws Exception;
+	public void updatePlantName(Plant plant) throws Exception;
+	public void updatePlantLevl(PlantLevl plantLevl) throws Exception;
 
 	public Plant getPlant(int PlantNo) throws Exception;
 
 	public Map<String, Object> getPlantList(Search search) throws Exception;
+	
+	//---------------------------------------------------------------------------------------//
 
 	public Plant selectRandomPlant() throws Exception;
 
@@ -51,17 +55,24 @@ public interface PlantService {
 
 	public void updateMyPlant(MyPlant myPlant) throws Exception;
 
-	public MyPlant getMyPlant(int myPlantNo) throws Exception;
+	public MyPlant getMyPlant(String nickname) throws Exception;
+	
+	public MyPlant getMyPlantLevl(String nickname) throws Exception;
 
 	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception;
 
-	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
+	public MyPlant deleteMyPlant(String nickname) throws Exception;
 
 	public String getWeather(String location) throws Exception;
+	
+	//---------------------------------------------------------------------------------------//
 
-	public List<Inventory> getInventory(String nickname) throws Exception;
+	
+	public void updateInventory(Inventory inventory) throws Exception;
 
-	public Map<String, Object> getUseItem(Map<String, Object> map) throws Exception;
+	public Map<String, Object> UseItem(Inventory inventory) throws Exception;
+
+	public List<Inventory> getInventoryList(String nickname) throws Exception;
 
 
 }

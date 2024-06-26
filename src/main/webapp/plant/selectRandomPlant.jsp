@@ -11,7 +11,7 @@
     <p>여기에 원하는 글씨를 입력하세요.</p>
   </div>
 <form id="selectRandomPlantForm" method="post" action="/plant/selectRandomPlant">
-     <input type="hidden" name="plantNo" value="1">
+     <input type="hidden" name="plantNo" value="{plant.plantNo}">
      <button type="submit">Select Random Plant</button>
 </form>
 </body>

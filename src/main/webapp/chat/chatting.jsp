@@ -7,16 +7,57 @@
 <title>chat practice</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
+
+	body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+	.main-panel {
+		margin-bottom: 70px;
+	}
+
     #chatBox {
-      border: 1px solid #000;
-      height: 500px;
-      overflow-y: scroll;
-      padding: 10px;
-      margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        height: 500px;
+        overflow-y: scroll;
+        padding: 20px;
+        background-color: $background;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    /* Webkit 기반 브라우저 (Chrome, Safari)용 스크롤바 스타일링 */
+    #chatBox::-webkit-scrollbar {
+        width: 10px; /* 스크롤바 너비 */
+    }
+    
+    #chatBox::-webkit-scrollbar-track {
+        background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+        border-radius: 10px; /* 둥근 트랙 */
+    }
+    
+    #chatBox::-webkit-scrollbar-thumb {
+        background: #888; /* 스크롤바 손잡이 색 */
+        border-radius: 10px; /* 둥근 손잡이 */
+    }
+    
+    #chatBox::-webkit-scrollbar-thumb:hover {
+        background: #555; /* 호버 상태의 스크롤바 손잡이 색 */
+    }
+
+    /* Firefox 용 스크롤바 스타일링 */
+    #chatBox {
+        scrollbar-width: thin; /* 스크롤바 너비 */
+        scrollbar-color: #888 #f1f1f1; /* 스크롤바 손잡이와 트랙 색 */
     }
     
     #messageInput {
-      width: 60%;
+      width: 70%;
       padding: 10px;
     }
     
@@ -29,17 +70,122 @@
     }
     
     .chat-img {
-    	height: 150px;
-    	width: 150px;
+        height: 150px;
+        width: 150px;
+        margin-top: 1rem;
+        border-radius: 10px;
     }
     
     video {
-    	height: 250px;
+        height: 300px;
+        width: auto;
+        border-radius: 10px;
+        margin-top: 10px;
     }
     
     .input-group .form-control-sm {
          height: 49px; /* 동일한 높이 설정 */
      }
+     
+     .my {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+     }
+     
+     .center-text {
+	    text-align: center;
+	}
+	
+	.added {
+		background-color: #4B49AC !important;
+		color: white !important;
+	}
+	
+	.chats {
+		margin-bottom: 10px;
+	}
+	
+	.other {
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-start;
+	}
+	
+	.chats video {
+        width: 100%;
+        max-width: 600px;
+        border: 2px solid #ddd;
+        border-radius: 8px;s
+        margin-top: 10px;
+    }
+    
+    .date {
+        font-size: 10px;
+        color: #999;
+    }
+    
+    .messages {
+		padding: 1rem;
+		background: $background;
+		flex-shrink: 2;
+		overflow-y: auto;
+		
+		box-shadow: 
+			inset 0 2rem 2rem -2rem rgba(black, 0.05),
+			inset 0 -2rem 2rem -2rem rgba(black, 0.05);
+		
+		.time {
+			font-size: 0.8rem;
+			background: $time-bg;
+			padding: 0.25rem 1rem;
+			border-radius: 2rem;
+			color: $text-3;
+			width: fit-content;
+			margin: 0 auto;
+		}
+		
+		.message {
+			box-sizing: border-box;
+			padding: 0.5rem 1rem;
+			margin-top: 1rem;
+	        margin-right: 1rem;
+	        margin-bottom: 1rem;
+			background: #FFF;
+			border-radius: 1.125rem 1.125rem 1.125rem 0;
+			min-height: 2.25rem;
+			width: fit-content;
+			max-width: 66%;
+			
+			box-shadow: 
+				0 0 2rem rgba(black, 0.075),
+				0rem 1rem 1rem -1rem rgba(black, 0.1);
+			
+			&.parker {
+				background-color: #4B49AC !important;
+				margin-left: 1rem;
+				color: white !important;
+			}
+			
+			.typing {
+				display: inline-block;
+				width: 0.8rem;
+				height: 0.8rem;
+				margin-right: 0rem;
+				box-sizing: border-box;
+				background: #ccc;
+				border-radius: 50%;
+				
+				&.typing-1 { animation: typing 3s infinite }
+				&.typing-2 { animation: typing 3s 250ms infinite }
+				&.typing-3 { animation: typing 3s 500ms infinite }
+			}
+		}
+	}
+	
+	#loading {
+		padding: 20px; /* Loading 요소의 패딩을 조정하여 크기를 조절 */
+	}
     
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
@@ -83,12 +229,25 @@
 					var chatBox = $('#chatBox');
 			        var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 			        if(chat.file_url != undefined && chat.file_type == 'img') {
-			        	$('#chatBox').append('<div><strong>'+chat.chat_nickname+'</strong>: '+chat.file_name+'<br/><img class="chat-img" src="'+chat.file_short_url+'"><span style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        	if(chat.chat_nickname == nick) {
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><img class="chat-img" src="'+chat.file_short_url+'"></div>');
+			        	}else {
+			        		$('#chatBox').append('<strong>'+chat.chat_nickname+'</strong><br/><div class="chats other"><img class="chat-img" src="'+chat.file_short_url+'"><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        	}
 			        } else if(chat.file_url != undefined && chat.file_type == 'video') {
-			        	$('#chatBox').append('<div><strong>'+chat.chat_nickname+'</strong>: '+chat.file_name+'<br/><video src="'+chat.file_short_url+'" controls="controls" ></video><span style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        	if(chat.chat_nickname == nick) {
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><video src="'+chat.file_short_url+'" controls="controls" ></video></div>');
+			        	}else {
+			        		$('#chatBox').append('<strong>'+chat.chat_nickname+'</strong><br/><div class="chats other"><video src="'+chat.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        	}
 			        }  
 			        if(chat.chat_contents != '') {
-			        	$('#chatBox').append('<div><strong>'+ chat.chat_nickname +'</strong> : ' + chat.chat_contents + ' ' + '<span style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        	if(chat.chat_nickname == nick) {
+			        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedDate + '</span><div class="message parker">' + chat.chat_contents + '</div></div>');
+			        	}else {
+			        		//$('#chatBox').append('<div class="chats"><strong>'+ chat.chat_nickname +'</strong><br/><div class="chat-text">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        		$('#chatBox').append('<strong>'+ chat.chat_nickname +'</strong><br/><div class="chats other"><div class="message">' + chat.chat_contents + ' ' + '</div><span class="date" style="font-size: 10px;">' + formattedDate + '</span></div>');
+			        	}
 			        }
 			        if (isScrolledToBottom) {
 			            chatBox.scrollTop(chatBox[0].scrollHeight);
@@ -104,7 +263,7 @@
 				
 				var chatBox = $('#chatBox');
 				var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
-				$('#chatBox').append('<div><strong>'+nick+'</strong>님이 입장하였습니다.</div>');
+				$('#chatBox').append('<div class="center-text"><strong>'+nick+'</strong>님이 입장하였습니다.</div>');
 				if (isScrolledToBottom) {
 					chatBox.scrollTop(chatBox[0].scrollHeight);
 				}
@@ -120,15 +279,34 @@
 				var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 				//$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + '<span>' + data.date + '</span></div>');
 				if(data.file_url != undefined && data.fileType == 'img') {
-		        	$('#chatBox').append('<div><strong>'+data.nick+'</strong>: '+data.fileName+'<br/><img class="chat-img" src="'+data.shortUrl+'"><span style="font-size: 10px;">' + data.date + '</span></div>');
-		        }else if(data.file_url != undefined && data.fileType == 'video') {
-		        	$('#chatBox').append('<div><strong>'+data.nick+'</strong>: '+data.file_name+'<br/><video src="'+data.file_short_url+'" controls="controls" ></video><span style="font-size: 10px;">' + data.date + '</span></div>');
+					$('#loading').remove();
+					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
+					if(data.nick == nick) {
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
+					}else {
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+					}
+				}else if(data.file_url != undefined && data.fileType == 'video') {
+					$('#loading').remove();
+					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
+					if(data.nick == nick) {
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
+					}else {
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><video src="'+data.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+					}
 		        }
 				if(data.msg != '') {
-					$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + ' ' + '<span style="font-size: 10px;">' + data.date + '</span></div>');
+					$('#loading').remove();
+					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
+					if(data.nick == nick){
+						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ data.date +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
+					}else {
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats other"><div class="message">' + data.msg + '</div><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+					}
 				}
 				if (isScrolledToBottom) {
 					chatBox.scrollTop(chatBox[0].scrollHeight);
+					$('#loading').appendTo('#chatBox');
 				}
 			});
 			
@@ -170,6 +348,12 @@
 				send_data.room = room;
 				send_data.msg = msg;
 				send_data.nick = nick;
+				var chatBox = $('#chatBox');
+				
+				var loadingHtml = '<div id="loading" class="chats my"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
+			    $('#chatBox').append(loadingHtml);
+			    $('#sendButton').prop('disabled', true); // sendButton을 비활성화
+			    chatBox.scrollTop(chatBox[0].scrollHeight);
 				
 				if($('#fileInput').val() != '') {
 					
@@ -198,12 +382,19 @@
 						};
 						
 						reader.readAsArrayBuffer(file);
+						//입력필드 초기화
+						$('#fileInput').val('');
+						$('#messageInput').val('');
 						
 					}
+					
+					$('.img-btn').removeClass('added');
 					
 					return;
 					
 				}else if($('#videoInput').val() != '') {
+					
+					console.log('start video upload');
 					
 					//alert('check');
 					
@@ -239,9 +430,13 @@
 		                    }
 		                });
 		               	
+		               	$('#videoInput').val('');
+		               	
 		               	//alert('check');
 		               	
 					}
+					
+					$('.video-btn').removeClass('added');
 					
 					return;
 					
@@ -269,17 +464,18 @@
 
 	<div class="main-panel">
         	<div class="content-wrapper">
-				<h3>
-					${param.room}방
+				<h3 class="center-text">
+					${param.room}
 				</h3>
-				
+				<div class="messages">
 				<div id="chatBox"></div>
+				</div>
 				<div class="input-group text-right">
 				    <div class="input-group-prepend">
 				        <!-- 이미지 업로드 버튼 -->
 				        <button type="button" class="btn btn-outline-primary btn-icon-text img-btn">
 				            <i class="mdi mdi-file-image btn-icon-prepend"></i>
-				            이미지 보내기
+				            이미지 선택
 				        </button>
 				        <!-- 이미지 파일 입력 -->
 				        <input type="file" hidden="hidden" id="fileInput" accept=".jpg,.jpeg,.png,.gif">
@@ -288,13 +484,50 @@
 				        <!-- 영상 업로드 버튼 -->
 				        <button type="button" class="btn btn-outline-primary btn-icon-text video-btn">
 				            <i class="mdi mdi-movie btn-icon-prepend"></i>
-				            영상 보내기
+				            영상 선택
 				        </button>
 				        <!-- 영상 파일 입력 -->
 				        <input type="file" hidden="hidden" id="videoInput" accept=".mp4">
 				    </div>
+				    
+				    <script type="text/javascript">
+				    
+				    	$('.img-btn').on('click', function() {
+				    		$('#fileInput').click();
+				    	});
+				    	
+				    	$('#fileInput').on('change', function() {
+				    		
+				    		//alert('::'+$(this).val()+'::');
+				    		
+				    		if($(this).val() != '') {
+				    			$('.img-btn').addClass('added');
+				    		}else {
+				    			$('.img-btn').removeClass('added');
+				    		}
+				    		
+				    	});
+				    	
+				    	$('.video-btn').on('click', function() {
+				    		$('#videoInput').click();
+				    	});
+				    	
+						$('#videoInput').on('change', function() {
+				    		
+				    		//alert('::'+$(this).val()+'::');
+				    		
+				    		if($(this).val() != '') {
+				    			$('.video-btn').addClass('added');
+				    		}else {
+				    			$('.video-btn').removeClass('added');
+				    		}
+				    		
+				    	});
+				    
+				    </script>
+				    
 				    <!-- 메시지 입력란 -->
-				    <input type="text" id="messageInput" class="form-control-sm keyword" placeholder="Type your message here...">
+				    <input type="text" id="messageInput" class="form-control-sm keyword" placeholder="채팅을 입력하세요...">
 				    <!-- 전송 버튼 -->
 				    <div class="input-group-append">
 				        <button id="sendButton" class="btn btn-sm btn-primary search-btn">Send</button>

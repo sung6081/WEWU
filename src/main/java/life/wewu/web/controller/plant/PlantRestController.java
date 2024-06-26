@@ -80,7 +80,7 @@ public class PlantRestController {
 			throw new IllegalArgumentException("PlantLevl is null");
 		}
 
-// 로그 추가
+
 		System.out.println("Plant: " + plant.toString());
 		System.out.println("PlantLevl: " + plantLevl.toString());
 
@@ -112,6 +112,57 @@ public class PlantRestController {
 
 		return map;
 	}
+	
+	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
+	public Map<String, Object> updatePlant(@RequestPart("plantRequest")PlantRequest plantRequest, Model model
+			,@RequestPart(required = false) MultipartFile file) throws Exception{
+		System.out.println(" /plant/updatePlant : POST ");
+
+        Plant plant = plantRequest.getPlant();
+        PlantLevl plantLevl = plantRequest.getPlantLevl();
+        
+        if (file != null) {
+			System.out.println("File: " + file.getOriginalFilename());
+		} else {
+			System.out.println("File is null");
+		}
+
+		if (file != null && !file.isEmpty()) {
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("file", file);
+			fileMap.put("folderName", "plant");
+
+			try {
+				String url = s3Repository.uplodaFile(fileMap);
+				plantLevl.setLevlImg(s3Repository.getShortUrl(url));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("File upload failed", e);
+			}
+		}
+
+        Map<String, Object> map = new HashMap<>();
+        plantService.updatePlant(plantRequest);
+
+        System.out.println(plant);
+        System.out.println(plantRequest);
+
+        map.put("plant", plant);
+        map.put("plantLevl", plantLevl);
+
+        return map;
+	}
+	
+	@RequestMapping(value = "deletePlant")
+	public PlantRequest deletePlant(@RequestBody PlantRequest plantRequest)throws Exception {
+		System.out.println("deletePlant");
+
+		plantService.deletePlant(plantRequest);
+		System.out.println(plantRequest);
+		
+		return plantRequest;
+	}
+
 
 	@RequestMapping(value = "getQuestList", method = RequestMethod.POST)
 	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)
@@ -136,6 +187,20 @@ public class PlantRestController {
 
 		return quest;
 	}
+	
+	@RequestMapping(value ="updateQuest" , method = RequestMethod.POST)
+	public Map<String, Object> updateQuest(@RequestBody Quest quest) throws Exception{
+		System.out.println(" /app/plant/updateQuest : POST ");	
+		
+		Map<String,Object> map = new HashMap<>();
+		plantService.updateQuest(quest);
+	
+		System.out.println(quest);
+		
+		map.put("quest",quest);
+
+		return map;
+	}
 
 	@RequestMapping(value = "deleteQuest")
 	public Quest deleteQuest(@RequestBody Quest quest, Model model) throws Exception {
@@ -146,23 +211,21 @@ public class PlantRestController {
 		return quest;
 	}
 
-	@RequestMapping(value = "deletePlant", method = RequestMethod.POST)
-	public String deletePlant(@RequestParam("plantNo") int plantNo, Model model) throws Exception {
-		System.out.println(" /plant/deletePlant : POST ");
-		plantService.deletePlant(plantNo);
+	@RequestMapping(value = "useItem", method = RequestMethod.POST)
+	public Map<String, Object> useItem(@RequestBody Inventory inventory,
+										HttpSession session,
+										Model model) throws Exception {
 
-		return "redirect:/plant/getPlantList.jsp"; // << 고민중
+		plantService.updateInventory(inventory);
+		User user = (User) session.getAttribute("user");
+		
+		model.addAttribute("inventory",inventory);
+		
+		Map<String, Object> map = new HashMap<>();
+        map.put("inventory", inventory);
+        map.put("user", user);
 
-	}
-
-	@RequestMapping(value = "getUseItem", method = RequestMethod.POST)
-	public Map<String, Object> getUseItem(@RequestBody Map<String, Object> map) throws Exception {
-	    int myPlantNo = (int) map.get("myPlantNo");
-	    int itemPurNo = (int) map.get("itemPurNo");
-	    int itemNum = (int) map.get("itemNum");
-
-	    Map<String, Object> item = plantService.getUseItem(map);
-	    return item;
+	    return map;
 	}
 
 	@RequestMapping(value = "updateMyPlant", method = RequestMethod.POST)
@@ -174,7 +237,7 @@ public class PlantRestController {
 		return myPlant;
 	}
 
-	@RequestMapping(value = "/json/selectRandomPlant", method = RequestMethod.POST)
+	@RequestMapping(value = "selectRandomPlant", method = RequestMethod.POST)
 	public Plant selectRandomPlant(Model model) throws Exception {
 		System.out.println(" /plant/selectRandomPlant : POST ");
 		Plant plant = plantService.selectRandomPlant();

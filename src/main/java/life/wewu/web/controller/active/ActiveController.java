@@ -54,7 +54,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/active/*")
 public class ActiveController {
 	
-	//�ʵ�
+	//필드
 	@Autowired
 	@Qualifier("activeServiceImpl")
 	private ActiveService activeService;
@@ -66,7 +66,7 @@ public class ActiveController {
 	@Value("${map.clientId}")
 	private String clientId;
 	
-	//�޼ҵ�
+	//메소드
 	@GetMapping(value = "map")
 	public String map(@ModelAttribute Search search, Model model) throws Exception {
 		
@@ -123,12 +123,29 @@ public class ActiveController {
 	
 	//Ȱ�� �� ��ȸ
 	@GetMapping(value = "getActive/{activeNo}")
-	public String getActive(@PathVariable int activeNo, Model model) throws Exception {
+	public String getActive(@PathVariable int activeNo, Model model, HttpSession session) throws Exception {
 		
 		System.out.println("getActive");
 		
+		boolean isLeader = false;
+		
+		User user = (User)session.getAttribute("user");
+		
+		Active active = activeService.getActive(activeNo);
+		
+		if(user != null) {
+			
+			Group group = groupService.getGroup(active.getGroupNo());
+			if(group.getLeaderNick().equals(user.getNickname())) {
+				isLeader = true;
+			}
+			
+		}
+		
 		//activeNo�� active�޾Ƽ� model�� ��� foward
-		model.addAttribute("active", activeService.getActive(activeNo));
+		model.addAttribute("active", active);
+		
+		model.addAttribute("isLeader", isLeader);
 		
 		//지도 clientId
 		model.addAttribute("clientId", clientId);
@@ -183,7 +200,7 @@ public class ActiveController {
 	
 	//���� Ȱ�� ��ȸ(ù �湮��)
 	@GetMapping(value = "listActive")
-	public String getActiveList(Model model, @RequestParam int groupNo) throws Exception {
+	public String getActiveList(Model model, @RequestParam int groupNo, HttpSession session) throws Exception {
 	
 		System.out.println("listActive Get");
 		
@@ -202,8 +219,22 @@ public class ActiveController {
 		
 		List<Active> list = activeService.getGroupActiveList(map);
 		
+		boolean isLeader = false;
+		
+		User user = (User)session.getAttribute("user");
+		
+		if(user != null) {
+			
+			Group group = groupService.getGroup(groupNo);
+			if(group.getLeaderNick().equals(user.getNickname())) {
+				isLeader = true;
+			}
+			
+		}
+		
 		model.addAttribute("list", list);
 		model.addAttribute("search", search);
+		model.addAttribute("isLeader", isLeader);
 		
 		return "forward:/active/listActive.jsp";
 		
@@ -248,7 +279,7 @@ public class ActiveController {
 		//�׷� ����Ʈ(T) => �����Ϸ�Ǹ�
 		Search search = new Search();
 		search.setSearchCondition("Ranking");
-		search.setCurrentPage(1);
+		search.setCurrentPage(0);
 		
 		User user = (User)session.getAttribute("user");
 		
