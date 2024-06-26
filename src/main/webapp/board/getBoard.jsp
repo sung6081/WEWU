@@ -66,7 +66,6 @@
 .comment-form button:hover {
 	background-color: #0056b3;
 }
-
 </style>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -214,6 +213,14 @@
     function hideUpdateForm(commentNo) {
         document.getElementById('updateCommentForm_' + commentNo).style.display = 'none';
     }
+    
+    $(function(){
+		$("button.btn:contains('목록 보기')").on("click", function() {
+			self.location="/board/listBoard?boardType=${param.boardType}"
+		});
+		
+
+	});
 </script>
 </head>
 <body>
@@ -242,13 +249,13 @@
 						<h1 class="card-title">${board.title}</h1>
 						<div class="form-group row">
 							<div class="col-sm-9">
-								<p class="card-description">${board.nickName } &nbsp; &nbsp;
+								<p class="card-description">${board.nickName }&nbsp;&nbsp;
 									등록일 : ${board.regDate}</p>
 							</div>
 							<div class="col-sm-3">
 								<p class="card-description">
-									<i class="mdi mdi-eye"></i> ${board.views} &nbsp;/&nbsp; 
-									<i class="mdi mdi-comment"></i> ${board.commentCnt} &nbsp;/&nbsp;
+									<i class="mdi mdi-eye"></i> ${board.views} &nbsp;/&nbsp; <i
+										class="mdi mdi-comment"></i> ${board.commentCnt} &nbsp;/&nbsp;
 									<i class="mdi mdi-star"></i> ${board.bookmarkCnt }
 								</p>
 							</div>
@@ -267,45 +274,56 @@
 						<div class="form-group row">
 							<div class="col-sm-12">${board.contents}</div>
 						</div>
-					</div>
-					<div class="card-body">
-						<hr>
-						<p class="card-description">댓글 수 : ${board.commentCnt}</p>
-						<div class="form-group row">
-							<c:if
-								test="${sessionScope.user != null && sessionScope.user !=''}">
-								<h1 class="card-title">${sessionScope.user.nickname}</h1>
-								<div class="col-sm-12">
-									<form id="commentForm">
-										<input type="hidden" name="commentNickName"
-											id="commentNickName" value="${sessionScope.user.nickname}">
-										<input type="hidden" name="boardNo" id="boardNo"
-											value="${board.boardNo}">
-										<textarea name="commentContents" class="form-control"
-											id="commentContents"></textarea>
-										<br>
-									</form>
-									<button class="btn btn-link btn-fw" onClick="addComment();">댓글
-										쓰기</button>
-								</div>
-							</c:if>
-							<c:if
-								test="${sessionScope.user == null || sessionScope.user ==''}">
-								<p>로그인 후 댓글을 작성할 수 있습니다.</p>
-							</c:if>
+						<div class="card-body">
+							<hr>
+							<p class="card-description">댓글 수 : ${board.commentCnt}</p>
+							<div class="form-group row">
+								<c:if
+									test="${sessionScope.user != null && sessionScope.user !=''}">
+									<h1 class="card-title">${sessionScope.user.nickname}</h1>
+									<div class="col-sm-12">
+										<form id="commentForm">
+											<input type="hidden" name="commentNickName"
+												id="commentNickName" value="${sessionScope.user.nickname}">
+											<input type="hidden" name="boardNo" id="boardNo"
+												value="${board.boardNo}">
+											<textarea name="commentContents" class="form-control"
+												id="commentContents"></textarea>
+											<br>
+										</form>
+										<button class="btn btn-link btn-fw" onClick="addComment();">댓글
+											쓰기</button>
+									</div>
+								</c:if>
+								<c:if
+									test="${sessionScope.user == null || sessionScope.user ==''}">
+									<p>로그인 후 댓글을 작성할 수 있습니다.</p>
+								</c:if>
+							</div>
+							<div id="commentList"></div>
 						</div>
-						<div id="commentList"></div>
-					</div>
-					<br />
-					<div class="card-body">
-						<c:if test="${board.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
-							<button type="button" class="btn btn-primary mr-2">삭제</button>
-							<button type="button" class="btn btn-primary mr-2">수정</button>
-						</c:if>
+						<br />
+						<div class="card-body">
+							<c:if
+								test="${board.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
+								<button type="button" class="btn btn-primary mr-2">수정</button>
+
+								<button type="button" class="btn btn-outline-primary btn-fw">삭제</button>
+
+							</c:if>
+							&nbsp;
+								<button type="button" class="btn btn-inverse-primary btn-fw">목록 보기</button>
+
+						</div>
 					</div>
 				</div>
+
 			</div>
+
 		</div>
 	</div>
+	<!-- FOOTER -->
+	<jsp:include page="/footer.jsp" />
+	<!-- FOOTER -->
 </body>
 </html>

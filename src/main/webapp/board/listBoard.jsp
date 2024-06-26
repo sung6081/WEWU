@@ -7,44 +7,51 @@
 <meta charset="UTF-8">
 <title>게시글 목록 보기</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 .thumbnail {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: transform 0.2s;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	transition: transform 0.2s;
 }
 
 .thumbnail img {
-    width: 100%;
-    height: 300px;
-    border-radius: 5px;
+	width: 100%;
+	height: 300px;
+	border-radius: 5px;
 }
 
 .thumbnail:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+	transform: scale(1.05);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .caption {
-    padding: 10px 0;
+	padding: 10px 0;
 }
 
 .caption h3 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .caption p {
-    font-size: 0.9em;
-    color: #555;
+	font-size: 0.9em;
+	color: #555;
 }
 
 .caption .btn {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 </style>
 <script type="text/javascript">
@@ -74,6 +81,7 @@
 							<div class="thumbnail">
 								<img src="${file}" alt="${file}">
 								<div class="caption">
+								
 									<h3>${board.title}</h3>
 									<p>
 										<strong>${board.nickName}</strong><br> 
@@ -119,6 +127,12 @@
 			self.location = "/board/addBoard?boardType=${param.boardType}";
 		});
 	});
+	
+	$(function(){
+		$("div.thumbnail").on("click",function(){
+			self.location ="/board/getBoard?boardType=${param.boardType}&boardNo="+$($(this).children()).val();
+		});
+	});
 </script>
 </head>
 <body>
@@ -146,25 +160,30 @@
 							<c:forEach var="board" items="${list}" varStatus="loop">
 								<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
 									<div class="thumbnail">
+										<input type="hidden" value="${board.boardNo}">
 										<c:if test="${empty file[loop.index].fileName}">
 											<img src="/images/back.png" alt="Default Thumbnail">
 										</c:if>
 										<c:if test="${not empty file[loop.index].fileName}">
-											<img src="${file[loop.index].fileName}" alt="${file[loop.index].fileName}">
+											<img src="${file[loop.index].fileName}"
+												alt="${file[loop.index].fileName}">
 										</c:if>
+										<hr>
 										<div class="caption">
 											<h3>${board.title}</h3>
 											<p>
-												<strong>${board.nickName}</strong><br> 
-												${board.regDate}<br>
-												<i class="mdi mdi-star"></i> ${board.bookmarkCnt} 
-												<i class="mdi mdi-eye"></i> ${board.views} 
-												<i class="mdi mdi-comment"></i> ${board.commentCnt}
+												<strong>${board.nickName}</strong><br> ${board.regDate}<br>
+												<i class="mdi mdi-star"></i> ${board.bookmarkCnt} <i
+													class="mdi mdi-eye"></i> ${board.views} <i
+													class="mdi mdi-comment"></i> ${board.commentCnt}
 											</p>
 											<p>
-												<a href="/board/getBoard?boardType=${param.boardType}&boardNo=${board.boardNo}" class="btn btn-primary" role="button">보기</a>
-												<a href="#" class="btn btn-secondary" role="button" onclick="addBookmark(${board.boardNo})">북마크</a>
+												
+												
+												<a href="#" class="btn btn-secondary" role="button"
+													onclick="addBookmark(${board.boardNo})">북마크</a>
 											</p>
+
 										</div>
 									</div>
 								</div>
@@ -173,17 +192,24 @@
 
 						<div class="card mt-4">
 							<div class="card-body">
-								<c:if test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
-									<button type="button" class="btn btn-outline-primary btn-fw">공지 글 등록하기</button>
+								<c:if
+									test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">공지
+										글 등록하기</button>
 								</c:if>
-								<c:if test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
-									<button type="button" class="btn btn-outline-primary btn-fw">모임 홍보 글 등록하기</button>
+								<c:if
+									test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">모임
+										홍보 글 등록하기</button>
 								</c:if>
-								<c:if test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
-									<button type="button" class="btn btn-outline-primary btn-fw">모임 후기 글 등록하기</button>
+								<c:if
+									test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">모임
+										후기 글 등록하기</button>
 								</c:if>
 								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
-									<button type="button" class="btn btn-outline-primary btn-fw">후원 글 등록하기</button>
+									<button type="button" class="btn btn-outline-primary btn-fw">후원
+										글 등록하기</button>
 								</c:if>
 							</div>
 						</div>
