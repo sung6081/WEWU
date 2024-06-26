@@ -43,13 +43,15 @@
 												varStatus="status">
 												<tr class="plantName">
 													<c:if test="${myPlant.myPlantState eq 'N'}">
-														<td>${myPlant.plantLevl.levlImg}</td>
-														<td>${myPlant.plantLevl.levlImg}</td>
-														<td>${myPlant.plantLevl.levlImg}</td>
-														<td>${myPlant.plantLevl.levlImg}</td>
-														<td>${myPlant.plantLevl.levlImg}</td>
-													</c:if>
+														<td></td>
+														<td>${myPlant.plantStartDate}</td>
+														<td>${myPlant.plantEndDate}</td>
+														<td>${myPlant.myPlantName}</td>
 												</tr>
+												<tr>
+													<td><img src="${myPlant.plantLevl.levlImg}" ></td>
+												</tr>
+												</c:if>
 											</c:forEach>
 										</tbody>
 									</table>

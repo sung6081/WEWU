@@ -132,26 +132,41 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="listPlant" , method = RequestMethod.GET)
-	public String getPlantList( Model model,@ModelAttribute("search") Search search ) throws Exception{
+	public String getPlantList( Model model,@RequestParam Map<String, Object> map ) throws Exception{
 		
 		System.out.println(" /plant/listPlant : GET ");	 
 		
-		Map<String, Object> map = plantService.getPlantList(search);
-		System.out.println(map);
-		model.addAttribute("map", map);	
+		// plantService를 통해 Plant 리스트를 가져옴
+	    List<Plant> list = plantService.getPlantList(map);
+	    
+	    // 가져온 Plant 리스트를 모델에 추가
+	    model.addAttribute("list", list);
+	    
+	    // 디버깅을 위한 map 출력
+	    System.out.println("plantList:"+list);
+	    
+	    // 모델에 map 추가
+	    model.addAttribute("map", map);
+	    model.addAttribute("list", list);
 		
 		return "forward:/plant/listPlant.jsp";
 		
 	}
 	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.GET)
-	public String GETupdatePlant(@RequestParam("plantNo") int plantNo,
+	public String GETupdatePlant(@RequestParam("plantNo") int plantNo,@RequestParam(required = false) int plantLevlNo,
 			 Model model) throws Exception{
-		System.out.println(" /plant/updatePlant : GET ");
-		Plant plant = plantService.getPlant(plantNo);
-		PlantLevl PlantLevl = plantService.getPlantLevl(plantNo);
 		
-		System.out.println(plantNo);
+		System.out.println(" /plant/updatePlant : GET ");
+		
+		Plant plant = plantService.getPlant(plantNo);
+		PlantLevl PlantLevl = plantService.getPlantLevl(plantLevlNo);
+		
+		plant.setPlantLevl(PlantLevl);
+		
+		System.out.println(plant);
+		System.out.println(PlantLevl);
+		
 		model.addAttribute("plant", plant);
 		model.addAttribute("plantLevl", PlantLevl);
 		
