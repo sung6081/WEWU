@@ -315,6 +315,10 @@ public class ActiveController {
 		model.addAttribute("activeList", activeList);
 		model.addAttribute("memberList", memberList);
 		
+		boolean isLast = false;
+		
+		//int groupListCnt = groupService.getGroup
+		
 		//System.out.println("::::: "+clientId);
 		
 		model.addAttribute("clientId", clientId);

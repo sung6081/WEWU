@@ -89,19 +89,29 @@ public class ActiveRestController {
 		List<Group> groupList = groupService.getGroupList(search);
 		List<GroupMember> memberList = new ArrayList<>();
 		
+		System.out.println("::: "+groupList.size());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(user != null) {
-			map.put("memberNickNmae", user.getNickname());
+			map.put("memberNickName", user.getNickname());
 		}
+		
+		System.out.println("::: "+map);
 		
 		for( Group group : groupList ) {
 			
 			if(user == null) {
 				memberList.add(new GroupMember());
+				System.out.println(":::::check");
 				continue;
 			}
 			
 			map.put("groupNo", group.getGroupNo());
+			
+			System.out.println("::: "+map);
+			
+			System.out.println("::::::"+groupService.getMemberGroupForNick(map));
+			
 			GroupMember groupMember = groupService.getMemberGroupForNick(map);
 			memberList.add(groupMember);
 			
@@ -110,6 +120,8 @@ public class ActiveRestController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("groupList", groupList);
 		result.put("memberList", memberList);
+		
+		System.out.println("::: "+result);
 		
 		return result;
 		
