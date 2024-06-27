@@ -57,7 +57,7 @@ $(document).ready(function() {
                             "<td>" + myPlant.myPlantName + "</td>" +
                             "<td>" + myPlant.plantStartDate + " ~ " + myPlant.plantEndDate + "</td>" +
                             "<td>" + myPlant.myPlantExp + "</td>" +
-                            "<td>" + myPlant.plantLevlNoList + "</td>" +
+                            "<td class='levlImg' data-plant-levl-no='" + myPlant.plantLevlNo + "'>단계별 이미지</td>" +
                             "</tr>";
                         plantList.append(row);
                     }
@@ -84,6 +84,43 @@ $(document).ready(function() {
     $("#lowestExp").on("click", function() {
         updatePlantList("lowest");
     });
+    
+    function attachLevlImgClickEvent() {
+        $(".levlImg").on("click", function() {
+            var $this = $(this);
+            var plantLevlNo = $this.data("plantLevlNo");
+            var $parentRow = $this.closest("tr");
+            var $nextRow = $parentRow.next(".levlImgRow");
+
+            if ($nextRow.length > 0) {
+                $nextRow.remove(); // 이미지를 제거하고 텍스트를 복원
+                return;
+            }
+
+            $.ajax({
+                url: "/app/plant/myPlantListbyLevlNo",
+                method: "GET",
+                data: { plantLevlNo: plantLevlNo },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response); 
+                    var displayValue = "<tr class='levlImgRow'><td colspan='4'>";
+                    $.each(response, function(index, plantLevl) {
+                        displayValue += "<img src='" + plantLevl.levlImg + "' alt='Plant Level Image' style='max-width: 100px; display: block; margin: 5px 0;' />";
+                    });
+                    displayValue += "</td></tr>";
+
+                    $parentRow.after(displayValue);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error: " + error);
+                    alert("이미지 데이터를 가져오는 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    }
+
+    attachLevlImgClickEvent();
 });
 </script>
 </head>
@@ -119,7 +156,7 @@ $(document).ready(function() {
                                                     <td>${myPlant.myPlantName}</td>
                                                     <td>${myPlant.plantStartDate} ~ ${myPlant.plantEndDate}</td>
                                                     <td>${myPlant.myPlantExp}</td>
-                                                    <td>단계이미지</td>
+                                                    <td class="levlImg" data-plant-levl-no="${plantLevl.plantLevlNo}">단계별 이미지</td>
                                                 </tr>
                                                 </c:if>
                                             </c:forEach>

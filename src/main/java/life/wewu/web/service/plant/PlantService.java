@@ -58,6 +58,8 @@ public interface PlantService {
 	public MyPlant getMyPlantLevl(String nickname) throws Exception;
 
 	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception;
+	
+	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception;
 
 	public MyPlant deleteMyPlant(String nickname) throws Exception;
 
