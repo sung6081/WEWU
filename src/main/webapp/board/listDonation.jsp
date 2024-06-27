@@ -25,7 +25,7 @@ $(function() {
 						+"&payNo="
 						+ $($(this).children()).val();
 
-			});
+	});
 
 	$(".ct_list_pop:nth-child(4n-6)").css("background-color", "whitesmoke");
 

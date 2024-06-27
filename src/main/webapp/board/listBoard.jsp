@@ -1,219 +1,228 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시글 목록 보기</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- <style>
-     .thumbnail {
-         padding: 10px;
-     }
-     .thumbnail img {
-         width: 100%;
-         height: auto;
-     }
- </style>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+.thumbnail {
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	transition: transform 0.2s;
+}
+
+.thumbnail img {
+	width: 100%;
+	height: 300px;
+	border-radius: 5px;
+}
+
+.thumbnail:hover {
+	transform: scale(1.05);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.caption {
+	padding: 10px 0;
+}
+
+.caption h3 {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.caption p {
+	font-size: 0.9em;
+	color: #555;
+}
+
+.caption .btn {
+	margin-right: 5px;
+}
+</style>
 <script type="text/javascript">
+	var currentPage = 1;
+	var isLoading = false;
 
-
-	function addBookmark(boardNo){
-		
-		var formData = {
-				boardNo: boardNo,
-				nickName: "nick1"
-		};
-		
-		$.ajax ({
-			url	: "/app/board/addBookmark", // (Required) 요청이 전송될 URL 주소
-			type	: "POST", // (default: ‘GET’) http 요청 방식
-			async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
-			cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
-			timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
-			data  : JSON.stringify(formData), // 요청 시 전달할 데이터
-			processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
-			contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
-			dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) 응답 데이터 형식
-			beforeSend  : function () {
-			  // XHR Header 포함, HTTP Request 하기전에 호출
-			  
-			},
-			success : function(data, status, xhr) {
-			
-				if(data.flag == "Y"){
-					alert("북마크 완료.");
-					location.reload();
-				}else{
-					alert("북마크 실패");
-				}
-			},
-			error	: function(xhr, status, error) {
-			  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
-			},
-			complete : function(xhr, status) {
-			  // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
-			}
-		});
-    }
-	
-	function deleteBookmark(boardNo) {
-		var formData = {
-			boardNo: boardNo
-		};
+	function loadMoreData() {
+		if (isLoading) return;
+		isLoading = true;
+		currentPage++;
 
 		$.ajax({
-			url: "/app/board/deleteBookmark",
-			type: "POST",
-			async: true,
-			cache: true,
-			timeout: 3000,
-			data: JSON.stringify(formData),
-			processData: true,
-			contentType: "application/json",
-			dataType: "json",
-			success: function(data, status, xhr) {
-				if(data.flag == "Y"){
-					alert("삭제 완료.");
-					location.reload();
-				}else{
-					alert("삭제 실패");
-				}
+			url: "/app/board/listBoard",
+			type: "GET",
+			data: {
+				boardType: "${param.boardType}",
+				page: currentPage
 			},
-			error: function(xhr, status, error) {
-				alert("삭제 실패.");
+			dataType: "json",
+			success: function(data) {
+				if (data.length > 0) {
+					var newContent = "";
+					$.each(data, function(index, board) {
+						var file = board.fileName ? board.fileName : "/images/back.png";
+						newContent += `
+						<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+							<div class="thumbnail">
+								<img src="${file}" alt="${file}">
+								<div class="caption">
+								
+									<h3>${board.title}</h3>
+									<p>
+										<strong>${board.nickName}</strong><br> 
+										${board.regDate}<br>
+										<i class="mdi mdi-star"></i> ${board.bookmarkCnt} 
+										<i class="mdi mdi-eye"></i> ${board.views} 
+										<i class="mdi mdi-comment"></i> ${board.commentCnt}
+									</p>
+									<p>
+										<a href="/board/getBoard?boardType=${board.boardType}&boardNo=${board.boardNo}" class="btn btn-primary" role="button">보기</a>
+										<a href="#" class="btn btn-secondary" role="button" onclick="addBookmark(${board.boardNo})">북마크</a>
+									</p>
+								</div>
+							</div>
+						</div>`;
+					});
+					$('.row').append(newContent);
+				} else {
+					$(window).off('scroll', onScroll);
+				}
+				isLoading = false;
+			},
+			error: function() {
+				isLoading = false;
 			}
 		});
-    }
-	$(function(){
-		$("td:nth-child(2)").on(
-				"click",
-				function() {
-					self.location = "/board/getBoard?boardType=${param.boardType}"
-							+"&boardNo="
-							+ $($(this).children()).val();
+	}
 
-				});
+	function onScroll() {
+		if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+			loadMoreData();
+		}
+	}
+
+	$(function() {
+		$(window).on('scroll', onScroll);
+
+		$("td:nth-child(2)").on("click", function() {
+			self.location = "/board/getBoard?boardType=${param.boardType}" + "&boardNo=" + $($(this).children()).val();
+		});
+
+		$("button.btn.btn-outline-primary").on("click", function() {
+			self.location = "/board/addBoard?boardType=${param.boardType}";
+		});
 	});
 	
-	 $(function(){
-			$("button.btn.btn-outline-primary").on("click", function() {
-				self.location="/board/addBoard?boardType=${param.boardType}"
-			});
-
+	$(function(){
+		$("div.thumbnail").on("click",function(){
+			self.location ="/board/getBoard?boardType=${param.boardType}&boardNo="+$($(this).children()).val();
 		});
+	});
 </script>
-
 </head>
 <body>
-<input type="hidden" name="boardType" value="${param.boardType}" >
-<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
+	<input type="hidden" name="boardType" value="${param.boardType}">
 	<!-- HEADER -->
-	
+	<jsp:include page="/header.jsp" />
+	<!-- HEADER -->
+
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
 
-
 		<div class="main-panel">
-				<div class="col-12 grid-margin stretch-card">
-	
-					<div class="card">
-		                <div class="card-body">
-		                  <h1 class="card-title">
+			<div class="col-12 grid-margin stretch-card">
+				<div class="card">
+					<div class="card-body">
+						<h1 class="card-title">
 							<c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
 							<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
 							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
 							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
 						</h1>
-		                
-		                  <div class="table-responsive">
-		                    <table class="table table-striped">
-		                      <thead>
-		                        <tr>
-		                          <th>
-		                            No
-		                          </th>
-		                          <th>
-		                            제목
-		                          </th>
-		                          <th>
-		                            닉네임
-		                          </th>
-		                          <th>
-		                            등록일
-		                          </th>
-		                          <th>
-		                            즐겨찾기 수
-		                          </th>
-		                          <th>
-		                            조회수
-		                          </th>
-		                          <th>
-		                            댓글 수
-		                          </th>
-		                     
-		                        </tr>
-		                      </thead>
-		                      <tbody>
-		                      	<c:set var="i" value="0" />
-		                      	<c:forEach var="board" items="${list}">
-		                      	<c:set var="i" value="${ i+1 }" />
-		                        <tr>
-		                          <td>
-		                           
-		                            ${i}
-		                            
-		                          </td>
-		                          <td>
-		                            ${board.title}
-		                             <input type="hidden" value="${board.boardNo}"> 
-		                          </td>
-		                          <td>
-		                          	${board.nickName}
-		                          </td>
-		                          <td>
-		                            ${board.regDate}
-		                          </td>
-		                          <td>
-		                            ${board.bookmarkCnt}
-		                          </td>
-		                          <td>
-		                            ${board.views}
-		                          </td>
-		                          <td>
-		                            ${board.commentCnt}
-		                          </td>
-		                          
-		                        </tr>
-		                        </c:forEach>
-		                      </tbody>
-		                    </table>
-		                  </div>
-		                  
-		                  
-		                  
-		                  <button type="button" class="btn btn-outline-primary btn-fw"> 
-		                  <c:if test="${param.boardType eq '1'}"> 공지 </c:if>
-							<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
-							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
-							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
-							글 등록하기
-		                   </button>
-		                  
-		              </div>
-		         </div>
-		         
-		         </div>
-		        </div>
-		       </div>
-				<!-- FOOTER -->
-		<jsp:include page="/footer.jsp" />
-		<!-- FOOTER -->
+
+						<div class="row">
+							<c:set var="index" value="0" />
+							<c:forEach var="board" items="${list}" varStatus="loop">
+								<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+									<div class="thumbnail">
+										<input type="hidden" value="${board.boardNo}">
+										<c:if test="${empty file[loop.index].fileName}">
+											<img src="/images/back.png" alt="Default Thumbnail">
+										</c:if>
+										<c:if test="${not empty file[loop.index].fileName}">
+											<img src="${file[loop.index].fileName}"
+												alt="${file[loop.index].fileName}">
+										</c:if>
+										<hr>
+										<div class="caption">
+											<h3>${board.title}</h3>
+											<p>
+												<strong>${board.nickName}</strong><br> ${board.regDate}<br>
+												<i class="mdi mdi-star"></i> ${board.bookmarkCnt} <i
+													class="mdi mdi-eye"></i> ${board.views} <i
+													class="mdi mdi-comment"></i> ${board.commentCnt}
+											</p>
+											<p>
+												
+												
+												<a href="#" class="btn btn-secondary" role="button"
+													onclick="addBookmark(${board.boardNo})">북마크</a>
+											</p>
+
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+
+						<div class="card mt-4">
+							<div class="card-body">
+								<c:if
+									test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">공지
+										글 등록하기</button>
+								</c:if>
+								<c:if
+									test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">모임
+										홍보 글 등록하기</button>
+								</c:if>
+								<c:if
+									test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">모임
+										후기 글 등록하기</button>
+								</c:if>
+								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
+									<button type="button" class="btn btn-outline-primary btn-fw">후원
+										글 등록하기</button>
+								</c:if>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- FOOTER -->
+	<jsp:include page="/footer.jsp" />
+	<!-- FOOTER -->
 
 </body>
 </html>

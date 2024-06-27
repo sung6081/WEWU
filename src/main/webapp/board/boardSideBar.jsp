@@ -42,26 +42,27 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/board/listBoard?boardType=2">
-              <i class="icon-grid menu-icon"></i>
+              <i class="icon-paper menu-icon"></i>
               <span class="menu-title">모임 홍보</span>
             </a>
           </li>
-          <li class="nav-item active">
+          
+          <li class="nav-item">
             <a class="nav-link" href="/board/listBoard?boardType=3">
-              <i class="icon-grid menu-icon"></i>
+              <i class="icon-paper menu-icon"></i>
               <span class="menu-title">모임 후기</span>
             </a>
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="icon-layout menu-icon"></i>
+            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="icon-grid-2 menu-icon"></i>
               <span class="menu-title">후원</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="/board/listBoard?boardType=4">후원 하기</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/board/listDonation?payType=1">후원 내역 보기</a></li>

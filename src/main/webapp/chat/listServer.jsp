@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>chat server</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		
@@ -14,11 +13,13 @@
 		function listServer() {
 			$.ajax({
 				
-				url: 'https://223.130.157.128:3000/listServer',
+				url: 'https://www.wewu.life/listServer',
 				method: 'GET',
 				success: function(response) {
 			        // 서버 목록을 성공적으로 가져왔을 때의 처리
 			        console.log('Received server list:', response);
+			        
+			        //왜 안바뀌지?
 			        
 			     	// 서버 목록을 테이블에 추가
 			        var tbody = $('#tableBody');
@@ -28,9 +29,7 @@
 			        response.forEach(function(server, index) {
 			            var row = '<tr>' +
 			                          '<td>' + (index + 1) + '</td>' +
-			                          '<td></td>' +
-			                          '<td class="serverName" >' + server.server_name + '</td>' +
-			                          '<td></td>' +
+			                          '<td class="serverName clickable-text" >' + server.server_name + '</td>' +
 			                          '<td>' + server.server_pers + '명</td>' +
 			                      '</tr>';
 			            tbody.append(row);
@@ -41,10 +40,11 @@
 					$('.serverName').on('click', function(event) {
 						//alert('check');
 						
-						var nick = $('#nick').val();
+						var nick = '${user.nickname}';
 						
 						if(nick == '') {
-							alert('닉네임을 입력해주세요');
+							alert('로그인을 해주세요.');
+							self.location = '/user/login';
 							return;
 						}
 						
@@ -75,18 +75,13 @@
 
 	<!-- <img src="https://wewu-project-test.kr.object.ncloudstorage.com/677e32c7-b7b6-4d23-ba8f-f6270767d664"> -->
 
-	<h2>닉네임</h2>
-	<input type="text" id="nick" >
-	<br/>
-	<br/>
-
-	<table>
+	<table class="table serverTable">
 		<thead>
-			<tr>No</tr>
-			<tr></tr>
-			<tr>서버 이름</tr>
-			<tr></tr>
-			<tr>접속 인원</tr>
+			<tr>
+				<th>No</th>
+				<th>서버 이름</th>
+				<th>접속 인원</th>
+			</tr>
 		</thead>
 		<tbody id="tableBody" >
 			

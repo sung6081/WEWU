@@ -7,14 +7,14 @@
     <title>List Quest</title>
     
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script>
-      $(function () {
-      $(".badge").on("click", function () {
-        var questNo = ${quest.questNo}
-        self.location = "/plant/updateQuest?questNo="+1
-      });
+<script>
+    $(function () {
+    $(".badge").on("click", function () {
+      var questNo = $(this).data("questno");
+      self.location = "/plant/updateQuest?questNo="+questNo;
     });
-  </script>
+  });
+</script>
 </head>
 <body>
 	<jsp:include page="/header.jsp" flush="true" />
@@ -53,7 +53,7 @@
                                         <td>${quest.questTargetCnt}</td>
                                         <td>${quest.questReward}</td>
                                         <td>
-                        					<a href ="#" type = "button" class="badge badge-warning">수정</a>
+                        					<a type = "button" class="badge badge-warning" data-questno="${quest.questNo}">수정</a>
                        					</td>
                                     </tr>
                                 </c:forEach>

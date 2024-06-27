@@ -46,7 +46,6 @@ public class ActiveRestController {
 	public List<Active> getActiveList(@RequestBody Search search) throws Exception {
 		
 		System.out.println("getActiveList");
-		System.out.println("");
 		
 		return activeService.getActiveList(search);
 		

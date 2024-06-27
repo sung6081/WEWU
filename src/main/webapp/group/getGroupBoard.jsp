@@ -8,7 +8,82 @@
 		<!-- HEADER -->
 		
 		<script>
+			var total;
 			$(function() 
+			{
+				getGroupAcleList(1);
+				
+				$.ajax ({
+					url	: "/app/group/getAcleListCnt", // (Required) 요청이 전송될 URL 주소
+					  type	: "POST", // (default: ‘GET’) http 요청 방식
+					  async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
+					  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
+					  timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
+					  data  : JSON.stringify(
+					 				{
+					 					typeNo:${groupBoard.typeNo}
+					 				}
+				 				), // 요청 시 전달할 데이터
+					  processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
+					  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
+					  dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) 응답 데이터 형식
+					  beforeSend  : function () {
+					    // XHR Header 포함, HTTP Request 하기전에 호출
+					  },
+					  success : function(data, status, xhr) {
+						  total = data;
+						  var str = generatePagination(total, 1, 10);
+						  $("#paging").html(str);
+					  },
+					  error	: function(xhr, status, error) {
+					    // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
+					  },
+					  complete : function(xhr, status) {
+					    // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
+					  }
+				});
+				
+				$(document).ready(function() {
+					
+				    $(document).on('mouseenter', '.page-link', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $(document).on('click', '.page-link', function() {
+				    	getGroupAcleList($(this).attr("id"));
+				    });
+				    
+				    $(document).on('mouseenter', '.acle', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $(document).on('click', '.acle', function() {
+				    	getGroupAcle($(this).attr("id"));
+				    });
+				   
+				});
+				
+				$( "span:contains('작성')" ).on("click" , function() 
+			 	{
+					// 내 모임 신청정보
+					alert("${groupBoard.boardRole}");
+					addGroupAcle();
+				}); 
+				$( "span:contains('게시판 수정')" ).on("click" , function() 
+			 	{
+					// 내 모임 신청정보
+					updateGroupBoard();
+				}); 
+				
+				$( "span:contains('게시판 삭제')" ).on("click" , function() 
+			 	{
+					// 내 모임 신청정보
+					deleteGroupBoard();
+				}); 
+				
+			});
+			
+			function getGroupAcleList(currentPage)
 			{
 				$.ajax ({
 					  url	: "/app/group/getAcleList", // (Required) 요청이 전송될 URL 주소
@@ -17,7 +92,10 @@
 					  cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
 					  timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
 					  data  : JSON.stringify(
-					 				{typeNo:${groupBoard.typeNo}}
+					 				{
+					 					typeNo:${groupBoard.typeNo},
+					 					currentPage:currentPage
+					 				}
 				 				), // 요청 시 전달할 데이터
 					  processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
 					  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
@@ -37,9 +115,10 @@
 						          		 "<td>0</td>";
 					          		 "</tr>";
 						  }
-						  $('#acleList').append(str);
+						  $('#acleList').html(str);
 						  str = "";
-						  
+						  str = generatePagination(total, currentPage, 10);
+						  $("#paging").html(str);
 					  },
 					  error	: function(xhr, status, error) {
 					    // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -48,34 +127,8 @@
 					    // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
 					  }
 				});
-				
-				$(document).ready(function() {
-				    $(document).on('mouseenter', '.acle', function() {
-				        $(this).css('cursor', 'pointer');
-				    });
-				    
-				    $(document).on('click', '.acle', function() {
-				    	getGroupAcle($(this).attr("id"));
-				    });
-				});
-				
-				$( "span:contains('작성')" ).on("click" , function() 
-			 	{
-					// 내 모임 신청정보
-					addGroupAcle();
-				}); 
-				$( "span:contains('게시판 수정')" ).on("click" , function() 
-			 	{
-					// 내 모임 신청정보
-					updateGroupBoard();
-				}); 
-				
-				$( "span:contains('게시판 삭제')" ).on("click" , function() 
-			 	{
-					// 내 모임 신청정보
-					deleteGroupBoard();
-				}); 
-			});
+			}
+			
 			function getGroupAcle(boardNo){
 				var form = document.getElementById("getGroupAcle");
 				var str = "<input type=hidden name=boardNo value=" + boardNo +">" + 
@@ -148,6 +201,59 @@
 					});
 		        }
 			}
+			
+			function generatePagination(totalPosts, currentPage, postsPerPage) {
+			    var totalPages = Math.ceil(totalPosts / postsPerPage);
+			    var paginationHTML = '<nav aria-label="Page navigation" style="align:center;">\n' +
+			                         '  <ul class="pagination">\n';
+
+			    // 이전 버튼
+			    if (currentPage > 1) {
+			        paginationHTML += '    <li class="page-item">\n' +
+			                          '      <a class="page-link" id=' + i + ' aria-label="Previous">\n' +
+			                          '        <span aria-hidden="true">&laquo;</span>\n' +
+			                          '        <span class="sr-only">Previous</span>\n' +
+			                          '      </a>\n' +
+			                          '    </li>\n';
+			    } else {
+			        paginationHTML += '    <li class="page-item disabled">\n' +
+			                          '      <span class="page-link" aria-hidden="true">&laquo;</span>\n' +
+			                          '    </li>\n';
+			    }
+
+			    // 페이지 번호
+			    for (var i = 1; i <= totalPages; i++) {
+			        if (i == currentPage) {
+			            paginationHTML += '    <li class="page-item active">\n' +
+			                              '      <span class="page-link" id=' + i + '>' + i + ' <span class="sr-only">(current)</span></span>\n' +
+			                              '    </li>\n';
+			        } else {
+			            paginationHTML += '    <li class="page-item">\n' +
+			                              '      <a class="page-link" id=' + i + '>' + i + '</a>\n' +
+			                              '    </li>\n';
+			        }
+			    }
+
+			    // 다음 버튼
+			    if (currentPage < totalPages) {
+			        paginationHTML += '    <li class="page-item">\n' +
+			                          '      <a class="page-link" id=' + (currentPage+1) + ' aria-label="Next">\n' +
+			                          '        <span aria-hidden="true">&raquo;</span>\n' +
+			                          '        <span class="sr-only">Next</span>\n' +
+			                          '      </a>\n' +
+			                          '    </li>\n';
+			    } else {
+			        paginationHTML += '    <li class="page-item disabled">\n' +
+			                          '      <span class="page-link" aria-hidden="true">&raquo;</span>\n' +
+			                          '    </li>\n';
+			    }
+
+			    paginationHTML += '  </ul>\n' +
+			                     '</nav>';
+
+			    return paginationHTML;
+			}
+			
 		</script>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
@@ -157,7 +263,6 @@
 		<!-- SIDEBAR -->
 		<jsp:include page="/group/groupSide.jsp"></jsp:include>
 		<!-- SIDEBAR -->
-		
 		<div class="main-panel">
         	<div class="content-wrapper">
         		<jsp:include page="listBoard.jsp"></jsp:include>
@@ -170,6 +275,7 @@
 			
 			<form id="updateGroupBoard" method="post" action="/group/updateGroupBoard">
 				<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
+				<input type="hidden" name="groupNo" id="groupNo" value="${groupBoard.groupNo}">
 			</form>
 			
 			<form id="deleteGroupBoard" method="post">

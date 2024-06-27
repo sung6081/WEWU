@@ -209,7 +209,7 @@
 	
 		async function searchAddressToCoordinate(address) {
 			
-			var url = 'http://localhost:8080/app/active/searchLocal?query=' + address;
+			var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
 			
 			var local;
 			
@@ -602,7 +602,7 @@
 		                      	//submit함수
 		                    	function addActive() {
 		                    		
-		                    		alert('등록');
+		                    		//alert('등록');
 		                    		
 		                    		var hashString = '';
 		                    		

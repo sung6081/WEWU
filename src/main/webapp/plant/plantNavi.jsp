@@ -14,7 +14,7 @@
 
         <a href="/plant/getMyPlant" class="btn btn-success">My Plant</a>
      
-        <a href="/plant/getMyPlant.jsp" class="btn btn-info">Inventory</a>
+        <a href="/plant/inventory" class="btn btn-info">Inventory</a>
 
         <a href="/plant/history" class="btn btn-primary">History</a>
   

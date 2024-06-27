@@ -12,10 +12,10 @@
 
 	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+
 	<!-- HEADER -->
 	<jsp:include page="/header.jsp"/>
 	<!-- HEADER -->
-	
 
 	<script type="text/javascript">
 	
@@ -48,7 +48,7 @@
 	</script>
 	</head>
 	<body bgcolor="#ffffff" text="#000000">
-				
+			
 					
 				<div class="main-panel">
 		       		<div class="content-wrapper">

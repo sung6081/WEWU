@@ -46,6 +46,7 @@
  <link rel="stylesheet" href="/css/swiper.css">
  <!-- endinject -->
  <link rel="shortcut icon" href="/images/favicon.ico" />
+ <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
  <!-- swiper -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
@@ -57,32 +58,37 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>WEWU</title>
+  <style>
+.navbar-header img{
+  width: auto%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust this value to the desired height */
+  max-width: 100%;
+}
+.navbar-header {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  </style>
 </head>
 <body>
 
   <div class="fixed-top">
     <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
-     <div class="container d-flex justify-content-center">
-       <span class="navbar-brand mb-0 h1">WEWU</span>
-                   <!-- 세션에서 퀘스트 리스트 가져오기 -->
-            <c:set var="sessionQuestList" value="${sessionScope.questList}" />
-            
-            <!-- 퀘스트 정보 표시 -->
-            <c:if test="${not empty questList}">
-                <ul class="navbar-nav">
-                    <c:forEach var="quest" items="${questList}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">퀘스트 번호: ${quest.questNo}, 내용: ${quest.questContents}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </c:if>
+     <div class="container-fluid" style="display: flex; justify-content: center;">
+     <a class="navbar-header" href="/index.jsp">
+          <img src="/images/wewu.png"  alt="WEWU Title" >
+     </a>
      </div>
    </header>
    <!-- Navbar -->
    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom-height">
      <div class="container-fluid">
-       <a class="navbar-brand" href="/index.jsp"> <img src="/images/logo.svg" alt="Skydash"
+       <a class="navbar-brand" href="/index.jsp"> <img src="/images/wewuhome.png" alt="Skydash"
            style="height: 40px;">
        </a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -104,6 +110,7 @@
            </li>
            <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
            <!-- 관리자모드 -->
+           <c:if test="${sessionScope.isAdmin}">
            <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -145,6 +152,7 @@
                </div>
              </div>
            </li>
+           </c:if>
            <!-- 관리자모드 -->
           </ul>
           <ul class="navbar-nav ml-auto">
@@ -158,13 +166,11 @@
             </c:if>
             <c:if test = "${ ! empty user }">
             <li class="nav-item">
-              <a class="nav-link " href="/user/login">LogOut</a>
+              <a class="nav-link " href="/user/logout">LogOut</a>
             </li>
             </c:if>
             <li class="nav-settings">
-   			 <button type="button" class="btn btn-info btn-inverse-info btn-icon">
-        		<i class="mdi mdi-human-greeting"></i>
-    		</button>
+   			 <img src="/images/quest.png" alt="quest" style="height: 40px;">
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">
@@ -173,7 +179,7 @@
           
           
           <!--  -->
-          <jsp:include page="plant/getQuestList.jsp" />
+
           <!--  -->
         </div>
       </div>

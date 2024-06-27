@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script>
@@ -14,7 +17,7 @@
 					
 		        }else{
 		        	// form 데이터 가져오기
-		        	var form = document.getElementById('MyForm');
+		        	var form = document.getElementById('addApplGroup');
 		        	var formData = new FormData(form);
 
 		        	// JSON으로 변환
@@ -58,30 +61,45 @@
 		</script>
 	</head>
 	<body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-        		<h1>모임정보 개설신청 View 페이지</h1>
-				<form id="MyForm">
-					닉네임 : nick1<input type="hidden" name="leaderNick" id="leaderNick" value="nick1">
-					<br>
-					모임명 : <input type="text" name="groupName" id="groupName">
-					<br>
-					소개  : <input type="text" name="groupIntro" id="groupIntro">
-					<br>
-					태그  : <input type="text" name="groupHash" id="groupHash">
-					<br>
-					주소  : <input type="text" name="groupAddr" id="groupAddr">
-					<br>
-					계획  : <input type="text" name="groupPlan" id="groupPlan">
-				</form>
-				<form id="getAddAppl" method="post" action="/group/getAddAppl">
+	        	<div class="col-md-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h1 class="card-title">모임개설신청</h1>
+	                  <form class="forms-sample" id="addApplGroup" method="post" action="/group/addApplGroup">
+	                  	
+	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${user.nickname }">
+	                    <div class="form-group">
+	                      <label>모임명</label>
+	                      <input type="text" class="form-control" name="groupName" placeholder="모임명">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>모임소개</label>
+	                      <input type="text" class="form-control" name="groupIntro" placeholder="모임소개">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>모임태그</label>
+	                      <input type="text" class="form-control" name="groupHash" placeholder="모임태그">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>모임주소</label>
+	                      <input type="text" class="form-control" name="groupAddr" placeholder="모임주소">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>모임계획</label>
+	                      <input type="text" class="form-control" name="groupPlan" placeholder="모임계획">
+	                    </div>
+	                  </form>
+	                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
 					
-				</form>
-				<a href="javascript:addApplGroup();">개설하기</a>
+					  </form>
+	                <button onclick="javascript:addApplGroup();"  class="btn btn-primary mr-2">신청</button>
+	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+	                </div>
+	              </div>
+	            </div>
         	</div>
         </div>
         

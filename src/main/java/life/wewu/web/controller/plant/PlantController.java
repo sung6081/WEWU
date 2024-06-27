@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,10 +58,6 @@ public class PlantController {
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
 	
-	@Autowired
-	@Qualifier("s3RepositoryImpl")
-	private S3Repository s3Repository;
-	
 	
 	public PlantController() {
 		System.out.println(this.getClass());
@@ -86,26 +83,22 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="updateQuest" , method = RequestMethod.GET)
-	public String updateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception{
+	public String GETupdateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception{
 		System.out.println(" /plant/updateQuest : GET ");
+	
 		Quest quest = plantService.getQuest(questNo);
-		model.addAttribute("qeust", quest);
+		model.addAttribute("quest", quest);
+		
+		System.out.println(quest);
+
 		return "forward:/plant/updateQuest.jsp";
 	}
 	
 
-	@RequestMapping(value ="updateQuest" , method = RequestMethod.POST)
-	public String updateQuest(@ModelAttribute("quest") Quest quest, Model model) throws Exception{
-		System.out.println(" /plant/updateQuest : POST ");	
-		int questNo = quest.getQuestNo();
-		plantService.updateQuest(quest);		
-		model.addAttribute("quest", quest);	
-		System.out.println(questNo);
-		return "forward:/plant/updateQuest.jsp";
-	}
+	
 
 	@RequestMapping(value ="listQuest" , method = RequestMethod.GET)
-	public String getQuestList(@ModelAttribute("search") Search search, Model model,@RequestParam(required= false)int questNo) throws Exception{
+	public String getQuestList(@ModelAttribute("search") Search search, Model model) throws Exception{
 		
 		Map<String,Object> map = plantService.getQuestList(search);
 		
@@ -121,41 +114,13 @@ public class PlantController {
 	//----------------Plant
 	
 	@RequestMapping(value ="addPlant" , method = RequestMethod.GET)
-	public String addPlant() throws Exception{
-		System.out.println(" /plant/addPlant : get ");		
+	public String GetAddPlant() throws Exception{
+		System.out.println(" /plant/addPlant : get ");	
+		
 		
 		return "forward:/plant/addPlant.jsp";	
 	}
 
-	@RequestMapping(value ="addPlant" , method = RequestMethod.POST)
-	public String addPlant(@ModelAttribute("plantLevl") PlantLevl plantLevl, 
-							@ModelAttribute("plant") Plant plant ,
-							Model model,
-							@RequestPart(required = false) MultipartFile file) throws Exception{
-		
-		System.out.println(" /plant/addPlant : POST ");	
-		
-		if(!file.isEmpty()) {
-	         Map<String, Object> map = new HashMap<String, Object>();
-	         map.put("file", file);
-	         map.put("folderName", "plant");
-	         
-	         String url = s3Repository.uplodaFile(map);
-	         
-	
-	         plantLevl.setLevlImg(s3Repository.getShortUrl(url));
-	         
-	      }
-		
-		plantService.addPlant(plant, plantLevl);
-		
-		model.addAttribute("file", file);
-		model.addAttribute("plantLevl", plantLevl);
-		model.addAttribute("plant", plant);
-		
-		return "forward:/plant/addPlant.jsp";	
-	}
-	
 
 	@RequestMapping(value ="getPlant" , method = RequestMethod.GET)
 	public String getPlant(@RequestParam("plantNo") int plantNo , Model model) throws Exception{
@@ -167,32 +132,48 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="listPlant" , method = RequestMethod.GET)
-	public String getPlantList( Model model,@ModelAttribute("search") Search search ,@RequestParam(required= false) int plantNo) throws Exception{
+	public String getPlantList( Model model,@RequestParam Map<String, Object> map ) throws Exception{
 		
 		System.out.println(" /plant/listPlant : GET ");	 
-		Map<String,Object> map = plantService.getPlantList(search);
-		model.addAttribute("map", map);
-		model.addAttribute("search", search);
+		
+		// plantService를 통해 Plant 리스트를 가져옴
+	    List<Plant> list = plantService.getPlantList(map);
+	    
+	    // 가져온 Plant 리스트를 모델에 추가
+	    model.addAttribute("list", list);
+	    
+	    // 디버깅을 위한 map 출력
+	    System.out.println("plantList:"+list);
+	    
+	    // 모델에 map 추가
+	    model.addAttribute("map", map);
+	    model.addAttribute("list", list);
 		
 		return "forward:/plant/listPlant.jsp";
+		
 	}
 	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.GET)
-	public String updatePlant() throws Exception{
-		System.out.println(" /plant/updatePlant : GET ");	
-		return "forward:/plant/updatePlant.jsp";
-	}
-	
-	@RequestMapping(value ="updatePlant" , method = RequestMethod.POST)
-	public String updatePlant(@ModelAttribute("plant") Plant plant, Model model) throws Exception{
-		System.out.println(" /plant/updatePlant : POST ");	
-		int plantNo = plant.getPlantNo();
-		plantService.updatePlant(plant);
+	public String GETupdatePlant(@RequestParam("plantNo") int plantNo,@RequestParam(required = false) int plantLevlNo,
+			 Model model) throws Exception{
+		
+		System.out.println(" /plant/updatePlant : GET ");
+		
+		Plant plant = plantService.getPlant(plantNo);
+		PlantLevl PlantLevl = plantService.getPlantLevl(plantLevlNo);
+		
+		plant.setPlantLevl(PlantLevl);
+		
+		System.out.println(plant);
+		System.out.println(PlantLevl);
+		
 		model.addAttribute("plant", plant);
+		model.addAttribute("plantLevl", PlantLevl);
 		
 		return "forward:/plant/updatePlant.jsp";
 	}
-
+	
+	
 	//----------------MyPlant
 	
 	@RequestMapping(value ="selectRandomPlant" , method = RequestMethod.POST)
@@ -220,11 +201,21 @@ public class PlantController {
 	
 	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
-	public String getMyPlant(@RequestParam(required= false) int myPlantNo,Model model) throws Exception{
+	public String getMyPlant( Model model,HttpSession session) throws Exception{
 		System.out.println(" /plant/getMyPlant : GET ");
-		MyPlant myPlant = plantService.getMyPlant(myPlantNo);
+		
+		User user = (User) session.getAttribute("user");
+		
+		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+		myPlant.setPlantLevl(plantLevl);
+		
 		System.out.println(myPlant);
+		System.out.println(plantLevl);
+		
+		model.addAttribute("user", user);
 		model.addAttribute("myPlant", myPlant);
+	
 		
 		return "forward:/plant/getMyPlant.jsp";
 	}
@@ -239,12 +230,13 @@ public class PlantController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		search.setSearchKeyword("past");
 	
-		
 		map.put("search",search);
-		map.put("user",user);
+		map.put("nickname",user.getNickname());
+		
+		System.out.println("map = " + map);
 		
 		List<MyPlant> list = plantService.getMyPlantList(map);
-		System.out.println("map = " + map);
+		
 		System.out.println("List = " +list);
 		List<MyPlant> allList= new ArrayList<MyPlant>();
 		
@@ -267,25 +259,37 @@ public class PlantController {
 
 	//----------------Inventory
 	@RequestMapping(value ="inventory" , method = RequestMethod.GET)
-	public String getInventory(@RequestParam("itemPurNo") int itemPurNo,Model model) throws Exception{
-		System.out.println(" /plant/getInventory : POST ");
-		Inventory inventory = plantService.getInventory(itemPurNo);
-		model.addAttribute("inventory", inventory);
+	public String getInventory(
+							HttpSession session,
+							Model model) throws Exception{
 		
-		return "forward:/plant/inventory.jsp";
-	}
+		System.out.println(" /plant/getInventory : GET ");
+	    User user = (User) session.getAttribute("user");
+	    
+	    if (user == null) {
+	        throw new Exception("User not found in session");
+	    }
+	    
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("nickname", user.getNickname());
+	    
+	    List<Inventory> list = plantService.getInventoryList(user.getNickname());
+	    
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+	    System.out.println(myPlant);
+	    System.out.println(plantLevl);
+	    
+	    System.out.println("list: " + list);
+	    
+	    model.addAttribute("user", user);
+	    model.addAttribute("list", list);
+	    model.addAttribute("myPlant", myPlant);
+	    model.addAttribute("plantLevl", plantLevl);
 
-	
-	//----------------etc
-	
+	    return "forward:/plant/inventory.jsp";
 
-	@RequestMapping(value ="fileUpload" , method = RequestMethod.POST)
-	public void fileUpload() throws Exception{
-		
 	}
-	
-	
-		
 }
 	
 	

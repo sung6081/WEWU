@@ -12,6 +12,13 @@
     .clickable-text {
         cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
     }
+    
+    #addBtn {
+	    z-index: 1000; /* 버튼을 상위에 배치 */
+	    pointer-events: auto; /* 클릭 가능하도록 설정 */
+	    position: relative; /* 필요에 따라 position 속성 설정 */
+	}
+    
 </style>
 </head>
 <body>
@@ -94,36 +101,27 @@
 			                <div class="card-body">
 			                	
 								<div class="row">
-									<div class="col-lg-6">
-										<h4 class="card-title">모임 활동 리스트</h4>
-									</div>
-									<c:if test="${user.role == '3' }">
-										<div class="col-lg-6 d-flex justify-content-end">
-											<button type="button" class="btn to-add-btn btn-outline-primary btn-fw">등록하기</button>
-										</div>
-									</c:if>
+								    <div class="col-lg-6">
+								        <h4 class="card-title">모임 활동 리스트</h4>
+								    </div>
+								    <c:if test="${isLeader}">
+								        <div class="col-lg-6 text-lg-right">
+								            <button type="button" id="addBtn" class="btn btn-outline-primary btn-fw">등록하기</button>
+								        </div>
+								    </c:if>
 								</div>
+								
+								<script type="text/javascript">
+								
+									$('#addBtn').on('click', function() {
+										
+										self.location = '/active/addActive/'+${param.groupNo};
+										
+									});
+								
+								</script>
 			                  
 								<div class="input-group text-right">
-								
-									<div class="input-group-prepend">
-										<button class="dropdown-btn btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<c:if test="${search.searchCondition == null || search.searchCondition == ''}">
-												활동 상태
-											</c:if>
-											<c:if test="${search.searchCondition != ''}">
-												${search.searchCondition}
-											</c:if>
-										</button>
-										<div class="dropdown-menu" style="">
-											<a class="dropdown-item" href="#">전체</a>
-											<div role="separator" class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">활동중</a>
-											<div role="separator" class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">활동 종료</a>
-										</div>
-									</div>
-									<input type="hidden" class="condition" name="searchCondition" value="${search.searchCondition}" >
 								
 									<input type="text" name="searchKeyword" class="form-control-sm keyword" value="${search.searchKeyword}" placeholder="활동명 해쉬태그 검색">
 									

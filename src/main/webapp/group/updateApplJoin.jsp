@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+		<!-- HEADER -->
 		<script>
 			function updateApplJoin(){
 				
@@ -38,6 +40,9 @@
 						},
 						success : function(data, status, xhr) {
 							alert("수정이 완료되었습니다.");
+							var str = "";
+									
+							$('#getApplJoin').submit();
 						},
 						error	: function(xhr, status, error) {
 						  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -49,31 +54,79 @@
 		        }
 			}
 		</script>
+
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 	</head>
 	<body>
-		${groupMember}
-		<h1>모임 가입신청서 작성 View</h1>
-		<form id="updateApplJoin">
+		
+		<!-- SIDEBAR -->
+		<jsp:include page="/group/groupSide.jsp"></jsp:include>
+		<!-- SIDEBAR -->
+		
+		<div class="main-panel">
+        	<div class="content-wrapper">
+	        	<div class="col-md-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h1 class="card-title">모임가입신청</h1>
+	                  <h4 class="card-title">${group.groupName}</h4>
+	                  <form class="forms-sample" id="updateApplJoin">
+	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+						<input type="hidden" name="memberNickName" value="${groupMember.memberNickName }">
+						<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
+						<input type="hidden" name="joinFlag" value="${groupMember.joinFlag}">
+						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
+						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
+						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
+	                    <div class="form-group">
+	                      <label>${group.frstQuest}</label>
+	                      <input type="text" class="form-control" name="frstRepl" placeholder="1번 답변" value="${groupMember.frstRepl }">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>${group.scndQuest}</label>
+	                      <input type="text" class="form-control" name="scndRepl" placeholder="2번 답변" value="${groupMember.scndRepl }">
+	                    </div>
+	                    <div class="form-group">
+	                      <label>${group.thrdQuest}</label>
+	                      <input type="text" class="form-control" name="thrdRepl" placeholder="3번 답변" value="${groupMember.thrdRepl }">
+	                    </div>
+	                    <label>승인여부</label>
+	                      <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="joinFlag" value="E"
+		                      ${groupMember.joinFlag == 'E' ? 'checked' : ''}>
+		                      가입대기
+		                    </label>
+		                  </div>
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="joinFlag" value="T"
+		                      ${groupMember.joinFlag == 'T' ? 'checked' : ''}>
+		                      가입완료
+		                    </label>
+		                  </div>
+		                  <div class="form-check">
+		                    <label class="form-check-label text-muted">
+		                      <input type="radio" class="form-check-input" name="joinFlag" value="F"
+		                      ${groupMember.joinFlag == 'F' ? 'checked' : ''}>
+		                      가입거부
+		                    </label>
+		                  </div>
+	                  </form>
+	                <button onclick="javascript:updateApplJoin();"  class="btn btn-primary mr-2">수정</button>
+	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+	                </div>
+	              </div>
+	            </div>
+        	</div>
+        </div>
+        <form id="getApplJoin" method="post" action="/group/getApplJoin">
 			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-			신청자 : ${groupMember.memberNickName}
-			<br><br>
-			1번 질문 : ${groupMember.frstQuest}
-			<br>
-			1번 답변 : <input type="text" name="frstRepl" value="${groupMember.frstRepl}">
-			<br>
-			2번 질문 : ${groupMember.scndQuest}
-			<br>
-			2번 답변 : <input type="text" name="scndRepl" value="${groupMember.scndRepl}">
-			<br>
-			3번 질문 : ${groupMember.thrdQuest}
-			<br>
-			3번 답변 : <input type="text" name="thrdRepl" value="${groupMember.thrdRepl}"> 
-		</form> 
-		<a href="javascript:updateApplJoin()">가입신청 수정하기</a>
-		<form id="getApplJoin" method="post" action="/group/getApplJoin">
-			<input type="hidden" name="memberNo" value="${groupMember.memberNo}">
-		</form> 
+		</form>
+		
+		<!-- FOOTER -->
+	    <jsp:include page="/footer.jsp" />
+	    <!-- FOOTER -->
 	</body>
 </html>

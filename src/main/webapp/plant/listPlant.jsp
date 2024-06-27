@@ -9,6 +9,7 @@
   
   <style>
     .table-container {
+    display: block;
       max-height: 600px; /* 원하는 높이 설정 */
       overflow-y: auto;
     }
@@ -25,6 +26,18 @@
       background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script>
+  $(document).ready(function() {
+      // 수정 버튼 클릭 시
+      $(".badge-success").on("click", function() {
+        var plantLevlNo = $(this).data("plantlevlno");
+        var plantNo = $(this).data("plantno");
+        window.location.href = "/plant/updatePlant?plantLevlNo=" + plantLevlNo+"&plantNo="+plantNo;
+      });
+        });
+
+  </script>
 </head>
 <body>
   <jsp:include page="/header.jsp" flush="true" />
@@ -43,7 +56,6 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>Plant No</th>
                       <th>Plant Name</th>
                       <th>Plant Level</th>
                       <th>Plant Max Exp</th>
@@ -54,9 +66,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <c:forEach var="plant" items="${map.list}" varStatus="status">
+                    <c:forEach var="plant" items="${list}" varStatus="status">
                       <tr>
-                        <td>${plant.plantNo}</td>
                         <td>${plant.plantName}</td>
                         <td>${plant.plantLevl.plantLevl}</td>
                         <td>${plant.plantLevl.plantMaxExp}</td>
@@ -64,7 +75,9 @@
                         <td>${plant.plantLevl.plantFinalLevl}</td>
                         <td>${plant.plantLevl.levlImg}</td>
                         <td>
-                        	<a href = "/plant/updatePlant" type = "button" class="badge badge-success">수정</a>
+                          <div style="display: flex; flex-direction: column;">
+						    <a type="button" class="badge badge-success" data-plantlevlno="${plant.plantLevl.plantLevlNo}" data-plantno="${plant.plantNo}">수정</a>
+						  </div>
                         </td>
                       </tr>
                     </c:forEach>

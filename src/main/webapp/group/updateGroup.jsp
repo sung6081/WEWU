@@ -69,7 +69,7 @@
 	                  <h4 class="card-title">${group.groupName}</h4>
 	                  <form class="forms-sample" id="updateGroup">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
-						<input type="hidden" name="memberNickName" value="nick4">
+						<input type="hidden" name="memberNickName" value="${user.nickname}">
 						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
 						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
 						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">

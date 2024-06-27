@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import life.wewu.web.common.Search;
+import life.wewu.web.domain.board.Comment;
 import life.wewu.web.domain.group.Group;
 import life.wewu.web.domain.group.GroupAcle;
 import life.wewu.web.domain.group.GroupBoard;
@@ -247,9 +248,37 @@ public class GroupServiceImpl implements GroupService{
 		return groupAcleDao.getGroupAcleList(map);
 	}
 	
-	public int getGroupAcleCnt(Map map) throws Exception {
+	public int getGroupAcleListCnt(Map map) throws Exception {
 		
 		//board_type pk를 인자로 해당 게시판의 게시글 총 갯수를 select
-		return groupAcleDao.getGroupAcleCnt(map);
+		return groupAcleDao.getGroupAcleListCnt(map);
+	}
+	
+	public void updateRole(String nickname) throws Exception{
+		groupDao.updateRole(nickname);
+	}
+	
+	public int groupMemberCnt(int groupNo) throws Exception{
+		return groupMemberDao.groupMemberCnt(groupNo);
+	}
+		
+	public int groupAcleCnt(int groupNo) throws Exception{
+		return groupAcleDao.groupAcleCnt(groupNo);
+	}
+	
+	public List<GroupAcle> memberAcleList(Map map) throws Exception{
+		return groupAcleDao.memberAcleList(map);
+	}
+	
+	public List<Comment> memberCommentList(Map map) throws Exception{
+		return groupAcleDao.memberCommentList(map);
+	}
+	
+	public int memberCommentListCnt(Map map) throws Exception{
+		return groupAcleDao.memberCommentListCnt(map);
+	}
+	
+	public int memberAcleListCnt(Map map) throws Exception{
+		return groupAcleDao.memberAcleListCnt(map);
 	}
 }
