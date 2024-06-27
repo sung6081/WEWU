@@ -33,7 +33,7 @@
       $(".badge-success").on("click", function() {
         var plantLevlNo = $(this).data("plantlevlno");
         var plantNo = $(this).data("plantno");
-        window.location.href = "/plant/updatePlant?plantLevlNo=" + plantLevlNo+"&plantNo="+plantNo;
+        window.location.href = "/plant/updatePlant?plantLevlNo=" + plantLevlNo;
       });
         });
 

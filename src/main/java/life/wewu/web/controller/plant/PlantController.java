@@ -154,21 +154,19 @@ public class PlantController {
 	}
 	
 	@RequestMapping(value ="updatePlant" , method = RequestMethod.GET)
-	public String GETupdatePlant(@RequestParam("plantNo") int plantNo,
+	public String GETupdatePlant(@RequestParam("plantLevlNo") int plantLevlNo,
 			 Model model) throws Exception{
 		
 		System.out.println(" /plant/updatePlant : GET ");
 		
-		Plant plant = plantService.getPlant(plantNo);
-		PlantLevl PlantLevl = plantService.getPlantLevl(plant.getPlantNo());
 		
-		plant.setPlantLevl(PlantLevl);
+		PlantLevl plantLevl = plantService.getPlantLevl(plantLevlNo);
+		Plant plant = plantService.getPlant(plantLevl.getPlantNo());
+
+		System.out.println(plantLevl);
 		
-		System.out.println(plant);
-		System.out.println(PlantLevl);
-		
+		model.addAttribute("plantLevl", plantLevl);
 		model.addAttribute("plant", plant);
-		model.addAttribute("plantLevl", PlantLevl);
 		
 		return "forward:/plant/updatePlant.jsp";
 	}
