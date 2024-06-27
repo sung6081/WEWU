@@ -49,7 +49,7 @@ public interface PlantService {
 
 	public Plant selectRandomPlant() throws Exception;
 
-	public void addRandomPlant(MyPlant myPlant) throws Exception;
+	public void addMyPlant(MyPlant myPlant) throws Exception;
 
 	public void updateMyPlant(MyPlant myPlant) throws Exception;
 

@@ -19,7 +19,7 @@ public interface MyPlantDao {
 	
 	
 
-	public void addRandomPlant(MyPlant myPlant) throws Exception;
+	public void addMyPlant(MyPlant myPlant) throws Exception;
 
 	public void updateMyPlant(MyPlant myPlant) throws Exception;
 
@@ -29,7 +29,7 @@ public interface MyPlantDao {
 
 	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception;
 
-	public MyPlant deleteMyPlant(int myPlantNo) throws Exception;
+	public MyPlant deleteMyPlant(String nickname) throws Exception;
 	
 	public String getWeather(String location);
 
