@@ -28,7 +28,7 @@
 	<!-- HEADER -->
 	
 	<!-- SIDE -->
-	<jsp:include page="/groupSide.jsp"></jsp:include>
+	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<script type="text/javascript">
