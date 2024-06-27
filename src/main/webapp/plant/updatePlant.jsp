@@ -36,6 +36,7 @@
 	        plantName: formData.get("plantName"),
 	      },
 	      plantLevl: {
+	    	plantLevlNo: formData.get("plantLevlNo"),
 	    	plantNo: formData.get("plantNo"),
 	        plantLevl: formData.get("plantLevl"),
 	        plantFinalLevl: formData.get("plantFinalLevl"),
@@ -142,7 +143,7 @@
                 </div>
                 <div class="form-group">
                   <label>식물단계이미지</label> 
-                  <input type="file" name="levlImg" class="file-upload-default" id="levlImg" >
+                  <input type="file" name="file" class="file-upload-default" id="levlImg" >
                   <div class="input-group col-xs-12">
                     <input type="text" class="form-control file-upload-info"  disabled value="${plantLevl.levlImg}">
                     <span class="input-group-append">

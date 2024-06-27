@@ -34,10 +34,11 @@ $(document).ready(function() {
 
     $("#save").on("click", function() {
         var updatedPlantName = $("#plantNameInput").val();
+        var plantNo = $("#plantNo").val();
         $.ajax({
             url: "/plant/updatePlant",
             type: "GET",
-            data: { plantName: updatedPlantName },
+            data: { plantName: updatedPlantName ,plantNo:plantNo },
             success: function(response) {
                 $("#myPlantName").text(updatedPlantName);
                 $("#save").hide();
@@ -48,6 +49,22 @@ $(document).ready(function() {
             }
         });
     });
+    
+    $("#delete").on("click", function() {
+        var plantNo = $("#plantNo").val();
+        $.ajax({
+            url: "/app/plant/deleteMyPlant",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ plantNo: plantNo }),
+            success: function(response) {
+            	alert("식물 삭제 성공.")
+            },
+            error: function() {
+                alert("식물 삭제 실패.");
+            }
+        });
+    });
 });
 </script>
 <body>
@@ -55,7 +72,8 @@ $(document).ready(function() {
 	<!-- HEADER -->
 	<jsp:include page="/header.jsp" />
 	<!-- HEADER -->
-	<form action="/plant/getMyPlant" method="POST">
+	<form name = "getMyPlant" action = "/plant/getMyPlant/">
+	<input type="hidden" name="plantNo" id="plantNo" value="${myPlant.plantLevl.plantNo}"/>
 		<!-- GetMyPlant -->
 		<div class="main-panel">
 			<div class="content-wrapper">
@@ -64,7 +82,7 @@ $(document).ready(function() {
 				<br> <br> <br>
 				<!-- 식물 없을때 랜덤 뽑기로 이동 -->
 				<div class="container">
-					<div class="row mt-5">
+					<div class="row">
 						<div class="col-lg-10 grid-margin stretch-card mx-auto">
 							<div class="card">
 								<div class="card-body container-flex">
@@ -100,8 +118,14 @@ $(document).ready(function() {
 														<td><img src="${myPlant.plantLevl.levlImg}" ></td>
 													</tr>
 													<tr>
-														<td>현재까지모은경험치</td>
+														<td>현재경험치</td>
 														<td>${myPlant.myPlantExp}</td>
+													</tr>
+													<tr>
+														<td><button type="button" id="delete" class="btn btn-success btn-sm">삭제</button></td>
+														<c:if test="${my_plant_exp} >= 100">
+														<td><button type="button" id="delete" class="btn btn-success btn-sm">식물저장(기부)</button></td>
+														</c:if>
 													</tr>
 												</tbody>
 											</table>

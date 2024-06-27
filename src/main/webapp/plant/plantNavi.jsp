@@ -8,9 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-  <div class="container mt-5">
+  <div class="container ">
     <div class="text-center">
-      <div class="btn-group d-inline-block" role="group" aria-label="Basic example">
+      <div class="btn-group" role="group" aria-label="Basic example">
 
         <a href="/plant/getMyPlant" class="btn btn-success">My Plant</a>
      
