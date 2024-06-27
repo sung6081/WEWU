@@ -26,7 +26,7 @@
 $(document).ready(function() {
     $("#edit").on("click", function() {
         var currentPlantName = $("#myPlantName").text();
-        var inputField = '<input type="text" id="plantNameInput" value="' + currentPlantName + '" />';
+        var inputField = '<input type="text" class="form-control form-control-sm w-50" id="plantNameInput" value="' + currentPlantName + '" />';
         $("#myPlantName").html(inputField);
         $("#edit").hide();
         $("#save").show();
@@ -34,11 +34,11 @@ $(document).ready(function() {
 
     $("#save").on("click", function() {
         var updatedPlantName = $("#plantNameInput").val();
-        var plantNo = $("#plantNo").val();
+        var plantLevlNo = $("#plantLevlNo").val();
         $.ajax({
             url: "/plant/updatePlant",
             type: "GET",
-            data: { plantName: updatedPlantName ,plantNo:plantNo },
+            data: { plantName: updatedPlantName ,plantLevlNo:plantLevlNo },
             success: function(response) {
                 $("#myPlantName").text(updatedPlantName);
                 $("#save").hide();
@@ -72,8 +72,8 @@ $(document).ready(function() {
 	<!-- HEADER -->
 	<jsp:include page="/header.jsp" />
 	<!-- HEADER -->
-	<form name = "getMyPlant" action = "/plant/getMyPlant/">
-	<input type="hidden" name="plantNo" id="plantNo" value="${myPlant.plantLevl.plantNo}"/>
+	<form name = "getMyPlant" action = "/plant/getMyPlant">
+	<input type="hidden" name="plantLevlNo" id="plantLevlNo" value="${myPlant.plantLevl.plantLevlNo}"/>
 		<!-- GetMyPlant -->
 		<div class="main-panel">
 			<div class="content-wrapper">
@@ -89,12 +89,7 @@ $(document).ready(function() {
 									<div class="image-container">
 										<img src="${myPlant.plantLevl.levlImg}" width="200">
 									</div>
-									<div>
-										<h4 class="card-title">
-											"${user.nickname}"님의 식물 "${myPlant.myPlantName}"
-										</h4>
-										<p class="card-description"></p>
-										<div class="table-container">
+									<div class="table-container">
 											<table class="table table-hover">
 												<thead>
 													<tr>
@@ -112,19 +107,24 @@ $(document).ready(function() {
 													<tr>
 														<td>현재단계</td>
 														<td>${myPlant.plantLevl.plantLevl}</td>
+														<td colspan="2"></td>
 													</tr>
 													<tr>
 														<td>변화형태</td>
 														<td><img src="${myPlant.plantLevl.levlImg}" ></td>
+														<td colspan="2"></td>
 													</tr>
 													<tr>
 														<td>현재경험치</td>
 														<td>${myPlant.myPlantExp}</td>
+														<td colspan="2"></td>
+														
 													</tr>
 													<tr>
-														<td><button type="button" id="delete" class="btn btn-success btn-sm">삭제</button></td>
+														<td colspan="2"></td>
+														<td class="text-right"><button type="button" id="delete" class="btn btn-success btn-sm">삭제</button></td>
 														<c:if test="${my_plant_exp} >= 100">
-														<td><button type="button" id="delete" class="btn btn-success btn-sm">식물저장(기부)</button></td>
+														<td class="text-right"><button type="button" id="delete" class="btn btn-success btn-sm">식물저장(기부)</button></td>
 														</c:if>
 													</tr>
 												</tbody>
