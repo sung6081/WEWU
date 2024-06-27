@@ -62,6 +62,7 @@
 	       </a>
 	     </li>
          <c:if test="${isAdmin}">
+         <%-- 
 			<li class="nav-item">
 		       <a class="nav-link" href="/item/addItem">
 		       	<i class="icon-paper menu-icon"></i>
@@ -75,7 +76,7 @@
 		         <span class="menu-title">판매 아이템 수정</span>
 		       </a>
 		     </li>
-		     
+		     --%>
 	     	 <li class="nav-item">
 		       <a class="nav-link" href="/item/getItemSalesHistoryList">
 		       	<i class="icon-paper menu-icon"></i>
