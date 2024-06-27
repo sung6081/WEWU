@@ -86,10 +86,14 @@
 		WHERE board_no in
 		(SELECT m.board_no
 		FROM
-		bookmark AS m JOIN board AS b
+		bookmark AS
+		m JOIN board AS b
 		ON m.board_no = b.board_no
-		WHERE b.type_no
-		= #{boardType}
+		<where>
+			<if test="boardType != null and boardType != ''">
+				b.type_no = #{boardType}
+			</if>
+		</where>
 		AND m.nickname = #{nickName})
 		ORDER BY board_no;
 	</select>
@@ -156,16 +160,19 @@
 
 	<!-- Boardfile : SELECT ( 게시판별 썸네일 찾기 ) -->
 	<!-- 게시판에 업로드된 첫번째 파일 가져옴 -->
-	<select id="getBoardFile" parameterType="int" resultMap="boardfileSelectMap">
+	<select id="getBoardFile" parameterType="int"
+		resultMap="boardfileSelectMap">
 		SELECT bf.board_no,
 		bf.file_no, bf.file_name
 		FROM boardfile bf
 		JOIN (
 		SELECT board_no, MIN(file_no) AS min_file_no
 		FROM boardfile
-		WHERE board_no IN (SELECT board_no FROM board WHERE type_no = #{boardType})
+		WHERE
+		board_no IN (SELECT board_no FROM board WHERE type_no = #{boardType})
 		GROUP BY board_no)
-		subquery ON bf.board_no = subquery.board_no AND bf.file_no = subquery.min_file_no;
+		subquery ON bf.board_no = subquery.board_no AND
+		bf.file_no = subquery.min_file_no;
 
 	</select>
 
