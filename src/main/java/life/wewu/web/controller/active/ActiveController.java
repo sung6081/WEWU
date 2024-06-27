@@ -84,14 +84,21 @@ public class ActiveController {
 	
 	//Ȱ�� ��� ������ �׺� GET
 	@GetMapping(value = "addActive/{groupNo}")
-	public String addActive(@PathVariable int groupNo, Model model) throws Exception {
+	public String addActive(@PathVariable int groupNo, Model model, HttpSession session) throws Exception {
 		
 		System.out.println("addActive NAVI");
+		
+		User user = (User)session.getAttribute("user");	
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickName",user.getNickname());
 		
 		//지도 clientId
 		model.addAttribute("clientId", clientId);
 		
 		model.addAttribute("group", groupService.getGroup(groupNo));
+		
+		model.addAttribute("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return "forward:/active/addActive.jsp?groupNo="+groupNo;
 		
@@ -142,6 +149,10 @@ public class ActiveController {
 			
 		}
 		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", active.getGroupNo());
+		map.put("memberNickName",user.getNickname());
+		
 		//activeNo�� active�޾Ƽ� model�� ��� foward
 		model.addAttribute("active", active);
 		
@@ -150,19 +161,33 @@ public class ActiveController {
 		//지도 clientId
 		model.addAttribute("clientId", clientId);
 		
+		model.addAttribute("group", groupService.getGroup(active.getGroupNo()));
+		model.addAttribute("groupMember", groupService.getMemberGroupForNick(map));
+		
 		return "forward:/active/getActive.jsp";
 	}
 	
 	//Ȱ�� ������Ʈ Navi
 	@GetMapping(value = "updateActive/{activeNo}")
-	public String updateActive(Model model, @PathVariable int activeNo) {
+	public String updateActive(Model model, @PathVariable int activeNo, HttpSession session) throws Exception {
 		
 		System.out.println("updateActive Navi");
 		
-		model.addAttribute("active", activeService.getActive(activeNo));
+		Active active = activeService.getActive(activeNo);
+		
+		model.addAttribute("active", active);
+		
+		User user = (User)session.getAttribute("user");
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", active.getGroupNo());
+		map.put("memberNickName",user.getNickname());
 		
 		//지도 clientId
 		model.addAttribute("clientId", clientId);
+		
+		model.addAttribute("group", groupService.getGroup(active.getGroupNo()));
+		model.addAttribute("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return "forward:/active/updateActive.jsp";
 		
@@ -232,6 +257,13 @@ public class ActiveController {
 			
 		}
 		
+		Map<String,Object> groupSearch = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickName",user.getNickname());
+		
+		model.addAttribute("group", groupService.getGroup(groupNo));
+		model.addAttribute("groupMember", groupService.getMemberGroupForNick(groupSearch));
+		
 		model.addAttribute("list", list);
 		model.addAttribute("search", search);
 		model.addAttribute("isLeader", isLeader);
@@ -242,7 +274,7 @@ public class ActiveController {
 	
 	//���� Ȱ�� ��� ��ȸ(���� ������ �̵�, �˻�)
 	@PostMapping(value = "listActive")
-	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo) throws Exception {
+	public String getActiveList(Model model, @ModelAttribute Search search, @RequestParam int groupNo, HttpSession session) throws Exception {
 		
 		System.out.println("listActive Post");
 		
@@ -264,7 +296,28 @@ public class ActiveController {
 		
 		model.addAttribute("search", search);
 		
+		boolean isLeader = false;
+		
+		User user = (User)session.getAttribute("user");
+		
+		if(user != null) {
+			
+			Group group = groupService.getGroup(groupNo);
+			if(group.getLeaderNick().equals(user.getNickname())) {
+				isLeader = true;
+			}
+			
+		}
+		
+		Map<String,Object> groupSearch = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickName",user.getNickname());
+		
+		model.addAttribute("group", groupService.getGroup(groupNo));
+		model.addAttribute("groupMember", groupService.getMemberGroupForNick(groupSearch));
+		
 		model.addAttribute("list", activeService.getGroupActiveList(map));
+		model.addAttribute("isLeader", isLeader);
 		
 		return "forward:/active/listActive.jsp";
 		
@@ -276,7 +329,6 @@ public class ActiveController {
 		
 		System.out.println("activeMap");
 		
-		//�׷� ����Ʈ(T) => �����Ϸ�Ǹ�
 		Search search = new Search();
 		search.setSearchCondition("Ranking");
 		search.setCurrentPage(0);
@@ -317,11 +369,30 @@ public class ActiveController {
 		
 		boolean isLast = false;
 		
-		//int groupListCnt = groupService.getGroup
+		int groupListCnt = groupService.getGroupListCnt(search);
 		
+		search.setCurrentPage(1);
+		
+		if(groupListCnt == 0) {
+			isLast = true;
+		}else {
+		
+			int lastPage = (groupListCnt / 10) + 1;
+			
+			if(groupListCnt % 10 == 0) {
+				lastPage -= 1;
+			}
+			
+			if(search.getCurrentPage() == lastPage) {
+				isLast = true;
+			}
+			
+		}
 		//System.out.println("::::: "+clientId);
 		
 		model.addAttribute("clientId", clientId);
+		
+		model.addAttribute("isLast", isLast);
 		
 		return "forward:/active/activeMap.jsp";
 		

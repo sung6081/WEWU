@@ -85,7 +85,7 @@ public class ActiveRestController {
 		User user = (User)session.getAttribute("user");
 		
 		search.setSearchCondition("search");
-		
+		search.setCurrentPage((search.getCurrentPage() - 1) * 10);		
 		List<Group> groupList = groupService.getGroupList(search);
 		List<GroupMember> memberList = new ArrayList<>();
 		
@@ -117,9 +117,38 @@ public class ActiveRestController {
 			
 		}
 		
+		boolean isLast = false;
+		
+		int groupListCnt = groupService.getGroupListCnt(search);
+		
+		if(groupListCnt == 0) {
+			isLast = true;
+		}else {
+		
+			int lastPage = (groupListCnt / 10) + 1;
+			
+			if(groupListCnt % 10 == 0) {
+				lastPage -= 1;
+			}
+			
+			System.out.println("::: "+isLast);
+			
+			if(search.getCurrentPage() != 0) {
+				search.setCurrentPage(search.getCurrentPage() / 10 + 1);
+			}else {
+				search.setCurrentPage(1);
+			}
+			
+			if(search.getCurrentPage() == lastPage) {
+				isLast = true;
+			}
+		
+		}
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("groupList", groupList);
 		result.put("memberList", memberList);
+		result.put("isLast", isLast);
 		
 		System.out.println("::: "+result);
 		

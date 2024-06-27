@@ -446,7 +446,7 @@
 	</script>
 	
 	<!-- SIDE -->
-	<jsp:include page="/activeSide.jsp"></jsp:include>
+	<jsp:include page="/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<div class="main-panel">
