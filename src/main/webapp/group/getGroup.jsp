@@ -278,7 +278,7 @@
 		                                <div class="card-body">
 		                                	<h4 class="card-title">게시글 수</h4>
 		                                    <p class="card-description">
-		                                        ${group.groupIntro}
+		                                        ${acleCnt}
 		                                    </p>
 		                                </div>
 		                            </div>
@@ -288,7 +288,7 @@
 		                                <div class="card-body">
 		                                	<h4 class="card-title">모임원 수</h4>
 		                                    <p class="card-description">
-		                                        ${group.groupPers}
+		                                        ${groupCnt}
 		                                    </p>
 		                                </div>
 		                            </div>

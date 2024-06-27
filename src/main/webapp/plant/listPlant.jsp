@@ -31,31 +31,12 @@
   $(document).ready(function() {
       // 수정 버튼 클릭 시
       $(".badge-success").on("click", function() {
+        var plantLevlNo = $(this).data("plantlevlno");
         var plantNo = $(this).data("plantno");
-        window.location.href = "/plant/updatePlant?plantNo=" + plantNo;
+        window.location.href = "/plant/updatePlant?plantLevlNo=" + plantLevlNo+"&plantNo="+plantNo;
       });
-
-      // 삭제 버튼 클릭 시
-      $(".badge-danger").on("click", function() {
-        var plantNo = $(this).data("plantno");
-        $.ajax({
-          url: "/app/plant/deletePlant",
-          type: "POST",
-          data: JSON.stringify({ plantNo: plantNo }),
-          contentType: "application/json",
-          success: function(data, status, xhr) {
-            alert("식물 삭제가 완료되었습니다!");
-            window.location.href = "/plant/listPlant";
-          },
-          error: function(xhr, status, error) {
-            console.error("Error: ", error); // 에러 로그
-          },
-          complete: function(xhr, status) {
-            console.log("Request completed for form"); // 완료 로그
-          }
         });
-      });
-    });
+
   </script>
 </head>
 <body>
@@ -75,7 +56,6 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>Plant No</th>
                       <th>Plant Name</th>
                       <th>Plant Level</th>
                       <th>Plant Max Exp</th>
@@ -86,9 +66,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <c:forEach var="plant" items="${map.list}" varStatus="status">
+                    <c:forEach var="plant" items="${list}" varStatus="status">
                       <tr>
-                        <td>${plant.plantNo}</td>
                         <td>${plant.plantName}</td>
                         <td>${plant.plantLevl.plantLevl}</td>
                         <td>${plant.plantLevl.plantMaxExp}</td>
@@ -97,8 +76,7 @@
                         <td>${plant.plantLevl.levlImg}</td>
                         <td>
                           <div style="display: flex; flex-direction: column;">
-						    <a type="button" class="badge badge-success" data-plantno="${plant.plantNo}">수정</a>
-						    <a type="button" class="badge badge-danger" data-plantno="${plant.plantNo}">삭제</a>
+						    <a type="button" class="badge badge-success" data-plantlevlno="${plant.plantLevl.plantLevlNo}" data-plantno="${plant.plantNo}">수정</a>
 						  </div>
                         </td>
                       </tr>

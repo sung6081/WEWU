@@ -170,7 +170,7 @@
 				              <span class="menu-title">모임정보</span>
 				        </a>
 			        </li>
-			        <c:if test="${!empty groupMember && groupMember.joinFlag == 'T'}">
+			        <c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
                 		<li class="nav-item">
 			              <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
 			              <i class="icon-head menu-icon"></i>

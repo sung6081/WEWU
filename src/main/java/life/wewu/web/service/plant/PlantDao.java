@@ -24,14 +24,6 @@ public interface PlantDao {
 	public void addPlantLevl(PlantLevl plantLevl) throws Exception;
 	//add end
 
-	//delete start
-	public void deletePlant(PlantRequest plantRequest) throws Exception;
-	
-	public void deletePlantName(int plantNo) throws Exception;
-	
-	public void deletePlantLevl(int plantNo) throws Exception;	
-	//delete end
-	
 	//update start
 	public void updatePlant(PlantRequest plantRequest) throws Exception;
 	
@@ -41,10 +33,12 @@ public interface PlantDao {
 	//update end
 
 	public Plant getPlant(int PlantNo) throws Exception;
-
-	public List<Plant> getPlantList(Search search) throws Exception;
-
+	
 	public PlantLevl getPlantLevl(int plantLevlNo) throws Exception;
+
+	public List<Plant> getPlantList(Map<String, Object> map) throws Exception;
+
+	public List<PlantLevl> getPlantLevls(int plantLevlNo) throws Exception;
 
 	public Plant selectRandomPlant() throws Exception;
 }
