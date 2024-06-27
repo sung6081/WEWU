@@ -119,9 +119,7 @@
 			<if test="boardNo != null and boardNo != ''">
 				board_no = #{boardNo}
 			</if>
-			<if test="fileNo != null and fileNo != ''">
-				file_no = #{fileNo}
-			</if>
+
 		</where>
 	</delete>
 

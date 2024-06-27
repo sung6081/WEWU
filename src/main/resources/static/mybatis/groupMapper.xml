@@ -202,7 +202,7 @@
 		</if>
 		<if test='searchCondition == "search"'>
 			<where>
-				group_name = #{searchKeyword}
+				group_name LIKE CONCAT('%', #{searchKeyword}, '%')
 			</where>
 		</if>
 		LIMIT #{currentPage}, 10
