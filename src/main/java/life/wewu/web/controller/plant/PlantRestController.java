@@ -197,6 +197,54 @@ public class PlantRestController {
 
 		return quest;
 	}
+	
+	//history.jsp
+	@RequestMapping(value ="history" , method = RequestMethod.GET)
+	public Map<String, Object> getMyPlantList(@RequestParam(value = "searchCondition", required = false) String searchCondition,
+            @RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model, HttpSession session) throws Exception{
+		System.out.println("/plant/history : GET");
+		
+		User user = (User) session.getAttribute("user");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		Search search = new Search();
+        search.setSearchCondition(searchCondition);
+        search.setSearchKeyword(searchKeyword);
+		map.put("search",search);
+		map.put("nickname",user.getNickname());
+		
+		System.out.println("map = " + map);
+		
+		List<MyPlant> list = plantService.getMyPlantList(map);
+		
+		System.out.println("List = " +list);
+	
+		
+		model.addAttribute("list", list);
+		model.addAttribute("search", search);
+
+		return map;
+	}
+	
+	
+	@RequestMapping(value = "deleteMyPlant")
+	public MyPlant deleteMyPlant(@RequestBody PlantRequest plantRequest, Model model,HttpSession session) throws Exception {
+		System.out.println(" /plant/deleteMyPlant : POST ");
+	
+		int plantNo = plantRequest.getPlantNo();
+        MyPlant myPlant = new MyPlant();
+        myPlant.setPlantNo(plantNo);
+
+		User user = (User) session.getAttribute("user");
+		System.out.println("User: " + user);
+		plantService.getMyPlant(user.getNickname());
+	    System.out.println(myPlant);
+		plantService.deleteMyPlant(user.getNickname());
+		
+		model.addAttribute("myPlant", myPlant);
+	    model.addAttribute("user", user.getNickname());
+		return myPlant;
+	}
 
 	@RequestMapping(value = "useItem", method = RequestMethod.POST)
 	public Map<String, Object> useItem(@RequestBody Inventory inventory,

@@ -1,31 +1,40 @@
 package life.wewu.web.controller.user;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import life.wewu.web.domain.user.User;
 import life.wewu.web.service.user.SmsService;
-import life.wewu.web.service.user.UserDao;
 import life.wewu.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserRestController {
@@ -37,7 +46,71 @@ public class UserRestController {
     @Autowired
     @Qualifier("smsService")
     private SmsService smsService;
+    
+    @Value("${naver.client.id}")
+    private String clientId;
 
+    @Value("${naver.client.secret}")
+    private String clientSecret;
+    
+    @RequestMapping(value="/login", method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) {
+        System.out.println("/user/login : POST");
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            int loginAttempts = session.getAttribute("loginAttempts") != null ? (int) session.getAttribute("loginAttempts") : 0;
+            if (loginAttempts >= 3) {
+                String captchaValue = request.getParameter("captcha");
+                String captchaKey = request.getParameter("captchaKey");
+                boolean isCaptchaValid = verifyCaptcha(captchaKey, captchaValue); // 캡차 검증 메서드
+
+                if (!isCaptchaValid) {
+                    System.out.println("캡차 인증 실패");
+                    response.put("success", false);
+                    response.put("error", "captcha_failed");
+                    return response;
+                }
+            }
+
+            // 로그인 서비스 호출
+            User dbUser = userService.login(user);
+
+            if (dbUser != null) {
+                session.setAttribute("user", dbUser);
+                session.setAttribute("isAdmin", "1".equals(dbUser.getRole()));
+                session.removeAttribute("loginAttempts"); // 로그인 성공 시 로그인 시도 횟수 초기화
+                System.out.println("로그인 성공: " + dbUser.getUserId());
+                response.put("success", true);
+            } else {
+                System.out.println("로그인 실패: 비밀번호 불일치 또는 사용자 없음");
+                session.setAttribute("loginAttempts", ++loginAttempts); // 로그인 실패 시 로그인 시도 횟수 증가
+                response.put("success", false);
+                response.put("error", "\n 아이디 또는 비밀번호가 틀렸습니다.");
+            }
+        } catch (IllegalArgumentException e) {
+            // 유효하지 않은 사용자 정보 예외 처리
+            System.out.println("유효하지 않은 사용자 정보: " + e.getMessage());
+            response.put("success", false);
+            response.put("error", "유효하지 않은 사용자입니다.");
+        } catch (Exception e) {
+            // 일반 예외 처리
+            System.out.println("로그인 중 예외 발생: " + e.getMessage());
+            response.put("success", false);
+            response.put("error", "예외 발생");
+        }
+        return response;
+    }
+
+    // 캡차 검증 메서드
+    private boolean verifyCaptcha(String captchaKey, String captchaValue) {
+        // 캡차 검증 로직 추가 (예: 외부 API 호출)
+        // 성공 시 true 반환, 실패 시 false 반환
+        return true; // 예시로 성공 반환
+    }
+
+    
     // 인증번호 발송 메소드
     @PostMapping("/send-verification-code")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String phoneNum) {

@@ -191,19 +191,7 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public MyPlant deleteMyPlant(String nickname) throws Exception {
-		MyPlant myPlant = myPlantDao.getMyPlant(nickname);
-		String myPlantLevl = myPlant.getMyPlantLevl();
-
-		PlantLevl plantLevl = plantDao.getPlantLevl(myPlant.getMyPlantNo());
-		String finalLevl = plantLevl.getPlantFinalLevl();
-
-		if (myPlantLevl == finalLevl) {
-			// 포인트 10%반환
-		} else {
-			return myPlantDao.deleteMyPlant(myPlant.getMyPlantNo());
-		}
-
-		return myPlantDao.deleteMyPlant(myPlant.getMyPlantNo());
+		return myPlantDao.deleteMyPlant(nickname);
 	}
 
 	@Override
@@ -212,8 +200,8 @@ public class PlantServiceImpl implements PlantService {
 	}
 
 	@Override
-	public void addRandomPlant(MyPlant myPlant) throws Exception {
-		myPlantDao.addRandomPlant(myPlant);
+	public void addMyPlant(MyPlant myPlant) throws Exception {
+		myPlantDao.addMyPlant(myPlant);
 	}
 
 	// ---------------------------------------------------------------------------------------//
