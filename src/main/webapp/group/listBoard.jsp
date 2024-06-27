@@ -46,6 +46,12 @@
 			    </table>
 			</div>
 		</div>
+		<div class="container">
+		  <div class="row justify-content-center">
+		    <div id="paging" style="float:center;"></div>
+		  </div>
+		</div>
+		
 	</div>
 </div>
 	<form id="getGroupBoard">

@@ -41,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.board.Board;
+import life.wewu.web.domain.board.Comment;
 import life.wewu.web.domain.group.Group;
 import life.wewu.web.domain.group.GroupAcle;
 import life.wewu.web.domain.group.GroupBoard;
@@ -353,6 +354,10 @@ public class GroupRestController {
 		System.out.println(":: /app/group/updateApplJoin ::");
 		// Business logic 수행
 		System.out.println(groupMember);
+		
+		GroupMember groupMemberHis = groupService.getMemberGroup(groupMember.getMemberNo());
+		System.out.println(groupMemberHis.getJoinFlag());
+		
 		String flag = "";
 		try {
 			groupMember = groupService.updateApplJoin(groupMember);
@@ -463,7 +468,6 @@ public class GroupRestController {
 	public GroupMember updateMemberGroup(@RequestBody GroupMember groupMember) throws Exception 
 	{
 		System.out.println(":: /app/group/updateMemberGroup ::");
-		System.out.println(groupMember);
 		
 		// Business logic 수행
 		groupMember = groupService.updateMemberGroup(groupMember);
@@ -521,31 +525,108 @@ public class GroupRestController {
 	{
 		System.out.println(":: /app/group/getAcleList ::");
 		int typeNo = (int)rslt.get("typeNo");
+		int currentPage = 1;
+		
+		if(rslt.get("currentPage") != null && rslt.get("currentPage") != "" && Integer.parseInt((String.valueOf(rslt.get("currentPage")))) > 1){
+			System.out.println(rslt.get("currentPage"));
+			currentPage = Integer.parseInt((String.valueOf(rslt.get("currentPage"))));
+		}
 		
 		Search search = new Search();
-		search.setCurrentPage(1); // 0
+		search.setCurrentPage(((currentPage - 1)*10)); // 0
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
-		map.put("boardType", typeNo);
+		map.put("typeNo", typeNo);
 		
 		// Business logic 수행
-		List<Board> boardList = boardService.getBoardList(map);
-		List<GroupAcle> acleList = new ArrayList<GroupAcle>();
+		List<GroupAcle> acleList = groupService.getGroupAcleList(map);
 		
-		for(Board board : boardList){
-			GroupAcle groupAcle = GroupAcle.builder()
-					.boardNo(board.getBoardNo())
-					.typeNo(board.getBoardType())
-					.wrteName(board.getNickName())
-					.acleName(board.getTitle())
-					.acleContents(board.getContents())
-					.wrteDate(board.getRegDate())
-					.build();
-			acleList.add(groupAcle);
-		}
+
 		System.out.println(acleList);
 		return acleList;
+	}
+	
+	@RequestMapping(value="getAcleListCnt",method = RequestMethod.POST)
+	public int getAcleListCnt(@RequestBody Map<String, Object> rslt) throws Exception 
+	{
+		System.out.println(":: /app/group/getAcleList ::");
+		int typeNo = (int)rslt.get("typeNo");
+		
+		Search search = new Search();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("typeNo", typeNo);
+		
+		// Business logic 수행
+		int count = groupService.getGroupAcleListCnt(map);
+		System.out.println(count);
+		return count;
+	}
+	
+	@RequestMapping(value="memberGroupAcle",method = RequestMethod.POST)
+	public List<Object> memberGroupAcle(@RequestBody Map<String, Object> rslt , HttpSession session) throws Exception 
+	{
+		System.out.println(":: /app/group/memberGroupAcle ::");
+		int groupNo = (int)rslt.get("groupNo");
+		
+		int currentPage = 1;
+		
+		if(rslt.get("currentPage") != null && rslt.get("currentPage") != "" && Integer.parseInt((String.valueOf(rslt.get("currentPage")))) > 1){
+			System.out.println(rslt.get("currentPage"));
+			currentPage = Integer.parseInt((String.valueOf(rslt.get("currentPage"))));
+		}
+		
+		Search search = new Search();
+		search.setCurrentPage(((currentPage - 1)*5)); // 0
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("nickname", ((User)session.getAttribute("user")).getNickname());
+		map.put("search", search);
+		
+		// Business logic 수행
+		List<GroupAcle> acleList = groupService.memberAcleList(map);
+		List<Object> list = new ArrayList<Object>();
+		for(GroupAcle groupAcle : acleList){
+			GroupBoard groupBoard = groupService.getGroupBoard(groupAcle.getTypeNo());
+			list.add(groupAcle);
+			list.add(groupBoard);
+		}
+		return list;
+	}
+	
+	@RequestMapping(value="memberCommentList",method = RequestMethod.POST)
+	public List<Object> memberCommentList(@RequestBody Map<String, Object> rslt , HttpSession session) throws Exception 
+	{
+		System.out.println(":: /app/group/memberCommentList ::");
+		int groupNo = (int)rslt.get("groupNo");
+		
+		int currentPage = 1;
+		
+		if(rslt.get("currentPage") != null && rslt.get("currentPage") != "" && Integer.parseInt((String.valueOf(rslt.get("currentPage")))) > 1){
+			System.out.println(rslt.get("currentPage"));
+			currentPage = Integer.parseInt((String.valueOf(rslt.get("currentPage"))));
+		}
+		
+		Search search = new Search();
+		search.setCurrentPage(((currentPage - 1)*5)); // 0
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("nickname", ((User)session.getAttribute("user")).getNickname());
+		map.put("search", search);
+		
+		// Business logic 수행
+		List<Comment> comment = groupService.memberCommentList(map);
+		List<Object> list = new ArrayList<Object>();
+		
+		for(Comment commentList : comment){
+			GroupAcle groupAcle = groupService.getGroupAcle(commentList.getBoardNo());
+			list.add(commentList);
+			list.add(groupAcle);
+		}
+		return list;
 	}
 	
 	//오리날다............덕슨날다.....

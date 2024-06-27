@@ -76,9 +76,15 @@
 				        $(this).css('cursor', 'pointer');
 				    });
 				    
-				    $(document).on('mouseenter', '.getApplJoinList', function() {
+				    $(document).on('mouseenter', '.getApplJoin', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
+				    
+				    $(document).on('mouseenter', '.getMemberGroup', function() {
+				        $(this).css('cursor', 'pointer');
+				    });
+				    
+				    $("#map").css("height","460px");
 				});
 				
 				$(document).on('click', '.groupNo', function() {
@@ -99,7 +105,16 @@
 					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getAddAppl").submit();
 				});
 				
-				$(document).on('click', '.getApplJoinList', function() {
+				$(document).on('click', '.getApplJoin', function() {
+					var id = $(this).attr("id");
+					var name = $(this).attr("name");
+					
+					$("#MyForm").html("<input type=hidden name=groupNo value="+name+">"+
+							  "<input type=hidden name=memberNo value="+id+">");
+					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getApplJoin").submit();
+				});
+				
+				$(document).on('click', '.getMemberGroup', function() {
 					var id = $(this).attr("id");
 					var name = $(this).attr("name");
 					
@@ -107,7 +122,6 @@
 									  "<input type=hidden name=memberNo value="+id+">");
 					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getMemberGroup").submit();
 				});
-				
 				function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
 	                $.ajax({
 	                    url: url,
@@ -227,14 +241,14 @@
 		                        		
 							            if(data[i+1].joinFlag == "E")
 							            {
-							            	str += "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            	str += "<tr class='getApplJoin' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
 			                        		str += "  <td>"+ data[i].groupName +"</td>";
 			                        		str += "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 							            	str += "  <td>"+ data[i+1].applDate +"</td>";
 							            	str += " <td><label class='badge badge-info'>가입대기</label></td>";
 							            }else
 							            if(data[i+1].joinFlag == "T"){
-							            	str +=  "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            	str +=  "<tr class='getMemberGroup' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
 			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 							            	str +=  "  <td>"+ data[i+1].joinDate +"</td>";
@@ -243,7 +257,7 @@
 							            if(data[i+1].joinFlag == "L"){
 							            	if(data[i].groupRslt == "T")
 							            	{
-							            		str +=  "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            		str +=  "<tr class='getMemberGroup' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
 				                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 				                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 								            	str +=  "  <td>"+ data[i+1].applDate +"</td>";
@@ -251,7 +265,7 @@
 							            	}
 							            	
 							            }else{
-							            	str +=  "<tr class='getApplJoinList' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            	str +=  "<tr class='getApplJoin' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
 			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 							            	str +=  " <td>"+ data[i+1].applDate +"</td>";
@@ -429,7 +443,7 @@
 		<!-- Main Content -->
 		<div class="main-panel">
         	<div class="content-wrapper">
-				<div class="container my-4">
+        		<div class="col-12">
 					<div class="row">
 						<!-- 왼쪽 1번  -->
 						<div class="col-md-5 grid-margin stretch-card">
@@ -465,21 +479,13 @@
 						
 						<!-- 오른쪽 1번  -->
 					    <div class="col-md-7 grid-margin stretch-card">
-							<div class="card">
+							<div class="card" style="position:relative;">
 							    <div class="card-body fixed-card-body">
 									<p class="card-title">지도</p>
-									<div class="pt-4">
-								        <div id="map">
-									        <div class="search" style="">
-									        	<select id="condition" >
-									        		<option value="map" >지도</option>
-									        		<option value="active" >활동</option>
-									        	</select>
-									            <input id="address" type="text" placeholder="검색할 주소" value="강남" />
-									            <input id="submit" type="button" value="주소 검색" />
-									        </div>
-									    </div>
+									<div id="naverMap" >
+										<c:import url="/active/map"></c:import>
 									</div>
+										
 								</div>
 							</div>
 					    </div>

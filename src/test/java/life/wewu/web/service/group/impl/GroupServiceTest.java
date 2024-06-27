@@ -369,8 +369,8 @@ public class GroupServiceTest{
 		search.setSearchCondition("8");
 		map.put("search", search);
 		map.put("typeNo", 2);
-		int acleCnt = groupService.getGroupAcleCnt(map);
-		System.out.println("groupBoard GetGroupAcleCnt :: " + acleCnt);
+		//int acleCnt = groupService.getGroupAcleCnt(map);
+		//System.out.println("groupBoard GetGroupAcleCnt :: " + acleCnt);
 		System.out.println("===================================\n");
 	}
 	
