@@ -42,21 +42,21 @@
 								
 							<div class="form-group row">
 									<label for="title" class="col-sm-3 col-form-label">제목</label>
-									<div class="col-sm-3">
+									<div class="col-sm-9">
 										<input type="text" class="form-control" name="title">
 									</div>
 								</div>
 
 								<div class="form-group row">
 									<label for="title" class="col-sm-3 col-form-label">내용</label>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" name="contents">
+									<div class="col-sm-9">
+										<textarea class="form-control" id="exampleTextarea1" name="contents" rows="40"></textarea>
 									</div>
 								</div>
 								
 								<div class="form-group row">
 									<label class="col-sm-3 col-form-label">문의 카테고리</label>
-									<div class="col-sm-3">
+									<div class="col-sm-9">
 										<select id="questionCategory" name="questionCategory" class="form-control">
 											<option value="배송" selected>배송</option>
 											<option value="환불">환불</option>
@@ -69,8 +69,8 @@
 								<c:if test="${param.questionType eq 'FAQ'}">
 									<div class="form-group row">
 										<label class="col-sm-3 col-form-label">답변 내용</label>
-										<div class="col-sm-3">
-											<input type="text" class="form-control" name="reply">
+										<div class="col-sm-9">
+											<textarea class="form-control" id="exampleTextarea1" name="reply" rows="10"></textarea>
 										</div>
 									</div>
 								</c:if>

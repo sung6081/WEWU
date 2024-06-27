@@ -189,7 +189,15 @@
 	<!-- Comment : DELETE ( 댓글 삭제하기 ) -->
 	<delete id="deleteComment" parameterType="int">
 		DELETE FROM comment
-		WHERE board_no = #{boardNo}
+		<where>
+			<if test="baordNo != null and boardNo != ''">
+			 board_no = #{boardNo}
+			</if>
+			<if test="commentNo != null and commentNo != ''">
+			 OR comment_no = #{commentNo}
+			</if>
+		</where>
+		
 	</delete>
 
 	<!-- Comment : UPDATE ( 댓글 수정하기 ) -->
