@@ -124,6 +124,9 @@
 		        group_addr = #{groupAddr},
 		    </if>
 		    <if test="groupPlan != null and groupPlan != ''">
+		        open_date = NOW(),
+		    </if>
+		    <if test="groupPlan != null and groupPlan != ''">
 		        group_plan = #{groupPlan},
 		    </if>
 		    <if test="groupPers != null and groupPers != ''">
@@ -156,7 +159,7 @@
 		    <if test="groupRslt != null and groupRslt != ''">
 		        group_rslt = #{groupRslt},
 		    </if>
-		    open_date = NOW(),
+		    
 		    group_no =  #{groupNo}
 		</set>
 		<where>

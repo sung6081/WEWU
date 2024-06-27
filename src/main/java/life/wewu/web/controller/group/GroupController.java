@@ -66,7 +66,8 @@ public class GroupController {
 		
 		model.addObject("group", groupService.getGroup(groupNo));
 		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
-		
+		model.addObject("groupCnt", groupService.groupMemberCnt(groupNo));
+		model.addObject("acleCnt", groupService.groupAcleCnt(groupNo));
 		return model;
 	}
 	
@@ -132,11 +133,14 @@ public class GroupController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("groupNo", groupNo);
 		map.put("memberNickName",nickname);
-		
+		map.put("nickname",nickname);
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
 		
 		model.addObject("group", groupService.getGroup(groupNo));
 		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
+		
+		model.addObject("acleCount", groupService.memberAcleListCnt(map));
+		model.addObject("commentCount", groupService.memberCommentListCnt(map));
 		
 		return model;
 	}
@@ -171,14 +175,21 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value="updateGroup",method = RequestMethod.POST)
-	public ModelAndView updateGroup(@RequestParam int groupNo) throws Exception 
+	public ModelAndView updateGroup(@RequestParam int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/updateGroup ::");
 		
 		// Business logic 수행
-		Group group = groupService.getGroup(groupNo);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickName",((User)session.getAttribute("user")).getNickname());
+		
 		ModelAndView model = new ModelAndView("forward:/group/updateGroup.jsp");
-		model.addObject("group", group);
+		
+		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
+		
+		
 		
 		return model;
 	}

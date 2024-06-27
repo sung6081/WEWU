@@ -178,5 +178,14 @@
   		</where>
   	</delete>
   	<!-- DELETE 매핑구문 (delete SQL 등록) :: delete element --> 
+  	
+  	<!-- DELETE 매핑구문 (delete SQL 등록) :: delete element -->  	
+  	<select id="groupMemberCnt" parameterType="int" resultType="int">
+  		SELECT COUNT(*)
+		FROM group_member
+		WHERE group_no = ${groupNo}
+		AND (join_flag = 'T' OR join_flag = 'L')
+  	</select>
+   	<!-- DELETE 매핑구문 (delete SQL 등록) :: delete element --> 
 	
 </mapper>
