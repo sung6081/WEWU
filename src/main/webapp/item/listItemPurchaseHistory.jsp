@@ -12,7 +12,7 @@
 
 	window.onload=function()
 	{
-		var flag = "${flag}";
+		var cp = "${itemPurchase.currentPoint}";
 		if (flag != "") {
 	        if(flag == "Y"){
 	        	alert("구매취소 완료");

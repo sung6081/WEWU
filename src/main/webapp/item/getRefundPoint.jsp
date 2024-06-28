@@ -21,7 +21,7 @@
 		
 	 $(function() {
 			 $( "button.btn-primary:contains('목록')" ).on("click" , function() {
-				location.href="/item/getRefundPointList?buyerNickname=nick1"
+				location.href="/item/getRefundPointList?buyerNickname=${user.nickname}"
 		});
 	});
 	

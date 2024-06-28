@@ -18,8 +18,8 @@
 	
 	$(function() {
 		 $( "button.btn-primary:contains('목록')" ).on("click" , function() {
-			location.href="/item/getItemPurchaseHistoryList?buyerNickname=nick1"
-		 });
+			location.href="/item/getItemPurchaseHistoryList?buyerNickname=${user.nickname}";
+		 }); //여기부터 작업
 	});
 	
 	</script>

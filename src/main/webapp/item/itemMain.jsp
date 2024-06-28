@@ -126,8 +126,8 @@
 				location.href="/item/getItemList?searchKeyword="+$(".form-control").val() 
 		 });
 		 
-		 $( ".btn-outline-dark:contains('구매하기')" ).on("click" , function() {
-				location.href="/item/addPurchase?itemNo=34"
+		 $( ".mt-auto:contains('구매하기')" ).on("click" , function() {
+				location.href="/item/addPurchase?itemNo=34" //오류
 						
 		 });
 		 
@@ -173,6 +173,16 @@
         .card-footer {
             text-align: center;
         }
+        
+        .search-button {
+            width: 30px; /* 원하는 너비로 설정 */
+        }
+        
+        .btn-yoon{
+        	height:40px;
+        	width: 130px
+     
+        }
     </style>
     
 </head>
@@ -192,49 +202,49 @@
 			                <div class="section-title">
 			                    <h4>아이템 상점</h4>
 			                </div>
+			                
+			                
 			           	</div>
 					</div>
 		       	</div>
-		       	
-		       	
-	    <div class="form-group">
-        <div class="input-group">
-          <input type="text" class="form-control"  aria-label="search" value="${search.searchKeyword}"> <%--form-control은 css의 많은 스타일들 중 어떤 걸 사용할지 알려줌. 그리고 여기의 value는 사용자가 어떤 걸 입력하는지 나타냄. 이게 있어야 검색어 입력하고 검색 버튼 눌렀을 때, 검색 결과 보여주고 검색결과 보여줄 때 검색어를 유지해서 보여줌.  --%>
-          <div class="input-group-append">
-            <button class="btn btn-sm btn-primary" type="button">Search</button>
-         </div>
-       </div>
-     </div> 		       	
+     <br>
+     <br>
      
-     <br>
-     <br>
-     <c:if test="${isAdmin}">
-      <div class="text-right mt-4">
-      	  <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">아이템 삭제</button>
-      	  <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">아이템 수정</button>
-	      <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">아이템 등록</button>
-	      
-	      
-      </div>
-      </c:if>
-			
-		  <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-            
-                <div class="btn-group" role="group" aria-label="Basic example">
-                 <div id="test">
-     	
-     </div>
-                  <button type="button" class="btn btn-outline-primary btn-fw">전체</button> 
-                  <button type="button" class="btn btn-outline-primary btn-fw">식물 아이템</button>
-                  <button type="button" class="btn btn-outline-primary btn-fw">장식 아이템</button>
-                  
-              
-                </div>
-                
-                
-                <br>  
-                <br>      
+     <div class="col-lg-12 stretch-card">
+     	<div class="col-lg-8 stretch-card">
+		    	
+	    </div>	
+	    <div class="col-lg-4 grid-margin stretch-card">
+		    <c:if test="${isAdmin}">
+				<button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 삭제</button>
+		    	<button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 수정</button>
+		        <button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 등록</button>
+	     	</c:if>	
+	    </div>
+	</div>
+	<div class="col-lg-12 stretch-card">
+	<div class="col-lg-4 stretch-card" style="margin:0 0 20px 0;">
+		<div class="btn-group" role="group" aria-label="Basic example">
+			 <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">전체</button> 
+             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">식물 아이템</button>
+             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">장식 아이템</button>
+        </div>
+    </div>
+    <div class="col-lg-5 stretch-card" style="margin:0 0 20px 0;">
+	</div>
+    <div class="col-lg-3 stretch-card" style="margin:0 0 20px 0x; ">
+    <div class="form-group">
+	        <div class="input-group">
+	          <input type="text" class="form-control" aria-label="search" value="${search.searchKeyword}"> <%--form-control은 css의 많은 스타일들 중 어떤 걸 사용할지 알려줌. 그리고 여기의 value는 사용자가 어떤 걸 입력하는지 나타냄. 이게 있어야 검색어 입력하고 검색 버튼 눌렀을 때, 검색 결과 보여주고 검색결과 보여줄 때 검색어를 유지해서 보여줌.  --%>
+	          <div class="input-group-append">
+	            <button class="btn btn-sm btn-primary" type="button">Search</button>
+	         </div>
+	       </div>
+	     </div> 
+	</div>
+	</div>
+	
+	<div class="col-lg-12 stretch-card">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <c:set var="i" value="0" />
                     <c:forEach var="item" items="${item}">
@@ -272,18 +282,12 @@
                                				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
                             			</div>  
                             		</div>
-	                            	</div>
-	                        	
-	                        	
-	                        	
+	                            </div>
 	                    	</div> 
 	                    </div>
                     </c:forEach>
-                    
-                   
                 </div>
            	 </div>
-           </section>   
           </div>
       </div>
     
