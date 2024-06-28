@@ -100,7 +100,9 @@
 		                                         position.coords.longitude);
 	
 		    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-		    //map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
+		    map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+		    
+		    $('#address').val('');
 	
 		    //infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
 	

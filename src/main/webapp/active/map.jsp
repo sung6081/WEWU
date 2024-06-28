@@ -111,6 +111,8 @@
 	
 		    //infowindow.open(map, location);
 		    
+		    $('#address').val('');
+		    
 		    console.log('Coordinates: ' + location.toString());
 		}
 	

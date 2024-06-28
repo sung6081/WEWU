@@ -353,10 +353,6 @@
 	
 		        searchAddressToCoordinate($('#address').val());
 		    });
-			
-		    if (!navigator.geolocation) {
-		    	searchAddressToCoordinate('강남');
-		    }
 		    
 		}
 	
