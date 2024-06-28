@@ -200,7 +200,7 @@ public class PlantRestController {
 	
 	//history.jsp
 	@RequestMapping(value ="history" , method = RequestMethod.GET)
-	public Map<String, Object> getMyPlantList(@RequestParam(value = "searchCondition", required = false) String searchCondition,
+	public List<MyPlant> getMyPlantList(@RequestParam(value = "searchCondition", required = false) String searchCondition,
             @RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model, HttpSession session) throws Exception{
 		System.out.println("/plant/history : GET");
 		
@@ -219,9 +219,27 @@ public class PlantRestController {
 		
 		System.out.println("List = " +list);
 	
+
+		return list;
+	}
+	
+	//history.jsp
+	@RequestMapping(value ="myPlantListbyLevlNo" , method = RequestMethod.GET)
+	public Map<String, Object> myPlantListbyLevlNo(Model model, HttpSession session) throws Exception{
+		System.out.println("/plant/history : GET");
+		
+		User user = (User) session.getAttribute("user");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("nickname",user.getNickname());
+		System.out.println("map = " + map);
+		
+		List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
+		
+		System.out.println("List = " +list);
+	
 		
 		model.addAttribute("list", list);
-		model.addAttribute("search", search);
 
 		return map;
 	}
