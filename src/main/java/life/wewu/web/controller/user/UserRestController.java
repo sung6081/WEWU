@@ -111,6 +111,27 @@ public class UserRestController {
     }
 
     
+//        @PostMapping("/geocode")
+//        @ResponseBody
+//    public ResponseEntity<String> getGeocode(@RequestParam String address) {
+//        try {
+//            RestTemplate restTemplate = new RestTemplate();
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.set("X-NCP-APIGW-API-KEY-ID", clientId);
+//            headers.set("X-NCP-APIGW-API-KEY", clientSecret);
+//
+//            String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8.toString());
+//            String url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=" + encodedAddress;
+//
+//            HttpEntity<String> entity = new HttpEntity<>(headers);
+//            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+//            return response;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
+//        }
+//    }
+
     // 인증번호 발송 메소드
     @PostMapping("/send-verification-code")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String phoneNum) {

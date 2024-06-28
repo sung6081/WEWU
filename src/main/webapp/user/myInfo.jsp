@@ -30,6 +30,9 @@
             display: inline-block;
         }
     </style>
+    
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
+    
 </head>
 <body>
 
@@ -84,6 +87,7 @@
                                             </div>
                                         </div>
 
+
                                         <c:choose>
                                             <c:when test="${sessionScope.isAdmin}">
                                                 <form action="/user/checkPassword" method="post">
@@ -108,6 +112,31 @@
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
+                                        
+                                        <c:choose>
+                                            <c:when test="${sessionScope.user.role == '1'}">
+                                                <!-- 관리자만 볼 수 있는 버튼 -->
+                                                <c:choose>
+                                                    <c:when test="${user.role == '2'}">
+                                                        <form action="/user/updateRole" method="post">
+                                                            <input type="hidden" name="userId" value="${user.userId}">
+                                                            <div class="form-group text-center">
+                                                                <input type="submit" value="사용정지" class="btn btn-danger btn-block">
+                                                            </div>
+                                                        </form>
+                                                    </c:when>
+                                                    <c:when test="${user.role == '5'}">
+                                                        <form action="/user/updateRole" method="post">
+                                                            <input type="hidden" name="userId" value="${user.userId}">
+                                                            <div class="form-group text-center">
+                                                                <input type="submit" value="정지해제" class="btn btn-success btn-block">
+                                                            </div>
+                                                        </form>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:when>
+                                        </c:choose>
+                                        
                                     </div>
                                 </div>
                             </div>
