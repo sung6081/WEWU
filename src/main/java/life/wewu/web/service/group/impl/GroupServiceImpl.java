@@ -90,6 +90,11 @@ public class GroupServiceImpl implements GroupService{
 		return groupDao.getGroupList(search);
 	}
 	
+	public int getGroupListCnt(Search search) throws Exception{
+		
+		return groupDao.getGroupListCnt(search);
+	}
+	
 	public List<Group> getGroupRankingList(Search search) throws Exception {
 		
 		//search 도메인을 인자로 검색 요청에 따른 모든 모임의 정보를 모임활동레벨 순으로 select 하는 메소드

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,9 +13,13 @@
 		<div class="card-body">
 		    <h4 class="card-title">${groupBoard.boardName}</h4>
 		    <div style="float:right;">
-	           	<img src="/group/img/pencil.svg"><span>작성</span>&nbsp;
-	           	<img src="/group/img/arrow-repeat.svg"><span>게시판 수정</span>&nbsp;
-	           	<img src="/group/img/eraser-fill.svg"><span>게시판 삭제</span>
+		    	<c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
+		           	<img src="/group/img/pencil.svg"><span>작성</span>&nbsp;
+		           	<c:if test="${user.nickname == group.leaderNick}">
+			           	<img src="/group/img/arrow-repeat.svg"><span>게시판 수정</span>&nbsp;
+			           	<img src="/group/img/eraser-fill.svg"><span>게시판 삭제</span>
+			       </c:if>
+		        </c:if>
 	        </div>
 			<p class="card-description">
 				${groupBoard.boardIntro}

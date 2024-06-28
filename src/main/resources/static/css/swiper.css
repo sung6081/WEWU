@@ -96,3 +96,20 @@ body {
     right: auto; /* 오른쪽 위치 자동 설정 */
     background-image: url('https://unpkg.com/swiper/swiper-bundle.min.js'); /* Swiper 기본 네비게이션 아이콘을 사용하려면 이 줄을 유지하세요 */
 }
+
+/*랭킹스와이퍼*/
+
+.swiper-container.ranking {
+    width: 400px;
+    height: 30px; /* 높이를 조정하여 얇게 설정 */
+}
+.swiper-slide.ranking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    background: #fff;
+    border: 1px solid #ddd;
+    height: 30px; /* 높이를 조정하여 슬라이드가 컨테이너에 맞도록 설정 */
+    width : 400px;
+}

@@ -52,7 +52,7 @@ public class GroupController {
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping(value="getGroup",method = RequestMethod.POST)
+	@RequestMapping(value="getGroup")
 	public ModelAndView getGroup(@RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getGroup ::");

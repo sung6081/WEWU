@@ -100,7 +100,12 @@
 		                                <div class="form-group row">
 		                                    <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
 		                                    <div class="col-sm-9">
-		                                        <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${user.addr}" required>
+		                                        <div class="input-group">
+		                                            <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${user.addr}" required>
+		                                            <div class="input-group-append">
+		                                                <button type="button" class="btn btn-primary" id="find-postcode" onclick="execDaumPostcode()">주소 찾기</button>
+		                                            </div>
+		                                        </div>
 		                                    </div>
 		                                </div>
 		                                <div class="form-group row">
@@ -210,6 +215,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../../vendors/js/vendor.bundle.base.js"></script>
+    <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+    
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <!-- End plugin js for this page -->
@@ -219,6 +226,47 @@
     <!-- FOOTER -->
 
     <script type="text/javascript">
+    
+	    function execDaumPostcode() {
+	        new daum.Postcode({
+	          oncomplete: function (data) {
+	            var fullAddr = ''; 
+	            var extraAddr = ''; 
+	
+	            if (data.userSelectedType === 'R') { 
+	              fullAddr = data.roadAddress;
+	            } else { 
+	              fullAddr = data.jibunAddress;
+	            }
+	
+	            if (data.userSelectedType === 'R') {
+	              if (data.bname !== '') {
+	                extraAddr += data.bname;
+	              }
+	              if (data.buildingName !== '') {
+	                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	              }
+	              fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+	            }
+	
+	            document.getElementById('addr').value = fullAddr;
+	            document.getElementById('getAddr').focus();
+	          },
+	          theme: {
+	            bgColor: "#ECECEC",
+	            searchBgColor: "#0B65C8",
+	            contentBgColor: "#FFFFFF",
+	            pageBgColor: "#FAFAFA",
+	            textColor: "#333333",
+	            queryTextColor: "#FFFFFF",
+	            postcodeTextColor: "#FA4256",
+	            emphTextColor: "#008BD3",
+	            outlineColor: "#E0E0E0"
+	          }
+	        }).open();
+	      }
+    
+    	
         function openPhoneNumberModal() {
             $('#phoneNumberModal').modal('show');
         }

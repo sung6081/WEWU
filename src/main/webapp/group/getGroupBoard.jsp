@@ -66,6 +66,7 @@
 				$( "span:contains('작성')" ).on("click" , function() 
 			 	{
 					// 내 모임 신청정보
+					alert("${groupBoard.boardRole}");
 					addGroupAcle();
 				}); 
 				$( "span:contains('게시판 수정')" ).on("click" , function() 

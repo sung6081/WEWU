@@ -31,11 +31,13 @@
 
 	 // JSON 데이터 생성
 	    var jsonData = {
+	      plantLevlNo: formData.get("plantLevlNo"),
 	      plant: {
 	        plantNo: formData.get("plantNo"),
 	        plantName: formData.get("plantName"),
 	      },
 	      plantLevl: {
+	    	plantLevlNo: formData.get("plantLevlNo"),
 	    	plantNo: formData.get("plantNo"),
 	        plantLevl: formData.get("plantLevl"),
 	        plantFinalLevl: formData.get("plantFinalLevl"),
@@ -120,7 +122,7 @@
                 <p class="card-description">Basic form elements</p>
                 <div class="form-group">
                 <input type="hidden" name="plantNo" id="plantNo" value="${plant.plantNo}">
-                <input type="hidden" name="plantLevlNo" id="plantLevlNo" value="${plant.plantLevl.plantLevlNo}">
+                <input type="hidden" name="plantLevlNo" id="plantLevlNo" value="${plantLevl.plantLevlNo}">
                   <label for="plantName">식물이름</label> <input type="text" class="form-control" name="plantName"
                     id="plantName" value="${plant.plantName}">
                 </div>
@@ -142,7 +144,7 @@
                 </div>
                 <div class="form-group">
                   <label>식물단계이미지</label> 
-                  <input type="file" name="levlImg" class="file-upload-default" id="levlImg" >
+                  <input type="file" name="file" class="file-upload-default" id="levlImg" >
                   <div class="input-group col-xs-12">
                     <input type="text" class="form-control file-upload-info"  disabled value="${plantLevl.levlImg}">
                     <span class="input-group-append">

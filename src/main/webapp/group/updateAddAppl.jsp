@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -95,28 +96,39 @@
 	                    <!-- 관리자만 -->
 	                    <div class="form-group">
 	                      <label>개설여부</label>
-	                      <div class="form-check">
-		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="groupRslt" value="E"
-		                      ${group.groupRslt == 'E' ? 'checked' : ''}>
-		                      개설대기
-		                    </label>
-		                  </div>
-		                  <div class="form-check">
-		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="groupRslt" value="T"
-		                      ${group.groupRslt == 'T' ? 'checked' : ''}>
-		                      개설완료
-		                    </label>
-		                  </div>
-		                  <div class="form-check">
-		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="groupRslt" value="F"
-		                      ${group.groupRslt == 'F' ? 'checked' : ''}>
-		                      개설누락
-		                    </label>
-		                  </div>
-	                    </div>
+	                      <c:if test="${isAdmin}">
+	                      	<div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="groupRslt" value="E"
+			                      ${group.groupRslt == 'E' ? 'checked' : ''}>
+			                      개설대기
+			                    </label>
+			                  </div>
+			                  <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="groupRslt" value="T"
+			                      ${group.groupRslt == 'T' ? 'checked' : ''}>
+			                      개설완료
+			                    </label>
+			                  </div>
+			                  <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="groupRslt" value="F"
+			                      ${group.groupRslt == 'F' ? 'checked' : ''}>
+			                      개설누락
+			                    </label>
+			                </div>
+			              </c:if>
+			              <c:if test="${!isAdmin}">
+			              <h4>
+			              	<c:if test="${group.groupRslt == 'E'}"><b style="color:#7DA0FA;">개설대기</b></c:if>
+			              	<c:if test="${group.groupRslt == 'T'}"><b style="color:#a8d9a8;">개설완료</b></c:if>
+			              	<c:if test="${group.groupRslt == 'F'}"><b style="color:#ffcbcb;">개설누락</b></c:if>
+			              </h4>
+			              </c:if>
+		              </div>
+	                   
+	                      
 	                    <!-- 관리자만 -->
 	                  </form>
 	                  <form id="getAddAppl" method="post" action="/group/getAddAppl">

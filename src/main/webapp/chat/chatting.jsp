@@ -462,7 +462,7 @@
 		
 	</script>
 
-	<div class="main-panel">
+	<div id="chattingDiv" class="main-panel">
         	<div class="content-wrapper">
 				<h3 class="center-text">
 					${param.room}

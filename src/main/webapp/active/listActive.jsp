@@ -28,7 +28,7 @@
 	<!-- HEADER -->
 	
 	<!-- SIDE -->
-	<jsp:include page="/activeSide.jsp"></jsp:include>
+	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<script type="text/javascript">
@@ -61,6 +61,15 @@
 				console.log($('.condition').val());
 				
 			});
+			
+			$('.keyword').on('keydown', function(e) {
+		        var keyCode = e.which;
+				
+		        if (keyCode === 13) { // Enter Key
+		        	
+		        	$('.search-btn').click();
+		        }
+		    });
 			
 			$('.search-btn').on('click', function() {
 				
@@ -122,6 +131,25 @@
 								</script>
 			                  
 								<div class="input-group text-right">
+									
+									<div class="input-group-prepend">
+										<button class="dropdown-btn btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<c:if test="${search.searchCondition == null || search.searchCondition == ''}">
+												활동 상태
+											</c:if>
+											<c:if test="${search.searchCondition != ''}">
+												${search.searchCondition}
+											</c:if>
+										</button>
+										<div class="dropdown-menu" style="">
+											<a class="dropdown-item" href="#">전체</a>
+											<div role="separator" class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">활동중</a>
+											<div role="separator" class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">활동 종료</a>
+										</div>
+									</div>
+									<input type="hidden" class="condition" name="searchCondition" value="${search.searchCondition}" >
 								
 									<input type="text" name="searchKeyword" class="form-control-sm keyword" value="${search.searchKeyword}" placeholder="활동명 해쉬태그 검색">
 									
@@ -325,7 +353,7 @@
 		    <!-- FOOTER -->
 		    
 		    <script type="text/javascript">
-		    	$('footer').removeClass('fixed-bottom');
+		    	//$('footer').removeClass('fixed-bottom');
 		    </script>
        	
        </div>
