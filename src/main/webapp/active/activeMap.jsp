@@ -157,11 +157,23 @@
 			
 			var infowindow = new naver.maps.InfoWindow();
 			
-			groupListString = JSON.parse('${groupListString}');
-		
-			activeListString = JSON.parse('${activeListString}');
+			if('${groupListString}' != '') {
+				groupListString = JSON.parse('${groupListString}');
+			}else {
+				groupListString = [];
+			}
 			
-			memberListString = JSON.parse('${memberListString}');
+			if('${activeListString}' != '') {
+				activeListString = JSON.parse('${activeListString}');
+			}else {
+				activeListString = [];
+			}
+			
+			if('${memberListString}' != '') {
+				memberListString = JSON.parse('${memberListString}');
+			}else {
+				memberListString = [];
+			}
 			
 			console.log(groupListString);
 			
@@ -209,6 +221,8 @@
 			    //infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
 		
 			    //infowindow.open(map, location);
+			    
+			    $('#address').val('');
 			    
 			    console.log('Coordinates: ' + location.toString());
 			}

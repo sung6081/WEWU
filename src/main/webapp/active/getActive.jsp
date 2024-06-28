@@ -145,6 +145,8 @@
 		    	
 		    	var markerLocation = new naver.maps.LatLng(map_x,map_y);
 		    	
+		    	$('#address').val('');
+		    	
 		    	map.setCenter(markerLocation);
 		    });
 		});
@@ -352,10 +354,6 @@
 	
 		        searchAddressToCoordinate($('#address').val());
 		    });
-			
-		    if (!navigator.geolocation) {
-		    	searchAddressToCoordinate('강남');
-		    }
 		    
 		}
 	
