@@ -85,18 +85,16 @@
     });
 
     function addComment() {
-        var commentContents = $("#commentContents").val().trim();
-
-        if (commentContents === "") {
-            alert("댓글 내용을 입력해 주세요.");
-            return;
-        }
-
         var form = document.getElementById('commentForm');
         var formData = new FormData(form);
         var jsonData = {};
         formData.forEach((value, key) => { jsonData[key] = value });
-
+        
+        if (jsonData.commentContents === "") {
+            alert("댓글 내용을 입력해 주세요.");
+            return;
+        }
+        
         $.ajax({
             url: "/app/board/addComment",
             type: "POST",
@@ -290,7 +288,7 @@
                                                 id="commentNickName" value="${sessionScope.user.nickname}">
                                             <input type="hidden" name="boardNo" id="boardNo"
                                                 value="${board.boardNo}">
-                                            <textarea class="form-control" name="commentContents" id="exampleTextarea1" rows="4"></textarea>
+                                            <textarea class="form-control" name="commentContents" id="commentContents" rows="4"></textarea>
                                             <br>
                                         </form>
                                         <button class="btn btn-link btn-fw" onClick="addComment();">댓글
