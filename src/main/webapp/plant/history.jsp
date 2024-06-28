@@ -62,6 +62,7 @@ $(document).ready(function() {
                         plantList.append(row);
                     }
                 });
+                LevlImgClickEvent();
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error); // 오류 로그
@@ -85,7 +86,7 @@ $(document).ready(function() {
         updatePlantList("lowest");
     });
     
-    function attachLevlImgClickEvent() {
+    function LevlImgClickEvent() {
         $(".levlImg").on("click", function() {
             var $this = $(this);
             var plantLevlNo = $this.data("plantLevlNo");
@@ -120,7 +121,7 @@ $(document).ready(function() {
         });
     }
 
-    attachLevlImgClickEvent();
+    LevlImgClickEvent();
 });
 </script>
 </head>
@@ -128,12 +129,8 @@ $(document).ready(function() {
     <!-- HEADER -->
     <jsp:include page="/header.jsp" />
     <!-- HEADER -->
-    <input type="hidden" id="searchCondition" value="past" />
-    <input type="hidden" id="searchKeyword" value="latest" />
-    <input type="hidden" id="searchKeyword" value="oldest" />
-    <input type="hidden" id="searchKeyword" value="highestExp" />
-    <input type="hidden" id="searchKeyword" value="lowestExp" />
     <form name = "history">
+    <input type="hidden" id="searchCondition" value="past" />
         <!-- GetMyPlant -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -146,10 +143,10 @@ $(document).ready(function() {
                                 <h4 class="card-title">HISTORY</h4>
                                 <p class="card-description">과거의 나의 식물들</p>   
                                 <p class="sort-links">                                
-                                    <button type="button" class="btn btn-primary btn-sm" id="latest">최신순</button>                           
-                                    <button type="button" class="btn btn-primary btn-sm" id="oldest">과거순</button>                                    
-                                    <button type="button" class="btn btn-primary btn-sm" id="highestExp">경험치높은순</button>                                   
-                                    <button type="button" class="btn btn-primary btn-sm" id="lowestExp">경험치낮은순</button>
+                                    <button type="button" class="btn btn-primary btn-sm" id="latest" name="latest">최신순</button>                           
+                                    <button type="button" class="btn btn-primary btn-sm" id="oldest" name="oldest">과거순</button>                                    
+                                    <button type="button" class="btn btn-primary btn-sm" id="highestExp" name="highestExp">경험치높은순</button>                                   
+                                    <button type="button" class="btn btn-primary btn-sm" id="lowestExp" name="lowestExp">경험치낮은순</button>
                                 </p>
                                 <div class="table-container">
                                     <table class="table table-striped">

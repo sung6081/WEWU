@@ -7,10 +7,12 @@
    <html lang="en">
 
    <head>
+   	<jsp:include page="/header.jsp" flush="true" />
+   	<script>
+   	</script>
    </head>
 
    <body>
-     <jsp:include page="/header.jsp" flush="true" />
      <!-- partial -->
      <div class="main-panel">
        <div class="content-wrapper">
@@ -27,11 +29,8 @@
                <div class="col-md-4">
                  <div class="justify-content-end d-flex">
                    <div class="swiper-container ranking">
-                     <div class="swiper-wrapper">
-                       <div class="swiper-slide ranking">내용1ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ</div>
-                       <div class="swiper-slide ranking">내용1</div>
-                       <div class="swiper-slide ranking">내용3</div>
-                       <div class="swiper-slide ranking">내용4</div>
+                     <div class="swiper-wrapper groupRanking">
+                       
                      </div>
                    </div>
                  </div>
