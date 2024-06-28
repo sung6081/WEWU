@@ -129,6 +129,10 @@ $(document).ready(function() {
     <jsp:include page="/header.jsp" />
     <!-- HEADER -->
     <input type="hidden" id="searchCondition" value="past" />
+    <input type="hidden" id="searchKeyword" value="latest" />
+    <input type="hidden" id="searchKeyword" value="oldest" />
+    <input type="hidden" id="searchKeyword" value="highestExp" />
+    <input type="hidden" id="searchKeyword" value="lowestExp" />
     <form name = "history">
         <!-- GetMyPlant -->
         <div class="main-panel">

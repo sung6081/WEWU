@@ -188,6 +188,10 @@ public class PlantServiceImpl implements PlantService {
 
 		return myPlantDao.getMyPlantList(map);
 	}
+	
+	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception{
+		return myPlantDao.myPlantListbyLevlNo(map);
+	}
 
 	@Override
 	public MyPlant deleteMyPlant(String nickname) throws Exception {
