@@ -31,6 +31,10 @@
         height: 500px;
     }
     
+    .mdi-target {
+		color: #FF4747;
+	}
+    
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #searchBtn { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
@@ -100,7 +104,9 @@
 		                                         position.coords.longitude);
 	
 		    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-		    //map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
+		    map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+		    
+		    $('#address').val('');
 	
 		    //infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
 	
@@ -446,7 +452,7 @@
 	</script>
 	
 	<!-- SIDE -->
-	<jsp:include page="/activeSide.jsp"></jsp:include>
+	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<div class="main-panel">
@@ -660,7 +666,7 @@
 	    <!-- FOOTER -->
 	    
 	    <script type="text/javascript">
-	    	$('footer').removeClass('fixed-bottom');
+	    	//$('footer').removeClass('fixed-bottom');
 	    </script>
        	
     </div>

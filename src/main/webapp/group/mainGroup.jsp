@@ -13,7 +13,6 @@
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
 		<script>
-		
 			$(function() 
 			{
 				
@@ -28,42 +27,60 @@
 			 	{
 					// 내 모임 신청정보
 					sendAjaxRequest("/app/group/getGroupList", "My", "${user.nickname}", "getMyGroupList");
-					$(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
-					$(this).attr("class","btn btn-outline-secondary btn-primary");
+					$(".btn-outline-secondary").attr("class","btn btn-outline-secondary btn-outline-info");
+					$(this).attr("class","btn btn-outline-secondary btn-inverse-info");
 				}); 
+				
 				$( ".btn:contains('가입모임')" ).on("click" , function() 
 			 	{
 					// 내 모임 가입신청 정보
 		            sendAjaxRequest("/app/group/getApplJoinList", "user", "${user.nickname}", "getApplJoinList");
-		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
-		            $(this).attr("class","btn btn-outline-secondary btn-primary");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary btn-outline-info");
+		            $(this).attr("class","btn btn-outline-secondary btn-inverse-info");
 				}); 
+				
 				$( ".btn:contains('대기신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설대기)
 		            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
-		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
-		            $(this).attr("class","btn btn-outline-secondary btn-primary");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary btn-outline-info");
+		            $(this).attr("class","btn btn-outline-secondary btn-inverse-info");
 				}); 
 				
 				$( ".btn:contains('승인신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설승인)
 		            sendAjaxRequest("/app/group/getGroupList", "T", "", "getGroupListTrue");
-		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
-		            $(this).attr("class","btn btn-outline-secondary btn-primary");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary btn-outline-info");
+		            $(this).attr("class","btn btn-outline-secondary btn-inverse-info");
 				}); 
 				
 				$( ".btn:contains('거부신청서')" ).on("click" , function() 
 			 	{
 					// 모든 모임 신청정보(개설거부)
 		            sendAjaxRequest("/app/group/getGroupList", "F", "", "getGroupListNone");
-		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary");
-					$(this).attr("class","btn btn-outline-secondary btn-primary");
+		            $(".btn-outline-secondary").attr("class","btn btn-outline-secondary btn-outline-info");
+					$(this).attr("class","btn btn-outline-secondary btn-inverse-info");
+					
+				}); 
+				
+				$( ".btn:contains('Search')" ).on("click" , function() 
+			 	{
+					// 모든 모임 신청정보(개설거부)
+					
+		            sendAjaxRequest("/app/group/getGroupList", "search", $(".searchKeyword").val(), "getGroupList");
+		            //$(".btn-outline-secondary").attr("class","btn btn-outline-secondary btn-outline-info");
+					//$(this).attr("class","btn btn-outline-secondary btn-inverse-info");
 					
 				}); 
 				
 				$(document).ready(function() {
+					 $('.searchKeyword').keypress(function(event) {
+				        if (event.which === 13) {
+				        	sendAjaxRequest("/app/group/getGroupList", "search", $(".searchKeyword").val(), "getGroupList");
+				        }
+				    });
+					 
 				    $(document).on('mouseenter', '.groupNo', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
@@ -83,6 +100,15 @@
 				    $(document).on('mouseenter', '.getMemberGroup', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
+				    
+				    
+				    if("${user.role}" == "1"){
+				    	
+				    	$( ".btn:contains('대기신청서')" ).attr("class" , "btn btn-outline-secondary btn-inverse-info");
+				    }else
+				    {
+				    	$( ".btn:contains('개설모임')" ).attr("class" , "btn btn-outline-secondary btn-inverse-info"); 
+				    }
 				    
 				    $("#map").css("height","460px");
 				});
@@ -122,6 +148,7 @@
 									  "<input type=hidden name=memberNo value="+id+">");
 					$("#MyForm").attr("method" , "POST").attr("action" , "/group/getMemberGroup").submit();
 				});
+				
 				function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
 	                $.ajax({
 	                    url: url,
@@ -142,6 +169,7 @@
 	                    success: function(data, status, xhr) {
 	                        // AJAX 요청 성공 시 실행되는 함수
 	                        var str = "";
+	                        
 	                        if(targetElementId == "getMyGroupList"){
 	                        	str = 	"<thead>" +
 	                        				"<tr>" +
@@ -197,8 +225,8 @@
                         	if(data.length != 0){
                         		for (var i = 0; i < data.length; i++) {
                         			if(targetElementId == "getGroupList"){
-		                        		str +=  "<tr>" +
-			    					            "  <td><a class=groupNo id=" + data[i].groupNo + ">"+ data[i].groupName +"</a></td>" +
+		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">" +
+			    					            "  <td>"+ data[i].groupName +"</td>" +
 			    					            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
 			    					            "  <td>"+ data[i].groupPers +"</td>" +
 			    					            "</tr>";
@@ -419,13 +447,13 @@
 		            sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "getGroupRankingList");
 					
 		            
-		            if("1" != "${user.role == '1'}")
+		            if("1" != "${user.role}")
 		            {
 		            	// 내 모임 신청정보
 			            sendAjaxRequest("/app/group/getGroupList", "My", "${user.nickname}", "getMyGroupList");
 		            }
 		            
-		            if("1" == "${user.role == '1'}")
+		            if("1" == "${user.role}")
 		            {
 		            	// 모든 모임 신청정보(개설대기)(관리자만)
 			            sendAjaxRequest("/app/group/getGroupList", "E", "", "getGroupListWait");
@@ -452,7 +480,7 @@
 									<h4 class="card-title">모임목록</h4>
 					                <div class="form-group">
 										<div class="input-group">
-					                    	<input type="text" class="form-control" placeholder="모임명" aria-label="모임명">
+					                    	<input type="text" class="form-control searchKeyword" placeholder="모임명" aria-label="모임명">
 						                    <div class="input-group-append">
 						                    	<button class="btn btn-sm btn-primary" type="button">Search</button>
 						                    </div>
@@ -460,14 +488,14 @@
 					                </div>
 									<div class="list-wrapper pt-2">
 										<table class="table table-striped todo-list todo-list-custom table-hover">
-											<thead id="getGroupList">
+											<thead>
 												<tr>
 													<th>모임명</th>
 													<th>모임등급</th>
 													<th>인원수</th>
 										        </tr>  
 									        </thead>
-									        <tbody>
+									        <tbody id="getGroupList">
 									           
 											</tbody>
 									    </table>
@@ -495,12 +523,10 @@
 					    <div class="col-md-5 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">모임랭킹</h4>
+									<h4 class="card-title">모임랭킹 <code>* 상위 10위</code></h4>
 					                <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
-				                        <button type="button" class="btn btn-outline-secondary">1</button>
-				                        <button type="button" class="btn btn-outline-secondary">2</button>
-				                        <button type="button" class="btn btn-outline-secondary">3</button>
+				                        <button type="button" class="btn btn-outline-secondary btn-inverse-info">인원 수</button>
 				                        </div>
 					                </div>
 									<div class="list-wrapper pt-2">
@@ -533,13 +559,13 @@
 									 <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
 										<c:if test="${user.role != '1'}">
-					                        <button type="button" class="btn btn-outline-secondary">내 개설모임</button>
-					                        <button type="button" class="btn btn-outline-secondary">내 가입모임</button>
+					                        <button type="button" class="btn btn-outline-secondary btn-outline-info">내 개설모임</button>
+					                        <button type="button" class="btn btn-outline-secondary btn-outline-info">내 가입모임</button>
 				                        </c:if>
 				                        <c:if test="${user.role == '1'}">
-					                        <button type="button" class="btn btn-outline-secondary">(관리자)대기신청서</button>
-					                        <button type="button" class="btn btn-outline-secondary">(관리자)승인신청서</button>
-					                        <button type="button" class="btn btn-outline-secondary">(관리자)거부신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary btn-outline-info">(관리자)대기신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary btn-outline-info">(관리자)승인신청서</button>
+					                        <button type="button" class="btn btn-outline-secondary btn-outline-info">(관리자)거부신청서</button>
 				                        </c:if>
 				                        </div>
 					                </div>

@@ -12,7 +12,7 @@
 	<title>Insert title here</title>
 	
 	<script>
-	function deleteItem(itemNo){ //restcontroller의 function은 $(function(){ 형식에서 괄호 앞에는 메소드, 괄호 안에는 인자인가?
+	function deleteItem(itemNo){ //function은 restcontroller이든, 그냥 controller이든 상관 없음. 이 형태로 function 만들면, function 이름 호출해서 사용 가능함. function deleteItem(itemNo)에서 괄호 앞에는 function 이름, 괄호 안에는 인자. 인자가 있어야 function 작동시킬 수 있으므로. 얘네는 function을 호출해야 쓸 수 있음.  
 		
 	    if(!confirm("정말 삭제하시겠습니까?")){
 			return;
@@ -100,43 +100,81 @@
 		});
 	    
 	}
+
 	
+	<%--  컨트롤러 종류 상관없음. 이렇게 링크 이동시키는 것도 위의 function과 같은 형태로 만들 수 있음. 이렇게!! 근데 굳이 그렇게 하면 밑에 onclick은 onclick대로 걸어주고, 위에 호출해야 쓸수 있는 function은 그 function대로 만들어줘야 하므로 귀찮음. 3줄 써야함. 그래서 그냥 $(function() { 이런 타입으로 적은 것임. 
+	function getItemList(){
+		location.href="/item/getItemList"
+	}
+	--%>
 	
-	$(function() {
+	$(function() {  //얘는 실행하기 위한 조건 없음. function의 이름 없음. 괄호 안에 인자도 없음.왜 앞에  $ 쓰는지는 jquery라서 아직 설명 불가.   function을 작동하기 위한 조건 없음. 그리고 온클릭하면 바로 작동함. 즉 위의 호출되는 function처럼 호출을 해야 작동하는 게 아니라, 이미 호출되어 있는 상태임. 그래서 온클릭 이벤트만 발생하면 바로 작동하는 것. 일반 controller라서 이렇게 쓴 게 아님. 일반 컨트롤러든 restcontroller든 종류 상관없음. 쓸 수 있음. 그리고 여러 function들을 함께 적어놓은 것도, 이 function들이 모두 조건이 없고, 온클릭 이벤트 발생하면 바로 작동하므로 가능함(이미 호출되어 있으므로 온클릭 하면 호출할 필요 없이 바로 function이 기능함). 
 		 $( ".btn-fw:contains('전체')" ).on("click" , function() {
 			location.href="/item/getItemList" 
 		 });
-	});
 	
-	
-	$(function() {
 		 $( ".btn-fw:contains('식물 아이템')" ).on("click" , function() {
 			location.href="/item/getItemList?searchCondition=식물" 
 		 });
-	});
-	
-	
-	$(function() {
+		 
 		 $( ".btn-fw:contains('장식 아이템')" ).on("click" , function() {
-			location.href="/item/getItemList?searchCondition=장식" 
+				location.href="/item/getItemList?searchCondition=장식" 
+	     });
+		 
+		 $( ".btn-sm:contains('Search')" ).on("click" , function() {
+				
+				location.href="/item/getItemList?searchKeyword="+$(".form-control").val() 
 		 });
-	});
-	
-	
-	$(function() { 
-		$( ".btn-sm:contains('Search')" ).on("click" , function() {
+		 
+		 $( ".btn-outline-dark:contains('구매하기')" ).on("click" , function() {
+				location.href="/item/addPurchase?itemNo=34"
+						
+		 });
+		 
+		 $( "button.btn-primary:contains('수정하기')" ).on("click" , function() {
+			 //fncListRefundPoint();
+			 var rslt = $("input[type='radio']:checked").val();
+			 if(rslt == undefined)
+			 {
+			 	alert("수정할 아이템을 선택하세요.");
+			 	return;
+			 }else
+			 {
+				 //alert(rslt);
+				 location.href="/item/updateItem?itemNo="+rslt;
+			 }
+			 
+		 });
+				 
+			 
+		 $( "button.btn-primary:contains('아이템 등록')" ).on("click" , function() {
+				location.href="/item/addItem"
+		 });	 
 			
-			location.href="/item/getItemList?searchKeyword="+$(".form-control").val() 
-		
-		});	 
+		 <%--걍 예시임. 
+		 $( ".btn-outline-dark:contains('구매하기')" ).on("click" , function() {
+				getItemList()
+		 });
+		 --%>
 	});
 	
 	<%--나는 location.href="/item/getItemList?searchKeyword="+${search.SearchKeyword}로 했는데 그러면 안 됨. 왜냐하면 이 uri는 값을 injection하기 위한 것임. 예를 들어, 아이템을 카테고리별로 보여줄 때는 searchCondition을 장식으로 injection해서 보내고 있음. 그러나 itemController의 getItemList 부분에, 값을 injection 할(?) 보내줄(?) 게 없음. (@ModelAttribute Search search , Model model)이라 Search search 앞에 " " 없으면, Search의 allias인 "search"로 값을 보내긴 함. 그러나 아직 한 번도 검색 안 했으므로 search 이용해서 못 가져옴(?). 그런데 뭘 검색할지 searchKeyword를 알려주긴 해야함. 그래서 밑에 있는 "form-control"의 val(밸류.value)를 가져와서, searchKeyword가 뭔지 알려줌.--%> 
 		
-	
-	
-	
 	</script>
+	
+	<style>
+     .btn-consistent {
+            width: 100%; /* 버튼을 카드의 너비에 맞추어 일관되게 설정 */
+            padding: 10px;
+            font-size: 1rem;
+            margin-top: 10px; /* 버튼 간의 간격 조절 */
+        }
+
+        .card-footer {
+            text-align: center;
+        }
+    </style>
+    
 </head>
 <body>
 	
@@ -168,6 +206,17 @@
        </div>
      </div> 		       	
      
+     <br>
+     <br>
+     <c:if test="${isAdmin}">
+      <div class="text-right mt-4">
+      	  <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">아이템 삭제</button>
+      	  <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">아이템 수정</button>
+	      <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">아이템 등록</button>
+	      
+	      
+      </div>
+      </c:if>
 			
 		  <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
@@ -179,7 +228,11 @@
                   <button type="button" class="btn btn-outline-primary btn-fw">전체</button> 
                   <button type="button" class="btn btn-outline-primary btn-fw">식물 아이템</button>
                   <button type="button" class="btn btn-outline-primary btn-fw">장식 아이템</button>
+                  
+              
                 </div>
+                
+                
                 <br>  
                 <br>      
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -188,28 +241,46 @@
 	                    <div class="col mb-5">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
+	                             <c:if test="${isAdmin}">
+	                            <div class="mb-4" style="margin: 0 0 0 10px;">
+					                  <div class="form-check">
+					                    <label class="form-check-label text-muted">
+					                      <input type="radio" class="form-check-input" name="pno" value="${item.itemNo}">
+					                     
+					                    </label>
+					                  </div>
+					                </div>
+					             </c:if>   
 	                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-left">
 	                                 	<h5 class="fw-bolder">${item.itemCategory}</h5> 
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder">${item.itemName}</h5>
+	                                    <h5 class="fw-bolder"><a href="/item/getItem?itemNo=${item.itemNo}">${item.itemName}</a></h5>
 	                                    <!-- Product price-->
 	                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
 	                                </div>
 	                                <!-- Product actions-->
 		                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-		                                <div class="text-center"><button class="btn btn-outline-dark mt-auto" type="button" onclick="addShoppingCart(${item.itemNo})">장바구니</button>
+		                                <div class="text-center">
+		                                	<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">장바구니</button> <%--이 버튼은 on click을 여기서 잡아줌. 그래서 onclick 어디서 거는지는 따로 안 넣어줘도 됨. 대신 function 호출하는 건 있어야 함.   --%>
 		                           		</div>
-		                            	<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-		                               		<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">구매하기</a></div>
-		                            	</div>
+		                           	</div>
+	                            	<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                               			<div class="text-center">
+                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
+                            			</div>  
+                            		</div>
 	                            	</div>
-	                        	</div>
+	                        	
+	                        	
+	                        	
 	                    	</div> 
 	                    </div>
                     </c:forEach>
+                    
+                   
                 </div>
            	 </div>
            </section>   
@@ -222,12 +293,8 @@
 	        
 	       <%-- 
 	        		
-	        		<a href="/item/updateItem?itemNo=${item.itemNo}">수정하기</a>=== 
-					<a href="javascript:deleteItem(${item.itemNo })">삭제하기</a>===
 					<a href="/item/getItem?itemNo=${item.itemNo}">상세보기</a>===
 					
-				<br>
-				<a href="/item/deleteItem">아이템 삭제하기</a>  <!-- 지금 안 되는 게 맞음.  -->
 		
 				
 	

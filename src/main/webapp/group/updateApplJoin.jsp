@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -79,41 +80,71 @@
 						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
 						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
 						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
-	                    <div class="form-group">
-	                      <label>${group.frstQuest}</label>
-	                      <input type="text" class="form-control" name="frstRepl" placeholder="1번 답변" value="${groupMember.frstRepl }">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>${group.scndQuest}</label>
-	                      <input type="text" class="form-control" name="scndRepl" placeholder="2번 답변" value="${groupMember.scndRepl }">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>${group.thrdQuest}</label>
-	                      <input type="text" class="form-control" name="thrdRepl" placeholder="3번 답변" value="${groupMember.thrdRepl }">
-	                    </div>
-	                    <label>승인여부</label>
-	                      <div class="form-check">
-		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="joinFlag" value="E"
-		                      ${groupMember.joinFlag == 'E' ? 'checked' : ''}>
-		                      가입대기
-		                    </label>
-		                  </div>
-		                  <div class="form-check">
-		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="joinFlag" value="T"
-		                      ${groupMember.joinFlag == 'T' ? 'checked' : ''}>
-		                      가입완료
-		                    </label>
-		                  </div>
-		                  <div class="form-check">
-		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="joinFlag" value="F"
-		                      ${groupMember.joinFlag == 'F' ? 'checked' : ''}>
-		                      가입거부
-		                    </label>
-		                  </div>
-	                  </form>
+	                    <c:if test="${group.frstQuest != '' && group.frstQuest != null}">
+							<div class="form-group">
+		                      <label>${group.frstQuest}</label>
+	                      	  <input type="text" class="form-control" name="frstRepl" placeholder="1번 답변" value="${groupMember.frstRepl }">
+		                    </div>
+						</c:if>
+						<c:if test="${group.frstQuest == '' || group.frstQuest == null}">
+							<div class="form-group">
+		                      <label>1번 질문 없음</label>
+		                    </div>
+						</c:if>
+						<c:if test="${group.scndQuest != '' && group.scndQuest != null}">
+							<div class="form-group">
+		                      <label>${group.scndQuest}</label>
+	                      	  <input type="text" class="form-control" name="scndRepl" placeholder="2번 답변" value="${groupMember.scndRepl }">
+		                    </div>
+						</c:if>
+						<c:if test="${group.scndQuest == '' || group.scndQuest == null}">
+							<div class="form-group">
+		                      <label>2번 질문 없음</label>
+		                    </div>
+						</c:if>
+						<c:if test="${group.thrdQuest != '' && group.thrdQuest != null}">
+							<div class="form-group">
+		                      <label>${group.thrdQuest}</label>
+	                     	  <input type="text" class="form-control" name="thrdRepl" placeholder="3번 답변" value="${groupMember.thrdRepl }">
+		                    </div>
+						</c:if>
+						<c:if test="${group.thrdQuest == '' || group.thrdQuest == null}">
+							<div class="form-group">
+		                      <label>3번 질문 없음</label>
+		                    </div>
+						</c:if>
+						<label>승인여부</label>
+						<c:if test="${group.leaderNick == user.nickname }">
+		                      <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="joinFlag" value="E"
+			                      ${groupMember.joinFlag == 'E' ? 'checked' : ''}>
+			                      가입대기
+			                    </label>
+			                  </div>
+			                  <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="joinFlag" value="T"
+			                      ${groupMember.joinFlag == 'T' ? 'checked' : ''}>
+			                      가입완료
+			                    </label>
+			                  </div>
+			                  <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="joinFlag" value="F"
+			                      ${groupMember.joinFlag == 'F' ? 'checked' : ''}>
+			                      가입거부
+			                    </label>
+			                  </div>
+						</c:if>
+						<c:if test="${group.leaderNick != user.nickname}">
+			              <h4>
+			              	<c:if test="${groupMember.joinFlag == 'E'}"><b style="color:#7DA0FA;">가입대기</b></c:if>
+			              	<c:if test="${groupMember.joinFlag == 'T'}"><b style="color:#a8d9a8;">가입완료</b></c:if>
+			              	<c:if test="${groupMember.joinFlag == 'F'}"><b style="color:#ffcbcb;">가입거부</b></c:if>
+			              </h4>
+			           </c:if>
+	                 </form>
 	                <button onclick="javascript:updateApplJoin();"  class="btn btn-primary mr-2">수정</button>
 	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 	                </div>

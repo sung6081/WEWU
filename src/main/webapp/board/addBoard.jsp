@@ -102,7 +102,8 @@
 
 							<div class="form-group row">
 								<div class="col-sm-12">
-									<textarea type="text" class="form-control" name="contents" rows="30"></textarea>
+									<textarea class="form-control" id="exampleTextarea1" name="contents" rows="40"></textarea>
+									
 								</div>
 							</div>
 

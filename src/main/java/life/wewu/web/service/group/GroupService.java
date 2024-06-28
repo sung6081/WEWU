@@ -35,6 +35,8 @@ public interface GroupService {
 	
 	public List<Group> getGroupList(Search search) throws Exception;
 	
+	public int getGroupListCnt(Search search) throws Exception;
+	
 	public List<Group> getGroupRankingList(Search search) throws Exception;
 	
 	public GroupMember getApplJoin(int memberNo) throws Exception;

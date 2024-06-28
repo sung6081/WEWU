@@ -48,10 +48,10 @@
 			<if test = "levlImg != null and levlImg != '' ">
 			levl_img = #{levlImg},
 			</if>
-			plant_no = #{plantNo}
+			plant_levl_no = #{plantLevlNo}
 		</set>	
 		<where>
-			plant_no = #{plantNo}
+			plant_levl_no = #{plantLevlNo}
 		</where>
 		
 	</update>

@@ -31,6 +31,10 @@
         height: 500px;
     }
     
+    .mdi-target {
+		color: #FF4747;
+	}
+    
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
@@ -144,6 +148,8 @@
 		    naver.maps.Event.addDOMListener(locationBtnEl, 'click', function() {
 		    	
 		    	var markerLocation = new naver.maps.LatLng(map_x,map_y);
+		    	
+		    	$('#address').val('');
 		    	
 		    	map.setCenter(markerLocation);
 		    });
@@ -352,10 +358,6 @@
 	
 		        searchAddressToCoordinate($('#address').val());
 		    });
-			
-		    if (!navigator.geolocation) {
-		    	searchAddressToCoordinate('강남');
-		    }
 		    
 		}
 	
@@ -441,7 +443,7 @@
 	</script>
 	
 	<!-- SIDE -->
-	<jsp:include page="/activeSide.jsp"></jsp:include>
+	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<div class="main-panel">
@@ -580,7 +582,7 @@
 	                      	</div>
 	                      	
 	                   	</div>
-                   	<</c:if>
+                   	</c:if>
                    	
                    	<c:if test="${user.role == 1}">
                    	
@@ -605,7 +607,7 @@
 	                	//submit함수
 	                	function deleteActive() {
 	                		
-	                		alert('삭제');
+	                		//alert('삭제');
 	                		self.location = '/active/deleteActive/'+${active.activeNo}+'?groupNo='+${active.groupNo};
 	                		
 	                	}
@@ -638,7 +640,7 @@
 	    <!-- FOOTER -->
 	    
 	    <script type="text/javascript">
-	    	$('footer').removeClass('fixed-bottom');
+	    	//$('footer').removeClass('fixed-bottom');
 	    </script>
        	
     </div>

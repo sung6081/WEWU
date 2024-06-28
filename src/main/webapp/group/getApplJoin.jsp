@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -87,19 +88,50 @@
 						<div class="form-group">
 	                      <label>작성자 : ${groupMember.memberNickName}</label>
 	                    </div>
-	                    <div class="form-group">
-	                      <label>${groupMember.frstQuest}</label>
-	                      <h4>${groupMember.frstRepl}</h4>
-	                    </div>
-	                    <div class="form-group">
-	                      <label>${groupMember.scndQuest}</label>
-	                      <h4>${groupMember.scndRepl}</h4>
-	                    </div>
-	                    <div class="form-group">
-	                      <label>${groupMember.thrdQuest}</label>
-	                      <h4>${groupMember.thrdRepl}</h4>
-	                    </div>
+	                    <c:if test="${groupMember.frstQuest != '' && groupMember.frstQuest != null}">
+							<div class="form-group">
+		                      <label>${groupMember.frstQuest}</label>
+	                      	  <h4>${groupMember.frstRepl}</h4>
+		                    </div>
+						</c:if>
+						<c:if test="${groupMember.frstQuest == '' || groupMember.frstQuest == null}">
+							<div class="form-group">
+		                      <label>1번 질문 없음</label>
+		                    </div>
+						</c:if>
+						<c:if test="${groupMember.scndQuest != '' && groupMember.scndQuest != null}">
+							<div class="form-group">
+		                      <label>${groupMember.scndQuest}</label>
+	                      	  <h4>${groupMember.scndRepl}</h4>
+		                    </div>
+						</c:if>
+						<c:if test="${groupMember.scndQuest == '' || groupMember.scndQuest == null}">
+							<div class="form-group">
+		                      <label>2번 질문 없음</label>
+		                    </div>
+						</c:if>
+						<c:if test="${groupMember.thrdQuest != '' && groupMember.thrdQuest != null}">
+							<div class="form-group">
+		                      <label>${groupMember.thrdQuest}</label>
+	                      	  <h4>${groupMember.thrdRepl}</h4>
+		                    </div>
+						</c:if>
+						<c:if test="${groupMember.thrdQuest == '' || groupMember.thrdQuest == null}">
+							<div class="form-group">
+		                      <label>3번 질문 없음</label>
+		                    </div>
+						</c:if>
+						<label>가입여부 : </label>
+						<c:if test="${group.leaderNick != user.nickname}">
+			              <h4>
+			              	<c:if test="${groupMember.joinFlag == 'E'}"><b style="color:#7DA0FA;">가입대기</b></c:if>
+			              	<c:if test="${groupMember.joinFlag == 'T'}"><b style="color:#a8d9a8;">가입완료</b></c:if>
+			              	<c:if test="${groupMember.joinFlag == 'F'}"><b style="color:#ffcbcb;">가입거부</b></c:if>
+			              </h4>
+			          </c:if>
+			          <br>
 	                  </form>
+	                  
 	                <button onclick="javascript:updateApplJoin();"  class="btn btn-primary mr-2">수정</button>
 	                <button onclick="javascript:deleteApplJoin();"  class="btn btn-danger mr-2">삭제</button>
 	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">목록</button>

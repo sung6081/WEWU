@@ -100,10 +100,8 @@
 								<label for="exampleFormControlTextarea1"
 									class="col-sm-3 col-form-label">내용</label>
 								<div class="col-sm-12">
-									<textarea type="text" class="form-control" name="contents"
-										placeholder="${board.contents}">
-										
-									</textarea>
+									<textarea class="form-control" id="exampleTextarea1" name="contents" rows="40" placeholder="${board.contents}"></textarea>
+									
 								</div>
 							</div>
 

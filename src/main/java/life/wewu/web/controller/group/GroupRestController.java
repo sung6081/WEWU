@@ -85,6 +85,7 @@ public class GroupRestController {
 		if(search.getCurrentPage() != 0){
 			search.setCurrentPage((search.getCurrentPage() - 1)*10);
 		}
+		search.setPageSize(1);
 		System.out.println(search);
 		System.out.println("getGroupList :: " + groupService.getGroupList(search));
 		// Business logic 수행
@@ -98,6 +99,7 @@ public class GroupRestController {
 		if(search.getCurrentPage() != 0){
 			search.setCurrentPage((search.getCurrentPage() - 1)*10);
 		}
+		search.setPageSize(1);
 		System.out.println(search);
 		System.out.println("getGroupRankingList :: " + groupService.getGroupRankingList(search));
 		// Business logic 수행

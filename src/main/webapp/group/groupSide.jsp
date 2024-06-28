@@ -99,6 +99,11 @@
 			{
 				listActive();
 			});
+			
+			$(".nav-link:contains('신고조회')").on("click",function()
+			{
+				getReportListSide();
+			});
 		});
 		
 		function getGroupSide(){
@@ -134,6 +139,12 @@
 		function listActive(){
 			var form = document.getElementById("listActive");
 			form.action="/active/listActive";
+			form.submit();
+		}
+		
+		function getReportListSide(){
+			var form = document.getElementById("getReportListSide");
+			form.action="/report/getReportList";
 			form.submit();
 		}
 		
@@ -192,6 +203,12 @@
 					             <span class="menu-title">가입신청서 양식</span>
 					           </a>
 					        </li>
+					        <li class="nav-item">
+					           <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+					             <i class="icon-ban menu-icon"></i>
+					             <span class="menu-title">신고조회</span>
+					           </a>
+					        </li>
                 		</c:if>
                     </c:if>
 			         <li class="nav-item">
@@ -233,6 +250,10 @@
 				</form>
 				
 				<form id="listActive" method="GET">
+					<input type="hidden" name="groupNo" value="${group.groupNo}">
+				</form>
+				
+				<form id="getReportListSide" method="POST">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
 				</form>
 	</body>
