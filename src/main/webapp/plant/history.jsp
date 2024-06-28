@@ -5,6 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
 <style>
 /* input 필드의 너비를 조정 */
 .input-small {
@@ -126,9 +129,6 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-    <!-- HEADER -->
-    <jsp:include page="/header.jsp" />
-    <!-- HEADER -->
     <form name = "history">
     <input type="hidden" id="searchCondition" value="past" />
         <!-- GetMyPlant -->

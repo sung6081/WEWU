@@ -19,7 +19,7 @@ public class Inventory {
 	private String itemType;	//아이템종류(식물인지 장식인지)
 	private int itemNum;		//가지고 있는 아이템 수
 	private String itemImg;		//아이템이미지
-	
+	private String nickname;
 	private int useItemNum;
 	private MyPlant myPlant;   // MyPlant 객체 추가
 

@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AddQuest</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
 <style>
 /* h1 요소에 앞 여백 추가 */
 .custom-title-space {
@@ -14,8 +16,6 @@
 </style>
 </head>
 <body>
-	<jsp:include page="/header.jsp" flush="true" />
-	
 	<script>
 	$(function(){
 	    $("button[name='cancel']").on("click", function(){

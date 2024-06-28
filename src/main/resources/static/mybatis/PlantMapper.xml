@@ -21,7 +21,7 @@
 	
 	<!-- GET RANDOM PLANT -->
 	<select id="selectRandomPlant"  resultMap="PlantSelectMap">
-		SELECT p.plant_no as plant_no , le.plant_levl_no as plant_levl_no
+		SELECT p.plant_no, le.plant_levl_no ,le.levl_img 
 		from plant_levl le, plant p
 		WHERE le.plant_levl = '새싹'
 		ORDER BY RAND()
