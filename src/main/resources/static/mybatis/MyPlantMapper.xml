@@ -83,6 +83,19 @@
             ORDER BY m.my_plant_no DESC
         </if>
 	</select>
+	
+		<!-- UPDATE MYPLANT NAME -->
+	<select id="myPlantListbyLevlNo" parameterType="map" resultMap="myPlantSelectMap">
+		SELECT 
+			m.*,le.plant_levl_no,le.plant_max_exp
+    	FROM 
+    		my_plant m , plant_levl le
+  	 	WHERE m.plant_no = le.plant_no
+  	 		AND m.my_plant_state = 'N'
+  	 	AND m.nickname = #{nickname}
+  	 	AND m.my_plant_exp > le.plant_min_exp 		
+		ORDER BY m.my_plant_no DESC
+	</select>
 		
 	<!-- UPDATE MYPLANT NAME -->
 	<update id="updateMyPlant" parameterType="myPlant">
