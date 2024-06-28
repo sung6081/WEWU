@@ -223,7 +223,21 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public Map<String, Object> UseItem(Inventory inventory) throws Exception {
-
+		
+		int currentStock = inventory.getItemNum();
+		int itemEffect = Integer.parseInt(inventory.getItemExp());
+		String nickname = inventory.getNickname();
+		
+		if(currentStock>0) {
+			inventory.setItemNum(currentStock - 1);
+            inventoryDao.updateInventory(inventory);
+		}
+		
+		 MyPlant myPlant = myPlantDao.getMyPlant(nickname);
+         int newExp = myPlant.getMyPlantExp() + itemEffect;
+         myPlant.setMyPlantExp(newExp);
+         myPlantDao.updateMyPlant(myPlant);
+		
 		return null;
 
 	}
