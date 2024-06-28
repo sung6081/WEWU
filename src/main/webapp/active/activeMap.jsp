@@ -7,8 +7,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 
-<title>모임 활동 지도</title>
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
@@ -137,10 +139,6 @@
 </head>
 <body>
 
-	<div id="header">
-	    <c:import url="/header.jsp"></c:import>
-	</div>
-	
 	<script type="text/javascript">
 	
 		$(document).ready(function(activeNo) {
@@ -874,7 +872,7 @@
 	    							
 	    							newTable += '<tr>\n'+
 	    											'<td class="numb">'+(i+1)+'</td>\n'+
-	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+(i+1)+'" ></td>\n'+
+	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+groupList[i].groupNo+'" ></td>\n'+
 	    											'<td>'+groupList[i].leaderNick+'</td>\n'+
 	    											'<td class="clickable-text groupScrab">\n'+
 	    											scrabElement+'\n'+
@@ -1107,7 +1105,7 @@
 	    							
 	    							newTable += '<tr class="appendTable">\n'+
 	    											'<td class="numb">'+((currentPage - 1) * 10 + i + 1)+'</td>\n'+
-	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+(i+1)+'" ></td>\n'+
+	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+groupList[i].groupNo+'" ></td>\n'+
 	    											'<td>'+groupList[i].leaderNick+'</td>\n'+
 	    											'<td class="clickable-text groupScrab">\n'+
 	    											scrabElement+'\n'+
