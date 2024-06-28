@@ -660,7 +660,7 @@
 	    <!-- FOOTER -->
 	    
 	    <script type="text/javascript">
-	    	$('footer').removeClass('fixed-bottom');
+	    	//$('footer').removeClass('fixed-bottom');
 	    </script>
        	
     </div>
