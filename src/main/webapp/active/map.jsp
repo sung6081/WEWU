@@ -28,6 +28,10 @@
 	    bottom: 10px;
 	    right: 10px;
 	}
+	
+	.mdi-target {
+		color: #FF4747;
+	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
@@ -253,7 +257,7 @@
 							
 							//console.log("::: "+activeMarker);
 							
-							naver.maps.Event.addListener(activeMarker, "click", function(e) {
+							/* naver.maps.Event.addListener(activeMarker, "click", function(e) {
 								
 								var contentString = [
 				                    '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
@@ -287,7 +291,7 @@
 							        	
 							        });
 							    }
-							});
+							}); */
 				
 							//infowindow.open(map, activeMarker);
 							
@@ -526,7 +530,7 @@
 			
 			//console.log("::: "+activeMarker);
 			
-			naver.maps.Event.addListener(activeMarker, "click", function(e) {
+			/* naver.maps.Event.addListener(activeMarker, "click", function(e) {
 				
 				var contentString = [
 	                '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
@@ -560,7 +564,7 @@
 			        	
 			        });
 			    }
-			});
+			}); */
 	
 			//infowindow.open(map, activeMarker);
 			

@@ -35,24 +35,6 @@
         overflow-y: auto;
     }
     
-    .info-panel {
-	    margin-top: 10px;
-	    background-color: #f8f9fa;
-	    border: 1px solid #dee2e6;
-	    border-radius: 5px;
-	}
-	
-	.info-row td {
-	    padding: 0 !important;
-	    border-top: none !important;
-	}
-	
-	.info-button {
-	    position: absolute;
-	    bottom: 10px;
-	    right: 10px;
-	}
-	
 	.switch {
 	  position: relative;
 	  display: inline-block;
@@ -132,6 +114,18 @@
 	
 	.groupScrab {
 	    color: #4B49Ac;
+	}
+	
+	.mdi {
+		color: #FFC100;
+	}
+	
+	.mdi-target {
+		color: #FF4747;
+	}
+	
+	.activeName {
+		color: #FFC107;
 	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
@@ -236,7 +230,7 @@
 			    //infowindow.open(map, center);
 			}
 		
-			var map = new naver.maps.Map("map", {
+			map = new naver.maps.Map("map", {
 			    center: new naver.maps.LatLng(37.3595316, 127.1052133),
 			    zoom: 15,
 			    mapTypeControl: true
@@ -694,7 +688,7 @@
 					
 		                <div class="card-body left">
 		                  <h4 class="card-title">
-		                  	모임 목록 리스트
+		                  	모임 활동 리스트
 		                  </h4>
 		                  <div class="table-responsive">
 		                  <div class="switch-btn">
@@ -725,7 +719,7 @@
 							        $('.serverTable').attr('hidden', 'hidden');
 							        $('.groupSearch').removeAttr('hidden');
 							        $('.more-btn').removeAttr('hidden');
-							        $('.card-title').html('모임 목록 리스트');
+							        $('.card-title').html('모임 활동 리스트');
 							        $('.btn-label').html('모임/채팅')
 							    }
 						  		
@@ -765,7 +759,7 @@
 		                        		<td class="numb">${i}</td>
 		                        		<td class="group-name">
 		                        			${group.groupName}
-		                        			<input type="hidden" value="${i}" >
+		                        			<input type="hidden" value="${group.groupNo}" >
 		                        		</td>
 		                        		<td>${group.leaderNick}</td>
 		                        		<td class="clickable-text groupScrab">
@@ -898,7 +892,7 @@
 	    							var memberNo = $($(this).children()[1]).val();
 	    							
 	    							if(memberNo == 0) {
-	    								alert('회원이 아니라면 스크랩할 수 없습니다.');
+	    								alert('모임 회원이 아니라면 스크랩할 수 없습니다.');
 	    								
 	    								return;
 	    							}
@@ -962,45 +956,89 @@
 	              		});
 	              		
 	              		$('.group-name').click(function(event) {
-					        var currentRow = $(this).closest('tr');
+					        
+							var currentRow = $(this).closest('tr');
 					        var infoRow = currentRow.next('.info-row');
-					        var index = $(this).children().val();
+					        var groupNo = $(this).children().val();
 					        
-					        var group = groupListString[index-1];
-		
-					        // 이미 정보 행이 있는 경우 제거
-					        if (infoRow.length) {
-					            infoRow.remove();
-					            return;
-					        }
-		
-					        // 새로운 정보 행 생성
-					        var newInfoRow = 
-					            '<tr class="info-row">\n'+
-					                '<td colspan="4">\n'+
-					                    '<div class="card info-panel">\n'+
-					                    	'<div class="card-body">\n'+
-						                        '<p><strong>모임활동레벨 : </strong>'+group.groupLevel+'</p>\n'+
-						                        '<p><strong>모임원수 : </strong>'+group.groupPers+'</p>\n'+
-						                        '<p><strong>모임주소 : </strong>'+group.groupAddr+'</p>\n'+
-						                        '<button class="btn btn-primary info-button">모임게시판 가기<input type="hidden" value='+group.groupNo+'></button>\n'+
-					                        '</div>\n'+
-					                    '</div>\n'+
-					                '</td>\n'+
-					            '</tr>';
-		
-					        // 현재 행 바로 아래에 정보 행 추가
-					        currentRow.after(newInfoRow);
+					        //alert(currentRow.html());
 					        
-					        $('.info-button').on('click', function() {
-								
-								let groupNo = $(this).children().val();
+					        var activeList = [];
+					        
+					        //console.log(groupNo);
+					        
+					        $.ajax ({
+								url	: "/app/active/listAllGroupActive/"+groupNo, // (Required) 요청이 전송될 URL 주소
+								type  : "POST", // (default: ‘GET’) http 요청 방식
+								async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
+								cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
+								timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
+								data  : JSON.stringify(
+								 			{
+								 				
+								 			}
+								 		), // 요청 시 전달할 데이터
+								processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
+								contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
+								dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) 응답 데이터 형식
+								beforeSend  : function () {
+								  // XHR Header 포함, HTTP Request 하기전에 호출
+								  
+								},
+								success : function(data, status, xhr) {
 									
-								//alert(groupNo);
-								
-								window.location.href = '/group/getGroup?groupNo=' + groupNo;
-								
+									// 이미 정보 행이 있는 경우 제거
+							        if (infoRow.length) {
+							        	$('.info-row').remove();
+							            return;
+							        }
+									
+									$('.info-row').remove();
+									
+									if(data.length == 0) {
+										//alert('등록된 활동이 없습니다.');
+									}
+				
+							        // 새로운 정보 행 생성
+							        var newInfoRow = '';
+							        
+							        console.log(data);
+							        
+							        for(let i = 0; i < data.length; i++) {
+							        	newInfoRow += '<tr class="info-row">\n'+
+							        					'<td><i class="mdi mdi-subdirectory-arrow-right"></i>활동</td>\n'+
+							        					'<td class="clickable-text activeName">'+data[i].activeName+'<input type="hidden" value="'+data[i].activeX+'"><input type="hidden" value="'+data[i].activeY+'"></td>\n'+
+							        					'<td>'+data[i].activeStartDate+'</td>\n'+
+							        					'<td>'+data[i].activeEndDate+'</td>\n'+
+							        				   '</tr>'
+							        }
+				
+							        // 현재 행 바로 아래에 정보 행 추가
+							        currentRow.after(newInfoRow);
+							        
+							        $('.activeName').on('click', function() {
+										
+										var activeX = $($(this).children()[0]).val();
+										var activeY = $($(this).children()[1]).val();
+										
+										//alert(activeX);
+										//alert(activeY);
+										
+										var point = new naver.maps.LatLng(activeX,activeY);
+										
+										map.setCenter(point);
+										
+									});
+									
+								},
+								error	: function(xhr, status, error) {
+								  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
+								},
+								complete : function(xhr, status) {
+								  // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
+								}
 							});
+		
 					        
 					    });
 	              		
@@ -1081,51 +1119,89 @@
 	    						$('.groupList').append(newTable);
 	    						
 	    						$('.group-name').click(function(event) {
-	    					        var currentRow = $(this).closest('tr');
+	    					        
+	    							var currentRow = $(this).closest('tr');
 	    					        var infoRow = currentRow.next('.info-row');
-	    					        var index = $(this).children().val();
+	    					        var groupNo = $(this).children().val();
 	    					        
-	    					        var group = groupListString[index-1];
-	    		
-	    					        // 이미 정보 행이 있는 경우 제거
-	    					        if (infoRow.length) {
-	    					            infoRow.remove();
-	    					            return;
-	    					        }
-	    		
-	    					        // 새로운 정보 행 생성
-	    					        var newInfoRow = 
-	    					            '<tr class="info-row">\n'+
-	    					                '<td colspan="4">\n'+
-	    					                    '<div class="card info-panel">\n'+
-	    					                    	'<div class="card-body">\n'+
-	    						                        '<p><strong>모임활동레벨 : </strong>'+group.groupLevel+'</p>\n'+
-	    						                        '<p><strong>모임원수 : </strong>'+group.groupPers+'</p>\n'+
-	    						                        '<p><strong>모임주소 : </strong>'+group.groupAddr+'</p>\n'+
-	    						                        '<button class="btn btn-primary info-button">모임게시판 가기<input type="hidden" value='+group.groupNo+'></button>\n'+
-	    					                        '</div>\n'+
-	    					                    '</div>\n'+
-	    					                '</td>\n'+
-	    					            '</tr>';
-	    		
-	    					        // 현재 행 바로 아래에 정보 행 추가
-	    					        currentRow.after(newInfoRow);
+	    					        //alert(currentRow.html());
 	    					        
-	    					        $('.info-button').on('click', function() {
-	    								
-	    								let groupNo = $(this).children().val();
+	    					        var activeList = [];
+	    					        
+	    					        //console.log(groupNo);
+	    					        
+	    					        $.ajax ({
+	    								url	: "/app/active/listAllGroupActive/"+groupNo, // (Required) 요청이 전송될 URL 주소
+	    								type  : "POST", // (default: ‘GET’) http 요청 방식
+	    								async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
+	    								cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
+	    								timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
+	    								data  : JSON.stringify(
+	    								 			{
+	    								 				
+	    								 			}
+	    								 		), // 요청 시 전달할 데이터
+	    								processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
+	    								contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
+	    								dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) 응답 데이터 형식
+	    								beforeSend  : function () {
+	    								  // XHR Header 포함, HTTP Request 하기전에 호출
+	    								  
+	    								},
+	    								success : function(data, status, xhr) {
 	    									
-	    								//alert(groupNo);
-	    								
-	    								if('${user}' == '') {
-	    									alert('로그인 하고 이동 가능합니다.');
-	    									window.location.href = '/user/login';
-	    									return;
+	    									// 이미 정보 행이 있는 경우 제거
+	    							        if (infoRow.length) {
+	    							        	$('.info-row').remove();
+	    							            return;
+	    							        }
+	    									
+	    									$('.info-row').remove();
+	    									
+	    									if(data.length == 0) {
+	    										//alert('등록된 활동이 없습니다.');
+	    									}
+	    				
+	    							        // 새로운 정보 행 생성
+	    							        var newInfoRow = '';
+	    							        
+	    							        console.log(data);
+	    							        
+	    							        for(let i = 0; i < data.length; i++) {
+	    							        	newInfoRow += '<tr class="info-row">\n'+
+	    							        					'<td><i class="mdi mdi-subdirectory-arrow-right"></i>활동</td>\n'+
+	    							        					'<td class="clickable-text activeName">'+data[i].activeName+'<input type="hidden" value="'+data[i].activeX+'"><input type="hidden" value="'+data[i].activeY+'"></td>\n'+
+	    							        					'<td>'+data[i].activeStartDate+'</td>\n'+
+	    							        					'<td>'+data[i].activeEndDate+'</td>\n'+
+	    							        				   '</tr>'
+	    							        }
+	    				
+	    							        // 현재 행 바로 아래에 정보 행 추가
+	    							        currentRow.after(newInfoRow);
+	    							        
+	    							        $('.activeName').on('click', function() {
+	    										
+	    										var activeX = $($(this).children()[0]).val();
+	    										var activeY = $($(this).children()[1]).val();
+	    										
+	    										//alert(activeX);
+	    										//alert(activeY);
+	    										
+	    										var point = new naver.maps.LatLng(activeX,activeY);
+	    										
+	    										map.setCenter(point);
+	    										
+	    									});
+	    									
+	    								},
+	    								error	: function(xhr, status, error) {
+	    								  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
+	    								},
+	    								complete : function(xhr, status) {
+	    								  // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
 	    								}
-	    								
-	    								window.location.href = '/group/getGroup?groupNo=' + groupNo;
-	    								
 	    							});
+	    		
 	    					        
 	    					    });
 	    						
@@ -1136,7 +1212,7 @@
 	    							var memberNo = $($(this).children()[1]).val();
 	    							
 	    							if(memberNo == 0) {
-	    								alert('회원이 아니라면 스크랩할 수 없습니다.');
+	    								alert('모임 회원이 아니라면 스크랩할 수 없습니다.');
 	    								
 	    								return;
 	    							}
@@ -1209,7 +1285,7 @@
 						var memberNo = $($(this).children()[1]).val();
 						
 						if(memberNo == 0) {
-							alert('회원이 아니라면 스크랩할 수 없습니다.');
+							alert('모임 회원이 아니라면 스크랩할 수 없습니다.');
 							
 							return;
 						}
@@ -1267,51 +1343,89 @@
 					$('.serverTable').attr('hidden', 'hidden');
 				
 					$('.group-name').click(function(event) {
-				        var currentRow = $(this).closest('tr');
+				        
+						var currentRow = $(this).closest('tr');
 				        var infoRow = currentRow.next('.info-row');
-				        var index = $(this).children().val();
+				        var groupNo = $(this).children().val();
 				        
-				        var group = groupListString[index-1];
-	
-				        // 이미 정보 행이 있는 경우 제거
-				        if (infoRow.length) {
-				            infoRow.remove();
-				            return;
-				        }
-	
-				        // 새로운 정보 행 생성
-				        var newInfoRow = 
-				            '<tr class="info-row">\n'+
-				                '<td colspan="4">\n'+
-				                    '<div class="card info-panel">\n'+
-				                    	'<div class="card-body">\n'+
-					                        '<p><strong>모임활동레벨 : </strong>'+group.groupLevel+'</p>\n'+
-					                        '<p><strong>모임원수 : </strong>'+group.groupPers+'</p>\n'+
-					                        '<p><strong>모임주소 : </strong>'+group.groupAddr+'</p>\n'+
-					                        '<button class="btn btn-primary info-button">모임게시판 가기<input type="hidden" value='+group.groupNo+'></button>\n'+
-				                        '</div>\n'+
-				                    '</div>\n'+
-				                '</td>\n'+
-				            '</tr>';
-	
-				        // 현재 행 바로 아래에 정보 행 추가
-				        currentRow.after(newInfoRow);
+				        //alert(currentRow.html());
 				        
-				        $('.info-button').on('click', function() {
-							
-							let groupNo = $(this).children().val();
+				        var activeList = [];
+				        
+				        //console.log(groupNo);
+				        
+				        $.ajax ({
+							url	: "/app/active/listAllGroupActive/"+groupNo, // (Required) 요청이 전송될 URL 주소
+							type  : "POST", // (default: ‘GET’) http 요청 방식
+							async : true,  // (default: true, asynchronous) 요청 시 동기화 여부
+							cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
+							timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
+							data  : JSON.stringify(
+							 			{
+							 				
+							 			}
+							 		), // 요청 시 전달할 데이터
+							processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
+							contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
+							dataType    : "json", // (default: Intelligent Guess (xml, json, script, or html)) 응답 데이터 형식
+							beforeSend  : function () {
+							  // XHR Header 포함, HTTP Request 하기전에 호출
+							  
+							},
+							success : function(data, status, xhr) {
 								
-							//alert(groupNo);
-							
-							if('${user}' == '') {
-								alert('로그인 하고 이동 가능합니다.');
-								window.location.href = '/user/login';
-								return;
+								// 이미 정보 행이 있는 경우 제거
+						        if (infoRow.length) {
+						        	$('.info-row').remove();
+						            return;
+						        }
+								
+								$('.info-row').remove();
+								
+								if(data.length == 0) {
+									//alert('등록된 활동이 없습니다.');
+								}
+			
+						        // 새로운 정보 행 생성
+						        var newInfoRow = '';
+						        
+						        console.log(data);
+						        
+						        for(let i = 0; i < data.length; i++) {
+						        	newInfoRow += '<tr class="info-row">\n'+
+						        					'<td><i class="mdi mdi-subdirectory-arrow-right"></i>활동</td>\n'+
+						        					'<td class="clickable-text activeName">'+data[i].activeName+'<input type="hidden" value="'+data[i].activeX+'"><input type="hidden" value="'+data[i].activeY+'"></td>\n'+
+						        					'<td>'+data[i].activeStartDate+'</td>\n'+
+						        					'<td>'+data[i].activeEndDate+'</td>\n'+
+						        				   '</tr>'
+						        }
+			
+						        // 현재 행 바로 아래에 정보 행 추가
+						        currentRow.after(newInfoRow);
+						        
+						        $('.activeName').on('click', function() {
+									
+									var activeX = $($(this).children()[0]).val();
+									var activeY = $($(this).children()[1]).val();
+									
+									//alert(activeX);
+									//alert(activeY);
+									
+									var point = new naver.maps.LatLng(activeX,activeY);
+									
+									map.setCenter(point);
+									
+								});
+								
+							},
+							error	: function(xhr, status, error) {
+							  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
+							},
+							complete : function(xhr, status) {
+							  // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
 							}
-							
-							window.location.href = '/group/getGroup?groupNo=' + groupNo;
-							
 						});
+	
 				        
 				    });
 					

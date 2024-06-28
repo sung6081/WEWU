@@ -198,6 +198,13 @@ public class ActiveServiceImpl implements ActiveService {
 	}
 	
 	@Override
+	public List<Active> getGroupActiveAllList(int groupNo) {
+		
+		return activeDao.getGroupActiveAllList(groupNo);
+		
+	}
+	
+	@Override
 	public boolean isLastPage(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		
