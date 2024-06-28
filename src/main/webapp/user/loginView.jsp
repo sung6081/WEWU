@@ -34,8 +34,7 @@
 
             $("#userId").focus();
 
-            $("a.login-btn").on("click", function(event) {
-                event.preventDefault();
+            function login() {
                 var id = $("#userId").val();
                 var pw = $("#password").val();
                 var captchaValue = $("#captcha").val();
@@ -77,6 +76,9 @@
                         } else {
                             loginAttempts++;
                             alert('로그인에 실패하였습니다. ' + response.error);
+                            if (response.error === "삭제처리 되었습니다." || response.error === "정지처리 되었습니다.") {
+                                alert("로그인이 제한된 계정입니다");
+                            }
                             if (loginAttempts >= 3) {
                                 showCaptcha();
                             }
@@ -90,6 +92,11 @@
                         }
                     }
                 });
+            }
+
+            $("a.login-btn").on("click", function(event) {
+                event.preventDefault();
+                login();
             });
 
             $("a.register-link").on("click", function(event) {
@@ -116,6 +123,13 @@
                 loginAttempts = data.loginAttempts;
                 if (loginAttempts >= 3) {
                     showCaptcha();
+                }
+            });
+
+            // 엔터 키 이벤트 처리
+            $(document).on("keypress", function(event) {
+                if (event.which === 13) {
+                    login();
                 }
             });
         });
