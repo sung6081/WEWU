@@ -6,7 +6,7 @@
 	<head>
 		<style>
 		.card-body {
-	      height: 550px; /* 고정 높이 */
+	      height: 540px; /* 고정 높이 */
 	    }
 		</style>
 		<!-- HEADER -->
@@ -468,6 +468,28 @@
 	<title>Insert title here</title>
 	</head>
 	<body>
+		<!-- SIDE -->
+		<div class="container-fluid">
+	    	<div class="row">
+			    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+			        <div class="position-fixed">
+				        <ul class="nav">
+				          <li class="nav-item">
+				            <a class="nav-link">
+				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
+				              <span class="menu-title">모임개설신청</span>
+				            </a>
+				          </li>
+				          <li class="nav-item">
+				            <a class="nav-link">
+				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
+				              <span class="menu-title">내 모임관리</span>
+				            </a>
+				          </li>
+				        </ul>
+			        </div>
+			    </nav>
+		<!-- SIDE -->
 		<!-- Main Content -->
 		<div class="main-panel">
         	<div class="content-wrapper">
@@ -505,49 +527,6 @@
 						</div>
 						<!-- 왼쪽 1번  -->
 						
-						<!-- 오른쪽 1번  -->
-					    <div class="col-md-7 grid-margin stretch-card">
-							<div class="card" style="position:relative;">
-							    <div class="card-body fixed-card-body">
-									<p class="card-title">지도</p>
-									<div id="naverMap" >
-										<c:import url="/active/map"></c:import>
-									</div>
-										
-								</div>
-							</div>
-					    </div>
-					    <!-- 오른쪽 1번  -->
-					    
-					    <!-- 왼쪽 2번  -->
-					    <div class="col-md-5 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">모임랭킹 <code>* 상위 10위</code></h4>
-					                <div class="form-group">
-										<div class="btn-group" role="group" aria-label="Basic example">
-				                        <button type="button" class="btn btn-outline-secondary btn-inverse-info">인원 수</button>
-				                        </div>
-					                </div>
-									<div class="list-wrapper pt-2">
-										<table class="table table-striped table-borderless todo-list todo-list-custom">
-											<thead>
-												<tr>
-													<th>모임명</th>
-													<th>모임등급</th>
-													<th>인원수</th>
-										        </tr>  
-									        </thead>
-									        <tbody id="getGroupRankingList">
-									          
-											</tbody>
-									    </table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- 왼쪽 2번  -->
-						
 						<!-- 오른쪽 2번  -->
 					    <div class="col-md-7 grid-margin stretch-card">
 							<div class="card">
@@ -578,6 +557,36 @@
 							</div>
 					    </div>
 					    <!-- 오른쪽 2번  -->
+						
+					    <!-- 왼쪽 2번  -->
+					    <div class="col-md-5 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">모임랭킹 <code>* 상위 10위</code></h4>
+					                <div class="form-group">
+										<div class="btn-group" role="group" aria-label="Basic example">
+				                        <button type="button" class="btn btn-outline-secondary btn-inverse-info">인원 수</button>
+				                        </div>
+					                </div>
+									<div class="list-wrapper pt-2">
+										<table class="table table-striped table-borderless todo-list todo-list-custom">
+											<thead>
+												<tr>
+													<th>모임명</th>
+													<th>모임등급</th>
+													<th>인원수</th>
+										        </tr>  
+									        </thead>
+									        <tbody id="getGroupRankingList">
+									          
+											</tbody>
+									    </table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 왼쪽 2번  -->
+						
 					</div>
 				</div>
 			</div>
