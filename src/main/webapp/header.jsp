@@ -2,6 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +66,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100px;
+      height: 80px;
       /* Adjust this value to the desired height */
       max-width: 100%;
     }
@@ -77,11 +78,14 @@
       align-items: center;
       background-color: transparent;
     }
+    
+
   </style>
 </head>
 
 <body>
 <c:set var="quest" value="${sessionScope.quest}" />
+<c:set var="myPlant" value="${sessionScope.myPlant}" />
 
   <div class="fixed-top">
     <header class="navbar navbar-expand-lg navbar-light" style="height: 100px;">
@@ -102,7 +106,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav  ml-auto">
             <li class="nav-item"><a class="nav-link" href="/board/listBoard?boardType=1">게시판</a></li>
             <li class="nav-item"><a class="nav-link" href="/group/mainGroup.jsp">모임</a></li>
             <li class="nav-item"><a class="nav-link" href="/active/activeMap">모임활동지도</a></li>
