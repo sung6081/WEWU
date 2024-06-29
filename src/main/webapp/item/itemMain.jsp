@@ -12,7 +12,7 @@
 	<title>Insert title here</title>
 	
 	<script>
-	function deleteItem(itemNo){ //function은 restcontroller이든, 그냥 controller이든 상관 없음. 이 형태로 function 만들면, function 이름 호출해서 사용 가능함. function deleteItem(itemNo)에서 괄호 앞에는 function 이름, 괄호 안에는 인자. 인자가 있어야 function 작동시킬 수 있으므로. 얘네는 function을 호출해야 쓸 수 있음.  
+	function deleteItem(itemNo){ 	//function은 restcontroller이든, 그냥 controller이든 상관 없음. 이 형태로 function 만들면, function 이름 호출해서 사용 가능함. function deleteItem(itemNo)에서 괄호 앞에는 function 이름, 괄호 안에는 인자. 인자가 있어야 function 작동시킬 수 있으므로. 얘네는 function을 호출해야 쓸 수 있음.  
 		
 	    if(!confirm("정말 삭제하시겠습니까?")){
 			return;
@@ -126,12 +126,18 @@
 				location.href="/item/getItemList?searchKeyword="+$(".form-control").val() 
 		 });
 		 
+		
+		 
 		 $( ".mt-auto:contains('구매하기')" ).on("click" , function() {
-				location.href="/item/addPurchase?itemNo=34" //오류
+				
+			 var itemNo = $(this).attr("id");
+			 
+			 location.href="/item/addPurchase?itemNo="+itemNo;
 						
 		 });
 		 
-		 $( "button.btn-primary:contains('수정하기')" ).on("click" , function() {
+		 $( "button.btn-primary:contains('아이템 수정')" ).on("click" , function() {
+		//$( ".update" ).on("click" , function() {
 			 //fncListRefundPoint();
 			 var rslt = $("input[type='radio']:checked").val();
 			 if(rslt == undefined)
@@ -145,6 +151,21 @@
 			 }
 			 
 		 });
+		
+		 $( "button.btn-primary:contains('아이템 삭제')" ).on("click" , function() {
+				//$( ".delete" ).on("click" , function() {
+					 //fncListRefundPoint();
+					 var rslt = $("input[type='radio']:checked").val();
+					 if(rslt == undefined)
+					 {
+					 	alert("삭제할 아이템을 선택하세요.");
+					 	return;
+					 }else
+					 {
+						 deleteItem(rslt);
+					 }
+					 
+				 });
 				 
 			 
 		 $( "button.btn-primary:contains('아이템 등록')" ).on("click" , function() {
@@ -216,8 +237,8 @@
 	    </div>	
 	    <div class="col-lg-4 grid-margin stretch-card">
 		    <c:if test="${isAdmin}">
-				<button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 삭제</button>
-		    	<button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 수정</button>
+				<button type="button" class="btn btn-primary btn-yoon delete" style="float: right; margin-left: 10px;">아이템 삭제</button>
+		    	<button type="button" class="btn btn-primary btn-yoon update" style="float: right; margin-left: 10px;">아이템 수정</button>
 		        <button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 등록</button>
 	     	</c:if>	
 	    </div>
@@ -279,7 +300,7 @@
 		                           	</div>
 	                            	<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                			<div class="text-center">
-                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
+                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" id="${item.itemNo}" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
                             			</div>  
                             		</div>
 	                            </div>
