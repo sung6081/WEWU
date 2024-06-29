@@ -818,7 +818,8 @@
 	              		$('.group-search').val('');
 	              		currentPage = 1;
 	              		
-	              		var url = 'http://localhost:8080/app/active/listGroup';
+	              		//var url = 'http://localhost:8080/app/active/listGroup';
+	              		var url = 'https://www.wewu.life/app/active/listGroup';
 	              		
 	              		await $.ajax({
 	              			
