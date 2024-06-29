@@ -117,41 +117,26 @@
            <!-- 관리자모드 -->
            <c:if test="${sessionScope.isAdmin}">
            <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+             <a class="nav-link" href="#" id="adminDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                관리자 모드
              </a>
              <div class="dropdown-menu" aria-labelledby="adminDropdown">
                <!-- Menu 1 with nested dropdown -->
-               <div class="dropdown-submenu dropright">
-                 <a class="dropdown-item dropdown-toggle" href="#">회원관리</a>
-                 <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="#">회원목록</a></li>
-                 </ul>
+               <div class="dropdown">
+                 <a class="dropdown-item" href="#">회원관리</a>
                </div>
                <!-- Menu 2 with nested dropdown -->
-               <div class="dropdown-submenu dropright">
-                 <a class="dropdown-item dropdown-toggle" href="#">후원관리</a>
-                 <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="/board/listDonation?payType=1">후원목록</a></li>
-                 </ul>
+               <div class="dropdown">
+                 <a class="dropdown-item" href="/board/listDonation?payType=1">후원관리</a>
                </div>
                <!-- Menu 3 with nested dropdown -->
-               <div class="dropdown-submenu dropright">
-                 <a class="dropdown-item dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false">아이템판매관리</a>
-                 <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="/item/getItemList">아이템목록</a></li>
-                 </ul>
+               <div class="dropdown">
+                 <a class="dropdown-item" href="/item/getItemList" aria-haspopup="true" aria-expanded="false">아이템판매관리</a>
                </div>
                <!-- Menu 4 with nested dropdown -->
-               <div class="dropdown-submenu dropright">
-                 <a class="dropdown-item dropdown-toggle" >식물관리</a>
-                 <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="/plant/addPlant">식물등록</a></li>
-                   <li><a class="dropdown-item" href="/plant/listPlant">식물관리</a></li>
-                   <li><a class="dropdown-item" href="/plant/addQuest">퀘스트등록</a></li>
-                   <li><a class="dropdown-item" href="/plant/listQuest">퀘스트관리</a></li>
-                 </ul>
+               <div class="dropdown">
+                 <a class="dropdown-item" href="/plant/addPlant">식물관리</a>
                </div>
              </div>
            </li>
