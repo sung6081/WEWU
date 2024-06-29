@@ -178,6 +178,14 @@ public class PlantRestController {
 	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)
 			throws Exception {
 		System.out.println("/app/plant/getQuestList");
+		
+		 // 세션에 퀘스트 정보 추가
+	    Quest quest = (Quest) session.getAttribute("quest");
+	    if (quest == null) {
+	        // 세션에 퀘스트 정보가 없으면 새로운 퀘스트 객체 생성
+	        quest = new Quest();
+	        session.setAttribute("quest", quest);
+	    } 
 
 		Map<String, Object> map = plantService.getQuestList(search);
 		model.addAttribute("map", map);
