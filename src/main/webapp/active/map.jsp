@@ -60,7 +60,7 @@
 		
 		console.log(height);
 		
-		$('#map').height(height);
+		$('#map').height(300);
 		
 		//for()
 		

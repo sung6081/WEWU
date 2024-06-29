@@ -80,6 +80,7 @@ public class PlantServiceImpl implements PlantService {
 	public Quest getQuest(int questNo) throws Exception {
 		return questDao.getQuest(questNo);
 	}
+	
 
 	@Override
 	public Map<String, Object> getQuestList(Search search) throws Exception {
@@ -98,6 +99,7 @@ public class PlantServiceImpl implements PlantService {
 	public void completeQuest(Quest quest) throws Exception {
 		questDao.completeQuest(quest);
 	}
+
 
 	// ---------------------------------------------------------------------------------------//
 
@@ -241,5 +243,13 @@ public class PlantServiceImpl implements PlantService {
 		return null;
 
 	}
+
+	@Override
+	public Quest getQuestByUser(String nickname) throws Exception {
+		
+		return questDao.getQuestByUser(nickname);
+	}
+
+
 
 }
