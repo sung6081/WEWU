@@ -8,8 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import life.wewu.web.common.Page;
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.board.Board;
 import life.wewu.web.domain.board.BoardFile;
@@ -29,6 +34,7 @@ import life.wewu.web.domain.board.Bookmark;
 import life.wewu.web.domain.board.Comment;
 import life.wewu.web.domain.board.Donation;
 import life.wewu.web.domain.board.Question;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.board.BoardService;
 
@@ -44,6 +50,12 @@ public class BoardController {
 	@Autowired
 	@Qualifier("s3RepositoryImpl")
 	private S3Repository s3Repository;
+	
+	@Value("${pageUnit}") //
+	int pageUnit;
+
+	@Value("${pageSize}") // 
+	int pageSize;
 	
 	//메소드
 	
@@ -202,27 +214,42 @@ public class BoardController {
 	//게시글 목록 조회 GET	//////////////////////////////
 	//댓글 수, 즐겨찾기 수..?
 	@GetMapping(value = "listBoard")
-	public String getBoardList(@RequestParam("boardType") int boardType,Model model) throws Exception{
+	public String getBoardList(@RequestParam("boardType") int boardType,Model model,@ModelAttribute("search") Search search, HttpSession session) throws Exception{
+		
 		
 		System.out.println("/board/listBoard : GET");
+		User user = (User) session.getAttribute("user");
 		
-		Search search = new Search();
-		search.setCurrentPage(1); // 0
+		System.out.println("================"+user);
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("boardType", boardType);
+		map.put("nickName", user.getNickname());
+		map.put("offset", (search.getCurrentPage() - 1 ) * 8);
+		
+		int totalCount = boardService.getTotalCount(map);
+		
+		Page resultPage = new Page(search.getCurrentPage(), totalCount, pageUnit, pageSize);
+		System.out.println("\n::::::::::::RESULT PAGE"+resultPage);
+		
 		
 		List<Board> list = boardService.getBoardList(map);
 		
 		List<BoardFile> fileName = boardService.getBoardFile(boardType);
 		
 		
-		System.out.println("--lll"+list);
+		System.out.println("\n--lll"+list);
 		System.out.println("|||--"+ fileName);
 		System.out.println();
 			
 		model.addAttribute("list",list);
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
 		model.addAttribute("file", fileName);
 		
 		return "forward:/board/listBoard.jsp";

@@ -44,7 +44,7 @@ public class BoardRestController {
 		String flag="";
 		
 		try {
-			System.out.println(":::::::::;;"+bookmark.getBoardNo());
+			System.out.println(":::::::::;;"+bookmark.getBoardNo());			
 			boardService.addBookmark(bookmark);
 			//System.out.println("1");
 			boardService.updateBookmarkCntUp(bookmark.getBoardNo());
@@ -87,10 +87,12 @@ public class BoardRestController {
 		System.out.println("listBookmark");
 		
 		//String sessionString = ((User)session.getAttribute("nickname")).getNickname();
-		int boardType = (int)rslt.get("baordType");
+		int boardType = (int)rslt.get("boardType");
 		
 		return boardService.getBookmarkList(rslt);
 	}
+	
+
 	
 	/*
 	 * Comment
