@@ -15,8 +15,12 @@
 			self.location="/board/listBoard?boardType=${param.boardType}"
 		});
 		 $('footer').removeClass('fixed-bottom');
+		 
+		 
 	});
-
+	window.onload=(function(){
+		getGroupList();
+	})
 	function upload() {
 		$('.file').click();
 	};
@@ -34,7 +38,10 @@
             async: true,
             cache: true,
             timeout: 3000,
-            data: JSON.stringify({ nickname: '${sessionScope.user.nickname}' }),
+            data: JSON.stringify
+            		(
+            			{nickname: '${sessionScope.user.nickname}'}
+            		),
             processData: false,
             contentType: "application/json",
             dataType: "json",

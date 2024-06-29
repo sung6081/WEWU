@@ -26,6 +26,8 @@ public interface BoardDao {
 	
 	public int getBookmarkCnt(int boardNo) throws Exception;
 	
+	public Bookmark getBookmark(Map map) throws Exception;
+	
 	//BoardFile Dao
 	public void addBoardFile(BoardFile boardFile) throws Exception;
 	

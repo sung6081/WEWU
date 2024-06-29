@@ -6,8 +6,15 @@
 	<head>
 		<style>
 		.card-body {
-	      height: 540px; /* 고정 높이 */
+			height:450px;
 	    }
+	    .list-wrapper{
+	    	
+	    }
+	     /* 스타일링은 필요에 따라 추가할 수 있습니다. */
+		  #info, #section2, #section3 {
+		  
+		  }
 		</style>
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
@@ -21,6 +28,26 @@
 				$( "span:contains('모임개설신청')" ).on("click" , function() 
 			 	{
 					$("#MyForm").attr("action","/group/addApplGroup").attr("method","POST").submit();
+				}); 
+				
+				$( "span:contains('모임홈')" ).on("click" , function() 
+			 	{
+					$("#MyForm").attr("action","/group/mainGroup").attr("method","POST").submit();
+				}); 
+				
+				$( "span:contains('모임목록')" ).on("click" , function() 
+			 	{
+					scrollToSection("GroupList")
+				}); 
+				
+				$( "span:contains('내 모임관리')" ).on("click" , function() 
+			 	{
+					scrollToSection("MyInfo")
+				}); 
+				
+				$( "span:contains('모임랭킹')" ).on("click" , function() 
+			 	{
+					scrollToSection("Ranking")
 				}); 
 				
 				$( ".btn:contains('개설모임')" ).on("click" , function() 
@@ -462,6 +489,34 @@
 		        }
 				
 			});
+			
+			function scrollToSection(id) {
+				
+			  if(id == "GroupList")
+			  {
+				  const element = document.getElementById(id);
+			      if (element) {
+			        element.scrollIntoView({
+			          behavior: 'smooth',
+			          block: 'end' // 스크롤 위치 조정 (start, center, end 중 선택 가능)
+			        });
+			      } else {
+			        console.warn(`Element with id "${id}" not found.`);
+			      }
+			  }else
+			  {
+				  const element = document.getElementById(id);
+			      if (element) {
+			        element.scrollIntoView({
+			          behavior: 'smooth',
+			          block: 'center' // 스크롤 위치 조정 (start, center, end 중 선택 가능)
+			        });
+			      } else {
+			        console.warn(`Element with id "${id}" not found.`);
+			      }
+			  }
+		      
+		    }
 	        
 	    </script>
 		<meta charset="UTF-8">
@@ -475,15 +530,33 @@
 			        <div class="position-fixed">
 				        <ul class="nav">
 				          <li class="nav-item">
+				          	<a class="nav-link">
+				          		<i class="menu-icon"><img src="/group/img/house-door.svg"></i>
+				          		<span class="menu-title home">모임홈</span>
+				          	</a>
+				          </li>
+				          <li class="nav-item">
 				            <a class="nav-link">
 				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
-				              <span class="menu-title">모임개설신청</span>
+				              <span class="menu-title">모임목록</span>
 				            </a>
 				          </li>
 				          <li class="nav-item">
 				            <a class="nav-link">
 				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
 				              <span class="menu-title">내 모임관리</span>
+				            </a>
+				          </li>
+				          <li class="nav-item">
+				            <a class="nav-link">
+				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
+				              <span class="menu-title">모임랭킹</span>
+				            </a>
+				          </li>
+				           <li class="nav-item">
+				            <a class="nav-link">
+				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
+				              <span class="menu-title">모임개설신청</span>
 				            </a>
 				          </li>
 				        </ul>
@@ -493,12 +566,15 @@
 		<!-- Main Content -->
 		<div class="main-panel">
         	<div class="content-wrapper">
-        		<div class="col-12">
+        		<div class="col-12" id="GroupList">
 					<div class="row">
 						<!-- 왼쪽 1번  -->
-						<div class="col-md-5 grid-margin stretch-card">
+						<div class="col-md-1 grid-margin stretch-card">
+						</div>
+						<div class="col-md-10 grid-margin stretch-card">
+						
 							<div class="card">
-								<div class="card-body">
+								<div class="card-body" id="list">
 									<h4 class="card-title">모임목록</h4>
 					                <div class="form-group">
 										<div class="input-group">
@@ -508,7 +584,7 @@
 						                    </div>
 										</div>
 					                </div>
-									<div class="list-wrapper pt-2">
+									<div class="list-wrapper pt-2" style="max-height:310px;">
 										<table class="table table-striped todo-list todo-list-custom table-hover">
 											<thead>
 												<tr>
@@ -525,12 +601,22 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-1 grid-margin stretch-card">
+						</div>
+					</div>
+					
+				</div>
+				
 						<!-- 왼쪽 1번  -->
 						
 						<!-- 오른쪽 2번  -->
-					    <div class="col-md-7 grid-margin stretch-card">
+				<div class="col-12" >
+					<div class="row">
+						<div class="col-md-1 grid-margin stretch-card" >
+						</div>
+					    <div class="col-md-10 grid-margin stretch-card" >
 							<div class="card">
-							    <div class="card-body fixed-card-body">
+							    <div class="card-body fixed-card-body" >
 							    	<div style="float:right;">
 		                    			<img src="/group/img/building-add.svg"><span>&nbsp;모임개설신청</span>
 				                    </div>
@@ -548,7 +634,7 @@
 				                        </c:if>
 				                        </div>
 					                </div>
-									<div class="list-wrapper pt-2">
+									<div class="list-wrapper pt-2" style="max-height:310px;">
 								        <table class="table table-striped table-borderless table-hover" id="MyInfo">
 											
 										</table>
@@ -556,10 +642,17 @@
 								</div>
 							</div>
 					    </div>
+					    <div class="col-md-1 grid-margin stretch-card" >
+						</div>
+					</div>
+				</div>
 					    <!-- 오른쪽 2번  -->
-						
+				<div class="col-12" id="Ranking">
+					<div class="row">
 					    <!-- 왼쪽 2번  -->
-					    <div class="col-md-5 grid-margin stretch-card">
+					    <div class="col-md-1 grid-margin stretch-card">
+						</div>
+					    <div class="col-md-10 grid-margin stretch-card" id="ranking">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">모임랭킹 <code>* 상위 10위</code></h4>
@@ -568,7 +661,7 @@
 				                        <button type="button" class="btn btn-outline-secondary btn-inverse-info">인원 수</button>
 				                        </div>
 					                </div>
-									<div class="list-wrapper pt-2">
+									<div class="list-wrapper pt-2" style="max-height:310px;">
 										<table class="table table-striped table-borderless todo-list todo-list-custom">
 											<thead>
 												<tr>
@@ -584,6 +677,8 @@
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="col-md-1 grid-margin stretch-card">
 						</div>
 						<!-- 왼쪽 2번  -->
 						
