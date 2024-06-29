@@ -171,12 +171,18 @@ public class BoardServiceImpl implements BoardService{
 	public List<Board> getBoardList(Map map) throws Exception {
 		List<Board> boardList = boardDao.getBoardList(map);
 		
+		
+		
 		for(Board board : boardList) {
 			
 			map.put("boardNo", board.getBoardNo());
 			
+			System.out.println(":::::BoardServiceImpl map :"+ map);
+			
 			Bookmark bookmark = boardDao.getBookmark(map);
 			//map에는 nickname(컨트롤러에서), boardNo
+			
+			System.out.println(":::::::::::BoardServiceImpl bookmark: "+bookmark);
 			
 			if(bookmark != null) {
 				board.setBookmarkFlag(true);

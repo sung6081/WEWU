@@ -107,11 +107,11 @@
 	</select>
 	
 	<!-- Bookmark : GET BOOKMARK -->
-	<select id="getBookmark" parameterType ="Map" resultMap="bookmarkSelectMap">
-		SELECT board_no
+	<select id="getBookmark" parameterType ="map" resultMap="bookmarkSelectMap">
+		SELECT *
 		FROM bookmark
 		WHERE nickname = #{nickName}
-		AND board_no = #{board_no}
+		AND board_no = #{boardNo}
 	</select>
 
 	<!-- =========================Boardfile================================== -->

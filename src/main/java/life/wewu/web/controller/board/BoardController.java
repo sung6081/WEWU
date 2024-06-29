@@ -229,8 +229,12 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("boardType", boardType);
-		map.put("nickName", user.getNickname());
-		map.put("offset", (search.getCurrentPage() - 1 ) * 8);
+		if (user != null) {
+			map.put("nickName", user.getNickname());
+		}
+		map.put("offset", (search.getCurrentPage() - 1) * 8);
+		
+		System.out.println("::::: map :"+ map);
 		
 		int totalCount = boardService.getTotalCount(map);
 		
@@ -239,6 +243,10 @@ public class BoardController {
 		
 		
 		List<Board> list = boardService.getBoardList(map);
+		
+		for(Board board : list) {
+			System.out.println("::: board : "+board);
+		}
 		
 		List<BoardFile> fileName = boardService.getBoardFile(boardType);
 		
