@@ -7,8 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-<title>모임 활동 지도</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
@@ -31,6 +32,10 @@
         height: 500px;
     }
     
+    .mdi-target {
+		color: #FF4747;
+	}
+    
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
@@ -39,10 +44,6 @@
 
 </head>
 <body>
-
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
 
 	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script type="text/javascript">
@@ -556,7 +557,20 @@
 					
 					<div class="col-md-12 grid-margin" >
                    		<label>활동 코멘트</label>
-                   		<textarea readonly="readonly" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+                   		<!-- <textarea readonly="readonly" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea> -->
+                   		<div class="row">
+                   			<div class="col-lg-12 grid-margin stretch-card">
+                   				<div class="card">
+                   					<div class="card-body">
+	                   					<div class="card-title">
+	                   						
+	                   						${active.activeInfo}
+	                   						
+	                   					</div>
+                   					</div>
+                   				</div>
+                   			</div>
+                   		</div>
                    	</div>
                    	
                    	<div class="col-md-3 grid-margin" >

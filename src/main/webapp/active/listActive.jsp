@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>활동 목록 조회</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 <style>
     .clickable-text {
         cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
@@ -23,10 +25,6 @@
 </head>
 <body>
 
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
-	
 	<!-- SIDE -->
 	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->

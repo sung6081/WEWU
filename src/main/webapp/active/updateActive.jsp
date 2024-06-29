@@ -7,10 +7,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-<title>모임 활동 지도</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
+<script src="/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
@@ -31,6 +33,10 @@
         height: 500px;
     }
     
+    .mdi-target {
+		color: #FF4747;
+	}
+    
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #searchBtn { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
@@ -39,10 +45,6 @@
 
 </head>
 <body>
-
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
 
 	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script type="text/javascript">
@@ -592,7 +594,20 @@
 	                      	
 	                      	<div class="row">
 	                      		<label>활동 코멘트</label>
-	                      		<textarea name="activeInfo" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+	                      		<!-- <textarea class="form-control" id="activeInfo" name="activeInfo" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea> -->
+	                      		<textarea class="form-control" id="activeInfo" name="activeInfo" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." style="width:100%;">
+	                      			${active.activeInfo}
+	                      		</textarea>
+	                      		<script type="text/javascript">
+									var oEditors = [];
+									nhn.husky.EZCreator.createInIFrame
+									({
+										 oAppRef: oEditors,
+										 elPlaceHolder: "activeInfo",
+										 sSkinURI: "/editor/SmartEditor2Skin.html",
+										 fCreator: "createSEditor2"
+									});
+								</script>
 	                      	</div>
 	                      	
 	                      	<script type="text/javascript">
@@ -652,6 +667,8 @@
 		                    		$('.hash').val(hashString);
 		                    		
 		                    		var activeNo = ${active.activeNo};
+		                    		
+		                    		oEditors.getById["activeInfo"].exec("UPDATE_CONTENTS_FIELD", []);
 		                    		
 		                    		$('form').attr('method', 'post');
 		                    		$('form').attr('action', '/active/updateActive');

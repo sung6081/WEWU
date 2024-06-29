@@ -27,14 +27,14 @@
 	<nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item active">
-            <a class="nav-link" href="/item/getItemPurchaseHistoryList?buyerNickname=nick1">
+            <a class="nav-link" href="/item/getItemPurchaseHistoryList?buyerNickname=${user.nickname}">
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">아이템 구매내역</span>
             </a>
           </li>
       
           <li class="nav-item">
-            <a class="nav-link" href="/item/getShoppingCartList?nickname=nick1">
+            <a class="nav-link" href="/item/getShoppingCartList?nickname=${user.nickname}">
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">장바구니 목록</span>
             </a>
@@ -56,7 +56,7 @@
          
 	        
 	      <li class="nav-item">
-	       <a class="nav-link" href="/item/getRefundPointList?buyerNickname=nick1">
+	       <a class="nav-link" href="/item/getRefundPointList?buyerNickname=${user.nickname}">
 	       	<i class="icon-paper menu-icon"></i>
 	         <span class="menu-title">포인트 환불 내역</span>
 	       </a>

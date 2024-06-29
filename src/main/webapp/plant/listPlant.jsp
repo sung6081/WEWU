@@ -5,7 +5,9 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>List Plant</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
   
   <style>
     .table-container {
@@ -40,7 +42,6 @@
   </script>
 </head>
 <body>
-  <jsp:include page="/header.jsp" flush="true" />
   <jsp:include page="/plant/plantSide.jsp" />
   <div class="main-panel">
     <div class="content-wrapper">

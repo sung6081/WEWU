@@ -76,6 +76,15 @@ public class ActiveRestController {
 		return result;
 	}
 	
+	@PostMapping(value = "listAllGroupActive/{groupNo}")
+	public List<Active> getAllGroupActiveList(@PathVariable int groupNo) throws Exception {
+		
+		System.out.println("listAllGroupActive");
+		
+		return activeService.getGroupActiveAllList(groupNo);
+		
+	}
+	
 	//rest group ������, �˻�
 	@PostMapping(value = "listGroup")
 	public Map<String, Object> getGroupList(@RequestBody Search search, HttpSession session) throws Exception {

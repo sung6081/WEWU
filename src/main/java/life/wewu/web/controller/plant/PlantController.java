@@ -182,21 +182,7 @@ public class PlantController {
 		
 		return "forward:/plant/selectRandomPlant.jsp";
 	}
-	
-	@RequestMapping(value ="addMyPlant" , method = RequestMethod.POST)
-	public String addRandomPlant(HttpServletRequest request, HttpSession session) throws Exception{
-		System.out.println(" /plant/addRandomPlant : POST ");
-		User user = (User) session.getAttribute("user");
-		Plant plant = plantService.selectRandomPlant();
-		MyPlant myPlant = new MyPlant();
-		myPlant.setPlant(plant);
-		myPlant.setNickname(request.getParameter("user"));
-		myPlant.setMyPlantName(request.getParameter("myPlantName"));
-		plantService.addMyPlant(myPlant);
-		
-		return "forward:/plant/addRandomPlant.jsp";
-	}
-	
+
 	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
 	public String getMyPlant( Model model,HttpSession session ) throws Exception{

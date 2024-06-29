@@ -54,6 +54,7 @@
 				 {
 					 //addPurchase(rslt); 아직 없어서 이렇게 놓음. 
 					 alert(rslt);
+				
 					
 				 }
 				 
@@ -86,7 +87,7 @@
 			                                    <table class="table">
 			                                        <thead>
 			                                            <tr>
-			                                            	<th>이미지</th>
+			                                            	<th></th>
 															<th>아이템명</th>
 															<th>개수</th>
 															<th>가격</th>
@@ -97,7 +98,13 @@
 													<c:set var="i" value="0" />
 													<c:forEach var="shoppingCart" items="${shoppingCart}"> <!-- 향상된 for문 돌릴 때 값을 저장하는 곳의 이름을 itemPurchase라고 한다는 의미. 따라서 refundCompdate, itemName도 저장된 곳의 이름인 itemPurchase. 으로 가져옴.   -->
 														<tr>
-													 	  <td>${shoppingCart.itemImg}</td>
+													 	  <td>
+													 	  	<div class="thumbnail">
+                                           							 <img src="${shoppingCart.itemImg}"
+                                                						alt="${shoppingCart.itemName}">
+													 	  	</div>
+													 	  </td>
+													 	  
 													 	  <td>${shoppingCart.itemName}</td>
 													 	  <td>${shoppingCart.itemCnt}</td>
 													 	  <td>${shoppingCart.itemPrice}</td>

@@ -28,6 +28,10 @@
 	    bottom: 10px;
 	    right: 10px;
 	}
+	
+	.mdi-target {
+		color: #FF4747;
+	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
@@ -46,29 +50,11 @@
 		
 		var infowindow = new naver.maps.InfoWindow();
 		
-		if('${groupListString}' != '') {
-			groupListString = JSON.parse('${groupListString}');
-		}else {
-			groupListString = [];
-		}
-		
 		if('${activeListString}' != '') {
 			activeListString = JSON.parse('${activeListString}');
 		}else {
 			activeListString = [];
 		}
-		
-		if('${memberListString}' != '') {
-			memberListString = JSON.parse('${memberListString}');
-		}else {
-			memberListString = [];
-		}
-		
-		console.log(groupListString);
-		
-		console.log(activeListString);
-		
-		console.log(memberListString);
 		
 		var height = $(window).height() - 300;
 		
@@ -250,44 +236,6 @@
 							let activeMarker = new naver.maps.Marker(markerOptions);
 							
 							var infowindow = new naver.maps.InfoWindow();
-							
-							//console.log("::: "+activeMarker);
-							
-							naver.maps.Event.addListener(activeMarker, "click", function(e) {
-								
-								var contentString = [
-				                    '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
-				                    '   <h3 style="margin-top: 0;">' + activeListString[i].activeName + '</h3>',
-				                    '   <p><strong>모임 이름:</strong> ' + activeListString[i].groupName + '</p>',
-				                    '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
-				                    '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
-				                    '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
-				                    '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
-				                    '</div>'
-				                ].join('');
-				                
-				                infowindow.setContent(contentString);
-								
-								console.log(infowindow.getMap());
-								
-							    if (infowindow.getMap()) {
-							    	
-							        infowindow.close();
-							        
-							    } else {
-							    	
-							        infowindow.open(map, activeMarker);
-							        
-							        $('.info-btn').on('click', function() {
-							        	
-							        	var activeNo = $(this).children().val();
-							        	
-							        	//alert(activeNo);
-							        	self.location = '/active/getActive/'+activeNo;
-							        	
-							        });
-							    }
-							});
 				
 							//infowindow.open(map, activeMarker);
 							
@@ -523,44 +471,6 @@
 			let activeMarker = new naver.maps.Marker(markerOptions);
 			
 			var infowindow = new naver.maps.InfoWindow();
-			
-			//console.log("::: "+activeMarker);
-			
-			naver.maps.Event.addListener(activeMarker, "click", function(e) {
-				
-				var contentString = [
-	                '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
-	                '   <h3 style="margin-top: 0;">' + activeListString[i].activeName + '</h3>',
-	                '   <p><strong>모임 이름:</strong> ' + activeListString[i].groupName + '</p>',
-	                '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
-	                '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
-	                '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
-	                '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
-	                '</div>'
-	            ].join('');
-	            
-	            infowindow.setContent(contentString);
-				
-				console.log(infowindow.getMap());
-				
-			    if (infowindow.getMap()) {
-			    	
-			        infowindow.close();
-			        
-			    } else {
-			    	
-			        infowindow.open(map, activeMarker);
-			        
-			        $('.info-btn').on('click', function() {
-			        	
-			        	var activeNo = $(this).children().val();
-			        	
-			        	//alert(activeNo);
-			        	self.location = '/active/getActive/'+activeNo;
-			        	
-			        });
-			    }
-			});
 	
 			//infowindow.open(map, activeMarker);
 			

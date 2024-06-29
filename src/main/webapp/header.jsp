@@ -55,6 +55,7 @@
  <!-- footer 고정제거 -->
  <script type="text/javascript">
    $('footer').removeClass('fixed-bottom');
+   
  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -74,6 +75,7 @@
   justify-content: center;
   align-items: center;
 }
+
   </style>
 </head>
 <body>
@@ -105,7 +107,7 @@
              <c:if test="${ empty user }">
                <a class="nav-link" href="/plant/emptyUser.jsp">식물키우기</a>
              </c:if>
-             <c:if test="${ ! empty user }">
+             <c:if test="${ ! empty user}">
                <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>
              </c:if>
            </li>
@@ -119,30 +121,28 @@
              </a>
              <div class="dropdown-menu" aria-labelledby="adminDropdown">
                <!-- Menu 1 with nested dropdown -->
-               <div class="dropdown-submenu">
+               <div class="dropdown-submenu dropright">
                  <a class="dropdown-item dropdown-toggle" href="#">회원관리</a>
                  <ul class="dropdown-menu">
                    <li><a class="dropdown-item" href="#">회원목록</a></li>
                  </ul>
                </div>
                <!-- Menu 2 with nested dropdown -->
-               <div class="dropdown-submenu">
+               <div class="dropdown-submenu dropright">
                  <a class="dropdown-item dropdown-toggle" href="#">후원관리</a>
                  <ul class="dropdown-menu">
                    <li><a class="dropdown-item" href="/board/listDonation?payType=1">후원목록</a></li>
                  </ul>
                </div>
                <!-- Menu 3 with nested dropdown -->
-               <div class="dropdown-submenu">
-                 <a class="dropdown-item dropdown-toggle" href="#">아이템판매관리</a>
+               <div class="dropdown-submenu dropright">
+                 <a class="dropdown-item dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false">아이템판매관리</a>
                  <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="/item/addItem">아이템 판매 등록</a></li>
-                   <li><a class="dropdown-item" href="/item/updateItem">아이템 판매 수정</a></li>
-                   <li><a class="dropdown-item" href="/item/getItemSalesHistoryList">아이템 판매 내역</a></li>
+                   <li><a class="dropdown-item" href="/item/getItemList">아이템목록</a></li>
                  </ul>
                </div>
                <!-- Menu 4 with nested dropdown -->
-               <div class="dropdown-submenu">
+               <div class="dropdown-submenu dropright">
                  <a class="dropdown-item dropdown-toggle" >식물관리</a>
                  <ul class="dropdown-menu">
                    <li><a class="dropdown-item" href="/plant/addPlant">식물등록</a></li>

@@ -4,7 +4,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>List Quest</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
     
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
@@ -17,7 +19,6 @@
 </script>
 </head>
 <body>
-	<jsp:include page="/header.jsp" flush="true" />
 	<jsp:include page="/plant/plantSide.jsp" />
 <div class="main-panel">
     <div class="content-wrapper">
