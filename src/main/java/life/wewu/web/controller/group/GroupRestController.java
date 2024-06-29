@@ -578,9 +578,13 @@ public class GroupRestController {
 		map.put("typeNo", typeNo);
 		
 		// Business logic 수행
-		List<GroupAcle> acleList = groupService.getGroupAcleList(map);
-		
-
+		List<GroupAcle> acleList = new ArrayList<GroupAcle>();
+		for(GroupAcle groupAcle : groupService.getGroupAcleList(map))
+		{
+			String imgSrc = findFirstImgSrc(groupAcle.getAcleContents());
+			groupAcle.setImgSrc(imgSrc);
+			acleList.add(groupAcle);
+		}
 		System.out.println(acleList);
 		return acleList;
 	}
@@ -666,6 +670,23 @@ public class GroupRestController {
 		}
 		return list;
 	}
+	
+    public static String findFirstImgSrc(String text) {
+        // Split by img tag
+        String[] parts = text.split("<img");
+
+        if (parts.length > 1) {
+            // Find src attribute in the first part after splitting by '>'
+            String firstImgTag = parts[1];
+            int srcStartIndex = firstImgTag.indexOf("src=\"") + 5;
+            int srcEndIndex = firstImgTag.indexOf("\"", srcStartIndex);
+            if (srcStartIndex != -1 && srcEndIndex != -1) {
+                return firstImgTag.substring(srcStartIndex, srcEndIndex);
+            }
+        }
+
+        return null;  // Return null if no img src found
+    }
 	
 	//오리날다............덕슨날다.....
 }

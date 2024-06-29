@@ -282,7 +282,7 @@
 			    					            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupRankingList"){
-		                        		str +=  "<tr>";
+		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">";
 		                        				if(i == 0)
 		                        				{
 		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_1.png'></td>";
