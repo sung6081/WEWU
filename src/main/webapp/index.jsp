@@ -16,6 +16,11 @@
           <script>
           
           </script>
+          <style>
+          .card-body{
+          	backgrount-color:#FBFBFB;
+          }
+          </style>
         </head>
 
         <body>
@@ -44,15 +49,13 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="container">
+              <div class="row mx-auto">
                 <div class="col-md-8 grid-margin stretch-card">
-                  <div class="card" style="position:relative;">
-                    <div class="card-body fixed-card-body">
-                      <p class="card-title">모임지도</p>
+                  <div class="container" style=" height: auto;">
                       <div id="naverMap">
                         <c:import url="/active/map"></c:import>
                       </div>
-                    </div>
                   </div>
                 </div>
                 <div class="col-md-4 grid-margin stretch-card">
@@ -74,6 +77,7 @@
                       </div>
                     </div>
                   </div>
+                </div>
                 </div>
                 <!-- swiper -->
                 <div class="container">

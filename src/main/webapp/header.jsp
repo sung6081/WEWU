@@ -62,7 +62,7 @@
   <title>WEWU</title>
   <style>
 .navbar-header img{
-  width: auto%;
+  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,18 +70,20 @@
   max-width: 100%;
 }
 .navbar-header {
-  width: 70%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color : transparent;
 }
+
 
   </style>
 </head>
 <body>
 
   <div class="fixed-top">
-    <header class="navbar navbar-expand-lg navbar-light bg-light" style="height: 100px;">
+    <header class="navbar navbar-expand-lg navbar-light" style="height: 100px;">
      <div class="container-fluid" style="display: flex; justify-content: center;">
      <a class="navbar-header" href="/index.jsp">
           <img src="/images/wewu.png"  alt="WEWU Title" >
@@ -89,7 +91,7 @@
      </div>
    </header>
    <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom-height">
+   <nav class="navbar navbar-expand-lg navbar-white navbar-custom-height">
      <div class="container-fluid">
        <a class="navbar-brand" href="/index.jsp"> <img src="/images/wewuhome.png" alt="Skydash"
            style="height: 40px;">
@@ -98,7 +100,7 @@
          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
        </button>
-       <div class="collapse navbar-collapse bg-light" id="navbarNavDropdown">
+       <div class="collapse navbar-collapse" id="navbarNavDropdown">
          <ul class="navbar-nav mr-auto">
            <li class="nav-item"><a class="nav-link" href="/board/listBoard?boardType=1">게시판</a></li>
            <li class="nav-item"><a class="nav-link" href="/group/mainGroup.jsp">모임</a></li>
@@ -166,9 +168,41 @@
             </li>
             </c:if>
             <c:if test = "${ ! empty user }">
-            <li class="nav-item">
-              <a class="nav-link " href="/user/logout">LogOut</a>
-            </li>
+            <ul class="navbar-nav ml-auto">
+            <c:if test="${ empty user }">
+              <li class="nav-item">
+                <a class="nav-link" href="/user/addUserView.jsp">회원가입</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/login">Login</a>
+              </li>
+            </c:if>
+            <c:if test="${ ! empty user }">
+              <c:choose>
+                <c:when test="${user.role == '1'}">
+                  <li class="nav-item">
+                    <a class="nav-link" ">
+                       ${user.nickname} 관리자
+                    </a>
+                  </li>
+                </c:when>
+                <c:otherwise>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      ${user.nickname}님 환영합니다
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                      <a class="dropdown-item" href="/user/myInfo">마이페이지</a>
+                      <a class="dropdown-item" href="/group/mainGroup.jsp">내모임</a>
+                      <a class="dropdown-item" href="#">결제관리</a>
+                    </div>
+                  </li>
+                </c:otherwise>
+              </c:choose>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/logout">LogOut</a>
+              </li>
+            </c:if>
             </c:if>
             <li class="nav-settings">
    			 <img src="/images/quest.png" alt="quest" style="height: 40px;">
