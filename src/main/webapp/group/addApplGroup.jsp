@@ -6,6 +6,14 @@
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
+		<style>
+			.sideIcon
+			{
+				width:30px;
+				height:30px;
+				margin:0 10px 0 0;
+			}	
+		</style>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script>
@@ -67,7 +75,7 @@
 	        	<div class="col-md-12 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <h1 class="card-title">모임개설신청</h1>
+	                  <h1 class="card-title"><img class="sideIcon" src="/group/img/home_7457021.png">모임개설신청</h1>
 	                  <form class="forms-sample" id="addApplGroup" method="post" action="/group/addApplGroup">
 	                  	
 	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${user.nickname }">
