@@ -8807,13 +8807,13 @@ sup {
 }
 
 a {
-  color: #007bff;
+  color: #000000;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #0056b3;
+  color: #A4A4A4;
   text-decoration: underline;
 }
 
@@ -19700,7 +19700,7 @@ code {
 /* Footer */
 .footer {
   background: #F5F7FF;
-  padding: 30px 2.45rem;
+  padding: 17px ;
   transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;
   -webkit-transition: all 0.25s ease;
@@ -30232,9 +30232,9 @@ div.tagsinput span.tag a {
   display: block;
   position: fixed;
   top: 60px;
-  right: -400px;
+  right: -250px;
   bottom: 0;
-  width: 400px;
+  width: 250px;
   height: 100vh;
   min-height: 100%;
   background: #ffffff;
