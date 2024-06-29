@@ -285,11 +285,11 @@
 		                        				{
 		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_1.png'></td>";
 		                        				}else
-		                        				if(i == 2)
+		                        				if(i == 1)
 		                        				{
 		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_2.png'></td>";
 		                        				}else
-		                        				if(i == 3)
+		                        				if(i == 2)
 		                        				{
 		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_3.png'></td>";
 		                        				}else
