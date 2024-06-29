@@ -4,6 +4,11 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<style>
+    .sidebar {
+        background-color: #ffffff; /* 원하는 배경색으로 변경 */
+    }
+</style>
 </head>
 <body>
 	<!-- partial:partials/_sidebar.html -->
