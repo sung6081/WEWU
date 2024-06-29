@@ -151,18 +151,40 @@ public class PlantRestController {
         return map;
 	}
 	
+	@RequestMapping(value = "getQuest", method = RequestMethod.POST)
+	public Quest getQuest(@RequestParam("questNo") int questNo,HttpSession session) throws Exception {
+		System.out.println("/app/plant/getQeust");
+
+		 // 세션에 퀘스트 정보 추가
+	    Quest quest = (Quest) session.getAttribute("quest");
+	    if (quest == null) {
+	        // 세션에 퀘스트 정보가 없으면 새로운 퀘스트 객체 생성
+	        quest = new Quest();
+	        session.setAttribute("quest", quest);
+	    } 
+	    
+	    User user = (User) session.getAttribute("user");
+		
+	    // 퀘스트 정보를 서비스에서 가져옴
+	    quest = plantService.getQuestByUser(user.getNickname());
+
+	    // 세션에 퀘스트 정보 업데이트
+	    session.setAttribute("quest", quest);
+
+		return quest;
+	}
 
 	@RequestMapping(value = "getQuestList", method = RequestMethod.POST)
 	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)
 			throws Exception {
-		System.out.println("/getQuestList");
+		System.out.println("/app/plant/getQuestList");
 
 		Map<String, Object> map = plantService.getQuestList(search);
 		model.addAttribute("map", map);
 		model.addAttribute("search", search);
-
+		System.out.println("QeustList : " +map.get("list"));
+		
 		session.setAttribute("questList", map.get("list"));
-		System.out.println(map.get("list"));
 
 		return map;
 	}

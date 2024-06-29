@@ -47,9 +47,15 @@
 	 </update>
 	 
 	 <!-- GET QUESTLIST -->
-	<select  id="getQuest"  parameterType="quest" resultMap="questSelectMap">
+	<select  id="getQuest"  parameterType="int" resultMap="questSelectMap">
 	  	SELECT * FROM quest	
 	  	WHERE quest_no = #{questNo} 
+	</select>
+	
+	<!-- GET QUESTLIST -->
+	<select  id="getQuestByUser"  parameterType="String" resultMap="questSelectMap">
+	  	SELECT * FROM quest	
+	  	WHERE nickname = #{nickname} 
 	</select>
 
 	<!-- GET QUESTLIST -->

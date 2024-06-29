@@ -54,7 +54,11 @@ function updateQuestList() {
             success: function(data, status, xhr) {
                 var str = "";
                 for (var i = 0; i < data.length; i++) {
-                    str += "<del><p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p></del>";
+                    if (data[i].questState === 'N') {
+                        str += "<del><p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p></del>";
+                    } else {
+                        str += "<p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p>";
+                    }
                 }
                 $("#questResult").html(str); // 데이터를 화면에 즉시 반영
             },
@@ -70,45 +74,46 @@ function updateQuestList() {
     }
 }
 
-window.onload = function() {
-    updateQuestList();
 };
-
-	
-	
 </script>
+<style>
+#right-sidebar {
+    max-height: 90vh; /* 사이드바 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 추가 */
+}
+</style>
 </head>
 <body>
-      <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Quest</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <h4 class="px-5 text-muted mt-5 font-weight-light mb-0">Quest</h4>
-            <c:forEach var="quest" items="${map.list}">
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
-                <input type = "hidden" id = "questNo" name = "questNo" value = "${quest.questNo}">
-                <c:if test = "${quest.questState eq 'N'}">퀘스트완료</c:if>
-                <c:if test = "${quest.questState eq 'Y'}">진행중</c:if>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray" id ="questContents">${quest.questContents}
-              <button type="button" class="btn btn-white"> 완료 </button>  
-              </p>              
-              <p class="text-gray mb-0" id = "questResult"></p>
-                
-                          
-            </div>
+<div id="right-sidebar" class="settings-panel">
+    <i class="settings-close ti-close"></i>
+    <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">퀘스트</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="setting-content">
+        <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
+            <c:forEach var="quest" items="${sessionScope.questList}">
+                <div class="events pt-4 px-3">
+                    <div class="wrapper d-flex mb-2">
+                        <i class="ti-control-record text-primary mr-2"></i>
+                        <input type="hidden" id="questNo" name="questNo" value="${quest.questNo}">
+                        <c:if test="${quest.questState eq 'N'}">
+    <p class='mb-0 font-weight-thin text-gray'><del>${quest.questContents}</del> 퀘스트완료 </p>
+</c:if>
+<c:if test="${quest.questState eq 'Y'}">
+    <p class='mb-0 font-weight-thin text-gray'>${quest.questContents} 진행중</p>
+</c:if>
+                    </div>
+                    <p class="mb-0 font-weight-thin text-gray" id="questContents">${quest.questContents}
+                        <button type="button" class="btn btn-white"> 완료 </button>
+                    </p>
+                    <p class="text-gray mb-0" id="questResult"></p>
+                </div>
             </c:forEach>
-          </div>
-          <!-- To do section tab ends -->
         </div>
-      </div>
+    </div>
+</div>
       
       <form id = "getQuestList" method = "post">
       	<input type="hidden" name ="questNo" value = "${quest.questNo}"> 

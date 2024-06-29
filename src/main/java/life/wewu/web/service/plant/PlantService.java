@@ -27,6 +27,8 @@ public interface PlantService {
 
 	public void completeQuest(Quest quest) throws Exception;
 	
+	public Quest getQuestByUser(String nickname) throws Exception;
+	
 	//---------------------------------------------------------------------------------------//
 	
 	public void addPlant(PlantRequest plantRequest) throws Exception;

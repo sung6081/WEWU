@@ -73,6 +73,8 @@ public class PlantController {
 	@RequestMapping(value ="addQuest" , method = RequestMethod.POST)
 	public String addQuest(@ModelAttribute("quest") Quest quest, Model model ,HttpSession session) throws Exception{	
 		System.out.println(" /plant/addQuest : POST ");	
+		
+	    
 		User user = (User) session.getAttribute("user");
 		quest.setNickName(user.getNickname());
 		plantService.addQuest(quest);		

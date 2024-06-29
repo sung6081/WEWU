@@ -27,6 +27,7 @@ public interface QuestDao {
 	public List<Quest> getQuestList(Search search) throws Exception;
 
 	public void completeQuest(Quest quest) throws Exception;
-
+	
+	public Quest getQuestByUser(String nickname) throws Exception;
 
 }
