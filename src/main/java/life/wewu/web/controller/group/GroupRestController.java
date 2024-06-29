@@ -88,8 +88,26 @@ public class GroupRestController {
 		search.setPageSize(1);
 		System.out.println(search);
 		System.out.println("getGroupList :: " + groupService.getGroupList(search));
+		List<Group> list = new ArrayList<Group>();
+		for(Group group : groupService.getGroupList(search))
+		{
+			int cnt = groupService.groupMemberCnt(group.getGroupNo());
+			group.setGroupPers(cnt);
+			if (cnt >= 100) {
+				group.setGroupLevel("S");
+			} else if (cnt >= 50) {
+				group.setGroupLevel("A");
+			} else if (cnt >= 30) {
+				group.setGroupLevel("B");
+			} else if (cnt >= 10){
+				group.setGroupLevel("C");
+			}else {
+				group.setGroupLevel("D");
+			}
+			list.add(group);
+		}
 		// Business logic 수행
-		return groupService.getGroupList(search);
+		return list;
 	}
 	
 	@RequestMapping(value="getGroupRankingList",method = RequestMethod.POST)
@@ -100,10 +118,28 @@ public class GroupRestController {
 			search.setCurrentPage((search.getCurrentPage() - 1)*10);
 		}
 		search.setPageSize(1);
-		System.out.println(search);
-		System.out.println("getGroupRankingList :: " + groupService.getGroupRankingList(search));
+		
+		List<Group> list = new ArrayList<Group>();
+		
+		for(Group group : groupService.getGroupRankingList(search))
+		{
+			int cnt = groupService.groupMemberCnt(group.getGroupNo());
+			group.setGroupPers(cnt);
+			if (cnt >= 100) {
+				group.setGroupLevel("S");
+			} else if (cnt >= 50) {
+				group.setGroupLevel("A");
+			} else if (cnt >= 30) {
+				group.setGroupLevel("B");
+			} else if (cnt >= 10){
+				group.setGroupLevel("C");
+			}else {
+				group.setGroupLevel("D");
+			}
+			list.add(group);
+		}
 		// Business logic 수행
-		return groupService.getGroupRankingList(search);
+		return list;
 	}
 	
 	@RequestMapping(value="getApplJoinList",method = RequestMethod.POST)

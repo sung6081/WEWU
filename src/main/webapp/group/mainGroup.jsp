@@ -275,8 +275,10 @@
                         			if(targetElementId == "getGroupList"){
 		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">" +
 			    					            "  <td>"+ data[i].groupName +"</td>" +
+			    					            "  <td>#"+ data[i].groupHash +"</td>" +
 			    					            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
 			    					            "  <td>"+ data[i].groupPers +"</td>" +
+			    					            "  <td>"+ data[i].openDate +"</td>" +
 			    					            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupRankingList"){
@@ -294,12 +296,14 @@
 		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_3.png'></td>";
 		                        				}else
 		                        				{
-		                        					str +=  "  <td>"+i+"</td>";
+		                        					str +=  "  <td>"+(i+1)+"</td>";
 		                        				}
-		                        				str +=  "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "</tr>";
+		                        				str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        				str +=  "  <td>"+ data[i].groupHash +"</td>";
+		                        				str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+		                        				str +=  "  <td>"+ data[i].groupPers +"</td>";
+		                        				str +=  "  <td>"+ data[i].openDate +"</td>";
+		                        				str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getMyGroupList"){
 		                        		
@@ -628,8 +632,10 @@
 											<thead>
 												<tr>
 													<th>모임명</th>
+													<th>모임태그</th>
 													<th>모임등급</th>
 													<th>인원수</th>
+													<th>개설일</th>
 										        </tr>  
 									        </thead>
 									        <tbody id="getGroupList">
@@ -703,8 +709,10 @@
 												<tr>
 													<th>순위</th>
 													<th>모임명</th>
+													<th>모임태그</th>
 													<th>모임등급</th>
 													<th>인원수</th>
+													<th>개설일</th>
 										        </tr>  
 									        </thead>
 									        <tbody id="getGroupRankingList">
