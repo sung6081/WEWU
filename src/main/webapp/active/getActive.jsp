@@ -596,8 +596,8 @@
                    	
                    	<c:if test="${user.role == 1}">
                    	
-                   		<div class="col-md-5 grid-margin" >
-                   			<button type="button" onclick="deleteActive()" class="btn btn-danger btn-lg btn-block">
+                   		<div class="col-md-5 grid-margin btn-area" >
+                   			<button type="button" onclick="deleteActive()" style="margin-bottom: 50px;" class="btn btn-danger btn-lg btn-block">
 	                      		삭제하기
 		                    </button>
                    		</div>

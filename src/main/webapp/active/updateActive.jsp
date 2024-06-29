@@ -36,6 +36,14 @@
     .mdi-target {
 		color: #FF4747;
 	}
+	
+	.btn-area {
+		margin-top: 20px;
+	}
+	
+	.content-wrapper {
+		margin-bottom: 50px;
+	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
@@ -620,7 +628,7 @@
 	                      	
 	                      	</script>
 	                      	
-	                      	<div class="row">
+	                      	<div class="row btn-area">
 	                      		<button type="button" onclick="updateActive()" class="btn btn-primary btn-lg btn-block">
 		                      		수정하기
 			                    </button>
