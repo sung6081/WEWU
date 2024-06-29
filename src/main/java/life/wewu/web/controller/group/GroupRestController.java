@@ -162,15 +162,15 @@ public class GroupRestController {
 	
 	//지원이 사용해야 함
 	@RequestMapping(value="getUserGroupList",method = RequestMethod.POST)
-	public List<Group> getUserGroupList(@RequestBody String nickname) throws Exception 
+	public List<Group> getUserGroupList(@RequestBody Map<String, Object> requestData) throws Exception 
 	{
 		System.out.println(":: /app/group/getMemberGroupList ::");
 		
 		String searchCondition = "user";
-	    String searchKeyword = nickname;
+	    String searchKeyword = (String)requestData.get("nickname");
 	    
 		Search search = new Search();
-		search.setSearchKeyword(searchCondition);
+		search.setSearchCondition(searchCondition);
 		search.setSearchKeyword(searchKeyword);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("search", search);
