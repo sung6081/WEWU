@@ -316,6 +316,19 @@
 				
 				console.log(data);
 				
+				// MongoDB에서 가져온 날짜 문자열
+				var dateString = data.date; // 예: '2024-06-29T06:52:50.000Z'
+
+				// Date 객체로 변환
+				var date = new Date(dateString);
+
+				// 시간 부분 포맷 (오후 3:48 형식으로)
+				var formattedTime = date.toLocaleTimeString('ko-KR', {
+				    hour: 'numeric',
+				    minute: 'numeric',
+				    hour12: true // 12시간제로 표시 (오전/오후)
+				});
+				
 				var chatBox = $('#chatBox');
 				var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 				//$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + '<span>' + data.date + '</span></div>');
@@ -323,26 +336,26 @@
 					$('#loading').remove();
 					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick) {
-		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedTime + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
 					}else {
-						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + formattedTime + '</span></div>');
 					}
 				}else if(data.file_url != undefined && data.fileType == 'video') {
 					$('#loading').remove();
 					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick) {
-		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedTime + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
 					}else {
-						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><video src="'+data.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><video src="'+data.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + formattedTime + '</span></div>');
 					}
 		        }
 				if(data.msg != '') {
 					$('#loading').remove();
 					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick){
-						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ data.date +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
+						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ formattedTime +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
 					}else {
-						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats other"><div class="message">' + data.msg + '</div><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats other"><div class="message">' + data.msg + '</div><span class="date" style="font-size: 10px;">' + formattedTime + '</span></div>');
 					}
 				}
 				if (isScrolledToBottom) {
