@@ -322,8 +322,11 @@
 				// Date 객체로 변환
 				var date = new Date(dateString);
 
+				// 로컬 시간으로 변환
+				var localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+
 				// 시간 부분 포맷 (오후 3:48 형식으로)
-				var formattedTime = date.toLocaleTimeString('ko-KR', {
+				var formattedTime = localDate.toLocaleTimeString('ko-KR', {
 				    hour: 'numeric',
 				    minute: 'numeric',
 				    hour12: true // 12시간제로 표시 (오전/오후)
