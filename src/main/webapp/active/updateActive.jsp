@@ -497,8 +497,8 @@
 	                    			<input type="time" name="activeStartTime" class="time form-control" value="${active.activeStartTime}" >
 	                    		</div>
 	                    		<div class="col-md-1 grid-margin" >
-	                    			<br/>
-	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
+	                    			<!-- <br/> -->
+	                    			<!-- <span style="display: flex; justify-content: center; align-items: center;" >~</span> -->
 	                    		</div>
 	                    		<div class="col-md-5 grid-margin" >
 	                    			<input type="time" name="activeEndTime" class="time form-control" value="${active.activeEndTime}" >
@@ -538,7 +538,7 @@
 						</div>
 						
 						<div class="row">
-							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
+							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-success btn-icon-text">
 		                      <i class="ti-upload btn-icon-prepend"></i>                                                    
 		                      변경할 마커 사진 upload
 		                    </button>
@@ -629,7 +629,7 @@
 	                      	</script>
 	                      	
 	                      	<div class="row btn-area">
-	                      		<button type="button" onclick="updateActive()" class="btn btn-primary btn-lg btn-block">
+	                      		<button type="button" onclick="updateActive()" class="btn btn-success btn-lg btn-block">
 		                      		수정하기
 			                    </button>
 	                      	</div>
