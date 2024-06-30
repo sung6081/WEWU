@@ -78,7 +78,8 @@
      }
    </style>
  </head>
-
+<script>
+</script>
  <body>
    <c:set var="quest" value="${sessionScope.quest}" />
 

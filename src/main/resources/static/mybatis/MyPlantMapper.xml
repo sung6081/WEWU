@@ -31,10 +31,11 @@
 
 	<select id ="getMyPlant" parameterType="string" resultMap="myPlantSelectMap">
 		SELECT 
-			m.*,le.*
+			m.*,le.plant_levl_no,le.levl_img ,p.plant_no
     	FROM 
-    		my_plant m , plant_levl le
-    	WHERE m.plant_no = le.plant_no	
+    		my_plant m , plant_levl le , plant p
+    	WHERE m.plant_no = le.plant_no
+    	AND m.plant_no = p.plant_no	
 		AND nickname = #{nickname}
 		AND m.my_plant_exp between le.plant_min_exp and le.plant_max_exp
 		AND m.my_plant_state = 'Y'
@@ -86,15 +87,25 @@
 	
 		<!-- UPDATE MYPLANT NAME -->
 	<select id="myPlantListbyLevlNo" parameterType="map" resultMap="myPlantSelectMap">
-		SELECT 
-			m.*,le.plant_levl_no,le.plant_max_exp
-    	FROM 
-    		my_plant m , plant_levl le
-  	 	WHERE m.plant_no = le.plant_no
-  	 		AND m.my_plant_state = 'N'
-  	 	AND m.nickname = #{nickname}
-  	 	AND m.my_plant_exp > le.plant_min_exp 		
-		ORDER BY m.my_plant_no DESC
+	SELECT
+	m.my_plant_no,
+	m.nickname,
+	m.plant_no,
+	m.my_plant_state,
+	m.my_plant_exp,
+	m.plant_start_date,
+	m.plant_end_date,
+	m.my_plant_name,
+	le.plant_levl_no
+	FROM
+	my_plant m , plant_levl le
+	WHERE
+	m.plant_no = le.plant_no
+	AND
+	m.nickname = #{nickname}
+	AND m.my_plant_state = 'N'
+	AND my_plant_no = #{myPlantNo}
+	AND m.my_plant_exp > le.plant_min_exp 
 	</select>
 		
 	<!-- UPDATE MYPLANT NAME -->
