@@ -69,6 +69,7 @@ background-color: #00A06C;
                 <table class="table table-striped">
                   <thead>
                     <tr>
+                    <th>PlnatNo</th>
                       <th>Plant Name</th>
                       <th>Plant Level</th>
                       <th>Plant Max Exp</th>
@@ -81,6 +82,7 @@ background-color: #00A06C;
                   <tbody>
                     <c:forEach var="plant" items="${list}" varStatus="status">
                       <tr>
+                      <td>${plant.plantNo}</td>
                         <td>${plant.plantName}</td>
                         <td>${plant.plantLevl.plantLevl}</td>
                         <td>${plant.plantLevl.plantMaxExp}</td>
