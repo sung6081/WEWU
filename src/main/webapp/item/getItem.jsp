@@ -58,9 +58,12 @@
 		
 		<style>
 	     .btn-consistent {
-	            margin-top: 30px; /* 버튼 간의 간격 조절 */
-	        }
-	        
+	            margin-top: 50px; /* 버튼 간의 간격 조절 */ 
+	     }
+	     
+	    .large.mb-1 {
+        		color: grey; /* 회색으로 설정할 색상 */
+   		 }   
 	        
 	    </style>
 	    
@@ -69,26 +72,26 @@
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-        	
-        	
+        		 
         	 <section class="py-5">
 	            <div class="container px-4 px-lg-5 my-5">
 	                <div class="row gx-4 gx-lg-5 align-items-center">
 	                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${item.itemImg}" alt="${item.itemName}" /></div>
 	                    <div class="col-md-6">
-	                        <div class="small mb-1">${item.itemCategory}</div>
+	                        <div class="large mb-1" style="font-size: 0.9rem;">${item.itemCategory} 아이템</div>
 	                        <br>
-	                        <h1 class="display-5 fw-bolder">${item.itemName}</h1>
+	                        <h1 class="display-5 fw-bolder" style="font-weight: bold; font-size: 2rem;">${item.itemName}</h1>
 	                        <br>
-	                        <div class="fs-5 mb-5">${item.itemPrice}p</div>
+	                        <br>
+	                        <div class="fs-5 mb-5" style="font-size: 1.3rem; font-style: italic;">${item.itemPrice} p</div>
                            <div class="form-group">
-			                    <label for="exampleFormControlSelect1">개수</label>
-			                    <select class="form-control form-control" id="exampleFormControlSelect1">
+			                    <label for="exampleFormControlSelect1" style="font-size: 1.1rem;">개수</label>
+			                    <select class="form-control form-control" id="exampleFormControlSelect1" style="font-size: 1.1rem;">
 			                      <option>1</option>
 			                    </select>
 			                </div>
-	                        
-	                        <p class="lead">${item.itemEffect}</p>
+	                        <br>
+	                        <p class="lead" style="font-style: italic;">"${item.itemEffect}"</p>
 	                        <div class="d-flex">
 	                            <button class="btn btn-primary btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
 	                             장바구니 담기

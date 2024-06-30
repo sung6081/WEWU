@@ -10,7 +10,9 @@
 <title>판매내역 목록조회</title>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<!-- HEADER -->
+		<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
 
 <script type="text/javascript">
 
@@ -43,9 +45,7 @@ function fncListItesmSalesHistory(){
 </head>
 
 <body>
-		<!-- HEADER -->
-		<jsp:include page="/header.jsp"/>
-		<!-- HEADER -->
+		
 		
 			<form name="detailForm" id="detailForm" method="post">
 			<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
