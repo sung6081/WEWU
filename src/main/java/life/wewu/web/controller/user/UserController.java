@@ -151,7 +151,7 @@ public class UserController {
 		//Business Logic
 		userService.addUser(user);
 		
-		return "redirect:/user/loginView.jsp";
+		return "redirect:/plant/randomPlantModal.jsp";
 	}
 	
 	//user 내정보조회페이지로 이동
