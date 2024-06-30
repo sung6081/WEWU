@@ -196,8 +196,8 @@ public class PlantServiceImpl implements PlantService {
 	}
 
 	@Override
-	public MyPlant deleteMyPlant(String nickname) throws Exception {
-		return myPlantDao.deleteMyPlant(nickname);
+	public void deleteMyPlant(String nickname) throws Exception {
+		myPlantDao.deleteMyPlant(nickname);
 	}
 
 	@Override
@@ -207,7 +207,9 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public void addMyPlant(MyPlant myPlant) throws Exception {
+		
 		myPlantDao.addMyPlant(myPlant);
+		myPlant = myPlantDao.getMyPlant(myPlant.getNickname());
 	}
 
 	// ---------------------------------------------------------------------------------------//

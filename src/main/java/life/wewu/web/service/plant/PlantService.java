@@ -63,7 +63,7 @@ public interface PlantService {
 	
 	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception;
 
-	public MyPlant deleteMyPlant(String nickname) throws Exception;
+	public void deleteMyPlant(String nickname) throws Exception;
 
 	public String getWeather(String location) throws Exception;
 	
