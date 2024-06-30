@@ -269,6 +269,7 @@
 							<div class="col-sm-9">
 								<c:forEach var="file" items="${boardFile}">
 									<img src="${file.fileName}">
+									
 									<br>
 									<br>
 								</c:forEach>
@@ -290,12 +291,12 @@
 												id="commentNickName" value="${sessionScope.user.nickname}">
 											<input type="hidden" name="boardNo" id="boardNo"
 												value="${board.boardNo}">
-											<textarea class="form-control" name="commentContents"
-												id="commentContents" rows="4"></textarea>
+											<!-- <textarea class="form-control" name="commentContents"
+												id="commentContents" rows="4"></textarea> -->
+												${board.contents}
 											<br>
 										</form>
-										<button class="btn btn-link btn-fw" onClick="addComment();">댓글
-											쓰기</button>
+										<button class="btn btn-link btn-fw" onClick="addComment();">댓글 쓰기</button>
 									</div>
 								</c:if>
 								<c:if
@@ -315,8 +316,7 @@
 
 							</c:if>
 							&nbsp;
-							<button type="button" class="btn btn-inverse-primary btn-fw">목록
-								보기</button>
+							<button type="button" class="btn btn-inverse-primary btn-fw">목록 보기</button>
 
 						</div>
 					</div>

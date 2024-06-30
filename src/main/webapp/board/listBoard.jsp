@@ -61,61 +61,7 @@
 <script type="text/javascript">
     var currentPage = 1;
     var isLoading = false;
-
-    function loadMoreData() {
-        if (isLoading) return;
-        isLoading = true;
-        currentPage++;
-
-        $.ajax({
-            url: "/app/board/listBoard",
-            type: "GET",
-            data: {
-                boardType: "${param.boardType}",
-                page: currentPage,
-                searchKeyword: "${param.searchKeyword}"
-            },
-            dataType: "json",
-            success: function(data) {
-                if (data.length > 0) {
-                    var newContent = "";
-                    $.each(data, function(index, board) {
-                        var file = board.fileName ? board.fileName : "/images/back.png";
-                        newContent += `
-                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                            <div class="thumbnail" data-board-no="${board.boardNo}">
-                                <img src="${file}" alt="${file}">
-                                <div class="caption">
-                                    <h3>${board.title}</h3>
-                                    <p>
-                                        <strong>${board.nickName}</strong><br> 
-                                        ${board.regDate}<br>
-                                        <i class="mdi mdi-star"></i> ${board.bookmarkCnt} 
-                                        <i class="mdi mdi-eye"></i> ${board.views} 
-                                        <i class="mdi mdi-comment"></i> ${board.commentCnt}
-                                    </p>
-                                    <p>
-                                        <a href="/board/getBoard?boardType=${board.boardType}&boardNo=${board.boardNo}" class="btn btn-primary" role="button">보기</a>
-                                        <c:if test="${not empty sessionScope.user}">
-                                            <a href="#" class="btn btn-secondary" role="button" onclick="addBookmark(${board.boardNo})">북마크</a>
-                                            <a href="#" class="btn btn-danger" role="button" onclick="deleteBookmark(${board.boardNo})">북마크 삭제</a>
-                                        </c:if>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>`;
-                    });
-                    $('.row').append(newContent);
-                } else {
-                    $(window).off('scroll', onScroll);
-                }
-                isLoading = false;
-            },
-            error: function() {
-                isLoading = false;
-            }
-        });
-    }
+ 
 
     function onScroll() {
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
@@ -141,13 +87,11 @@
         });
     });
 
-    function addBookmark(boardNo) {
-    	alert('1');
+    function addBookmark(boardNo) {    	
         var bookmark = {
             boardNo: boardNo,
             nickName: '${sessionScope.user.nickname}'
-        };
-		alert('2');
+        };		
         $.ajax({
             type: "POST",
             url: "/app/board/addBookmark", 
@@ -268,15 +212,13 @@
 								<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
 									<div class="thumbnail">
 										<div class="boardClick">
-											<input type="hidden" name="boardNo"
-												value="${board.boardNo}">
-											<c:if test="${empty file[loop.index].fileName}">
+											<input type="hidden" name="boardNo" value="${board.boardNo}">
+											<c:if test="${empty board.fileName}">
 												<img src="/images/back.png" alt="Default Thumbnail">
 											</c:if>
-											<c:if test="${not empty file[loop.index].fileName}">
-                                            <img src="${file[loop.index].fileName}"
-                                                alt="${file[loop.index].fileName}">
-                                        </c:if>
+											<c:if test="${not empty board.fileName}">
+                                            	<img src="${board.fileName}" alt="${board.fileName}">
+                                        	</c:if>
 
 											<div class="caption">
 												<h4 class="card-title">${board.title}</h4>
@@ -301,9 +243,13 @@
 
 											</c:if>
 										</div>
+										 
 
 									</div>
+									
+									
 								</div>
+								<c:set var="index" value="${index + 1}" />
 							</c:forEach>
 						</div>
 						
@@ -347,12 +293,16 @@
 								</c:if>
 							</div>
 						</div>
+						<div id="MainboardList">
+						
+						</div>
 
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- FOOTER -->
 	<jsp:include page="/footer.jsp" />
 	<!-- FOOTER -->

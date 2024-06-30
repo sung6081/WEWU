@@ -91,8 +91,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardFile> getBoardFile(int boardType) throws Exception {
-		return boardDao.getBoardFile(boardType);
+	public List<BoardFile> getBoardFile(Map map) throws Exception {
+		return boardDao.getBoardFile(map);
 	}
 
 	/*
