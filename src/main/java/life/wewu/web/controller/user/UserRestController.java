@@ -29,7 +29,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import life.wewu.web.domain.plant.MyPlant;
+import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.user.User;
+import life.wewu.web.service.plant.PlantService;
 import life.wewu.web.service.user.SmsService;
 import life.wewu.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +49,10 @@ public class UserRestController {
     @Autowired
     @Qualifier("smsService")
     private SmsService smsService;
+    
+    @Autowired
+    @Qualifier("plantServiceImpl")
+    private PlantService plantService;
     
     @Value("${naver.client.id}")
     private String clientId;
@@ -81,6 +88,15 @@ public class UserRestController {
                 session.setAttribute("user", dbUser);
                 session.setAttribute("isAdmin", "1".equals(dbUser.getRole()));
                 session.removeAttribute("loginAttempts"); // 로그인 성공 시 로그인 시도 횟수 초기화
+                try {
+                	MyPlant myPlant = plantService.getMyPlant(dbUser.getNickname());
+                    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevlNo());
+                    myPlant.setPlantLevl(plantLevl);
+                    session.setAttribute("myPlant", myPlant);
+                } catch (Exception e) {
+                    System.out.println("MyPlant 가져오기 중 예외 발생: " + e.getMessage());
+                    e.printStackTrace();
+                }
                 System.out.println("로그인 성공: " + dbUser.getUserId());
                 response.put("success", true);
             } else {
@@ -98,7 +114,7 @@ public class UserRestController {
             // 일반 예외 처리
             System.out.println("로그인 중 예외 발생: " + e.getMessage());
             response.put("success", false);
-            response.put("error", "예외 발생");
+            response.put("error", "로그인이 제한된 계정입니다");
         }
         return response;
     }

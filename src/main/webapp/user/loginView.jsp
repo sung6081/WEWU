@@ -75,7 +75,7 @@
                             window.location.href = "/index.jsp";
                         } else {
                             loginAttempts++;
-                            alert('로그인에 실패하였습니다. ' + response.error);
+                            alert('로그인에 실패하였습니다. \n' + response.error);
                             if (response.error === "삭제처리 되었습니다." || response.error === "정지처리 되었습니다.") {
                                 alert("로그인이 제한된 계정입니다");
                             }

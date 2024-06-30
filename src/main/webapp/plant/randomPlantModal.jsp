@@ -117,10 +117,12 @@
           dataType: "json",
           success: function (data) {
             console.log("Image URL: ", data.plantLevl.levlImg);
+            console.log("Selected Plant No: " + data.plantNo); // 디버깅 메시지 추가
+            console.log("Selected Plant Levl No: " + data.plantLevl.plantLevlNo); // 디버깅 메시지 추가
             // 이미지 출력
             $('.randomImage').attr('src', data.plantLevl.levlImg);
             $('.plantNo').val(data.plantNo);
-            $('.plantLevlNo').val(data.plantLevlNo);
+            $('.plantLevlNo').val(data.plantLevl.plantLevlNo);
             $('.randomImageContainer').show();
           },
           error: function (xhr, status, error) {
@@ -146,15 +148,17 @@
         var plantNo = $('.plantNo').val();
         var plantLevlNo = $('.plantLevlNo').val();
         var myPlantName = $('.myPlantName').val();
-        var randomImage = $('.randomImage').val();
+        
+        console.log("Plant No before saving: " + plantNo); // 디버깅 메시지 추가
+        console.log("Plant Levl No before saving: " + plantLevlNo); // 디버깅 메시지 추가
+        console.log("My Plant Name: " + myPlantName); // 디버깅 메시지 추가
 
         // AJAX 요청으로 데이터 전송
         $.ajax({
-          url: "/app/plant/addMyPlant",
+          url: "/app/plant/saveMyPlant",
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify({
-        	levlImg : levlImg,
             plantNo: plantNo,
             plantLevlNo: plantLevlNo,
             myPlantName: myPlantName
@@ -162,7 +166,7 @@
           success: function (response) {
             alert("식물이 성공적으로 저장되었습니다!");
             $('.modal').hide(); // 모달창 닫기
-            window.location.href = "/index.jsp";
+            window.location.href = "/plant/getMyPlant";
           },
           error: function (xhr, status, error) {
             alert("식물 저장에 실패했습니다.");
@@ -186,6 +190,8 @@
               <div class="row random">
                 <input type="hidden" class="plantNo" name="plantNo" value="">
                 <input type="hidden" class="plantLevlNo" name="plantLevlNo" value="">
+                <input type="hidden" class="plantExp" name="plantExp" value="">
+                <input type="hidden" class="plantLevl" name="plantLevl" value="">
                 <div class="randomImageContainer">
                   <img class="randomImage" src="">
                 </div>

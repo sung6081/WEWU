@@ -54,8 +54,6 @@
    <script src="/js/swiper.js"></script>
    <!-- footer 고정제거 -->
    <script type="text/javascript">
-     $('footer').removeClass('fixed-bottom');
-
    </script>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -80,7 +78,8 @@
      }
    </style>
  </head>
-
+<script>
+</script>
  <body>
    <c:set var="quest" value="${sessionScope.quest}" />
 

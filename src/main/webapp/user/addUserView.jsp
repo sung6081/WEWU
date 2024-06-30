@@ -6,8 +6,19 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+  <style>
+    .input-group-append .btn {
+      position: relative;
+      z-index: 1;
+    }
+    #reload-captcha {
+      background-color: #fff;
+      border-color: #e8eff594;
+    }
+  </style>
   <script type="text/javascript">
     $(function () {
       let captchaKey = '';
@@ -27,6 +38,7 @@
 
       $("#reload-captcha").on("click", function () {
         loadCaptcha();
+        $("#captcha").focus(); // Move focus to captcha input field
       });
 
       $("#captcha-verify").on("click", function(event) {
@@ -135,6 +147,8 @@
           $("input:text[name='password2']").focus();
           return;
         }
+
+        alert("회원가입이 완료되었습니다."); // 회원가입 성공 알림창 추가
 
         $("#registerForm").off("submit");
         $("#registerForm").submit();
@@ -347,7 +361,7 @@
             <div class="row w-100 mx-0">
               <div class="col-lg-8 mx-auto">
                 <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                  <h4>회 원 가 입</h4>
+                  <h4 style="font-size: 24px; text-align: center; color: #2340ea; font-weight: bold;">회 원 가 입</h4>
                   <form id="registerForm" class="pt-3 form-horizontal" method="post" action="/user/addUser">
                     <div class="form-group">
                       <label for="userId" class="col-sm-3 control-label">아 이 디</label>
@@ -432,18 +446,26 @@
                     <div class="form-group">
                       <label for="phoneNum" class="col-sm-3 control-label">휴대전화번호</label>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum"
-                          placeholder="휴대전화번호">
-                        <button type="button" class="btn btn-primary" id="sendVerificationCode">인증번호 전송</button>
+                        <div class="input-group">
+                          <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum"
+                            placeholder="휴대전화번호">
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="sendVerificationCode">인증번호 전송</button>
+                          </div>
+                        </div>
                         <span id="verificationCodeMsg" class="help-block"></span>
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="verificationCode" class="col-sm-3 control-label">인증번호</label>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control form-control-lg" id="verificationCode" name="verificationCode"
-                          placeholder="인증번호 입력">
-                        <button type="button" class="btn btn-primary" id="verifyCode">인증번호 확인</button>
+                        <div class="input-group">
+                          <input type="text" class="form-control form-control-lg" id="verificationCode" name="verificationCode"
+                            placeholder="인증번호 입력">
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="verifyCode">인증번호 확인</button>
+                          </div>
+                        </div>
                         <span id="verificationCodeMsg" class="help-block"></span>
                       </div>
                     </div>
@@ -456,11 +478,20 @@
                     <div class="form-group">
                       <label for="captcha" class="col-sm-3 control-label">캡차</label>
                       <div class="col-sm-9">
-                        <img id="captcha-image" src="" alt="CAPTCHA Image">
-                        <button type="button" id="reload-captcha" class="btn btn-secondary">새로고침</button>
-                        <input type="text" class="form-control form-control-lg" id="captcha" name="captcha"
-                          placeholder="캡차 값">
-                        <button type="button" class="btn btn-primary" id="captcha-verify">캡차 검증</button>
+                        <div class="input-group">
+                          <img id="captcha-image" src="" alt="CAPTCHA Image" class="mr-2" style="width: 300px; height: 100px;">
+                          <div class="input-group-append">
+                            <button type="button" id="reload-captcha" class="btn btn-secondary" style="background-color: #fff; border-color: #e8eff594;">
+                              <i class="fas fa-redo"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="input-group mt-2">
+                          <input type="text" class="form-control" id="captcha" name="captcha" placeholder="캡차 값" style="max-width: 250px; font-size: 14px;">
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="captcha-verify">캡차 검증</button>
+                          </div>
+                        </div>
                         <span id="captcha-verify-msg" class="help-block"></span>
                       </div>
                     </div>

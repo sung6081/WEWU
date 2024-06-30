@@ -128,6 +128,9 @@
 margin: 0 !important; /* 기본 마진 제거 */
 background-color: #00A06C;
 }
+.display-4 {
+  color: #fff; /* 원하는 색상으로 변경 */
+}
 </style>
 </head>
 
@@ -136,7 +139,7 @@ background-color: #00A06C;
  <div class="main-panel">
   <div class="jumbotron">
   <div class="container">
-    <p class="display-4"><b>Plant Manage</b></p>
+    <p class="display-4"><b>ADD PLANT</b></p>
   </div>
   </div>
    <div class="content-wrapper">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -66,7 +67,6 @@
 				$( "span:contains('작성')" ).on("click" , function() 
 			 	{
 					// 내 모임 신청정보
-					alert("${groupBoard.boardRole}");
 					addGroupAcle();
 				}); 
 				$( "span:contains('게시판 수정')" ).on("click" , function() 
@@ -107,18 +107,53 @@
 						  var str = "";
 						  for(var i = 0 ; i < data.length ; i ++){
 							  
-							  str += "<tr class ='acle' id="+data[i].boardNo+">" +
-						          		 "<td>" + data[i].wrteName +"</td>" +
-						          		 "<td>" + data[i].acleName +"</td>" +
-						          		 "<td>" + data[i].wrteDate +"</td>" +
-						          		 "<td>0</td>" +
-						          		 "<td>0</td>";
-					          		 "</tr>";
+							  if(${groupBoard.boardType == "L"})
+							  {
+							  	str += "<tr class='acle' id='" + data[i].boardNo + "'>" +
+										    "<td class='col-md-3'>" + data[i].wrteName + "</td>" +
+										    "<td class='col-md-3'>" + data[i].acleName + "</td>" +
+										    "<td class='col-md-2'>" + data[i].wrteDate + "</td>" +
+									  	 	"<td class='col-md-2'>0</td>" +
+									   	 	"<td class='col-md-2'>0</td>" +
+									   "</tr>";
+							  }else
+							  {
+								  str  += '<div class="col-sm-6 col-md-4 col-lg-3 mb-4 acle" id="' + data[i].boardNo + '">' +
+								              '<div class="thumbnail">' +
+								                  '<div class="boardClick">';
+								                  	if(data[i].imgSrc != null)
+								                  	{
+								                  		 str  += '<img src="' + data[i].imgSrc + '">';
+								                  	}else
+								                  	{
+								                  		 str  += '<img src="/images/back.png" alt="Default Thumbnail">';
+								                  	}
+								                      
+								              str  += '<div class="caption">' +
+								                          '<h4 class="card-title">"' + data[i].acleName + '"</h4>' +
+								                          '<p>' +
+								                              '<strong>"' + data[i].wrteName + '"</strong><br>' +
+								                          '</p>' +
+								                      '</div>' +
+								                  '</div>' +
+								              '</div>' +
+								          '</div>';
+							  }
 						  }
-						  $('#acleList').html(str);
-						  str = "";
-						  str = generatePagination(total, currentPage, 10);
-						  $("#paging").html(str);
+						  if(${groupBoard.boardType == "L"})
+						  {
+							  $('#acleList').html(str);
+							  str = "";
+							  str = generatePagination(total, currentPage, 10);
+							  $("#paging").html(str);  
+						  }else
+						  {
+							  $('#thumList').html(str);
+							  str = "";
+							  str = generatePagination(total, currentPage, 10);
+							  $("#paging").html(str);  
+						  }
+						  
 					  },
 					  error	: function(xhr, status, error) {
 					    // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -265,7 +300,12 @@
 		<!-- SIDEBAR -->
 		<div class="main-panel">
         	<div class="content-wrapper">
-        		<jsp:include page="listBoard.jsp"></jsp:include>
+        		<c:if test="${groupBoard.boardType == 'L' }">
+        			<jsp:include page="listBoard.jsp"></jsp:include>
+        		</c:if>
+        		<c:if test="${groupBoard.boardType == 'T' }">
+        			<jsp:include page="thumNail.jsp"></jsp:include>
+        		</c:if>
         	</div>
         	
         	<form id="getGroupBoard">

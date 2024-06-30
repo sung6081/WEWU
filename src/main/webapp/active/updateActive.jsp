@@ -89,6 +89,8 @@
 		
 		var map_x = ${active.activeX};
 		var map_y = ${active.activeY};
+		
+		console.log('${active.activeShortUrl}');
 	
 		var map = new naver.maps.Map("map", {
 		    center: new naver.maps.LatLng(map_x, map_y),
@@ -96,17 +98,33 @@
 		    mapTypeControl: true
 		});
 		
-		var markerOptions = {
-		    position: new naver.maps.LatLng(map_x, map_y),
-		    map: map,
-		    icon: {
-		        url: '${active.activeShortUrl}',
-		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-		    }
-		};
+		if ('${active.activeShortUrl}') {
+	        markerOptions = {
+	            position: new naver.maps.LatLng(map_x, map_y),
+	            map: map,
+	            icon: {
+	                url: '${active.activeShortUrl}',
+	                size: new naver.maps.Size(50, 50),
+	                scaledSize: new naver.maps.Size(50, 50),
+	                origin: new naver.maps.Point(0, 0),
+	                anchor: new naver.maps.Point(25, 50)
+	            }
+	        };
+	    } else {
+	        let iconSpritePositionX = 1;
+	        let iconSpritePositionY = 1;
+	        markerOptions = {
+	            position: new naver.maps.LatLng(map_x, map_y),
+	            map: map,
+	            icon: {
+	                url: '/images/icon/sp_pin_hd.png',
+	                size: new naver.maps.Size(26, 36),
+	                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+	                anchor: new naver.maps.Point(13, 36),
+	                scaledSize: new naver.maps.Size(395, 79)
+	            }
+	        };
+	    }
 		
 		activeMarker = new naver.maps.Marker(markerOptions);
 		
@@ -138,17 +156,33 @@
 		    		activeMarker.setMap(null);
 		        }
 		    	
-		    	var markerOptions = {
-	    		    position: new naver.maps.LatLng(map_x,map_y),
-	    		    map: map,
-	    		    icon: {
-	    		        url: '${active.activeShortUrl}',
-	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-	    		    }
-	    		};
+		    	if ('${active.activeShortUrl}') {
+			        markerOptions = {
+			            position: markerLocation,
+			            map: map,
+			            icon: {
+			                url: '${active.activeShortUrl}',
+			                size: new naver.maps.Size(50, 50),
+			                scaledSize: new naver.maps.Size(50, 50),
+			                origin: new naver.maps.Point(0, 0),
+			                anchor: new naver.maps.Point(25, 50)
+			            }
+			        };
+			    } else {
+			        let iconSpritePositionX = 1;
+			        let iconSpritePositionY = 1;
+			        markerOptions = {
+			            position: markerLocation,
+			            map: map,
+			            icon: {
+			                url: '/images/icon/sp_pin_hd.png',
+			                size: new naver.maps.Size(26, 36),
+			                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+			                anchor: new naver.maps.Point(13, 36),
+			                scaledSize: new naver.maps.Size(395, 79)
+			            }
+			        };
+			    }
 		    	
 		    	$('.activeX').val('${active.activeX}');
 		    	$('.activeY').val('${active.activeY}');
@@ -210,7 +244,7 @@
 	
 		async function searchAddressToCoordinate(address) {
 			
-			var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
+			var url = '/app/active/searchLocal?query=' + address;
 			
 			var local;
 			
@@ -321,17 +355,33 @@
 		    		activeMarker.setMap(null);
 		        }
 		        
-		        var markerOptions = {
-	    		    position: latlng,
-	    		    map: map,
-	    		    icon: {
-	    		        url: '${active.activeShortUrl}',
-	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-	    		    }
-	    		};
+		        if ('${active.activeShortUrl}') {
+			        markerOptions = {
+			            position: latlng,
+			            map: map,
+			            icon: {
+			                url: '${active.activeShortUrl}',
+			                size: new naver.maps.Size(50, 50),
+			                scaledSize: new naver.maps.Size(50, 50),
+			                origin: new naver.maps.Point(0, 0),
+			                anchor: new naver.maps.Point(25, 50)
+			            }
+			        };
+			    } else {
+			        let iconSpritePositionX = 1;
+			        let iconSpritePositionY = 1;
+			        markerOptions = {
+			            position: latlng,
+			            map: map,
+			            icon: {
+			                url: '/images/icon/sp_pin_hd.png',
+			                size: new naver.maps.Size(26, 36),
+			                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+			                anchor: new naver.maps.Point(13, 36),
+			                scaledSize: new naver.maps.Size(395, 79)
+			            }
+			        };
+			    }
 	    		
 	    		activeMarker = new naver.maps.Marker(markerOptions);
 		        
@@ -621,16 +671,6 @@
 									});
 								</script>
 	                      	</div>
-	                      	
-	                      	<script type="text/javascript">
-	                      	
-	                      		var active_info = "${active.activeInfo}";
-	                      		
-	                      		console.log(active_info);
-	                      	
-	                      		$('.info').val(active_info);
-	                      	
-	                      	</script>
 	                      	
 	                      	<div class="row btn-area">
 	                      		<button type="button" onclick="updateActive()" class="btn btn-success btn-lg btn-block">

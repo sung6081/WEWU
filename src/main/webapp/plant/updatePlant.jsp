@@ -23,6 +23,9 @@
       align-items: center;
       /* 수직 가운데 정렬 */
     }
+    .display-4 {
+  color: #fff; /* 원하는 색상으로 변경 */
+}
   </style>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
@@ -120,7 +123,7 @@ background-color: #00A06C;
   <div class="main-panel">
    <div class="jumbotron">
   <div class="container">
-    <p class="display-4"><b>Plant Manage</b></p>
+    <p class="display-4"><b>UPDATE PLANT</b></p>
   </div>
   </div>
     <div class="content-wrapper title-card">

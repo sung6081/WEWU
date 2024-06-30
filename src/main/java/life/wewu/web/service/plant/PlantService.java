@@ -47,6 +47,10 @@ public interface PlantService {
 
 	public List<Plant> getPlantList(Map<String, Object> map) throws Exception;
 	
+	public void deletePlant(int plantNo) throws Exception;
+	public void deletePlantLevl(int plantNo) throws Exception;
+	public void deleteMyPlant(int plantNo) throws Exception;
+	
 	//---------------------------------------------------------------------------------------//
 
 	public Plant selectRandomPlant() throws Exception;

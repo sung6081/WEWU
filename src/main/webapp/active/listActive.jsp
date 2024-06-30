@@ -29,8 +29,12 @@
 		color: #FFC107 !important;
 	}
 	
-	.activeState {
+	.activing {
 		color: #00A06C;
+	}
+	
+	.activeEnd {
+		color: red;
 	}
     
 </style>
@@ -199,7 +203,12 @@
 											<td>${active.activeStartDate}</td>
 											<td>${active.activeEndDate}</td>
 											<td>${active.activeRegDate}</td>
-											<td class="activeState">${active.stateFlag}</td>
+											<c:if test="${active.stateFlag == '활동중'}">
+												<td class="activing">${active.stateFlag}</td>
+											</c:if>
+											<c:if test="${active.stateFlag == '활동 종료'}">
+												<td class="activeEnd">${active.stateFlag}</td>
+											</c:if>
 										</tr>
 			                        	
 			                        <c:set var="i" value="${i+1}" ></c:set>

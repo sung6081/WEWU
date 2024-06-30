@@ -56,10 +56,6 @@
 		
 	</update>
 	
-	<delete id="deletePlantLevl">
-        DELETE FROM plant_levl 
-        WHERE plant_no = #{plant_no}
-    </delete>
-	
+
 </mapper>
 			
