@@ -51,6 +51,49 @@
           // AJAX 요청 완료 후 실행되는 함수
         }
       });
+      
+      $(document).ready(function() {
+          fncMainBoardList();
+        });
+
+        function fncMainBoardList() {
+          $.ajax({
+            url: "/app/board/listBoardMain",
+            type: "POST",
+            data: JSON.stringify({ boardType: 1 }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              var str = "";
+              for (var i = 0; i < data.length; i++) {
+                var file = data[i].fileName ? data[i].fileName : "/images/back.png";
+                str += "<div class='swiper-slide' style='width: 274px; margin-right: 24px;'>"
+                  + "<div class='card mb-4 shadow-sm'>"
+                  + "<img class='bd-placeholder-img card-img-top' src='" + file + "' alt='Placeholder: Thumbnail'>"
+                  + "<div class='card-body'>"
+                  + "<h5 class='card-title'>" + data[i].title + "</h5>"
+                  + "<p class='card-text'>"
+                  + "<strong>" + data[i].nickName + "</strong><br>"
+                  + data[i].regDate + "<br>"
+                  + "<i class='mdi mdi-star'></i> " + data[i].bookmarkCnt
+                  + " <i class='mdi mdi-eye'></i> " + data[i].views
+                  + " <i class='mdi mdi-comment'></i> " + data[i].commentCnt
+                  + "</p>"
+                  + "</div></div></div>";
+              }
+              $('.swiper-wrapper').html(str);
+              var swiper = new Swiper('.swiper-container', {
+                navigation: {
+                  nextEl: '.custom-swiper-button-next',
+                  prevEl: '.custom-swiper-button-prev',
+                },
+              });
+            },
+            error: function(xhr, status, error) {
+              alert('리스트 없음');
+            }
+          });
+        }
     }
   </script>
   <style>
@@ -147,79 +190,13 @@
           </div>
         </div>
         <!-- swiper -->
-        <div class="container">
-          <div class="row mx-auto">
-            <div class="col-lg-12 slide">
-              <div class="swiper-container">
+
+		<div class="container ">
+          <div class="row ">
+            <div class="col-lg-12 slide mb-5">
+              <div class="swiper-container ">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <div class="card mb-4 shadow-sm">
-                      <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                        alt="Placeholder: Thumbnail" />
-                      <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                          lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                          </div>
-                          <small class="text-muted">9 mins</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card mb-4 shadow-sm">
-                      <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                        alt="Placeholder: Thumbnail" />
-                      <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                          lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                          </div>
-                          <small class="text-muted">9 mins</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card mb-4 shadow-sm">
-                      <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                        alt="Placeholder: Thumbnail" />
-                      <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                          lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                          </div>
-                          <small class="text-muted">9 mins</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card mb-4 shadow-sm">
-                      <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                        alt="Placeholder: Thumbnail" />
-                      <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                          lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                          </div>
-                          <small class="text-muted">9 mins</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <!-- Swiper 슬라이드가 여기 추가됩니다 -->
                 </div>
                 <div class="custom-swiper-button-next">
                   <i class="fas fa-chevron-right custom-icon"></i>
@@ -229,91 +206,6 @@
                 </div>
               </div>
             </div>
-            <br>
-            <!-- 추가 슬라이드 -->
-            <div class="container ">
-              <div class="row ">
-                <div class="col-lg-12 slide mb-5">
-                  <div class="swiper-container ">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide">
-                        <div class="card mb-4 shadow-sm">
-                          <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                            alt="Placeholder: Thumbnail" />
-                          <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                              lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                              </div>
-                              <small class="text-muted">9 mins</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card mb-4 shadow-sm">
-                          <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                            alt="Placeholder: Thumbnail" />
-                          <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                              lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                              </div>
-                              <small class="text-muted">9 mins</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card mb-4 shadow-sm">
-                          <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                            alt="Placeholder: Thumbnail" />
-                          <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                              lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                              </div>
-                              <small class="text-muted">9 mins</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card mb-4 shadow-sm">
-                          <img class="bd-placeholder-img card-img-top" src="https://via.placeholder.com/500x300"
-                            alt="Placeholder: Thumbnail" />
-                          <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                              lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                              </div>
-                              <small class="text-muted">9 mins</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="custom-swiper-button-next">
-                      <i class="fas fa-chevron-right custom-icon"></i>
-                    </div>
-                    <div class="custom-swiper-button-prev">
-                      <i class="fas fa-chevron-left custom-icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <br>
               <!-- content-wrapper ends -->
               <!-- main-panel ends -->
