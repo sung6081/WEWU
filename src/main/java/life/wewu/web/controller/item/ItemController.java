@@ -5,6 +5,8 @@
 
 package life.wewu.web.controller.item;
 	
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -394,8 +396,9 @@ public class ItemController {
 		System.out.println(user);
 		shoppingCartService.deleteShoppingCartList(shoppingCartNo);
 		
-		System.out.println(shoppingCartNo);	
-		return "redirect:/item/getShoppingCartList?nickname="+user.getNickname(); 
+		System.out.println(shoppingCartNo);
+		String nickname = URLEncoder.encode(user.getNickname());
+		return "redirect:/item/getShoppingCartList?nickname="+nickname; 
 		//return "redirect:/shoppingCart/getShoppingCartList?nickname="+nickname;   
 	}   //삭제 화면 따로 안 만들었는데...장바구니 목록에서 바로 삭제
 
