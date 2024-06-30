@@ -219,17 +219,16 @@
 	       	<div class="content-wrapper">
 				<div class="row">
 					<div class="col-lg-12 grid-margin stretch-card">
-						<div class="col-lg-4 col-md-4">
+						<div class="col-lg-4 col-md-6">
 			                <div class="section-title">
-			                    <h4>아이템 상점</h4>
+			                    <h4><b>아이템 상점</b></h4>
 			                </div>
 			                
 			                
 			           	</div>
 					</div>
 		       	</div>
-     <br>
-     <br>
+    
      
      <div class="col-lg-12 stretch-card">
      	<div class="col-lg-8 stretch-card">
@@ -243,7 +242,7 @@
 	     	</c:if>	
 	    </div>
 	</div>
-	<div class="col-lg-12 stretch-card">
+	<div class="col-lg-14 stretch-card">
 	<div class="col-lg-4 stretch-card" style="margin:0 0 20px 0;">
 		<div class="btn-group" role="group" aria-label="Basic example">
 			 <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">전체</button> 
@@ -286,9 +285,9 @@
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-left">
-	                                 	<h5 class="fw-bolder">${item.itemCategory}</h5> 
+	                                 	<h5 class="fw-bolder">${item.itemCategory}아이템</h5> 
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder"><a href="/item/getItem?itemNo=${item.itemNo}">${item.itemName}</a></h5>
+	                                    <h5 class="fw-bolder"><a href="/item/getItem?itemNo=${item.itemNo}" style="font-weight: bold;">${item.itemName}</a></h5>
 	                                    <!-- Product price-->
 	                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
 	                                </div>

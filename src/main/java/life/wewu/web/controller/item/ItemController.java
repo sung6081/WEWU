@@ -5,6 +5,8 @@
 
 package life.wewu.web.controller.item;
 	
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +35,7 @@ import life.wewu.web.common.Search;
 import life.wewu.web.domain.item.Item;
 import life.wewu.web.domain.item.ItemPurchase;
 import life.wewu.web.domain.item.ShoppingCart;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.item.ItemService;	
 import life.wewu.web.service.item.ItemPurchaseService;	
@@ -309,7 +313,7 @@ public class ItemController {
    	}
    
    @RequestMapping( value="updatePurchase")  
- 	public String updatePurchase(@RequestParam("itemPurchaseNo") int itemPurchaseNo, Model model) throws Exception{  
+ 	public String updatePurchase(@RequestParam("itemPurchaseNo") int itemPurchaseNo, Model model, @SessionAttribute("user") User user) throws Exception{  
  	
  		System.out.println("itemPurchase updateItemPurchase :: GET");
  		 
@@ -349,7 +353,7 @@ public class ItemController {
         	flag="N";
         }
  		model.addAttribute("flag", flag);
- 		return "forward:/item/getItemPurchaseHistoryList?buyerNickname=nick1";
+ 		return "forward:/item/getItemPurchaseHistoryList?buyerNickname="+user.getNickname(); 	
  	}
   
    	/*
@@ -386,13 +390,15 @@ public class ItemController {
   	}
    
    @RequestMapping( value="deleteShoppingCartList", method=RequestMethod.GET)  //이름은 delete지만 사실상 관리자의 메인화면. delete item도 get, post로 화면 2개 나누는 게 맞음?  ==> ㅇㅇ. 맞는 듯. +아이템 삭제가 관리자의 메인화면이기는 하지만, itemMain.jsp 메인화면을 그대로 씀. 일단 메뉴 다 넣어 놓고, 비활성화 시키거나 보여주지 않는 조건 거는 방식으로. 
-	 public String deleteShoppingCartList(@RequestParam("shoppingCartNo") int shoppingCartNo, Model model) throws Exception{ //밑에서 nickname 가져오려면 무조건 string nickname 써 줘야 하나? 아님 gpt에선 @RequestParam("nickname") String nickname 이렇게 써주던데 이렇게 해?
+	 public String deleteShoppingCartList(@SessionAttribute("user") User user, @RequestParam("shoppingCartNo") int shoppingCartNo ,Model model) throws Exception{ //밑에서 nickname 가져오려면 무조건 string nickname 써 줘야 하나? 아님 gpt에선 @RequestParam("nickname") String nickname 이렇게 써주던데 이렇게 해?
 		
 		System.out.println("shoppingCart deleteShoppingCartList :: GET");
-		
+		System.out.println(user);
 		shoppingCartService.deleteShoppingCartList(shoppingCartNo);
-		System.out.println(shoppingCartNo);	
-		return "redirect:/item/getShoppingCartList?nickname=nick1";   
+		
+		System.out.println(shoppingCartNo);
+		String nickname = URLEncoder.encode(user.getNickname());
+		return "redirect:/item/getShoppingCartList?nickname="+nickname; 
 		//return "redirect:/shoppingCart/getShoppingCartList?nickname="+nickname;   
 	}   //삭제 화면 따로 안 만들었는데...장바구니 목록에서 바로 삭제
 
