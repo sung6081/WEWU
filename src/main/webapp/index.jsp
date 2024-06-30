@@ -56,18 +56,19 @@
           fncMainBoardList();
         });
 
-        function fncMainBoardList() {
+      function fncMainBoardList() {
           $.ajax({
             url: "/app/board/listBoardMain",
             type: "POST",
             data: JSON.stringify({ boardType: 1 }),
             contentType: "application/json",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
               var str = "";
               for (var i = 0; i < data.length; i++) {
                 var file = data[i].fileName ? data[i].fileName : "/images/back.png";
-                str += "<div class='swiper-slide' style='width: 274px; margin-right: 24px;'>"
+                str += "<div class='swiper-slide'>"
+                  + "<a href='/board/getBoard?boardType="+data[i].boardType+"&boardNo=" + data[i].boardNo + "' class='card-link'>"
                   + "<div class='card mb-4 shadow-sm'>"
                   + "<img class='bd-placeholder-img card-img-top' src='" + file + "' alt='Placeholder: Thumbnail'>"
                   + "<div class='card-body'>"
@@ -79,21 +80,25 @@
                   + " <i class='mdi mdi-eye'></i> " + data[i].views
                   + " <i class='mdi mdi-comment'></i> " + data[i].commentCnt
                   + "</p>"
-                  + "</div></div></div>";
+                  + "</div></div></a></div>";
               }
               $('.swiper-wrapper').html(str);
               var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 4, // 한 줄에 4개씩 보여줍니다.
+                spaceBetween: 24, // 슬라이드 사이의 간격을 설정합니다.
+                loop: true, // 마지막 슬라이드에서 첫 슬라이드로 순환합니다.
                 navigation: {
                   nextEl: '.custom-swiper-button-next',
                   prevEl: '.custom-swiper-button-prev',
                 },
               });
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
               alert('리스트 없음');
             }
           });
         }
+
     }
   </script>
   <style>
@@ -190,13 +195,13 @@
           </div>
         </div>
         <!-- swiper -->
-
-		<div class="container ">
-          <div class="row ">
-            <div class="col-lg-12 slide mb-5">
-              <div class="swiper-container ">
+        <div class="container">
+          <div class="row mx-auto">
+            <div class="col-lg-12 slide">
+            <h4 class="boardList"> 공지사항 </h4>
+              <div class="swiper-container">
                 <div class="swiper-wrapper">
-                  <!-- Swiper 슬라이드가 여기 추가됩니다 -->
+                  <!-- Slides will be injected here by JavaScript -->
                 </div>
                 <div class="custom-swiper-button-next">
                   <i class="fas fa-chevron-right custom-icon"></i>
@@ -206,6 +211,9 @@
                 </div>
               </div>
             </div>
+            <br>
+            
+           
               <br>
               <!-- content-wrapper ends -->
               <!-- main-panel ends -->
@@ -213,10 +221,10 @@
           </div>
         </div>
       </div>
-      </div>
-      <!-- footer.jsp -->
-      <jsp:include page="footer.jsp" />
-      <!-- footer.jsp -->
+    </div>
+    <!-- footer.jsp -->
+    <jsp:include page="footer.jsp" />
+    <!-- footer.jsp -->
 </body>
 
 </html>
