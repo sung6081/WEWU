@@ -38,13 +38,35 @@
         var plantNo = $(this).data("plantno");
         window.location.href = "/plant/updatePlant?plantLevlNo=" + plantLevlNo;
       });
-        });
 
+      // 삭제 버튼 클릭 시
+      $(".badge-warning").on("click", function() {
+        if (confirm("정말로 삭제하시겠습니까?")) {
+          var plantNo = $(this).data("plantno");
+          $.ajax({
+            url: "/app/plant/deletePlant",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ plantNo: plantNo }),
+            success: function(response) {
+              alert("삭제가 완료되었습니다.");
+              location.reload(); // 페이지를 새로고침하여 변경 사항을 반영합니다.
+            },
+            error: function(xhr, status, error) {
+              alert("삭제 중 오류가 발생했습니다.");
+            }
+          });
+        }
+      });
+    });
   </script>
   <style>
 .jumbotron{
 margin: 0 !important; /* 기본 마진 제거 */
 background-color: #00A06C;
+}
+.display-4 {
+  color: #fff; /* 원하는 색상으로 변경 */
 }
 </style>
 </head>
@@ -53,7 +75,7 @@ background-color: #00A06C;
   <div class="main-panel">
   <div class="jumbotron">
   <div class="container">
-    <p class="display-4"><b>Plant Manage</b></p>
+    <p class="display-4"><b>LIST PLANT</b></p>
   </div>
 </div>
     <div class="content-wrapper">
@@ -66,6 +88,7 @@ background-color: #00A06C;
                 <table class="table table-striped">
                   <thead>
                     <tr>
+                    <th>PlantLevlNo</th>
                       <th>Plant Name</th>
                       <th>Plant Level</th>
                       <th>Plant Max Exp</th>
@@ -78,6 +101,7 @@ background-color: #00A06C;
                   <tbody>
                     <c:forEach var="plant" items="${list}" varStatus="status">
                       <tr>
+                      <td>${plant.plantLevl.plantLevlNo}</td>
                         <td>${plant.plantName}</td>
                         <td>${plant.plantLevl.plantLevl}</td>
                         <td>${plant.plantLevl.plantMaxExp}</td>
@@ -87,6 +111,9 @@ background-color: #00A06C;
                         <td>
                           <div style="display: flex; flex-direction: column;">
 						    <a type="button" class="badge badge-success" data-plantlevlno="${plant.plantLevl.plantLevlNo}" data-plantno="${plant.plantNo}">수정</a>
+						  </div>
+						  <div style="display: flex; flex-direction: column;">
+						    <a type="button" class="badge badge-warning" data-plantlevlno="${plant.plantLevl.plantLevlNo}" data-plantno="${plant.plantNo}">삭제</a>
 						  </div>
                         </td>
                       </tr>

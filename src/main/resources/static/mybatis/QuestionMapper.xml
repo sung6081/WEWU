@@ -72,8 +72,25 @@
 	  	question_no, nickname, question_type, question_category, title, reg_date, question_state
 	  	FROM question
 		WHERE  question_type = #{questionType}
-	 </select>
+		ORDER BY question_no desc
 
+	 </select>
+	 
+	<select id="getTotalCountQ" parameterType="Map" resultType="int">
+		SELECT COUNT(question_no)
+		FROM question
+		<if test="search.searchCondition != null or questionType != null">
+			<where>
+				<if
+					test="search.searchCondition != null and search.searchCondition == 0 and search.searchKeyword != ''">
+					INSTR(title, #{search.searchKeyword}) > 0
+				</if>
+				<if test="questionType != null">
+					AND question_type = #{questionType}
+				</if>
+			</where>
+		</if>
+	</select>
 	
 		 
 </mapper>

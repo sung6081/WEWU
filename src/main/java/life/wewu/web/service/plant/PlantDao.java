@@ -41,4 +41,8 @@ public interface PlantDao {
 	public List<PlantLevl> getPlantLevls(int plantLevlNo) throws Exception;
 
 	public Plant selectRandomPlant() throws Exception;
+	
+	public void deletePlant(int plantNo) throws Exception;
+	public void deletePlantLevl(int plantNo) throws Exception;
+	public void deleteMyPlant(int plantNo) throws Exception;
 }

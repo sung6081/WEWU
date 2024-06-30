@@ -291,9 +291,9 @@
 												id="commentNickName" value="${sessionScope.user.nickname}">
 											<input type="hidden" name="boardNo" id="boardNo"
 												value="${board.boardNo}">
-											<!-- <textarea class="form-control" name="commentContents"
-												id="commentContents" rows="4"></textarea> -->
-												${board.contents}
+											<textarea class="form-control" name="commentContents"
+												id="commentContents" rows="4"></textarea> 
+												
 											<br>
 										</form>
 										<button class="btn btn-link btn-fw" onClick="addComment();">댓글 쓰기</button>

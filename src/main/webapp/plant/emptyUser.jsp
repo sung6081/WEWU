@@ -4,10 +4,19 @@
     <!DOCTYPE html>
     <html>
     <head>
-      <meta charset="UTF-8">
+    <meta charset="UTF-8">
 <!-- HEADER -->
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->
+
+<style>
+/* 카드 배경색 변경 */
+.data-icon-card-primary {
+  background-color: #00A06C; /* 원하는 배경색으로 변경 */
+  border: none; /* 테두리 제거 */
+}
+
+</style>
     </head>
     <body>
       <div class="main-panel">

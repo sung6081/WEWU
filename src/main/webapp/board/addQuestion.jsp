@@ -4,8 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
 <meta charset="UTF-8">
-<title>문의 등록</title>
+<title>WEWU</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
@@ -15,35 +18,59 @@
 
 	});
 </script>
+<style type="text/css">
+.jumbotron{
+margin: 0 !important; /* 기본 마진 제거 */
+background-color: #00A06C;
+}
+
+</style>
 </head>
 <body>
 
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp" />
-	<!-- HEADER -->
+	
 	
 	<div class="container-fluid page-body-wrapper">
 	<jsp:include page="boardSideBar.jsp"/>
 
-	<div class="main-panel">
+	<div class="main-panel mb-5">
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card">
+					<div class="jumbotron">
+						<div class="container">
+							<p class="display-4">
+								<b><h3><c:if test="${param.questionType eq '자주'}"> 자주하는 질문 등록하기 </c:if>
+							<c:if test="${param.questionType eq '문의'}"> 1:1 문의 등록하기 </c:if></h3></b>
+							</p>
+						</div>
+					</div>
 					<div class="card-body">
 						<h1 class="card-title">
-							<c:if test="${param.questionType eq 'FAQ'}"> 자주하는 질문 등록하기 </c:if>
-							<c:if test="${param.questionType eq '문의'}"> 1:1 문의 등록하기 </c:if>
+							
+							
 						</h1>
-							<p class="card-description">${sessionScpoe.user.usernickName}</p>
-							<p class="card-description">nick1</p>
+							<p class="card-description">${sessionScpoe.user.nickname}</p>
+							
 							
 							<form class="forms-sample" method="post" action="/board/addQuestion" enctype="multipart/form-data">
 								<input type="hidden" name="questionType"value="${param.questionType}">
-								<input type="hidden" name="nickName" value="nick1">
+								<input type="hidden" name="nickName" value="${user.nickname }">
 								
 							<div class="form-group row">
 									<label for="title" class="col-sm-3 col-form-label">제목</label>
 									<div class="col-sm-9">
 										<input type="text" class="form-control" name="title">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">문의 카테고리</label>
+									<div class="col-sm-9">
+										<select id="questionCategory" name="questionCategory" class="form-control">
+											<option value="회원"selected>회원 정보</option>
+											<option value="환불">환불</option>
+											
+											<option value="주문">주문/결제</option>
+										</select>
 									</div>
 								</div>
 
@@ -54,19 +81,8 @@
 									</div>
 								</div>
 								
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">문의 카테고리</label>
-									<div class="col-sm-9">
-										<select id="questionCategory" name="questionCategory" class="form-control">
-											<option value="배송" selected>배송</option>
-											<option value="환불">환불</option>
-											<option value="회원">회원 정보</option>
-											<option value="주문">주문/결제</option>
-										</select>
-									</div>
-								</div>
 								
-								<c:if test="${param.questionType eq 'FAQ'}">
+								<c:if test="${param.questionType eq '자주'}">
 									<div class="form-group row">
 										<label class="col-sm-3 col-form-label">답변 내용</label>
 										<div class="col-sm-9">

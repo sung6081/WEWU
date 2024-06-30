@@ -19,6 +19,12 @@
 			self.location="/board/updateRely?questionType=${param.questionType}&questionNo=${param.questionNo}"
 		});
 	});
+	
+	$(function(){
+		$("button.btn:contains('수정')").on("click",function(){
+			self.location="/board/updateQuestion?questionType=${param.questionType}&questionNo=${param.questionNo}"
+		});
+	});
 	$(function(){
 		$("button.btn:contains('목록 보기')").on("click", function() {
 			self.location="/board/listQuestion?questionType=${param.questionType}"
@@ -75,8 +81,12 @@
 								<button type="button" class="btn btn-primary mr-2">삭제</button>
 							</c:if>
 							<c:if
-								test="${question.questionType eq '문의' && sessionScope.user.role eq '1'}">
+								test="${question.questionType eq '문의' && sessionScope.isAdmin}">
 								<button type="button" class="btn btn-primary mr-2">답변 등록</button>
+							</c:if>
+							<c:if
+								test="${question.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
+								<button type="button" class="btn btn-primary mr-2">수정</button>
 							</c:if>
 							<button class="btn btn-light" >목록 보기</button>
 						</div>
