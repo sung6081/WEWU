@@ -17,10 +17,21 @@
     });
   });
 </script>
+<style>
+.jumbotron{
+margin: 0 !important; /* 기본 마진 제거 */
+background-color: #00A06C;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/plant/plantSide.jsp" />
 <div class="main-panel">
+  <div class="jumbotron">
+  <div class="container">
+    <p class="display-4"><b>Plant Manage</b></p>
+  </div>
+</div>
     <div class="content-wrapper">
         <div class="row mt-5">
             <div class="col-lg-12 grid-margin stretch-card mx-auto">

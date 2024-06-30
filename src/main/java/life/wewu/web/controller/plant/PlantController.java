@@ -191,16 +191,21 @@ public class PlantController {
 		System.out.println(" /plant/getMyPlant : GET ");
 		
 		User user = (User) session.getAttribute("user");
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	    System.out.println("myPlant : " +myPlant);
+	    session.setAttribute("myPlant", myPlant);
+	    if (myPlant == null) {
+	        System.out.println("myPlant가 없습니다");
+	        return "forward:/randomPlantModel.jsp";
+	    }
 		
-		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
 		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
 		myPlant.setPlantLevl(plantLevl);
 		
-		System.out.println(myPlant);
-		System.out.println(plantLevl);
 		
 		model.addAttribute("user", user);
 		model.addAttribute("myPlant", myPlant);
+		model.addAttribute("plantLevl", plantLevl);
 	
 		
 		return "forward:/plant/getMyPlant.jsp";
@@ -243,11 +248,7 @@ public class PlantController {
 		
 		System.out.println(" /plant/getInventory : GET ");
 	    User user = (User) session.getAttribute("user");
-	    
-	    if (user == null) {
-	        throw new Exception("User not found in session");
-	    }
-	    
+
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("nickname", user.getNickname());
 	    
