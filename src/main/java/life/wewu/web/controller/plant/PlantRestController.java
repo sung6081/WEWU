@@ -253,8 +253,8 @@ public class PlantRestController {
 	
 	@RequestMapping(value = "myPlantListbyLevlNo")
 	public List<MyPlant> myPlantListbyLevlNo(HttpSession session ,Model model,@RequestParam(value = "searchCondition", required = false) String searchCondition,
-            									@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-            									@RequestParam("plantLevlNo") int plantLevlNo) throws Exception {
+            									@RequestParam(value = "searchKeyword", required = false) String searchKeyword
+            									) throws Exception {
 		
 		System.out.println("plant :: myPlantListByLevlNo");
 		User user = (User) session.getAttribute("user");
@@ -262,7 +262,7 @@ public class PlantRestController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("nickname",user.getNickname());
-		map.put("plantLevlNo", plantLevlNo);
+	
 		Search search = new Search();
         search.setSearchCondition(searchCondition);
         search.setSearchKeyword(searchKeyword);
