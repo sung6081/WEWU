@@ -103,6 +103,8 @@ $(document).ready(function() {
                 $nextRow.remove();
                 return;
             }
+            
+            console.log("Sending AJAX request with plantLevlNo:", plantLevlNo, "and searchCondition:", searchCondition);
 
             $.ajax({
                 url: "/app/plant/myPlantListbyLevlNo",
