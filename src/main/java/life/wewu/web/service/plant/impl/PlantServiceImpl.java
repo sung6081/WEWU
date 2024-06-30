@@ -178,6 +178,7 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public MyPlant getMyPlant(String nickname) throws Exception {
+		
 		return myPlantDao.getMyPlant(nickname);
 	}
 
@@ -207,9 +208,9 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public void addMyPlant(MyPlant myPlant) throws Exception {
-		
+
 		myPlantDao.addMyPlant(myPlant);
-		myPlant = myPlantDao.getMyPlant(myPlant.getNickname());
+		
 	}
 
 	// ---------------------------------------------------------------------------------------//

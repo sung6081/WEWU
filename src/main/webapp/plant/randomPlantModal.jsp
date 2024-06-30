@@ -166,7 +166,7 @@
           success: function (response) {
             alert("식물이 성공적으로 저장되었습니다!");
             $('.modal').hide(); // 모달창 닫기
-            window.location.href = "/index.jsp";
+            window.location.href = "/plant/getMyPlant";
           },
           error: function (xhr, status, error) {
             alert("식물 저장에 실패했습니다.");
@@ -190,6 +190,8 @@
               <div class="row random">
                 <input type="hidden" class="plantNo" name="plantNo" value="">
                 <input type="hidden" class="plantLevlNo" name="plantLevlNo" value="">
+                <input type="hidden" class="plantExp" name="plantExp" value="">
+                <input type="hidden" class="plantLevl" name="plantLevl" value="">
                 <div class="randomImageContainer">
                   <img class="randomImage" src="">
                 </div>

@@ -110,7 +110,7 @@
                             <tbody>
                               <tr>
                                 <td>현재단계</td>
-                                <td>${myPlant.plantLevl.plantLevl}</td>
+                                <td>${myPlant.plantLevl.plantLevl}&nbsp;(최종단계:${myPlant.plantLevl.plantFinalLevl})</td>
                                 <td colspan="2"></td>
                               </tr>
                               <tr>

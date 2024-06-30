@@ -10,95 +10,134 @@
 <head>
   <jsp:include page="/header.jsp" flush="true" />
   <script>
-    $(document).ready(function () {
-      sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "groupRanking");
-      fncMainBoardList();
-      
-      $(".boardList").on("click", function() {
-          self.location = "/board/listBoard?boardType=1";
-      });
-    });
+  $(document).ready(function () {
+	    sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "groupRanking");
+	    fncMainBoardList();
+	   
+	    window.onload = function () {
+	    	loadMyPlantData();
+	      };
 
-    function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
-        $.ajax({
-          url: url,
-          type: "POST",
-          async: true,
-          cache: true,
-          timeout: 3000,
-          data: JSON.stringify({
-            searchCondition: searchCondition,
-            searchKeyword: searchKeyword,
-            pageSize: 0
-          }),
-          processData: true,
-          contentType: "application/json",
-          dataType: "json",
-          beforeSend: function () {
-            // AJAX 요청 전에 실행되는 함수
-          },
-          success: function (data, status, xhr) {
-            // AJAX 요청 성공 시 실행되는 함수
-            var str = "";
+	    
+	    $(".boardList").on("click", function() {
+	        self.location = "/board/listBoard?boardType=1";
+	    });
+	  
 
-            for (var i = 0; i < data.length; i++) {
-              str += "<div class='swiper-slide ranking'>" + data[i].groupName + "</div>";
-            }
+	  function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
+	    $.ajax({
+	      url: url,
+	      type: "POST",
+	      async: true,
+	      cache: true,
+	      timeout: 3000,
+	      data: JSON.stringify({
+	        searchCondition: searchCondition,
+	        searchKeyword: searchKeyword,
+	        pageSize: 0
+	      }),
+	      processData: true,
+	      contentType: "application/json",
+	      dataType: "json",
+	      beforeSend: function () {
+	        // AJAX 요청 전에 실행되는 함수
+	      },
+	      success: function (data, status, xhr) {
+	        // AJAX 요청 성공 시 실행되는 함수
+	        var str = "";
+	        for (var i = 0; i < data.length; i++) {
+	          str += "<div class='swiper-slide ranking'>" + data[i].groupName + "</div>";
+	        }
+	        $('.' + targetElementId).html(str);
+	        
+	     // ranking Swiper 초기화
+            var rankingSwiper = new Swiper('.swiper-container.ranking', {
+                direction: 'vertical', // direction: 'vertical'로 변경할 수 있습니다.
+                autoplay: {
+                    delay: 3000, // 자동 재생 지연 시간 (밀리초)
+                },
+                loop: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
+                }
+            });
 
-            $('.' + targetElementId).html(str);
-          },
-          error: function (xhr, status, error) {
-            // AJAX 요청 실패 시 실행되는 함수
-          },
-          complete: function (xhr, status) {
-            // AJAX 요청 완료 후 실행되는 함수
-          }
-        });
-      }
+            rankingSwiper.update(); // Swiper 업데이트
+        },
+	      error: function (xhr, status, error) {
+	        // AJAX 요청 실패 시 실행되는 함수
+	      },
+	      complete: function (xhr, status) {
+	        // AJAX 요청 완료 후 실행되는 함수
+	      }
+	    });
+	  }
 
-    function fncMainBoardList() {
-    	  $.ajax({
-    	    url: "/app/board/listBoardMain",
-    	    type: "POST",
-    	    data: JSON.stringify({ boardType: 1 }),
-    	    contentType: "application/json",
-    	    dataType: "json",
-    	    success: function (data) {
-    	      var str = "";
-    	      for (var i = 0; i < data.length; i++) {
-    	        var file = data[i].fileName ? data[i].fileName : "/images/back.png";
-    	        str += "<div class='swiper-slide'>"
-    	          + "<a href='/board/getBoard?boardType="+data[i].boardType+"&boardNo=" + data[i].boardNo + "' class='card-link'>"
-    	          + "<div class='card mb-4 shadow-sm'>"
-    	          + "<img class='bd-placeholder-img card-img-top' src='" + file + "' alt='Placeholder: Thumbnail'>"
-    	          + "<div class='card-body'>"
-    	          + "<h5 class='card-title'>" + data[i].title + "</h5>"
-    	          + "<p class='card-text'>"
-    	          + "<strong>" + data[i].nickName + "</strong><br>"
-    	          + data[i].regDate + "<br>"
-    	          + "<i class='mdi mdi-star'></i> " + data[i].bookmarkCnt
-    	          + " <i class='mdi mdi-eye'></i> " + data[i].views
-    	          + " <i class='mdi mdi-comment'></i> " + data[i].commentCnt
-    	          + "</p>"
-    	          + "</div></div></a></div>";
-    	      }
-    	      $('.boardListMain').html(str);
-    	      var swiper = new Swiper('.swiper-container', {
-    	        slidesPerView: 4, // 한 줄에 4개씩 보여줍니다.
-    	        spaceBetween: 24, // 슬라이드 사이의 간격을 설정합니다.
-    	        loop: true, // 마지막 슬라이드에서 첫 슬라이드로 순환합니다.
-    	        navigation: {
-    	          nextEl: '.custom-swiper-button-next',
-    	          prevEl: '.custom-swiper-button-prev',
-    	        },
-    	      });
-    	    },
-    	    error: function (xhr, status, error) {
-    	      alert('리스트 없음');
-    	    }
-    	  });
-    	}
+	  function fncMainBoardList() {
+	    $.ajax({
+	      url: "/app/board/listBoardMain",
+	      type: "POST",
+	      data: JSON.stringify({ boardType: 1 }),
+	      contentType: "application/json",
+	      dataType: "json",
+	      success: function (data) {
+	        var str = "";
+	        for (var i = 0; i < data.length; i++) {
+	          var file = data[i].fileName ? data[i].fileName : "/images/back.png";
+	          str += "<div class='swiper-slide'>"
+	            + "<a href='/board/getBoard?boardType="+data[i].boardType+"&boardNo=" + data[i].boardNo + "' class='card-link'>"
+	            + "<div class='card mb-4 shadow-sm'>"
+	            + "<img class='bd-placeholder-img card-img-top' src='" + file + "' alt='Placeholder: Thumbnail'>"
+	            + "<div class='card-body'>"
+	            + "<h5 class='card-title'>" + data[i].title + "</h5>"
+	            + "<p class='card-text'>"
+	            + "<strong>" + data[i].nickName + "</strong><br>"
+	            + data[i].regDate + "<br>"
+	            + "<i class='mdi mdi-star'></i> " + data[i].bookmarkCnt
+	            + " <i class='mdi mdi-eye'></i> " + data[i].views
+	            + " <i class='mdi mdi-comment'></i> " + data[i].commentCnt
+	            + "</p>"
+	            + "</div></div></a></div>";
+	        }
+	        $('.boardListMain').html(str);
+	        var swiper = new Swiper('.swiper-container', {
+	          slidesPerView: 4, // 한 줄에 4개씩 보여줍니다.
+	          spaceBetween: 24, // 슬라이드 사이의 간격을 설정합니다.
+	          loop: true, // 마지막 슬라이드에서 첫 슬라이드로 순환합니다.
+	          navigation: {
+	            nextEl: '.custom-swiper-button-next',
+	            prevEl: '.custom-swiper-button-prev',
+	          },
+	        });
+	      },
+	      error: function (xhr, status, error) {
+	        alert('리스트 없음');
+	      }
+	    });
+	  }
+	  
+	    function loadMyPlantData() {
+	        $.ajax({
+	            url: "/app/plant/getMyPlant", // 서블릿 URL
+	            type: "GET",
+	            dataType: "json",
+	            success: function (data) {
+	                // 받은 데이터를 이용해 화면을 업데이트
+	                $('#myPlantImg').attr('src', data.levlImg);
+	                $('#myPlantStage').text(data.plantLevl + ' 단계');
+	                $('#myPlantName').text('"' + data.myPlantName + '"');
+	                $('#myPlantExp').text('현재경험치: ' + data.myPlantExp);
+	            },
+	            error: function (xhr, status, error) {
+	                console.error('식물 데이터를 불러오는데 실패했습니다:', error);
+	            }
+	        });
+	    }
 
+	    // 페이지 로드 시 나의 식물 데이터를 불러옴
+	    
+  });
   </script>
   <style>
     .card-body {
@@ -158,6 +197,26 @@
       overflow: hidden; /* Hide overflow */
       text-overflow: ellipsis; /* Show ellipsis (...) */
     }
+    .card-myPlant img {
+      width: 100%;
+      height: auto;
+      max-width: 150px; /* 최대 너비 설정 */
+    }
+    .card-myPlant {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  height: 300px; /* 원하는 높이로 설정 */
+	  width: 300px;  /* 원하는 너비로 설정 */
+	  border-radius: 50%; /* 원형으로 만들기 */
+	  overflow: hidden; /* 자식 요소가 컨테이너 밖으로 나가지 않도록 */
+	  text-align: center;
+	  background-color: #FBFBFB; /* 원형 컨테이너의 배경색 */
+	  background-color: #FBFBFB; /* 원형 컨테이너의 배경색 */
+  	  border: 1px solid #00A06C; /* 테두리 색상과 두께 설정 */
+  	  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+	}
   </style>
 </head>
 
@@ -169,14 +228,14 @@
   
   <div class="main-panel">
     <div class="jumbotron">
-      <div class="container">
+      <div class="container ">
         <img src="/images/wewujumbo.jpg" alt="Background Image">
       </div>
     </div>
     <div class="container ranking">
     <div class="content-wrapper">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-8">
             <div class="justify-content-end d-flex">
               <div class="swiper-container ranking">
                 <div class="swiper-wrapper groupRanking">
@@ -195,15 +254,23 @@
               </div>
             </div>
           </div>
+          <c:if test="${empty user}">
+           
+          </c:if>
+          <c:if test="${!empty user}">
           <div class="col-md-4 grid-margin stretch-card">
             <div class="container">
               <div class="card-myPlant">
-               ${myPlant.myPlantExp}
-                 ${myPlant.plantLevl.levlImg}
-                 ${myPlant.plantLevl.plantLevl}
+              <P>나의 식물</P>
+                <img src="${myPlant.plantLevl.levlImg}" id="myPlantImg" style="display: block; margin: 0 auto;">
+	                   <p>${myPlant.plantLevl.plantLevl} 단계</p>
+	                   <p>" ${myPlant.myPlantName} "</p>
+	                   <p>현재경험치: ${myPlant.myPlantExp}</p>
               </div>
             </div>
           </div>
+          </c:if>
+        </div>
         </div>
         <!-- swiper -->
         <div class="container">
