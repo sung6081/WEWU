@@ -27,6 +27,7 @@
     .table-container::-webkit-scrollbar-track {
       background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
     }
+
   </style>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
@@ -40,19 +41,27 @@
         });
 
   </script>
+  <style>
+.jumbotron{
+margin: 0 !important; /* 기본 마진 제거 */
+background-color: #00A06C;
+}
+</style>
 </head>
 <body>
   <jsp:include page="/plant/plantSide.jsp" />
   <div class="main-panel">
+  <div class="jumbotron">
+  <div class="container">
+    <p class="display-4"><b>Plant Manage</b></p>
+  </div>
+</div>
     <div class="content-wrapper">
-      <div class="row mt-5">
-        <div class="col-lg-12 grid-margin stretch-card mx-auto">
+      <div class="row">
+        <div class="col-lg-11 grid-margin stretch-card mx-auto">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">List Plant</h4>
-              <p class="card-description">
-                Add class <code>.table-striped</code>
-              </p>
+              
               <div class="table-container">
                 <table class="table table-striped">
                   <thead>

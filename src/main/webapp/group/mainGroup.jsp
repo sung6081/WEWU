@@ -4,21 +4,42 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<style>
-		.card-body {
-			height:450px;
-	    }
-	    .list-wrapper{
-	    	
-	    }
-	     /* 스타일링은 필요에 따라 추가할 수 있습니다. */
-		  #info, #section2, #section3 {
-		  
-		  }
-		</style>
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
+		<style>
+			.card-body {
+				height:450px;
+		    }
+		    .list-wrapper{
+		    	
+		    }
+			.sideIcon
+			{
+				width:30px;
+				height:30px;
+				margin:0 10px 0 0;
+			}	
+			
+			.group_nav
+			{
+				display: flex;
+				align-items: center;
+			    white-space: nowrap;
+			    padding: 0.8125rem 1.937rem 0.8125rem 1rem;
+			    color: #6C7383;
+			    border-radius: 8px;
+			    
+			}
+			.group_nav:hover 
+			{ 
+				color: black;
+				text-decoration-line: none;
+				background: rgba(3,199,90,.12);
+    			box-shadow: 0px 26px 56px 0px rgba(0, 0, 0, 0.10), 0px 102px 102px 0px rgba(0, 0, 0, 0.09), 0px 230px 138px 0px rgba(0, 0, 0, 0.05), 0px 410px 164px 0px rgba(0, 0, 0, 0.01), 0px 640px 179px 0px rgba(0, 0, 0, 0.00);
+			}
+			
+		</style>
 		<script>
 			$(function() 
 			{
@@ -254,16 +275,35 @@
                         			if(targetElementId == "getGroupList"){
 		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">" +
 			    					            "  <td>"+ data[i].groupName +"</td>" +
+			    					            "  <td>#"+ data[i].groupHash +"</td>" +
 			    					            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
 			    					            "  <td>"+ data[i].groupPers +"</td>" +
+			    					            "  <td>"+ data[i].openDate +"</td>" +
 			    					            "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupRankingList"){
-		                        		str +=  "<tr>" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>" +
-									            "</tr>";
+		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">";
+		                        				if(i == 0)
+		                        				{
+		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_1.png'></td>";
+		                        				}else
+		                        				if(i == 1)
+		                        				{
+		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_2.png'></td>";
+		                        				}else
+		                        				if(i == 2)
+		                        				{
+		                        					str +=  "  <td><img class='sideIcon' src='/group/img/medal_3.png'></td>";
+		                        				}else
+		                        				{
+		                        					str +=  "  <td>"+(i+1)+"</td>";
+		                        				}
+		                        				str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        				str +=  "  <td>"+ data[i].groupHash +"</td>";
+		                        				str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+		                        				str +=  "  <td>"+ data[i].groupPers +"</td>";
+		                        				str +=  "  <td>"+ data[i].openDate +"</td>";
+		                        				str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getMyGroupList"){
 		                        		
@@ -492,29 +532,15 @@
 			
 			function scrollToSection(id) {
 				
-			  if(id == "GroupList")
-			  {
-				  const element = document.getElementById(id);
-			      if (element) {
-			        element.scrollIntoView({
-			          behavior: 'smooth',
-			          block: 'end' // 스크롤 위치 조정 (start, center, end 중 선택 가능)
-			        });
-			      } else {
-			        console.warn(`Element with id "${id}" not found.`);
-			      }
-			  }else
-			  {
-				  const element = document.getElementById(id);
-			      if (element) {
-			        element.scrollIntoView({
-			          behavior: 'smooth',
-			          block: 'center' // 스크롤 위치 조정 (start, center, end 중 선택 가능)
-			        });
-			      } else {
-			        console.warn(`Element with id "${id}" not found.`);
-			      }
-			  }
+			   const element = document.getElementById(id);
+			   if (element) {
+			     element.scrollIntoView({
+			       behavior: 'smooth',
+			       block: 'center' // 스크롤 위치 조정 (start, center, end 중 선택 가능)
+			     });
+			   } else {
+			     console.warn(`Element with id "${id}" not found.`);
+			   }
 		      
 		    }
 	        
@@ -530,33 +556,33 @@
 			        <div class="position-fixed">
 				        <ul class="nav">
 				          <li class="nav-item">
-				          	<a class="nav-link">
-				          		<i class="menu-icon"><img src="/group/img/house-door.svg"></i>
-				          		<span class="menu-title home">모임홈</span>
+				          	<a class="group_nav">
+				          		<i class="menu-icon"><img class="sideIcon" src="/group/img/real-estate_13468499.png"></i>
+				          		<span class="menu-title home"><b>모임홈</b></span>
 				          	</a>
 				          </li>
 				          <li class="nav-item">
-				            <a class="nav-link">
-				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
-				              <span class="menu-title">모임목록</span>
+				            <a class="group_nav">
+				              <i class="menu-icon"><img class="sideIcon" src="/group/img/group_745205.png"></i>
+				              <span class="menu-title"><b>모임목록</b></span>
 				            </a>
 				          </li>
 				          <li class="nav-item">
-				            <a class="nav-link">
-				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
-				              <span class="menu-title">내 모임관리</span>
+				            <a class="group_nav">
+				              <i class="menu-icon"><img class="sideIcon" src="/group/img/checklist_2666436.png"></i>
+				              <span class="menu-title"><b>내 모임관리</b></span>
 				            </a>
 				          </li>
 				          <li class="nav-item">
-				            <a class="nav-link">
-				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
-				              <span class="menu-title">모임랭킹</span>
+				            <a class="group_nav">
+				              <i class="menu-icon"><img class="sideIcon" src="/group/img/medal_13461118.png"></i>
+				              <span class="menu-title"><b>모임랭킹</b></span>
 				            </a>
 				          </li>
 				           <li class="nav-item">
-				            <a class="nav-link">
-				              <i class="menu-icon"><img src="/group/img/building-add.svg"></i>
-				              <span class="menu-title">모임개설신청</span>
+				            <a class="group_nav">
+				              <i class="menu-icon"><img class="sideIcon" src="/group/img/home_7457021.png"></i>
+				              <span class="menu-title" style="font-weight: 700;"><b>모임개설신청</b></span>
 				            </a>
 				          </li>
 				        </ul>
@@ -566,16 +592,33 @@
 		<!-- Main Content -->
 		<div class="main-panel">
         	<div class="content-wrapper">
-        		<div class="col-12" id="GroupList">
+        		<div class="col-12">
+        			<div class="col-md-12 grid-margin stretch-card">
+        				<div class="card">
+        					<div class="card-body" style="height:30%;">
+	        					
+        						<div>
+        							<div style="z-index: 1;">
+		        						<h4 class="card-title"><img class="sideIcon" src="/group/img/real-estate_13468499.png">모임홈</h4>
+		        						<h5><b>다양한 사람들과 함께 환경보호를 위한 모임에 동참하세요!</b></h5>
+	        						</div>
+        							<img src="/group/img/58510501_9433629.jpg" style="height:400px; width:100%; position: relative;
+        							" class="img-fluid" alt="Responsive image">
+        						</div>
+        					</div>
+        				</div>
+        			</div>
+        		</div>
+        		<div class="col-12">
 					<div class="row">
 						<!-- 왼쪽 1번  -->
 						<div class="col-md-1 grid-margin stretch-card">
 						</div>
-						<div class="col-md-10 grid-margin stretch-card">
+						<div class="col-md-10 grid-margin stretch-card" id="GroupList">
 						
 							<div class="card">
 								<div class="card-body" id="list">
-									<h4 class="card-title">모임목록</h4>
+									<h4 class="card-title"><img class="sideIcon" src="/group/img/group_745205.png">모임목록</h4>
 					                <div class="form-group">
 										<div class="input-group">
 					                    	<input type="text" class="form-control searchKeyword" placeholder="모임명" aria-label="모임명">
@@ -589,8 +632,10 @@
 											<thead>
 												<tr>
 													<th>모임명</th>
+													<th>모임태그</th>
 													<th>모임등급</th>
 													<th>인원수</th>
+													<th>개설일</th>
 										        </tr>  
 									        </thead>
 									        <tbody id="getGroupList">
@@ -617,10 +662,7 @@
 					    <div class="col-md-10 grid-margin stretch-card" >
 							<div class="card">
 							    <div class="card-body fixed-card-body" >
-							    	<div style="float:right;">
-		                    			<img src="/group/img/building-add.svg"><span>&nbsp;모임개설신청</span>
-				                    </div>
-							    	<p class="card-title">관리</p>
+							    	<p class="card-title"><img class="sideIcon" src="/group/img/checklist_2666436.png">관리</p>
 									 <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
 										<c:if test="${user.role != '1'}">
@@ -655,7 +697,7 @@
 					    <div class="col-md-10 grid-margin stretch-card" id="ranking">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">모임랭킹 <code>* 상위 10위</code></h4>
+									<h4 class="card-title"><img class="sideIcon" src="/group/img/medal_13461118.png">모임랭킹 <code>* 상위 10위</code></h4>
 					                <div class="form-group">
 										<div class="btn-group" role="group" aria-label="Basic example">
 				                        <button type="button" class="btn btn-outline-secondary btn-inverse-info">인원 수</button>
@@ -665,9 +707,12 @@
 										<table class="table table-striped table-borderless todo-list todo-list-custom">
 											<thead>
 												<tr>
+													<th>순위</th>
 													<th>모임명</th>
+													<th>모임태그</th>
 													<th>모임등급</th>
 													<th>인원수</th>
+													<th>개설일</th>
 										        </tr>  
 									        </thead>
 									        <tbody id="getGroupRankingList">

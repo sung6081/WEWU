@@ -35,7 +35,7 @@
 			            tbody.append(row);
 			        });
 			        
-			        $('.serverName').css('color', 'red');
+			        $('.serverName').css('color', '#FFC107');
 					
 					$('.serverName').on('click', function(event) {
 						//alert('check');

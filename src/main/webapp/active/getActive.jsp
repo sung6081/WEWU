@@ -33,12 +33,20 @@
     }
     
     .mdi-target {
-		color: #FF4747;
+		color: #57B657;
+	}
+	
+	input {
+		background: white !important;
 	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+	.search #submit {
+		background: #57B657 !important;
+		color: white;
+	}
     
 </style>
 
@@ -488,8 +496,8 @@
 	                    			<input type="time" readonly="readonly" name="activeStartTime" class="time form-control" value="${active.activeStartTime}" >
 	                    		</div>
 	                    		<div class="col-md-1 grid-margin" >
-	                    			<br/>
-	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
+	                    			<!-- <br/> -->
+	                    			<!-- <span style="display: flex; justify-content: center; align-items: center;" >~</span> -->
 	                    		</div>
 	                    		<div class="col-md-5 grid-margin" >
 	                    			<input type="time" readonly="readonly" name="activeEndTime" class="time form-control" value="${active.activeEndTime}" >
@@ -580,7 +588,7 @@
 	                   	<div class="col-md-5 grid-margin" >
 							<div class="row">
 								<div class="col-md-6 grid-margin" >
-		                      		<button type="button" onclick="updateActive()" class="btn btn-primary btn-lg btn-block">
+		                      		<button type="button" onclick="updateActive()" class="btn btn-success btn-lg btn-block">
 			                      		수정하기
 				                    </button>
 				                </div>
@@ -596,8 +604,8 @@
                    	
                    	<c:if test="${user.role == 1}">
                    	
-                   		<div class="col-md-5 grid-margin" >
-                   			<button type="button" onclick="deleteActive()" class="btn btn-danger btn-lg btn-block">
+                   		<div class="col-md-5 grid-margin btn-area" >
+                   			<button type="button" onclick="deleteActive()" style="margin-bottom: 50px;" class="btn btn-danger btn-lg btn-block">
 	                      		삭제하기
 		                    </button>
                    		</div>

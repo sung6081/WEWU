@@ -134,7 +134,7 @@
 	}
 	
 	.added {
-		background-color: #4B49AC !important;
+		background-color: #57B657 !important;
 		color: white !important;
 	}
 	
@@ -197,9 +197,9 @@
 				0rem 1rem 1rem -1rem rgba(black, 0.1);
 			
 			&.parker {
-				background-color: #4B49AC !important;
+				background-color: #FFC107 !important;
 				margin-left: 1rem;
-				color: white !important;
+				color: black !important;
 			}
 			
 			.typing {
@@ -536,7 +536,7 @@
 				<div class="input-group text-right">
 				    <div class="input-group-prepend">
 				        <!-- 이미지 업로드 버튼 -->
-				        <button type="button" class="btn btn-outline-primary btn-icon-text img-btn">
+				        <button type="button" class="btn btn-outline-success btn-icon-text img-btn">
 				            <i class="mdi mdi-file-image btn-icon-prepend"></i>
 				            이미지
 				        </button>
@@ -545,7 +545,7 @@
 				    </div>
 				    <div class="input-group-prepend">
 				        <!-- 영상 업로드 버튼 -->
-				        <button type="button" class="btn btn-outline-primary btn-icon-text video-btn">
+				        <button type="button" class="btn btn-outline-success btn-icon-text video-btn">
 				            <i class="mdi mdi-movie btn-icon-prepend"></i>
 				            영상
 				        </button>
@@ -593,7 +593,7 @@
 				    <input type="text" id="messageInput" class="form-control-sm keyword" placeholder="채팅을 입력하세요...">
 				    <!-- 전송 버튼 -->
 				    <div class="input-group-append">
-				        <button id="sendButton" class="btn btn-sm btn-primary search-btn">Send</button>
+				        <button id="sendButton" class="btn btn-sm btn-success search-btn">Send</button>
 				    </div>
 				</div>
 				</div>
