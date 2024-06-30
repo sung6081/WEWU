@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.plant.InventoryDao;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
@@ -55,6 +58,9 @@ public class PlantServiceImpl implements PlantService {
 	@Autowired
 	@Qualifier("inventoryDao")
 	private InventoryDao inventoryDao;
+	
+	@Autowired
+    private HttpSession session;
 
 	public void setPlantDao(PlantDao plantDao) {
 		this.plantDao = plantDao;
@@ -97,10 +103,40 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public void completeQuest(Quest quest) throws Exception {
-		questDao.completeQuest(quest);
+		if (quest.getCurrentCnt() >= quest.getQuestTargetCnt()) {
+			quest.setQuestState("N");
+			
+            User user = (User) session.getAttribute("user");
+            System.out.println("completeQuest:uset = "+user);
+            if (user.getNickname() == null) {
+                throw new Exception("User nickname not found in session.");
+            }
+            quest.setNickName(user.getNickname());
+            System.out.println("quest : "+quest);
+            MyPlant myPlant = (MyPlant) session.getAttribute("myPlant");
+            if (myPlant == null) {
+                throw new Exception("MyPlant not found in session.");
+            }          
+            System.out.println("completeQuest:myPlant = "+myPlant);
+
+            myPlant.setMyPlantExp(myPlant.getMyPlantExp() + quest.getQuestReward());
+            System.out.println("update된 myPlnat : "+myPlant);
+            System.out.println("quest.getQuestReward() : "+quest.getQuestReward());
+            myPlantDao.updateMyPlant(myPlant);
+            
+            
+
+            // 퀘스트 업데이트
+            questDao.completeQuest(quest);
+        }
 	}
 
 
+	@Override
+	public Quest getQuestByUser(String nickname) throws Exception {
+		
+		return questDao.getQuestByUser(nickname);
+	}
 	// ---------------------------------------------------------------------------------------//
 
 	@Transactional
@@ -267,11 +303,8 @@ public class PlantServiceImpl implements PlantService {
 
 	}
 
-	@Override
-	public Quest getQuestByUser(String nickname) throws Exception {
-		
-		return questDao.getQuestByUser(nickname);
-	}
+
+
 
 
 

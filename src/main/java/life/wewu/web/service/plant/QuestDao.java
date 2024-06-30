@@ -29,5 +29,7 @@ public interface QuestDao {
 	public void completeQuest(Quest quest) throws Exception;
 	
 	public Quest getQuestByUser(String nickname) throws Exception;
+	
+
 
 }
