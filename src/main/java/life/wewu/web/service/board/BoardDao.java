@@ -75,4 +75,6 @@ public interface BoardDao {
 	public List<Board> getBoardList (Map map) throws Exception;
 
 	public int getTotalCount(Map map)throws Exception;
+	
+	
 }

@@ -407,6 +407,7 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("questionType",questionType);
 		//map.put("questionType", "문의");
+		map.put("offset", (search.getCurrentPage() - 1) * 8);
 		
 		List<Question> list = boardService.getQuestionList(map);
 		

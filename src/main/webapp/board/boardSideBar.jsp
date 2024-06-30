@@ -18,12 +18,19 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="/images/favicon.png" />
 <title>Insert title here</title>
+<style>
+ .nav-item > a:hover {
+     color: inherit; /* 클릭, 포커스, 호버 상태에서 색상 변경 방지 */
+     background-color: transparent; /* 배경색 변경 방지 */
+   }
+
+</style>
 </head>
 <body>
 
 	<nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/board/listBoard?boardType=1">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">공지 사항</span>
@@ -43,7 +50,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/board/listBoard?boardType=2">
+            <a class="nav-link d" href="/board/listBoard?boardType=2">
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">모임 홍보</span>
             </a>

@@ -17,8 +17,8 @@
 		 $('footer').removeClass('fixed-bottom');
 		 
 		 $('.add-btn').on('click', function() {
-			 alert('asdfa');
-				oEditors.getById["acleContents"].exec("UPDATE_CONTENTS_FIELD", []);
+			 alert('asdf');
+				oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 				$('forms-sample').submit();
 				
 			});
@@ -111,6 +111,16 @@
 									</div>
 								</div>
 							</c:if>
+							
+							<div class="row">
+								<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
+									<i class="ti-upload btn-icon-prepend"></i> 썸네일 등록
+								</button>
+								<input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" multiple>
+							</div>
+							<br>
+							<br>
+
 
 							<div class="form-group row">
 								<div class="col-sm-12">
@@ -128,14 +138,6 @@
 									</script>
 								</div>
 							</div>
-
-							<div class="row">
-								<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
-									<i class="ti-upload btn-icon-prepend"></i> 파일 등록
-								</button>
-								<input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" multiple>
-							</div>
-
 							<button type="button" class="btn btn-primary mr-2 add-btn">등록</button>
 							<button class="btn btn-light">취&nbsp;소</button>
 						</form>

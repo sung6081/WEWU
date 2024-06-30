@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 수정</title>
+<title>WEWU</title>
 <!-- HEADER -->
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->
@@ -25,7 +25,7 @@
 
 		// 수정 버튼 클릭 시 동작
 		$(".btn-primary").on("click", function() {
-			alert("1");
+
 			oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 			$(".forms-sample").submit();
 		});
@@ -50,7 +50,7 @@
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
 
-		<div class="main-panel">
+		<div class="main-panel mb-5">
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card mb-5">
 					<div class="card-body">

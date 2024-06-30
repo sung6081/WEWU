@@ -292,5 +292,13 @@ public class BoardServiceImpl implements BoardService{
 	public void updateBookmarkCntDown(int boardNo) throws Exception {
 		boardDao.updateBookmarkCntDown(boardNo);
 	}
+
+	@Override
+	public int getTotalCountQ(Map<String, Object> map) throws Exception {
+		
+		return questionDao.getTotalCountQ(map);
+	}
+	
+	
 	
 }

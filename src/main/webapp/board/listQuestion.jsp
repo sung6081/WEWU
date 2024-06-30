@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의 목록 보기</title>
+<title>WEWU</title>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -39,14 +39,29 @@
 		});
 		$(function() {
 			$("button.btn.btn-inverse-primary").on("click", function() {
-				self.location = "/board/addQuestion?questionType=FAQ"
+				self.location = "/board/addQuestion?questionType=자주"
 			});
 
 		});
 
 	});
-</script>
+	
+	function fncQuestionList(page) {
+        var form = $('form');
+        form.method = 'GET';
+        form.action = '/board/listQuestion';
 
+        $('.currentPage').val(page);
+
+        form.submit();
+    }
+</script>
+<style type="text/css">
+.jumbotron {
+	margin: 0 !important; /* 기본 마진 제거 */
+	background-color: #00A06C;
+}
+</style>
 </head>
 <body>
 	<input type="hidden" name="questionType" value="${param.questionType}">
@@ -59,17 +74,22 @@
 		<jsp:include page="boardSideBar.jsp" />
 
 
-		<div class="main-panel">
+		<div class="main-panel mb-5">
 			<div class="col-12 grid-margin stretch-card">
 
 				<div class="card">
 					<div class="card-body">
-						<h4 class="card-title">
-
-							<c:if test="${param.questionType eq 'FAQ'}"> 자주하는 질문 </c:if>
-							<c:if test="${param.questionType eq '문의'}"> 1:1 문의</c:if>
-
-						</h4>
+					<div class="jumbotron">
+						<div class="container">
+							<p class="display-4">
+								<b><h3><c:if test="${param.questionType eq '자주'}"> 자주하는 질문 </c:if>
+							<c:if test="${param.questionType eq '문의'}"> 1:1 문의  </c:if></h3></b>
+							</p>
+						</div>
+					</div>
+						<br>
+						<br>
+						<br>
 
 						<div class="table-responsive">
 							<table class="table table-striped">
@@ -102,11 +122,32 @@
 							</table>
 						</div>
 					</div>
+					<%-- <div align="center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <c:if test="${resultPage.currentPage > 1}">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
+                                </c:if>
+                                <c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}">
+                                    <c:choose>
+                                        <c:when test="${i == resultPage.currentPage}">
+                                            <button type="button" class="btn btn-primary">${i}</button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${i})">${i}</button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                                <c:if test="${resultPage.endUnitPage < resultPage.maxPage}">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${resultPage.currentPage + 1})">&gt;</button>
+                                </c:if>
+                            </div>
+                        </div> --%>
+					
 					<div class="card">
 						<div class="card-body">
 
 							<c:if
-								test="${param.questionType eq 'FAQ' && sessionScope.isAdmin}">
+								test="${param.questionType eq '자주' && sessionScope.isAdmin}">
 								<button type="button" class="btn btn-inverse-primary btn-fw">
 									FAQ 등록</button>
 							</c:if>

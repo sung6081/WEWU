@@ -101,4 +101,6 @@ public interface BoardService {
 	public List<Question> getQuestionList(Map map) throws Exception;
 
 	public int getTotalCount(Map<String, Object> map) throws Exception;
+
+	public int getTotalCountQ(Map<String, Object> map) throws Exception;
 }

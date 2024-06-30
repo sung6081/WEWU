@@ -293,9 +293,6 @@
 								</c:if>
 							</div>
 						</div>
-						<div id="MainboardList">
-						
-						</div>
 
 					</div>
 				</div>
