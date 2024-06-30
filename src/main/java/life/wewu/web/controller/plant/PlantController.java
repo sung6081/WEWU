@@ -176,14 +176,7 @@ public class PlantController {
 	
 	//----------------MyPlant
 	
-	@RequestMapping(value ="selectRandomPlant" , method = RequestMethod.POST)
-	public String selectRandomPlant(Model model) throws Exception{
-		System.out.println(" /plant/selectRandomPlant : POST ");
-		Plant plant = plantService.selectRandomPlant();
-		model.addAttribute("plant", plant);
-		
-		return "forward:/plant/selectRandomPlant.jsp";
-	}
+
 
 	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
@@ -192,17 +185,19 @@ public class PlantController {
 		
 		User user = (User) session.getAttribute("user");
 	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-	    System.out.println("myPlant : " +myPlant);
-	    session.setAttribute("myPlant", myPlant);
+	    
 	    if (myPlant == null) {
-	        System.out.println("myPlant가 없습니다");
-	        return "forward:/randomPlantModel.jsp";
+	       System.out.println("myPlant가 없습니다");
+	       return "forward:/plant/randomPlantModal.jsp";
 	    }
 		
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		myPlant.setPlantLevl(plantLevl);
+	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+	    myPlant.setPlantLevl(plantLevl);
 		
-		
+	    
+	    System.out.println("myPlant : " +myPlant);
+	    session.setAttribute("myPlant", myPlant);
+	    
 		model.addAttribute("user", user);
 		model.addAttribute("myPlant", myPlant);
 		model.addAttribute("plantLevl", plantLevl);
