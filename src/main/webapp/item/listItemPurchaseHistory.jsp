@@ -10,20 +10,6 @@
 <!-- HEADER --> 
 <script>
 
-	window.onload=function()
-	{
-		var cp = "${itemPurchase.currentPoint}";
-		if (flag != "") {
-	        if(flag == "Y"){
-	        	alert("구매취소 완료");
-	        }else{
-	        	alert("구매취소 실패");
-	        }
-		}else {
-			
-	    }
-	}
-	
 	function updatePurchase(itemPurchaseNo){
 		
         if(!confirm("정말 구매를 취소하시겠습니까?")){
@@ -136,8 +122,6 @@
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-				<div class="main-panel">
-	        		<div class="content-wrapper">
 		        		 <div class="row">
 		                    <div class="col-lg-12 grid-margin stretch-card">
 		                        <div class="card">
@@ -201,6 +185,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
 
 

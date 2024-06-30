@@ -216,98 +216,98 @@
 	
 	
 	<div class="main-panel">
-	       	<div class="content-wrapper">
-				<div class="row">
-					<div class="col-lg-12 grid-margin stretch-card">
-						<div class="col-lg-4 col-md-6">
-			                <div class="section-title">
-			                    <h4><b>아이템 상점</b></h4>
-			                </div>
-			                
-			                
-			           	</div>
+	   <div class="content-wrapper">
+	   	 <div class="card">
+	   	 	<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="col-lg-4 col-md-6">
+				                <div class="section-title">
+				                    <h4><b>아이템 상점</b></h4>
+				                </div>
+					        </div>
+						</div>
 					</div>
-		       	</div>
-    
-     
-     <div class="col-lg-12 stretch-card">
-     	<div class="col-lg-8 stretch-card">
-		    	
-	    </div>	
-	    <div class="col-lg-4 grid-margin stretch-card">
-		    <c:if test="${isAdmin}">
-				<button type="button" class="btn btn-primary btn-yoon delete" style="float: right; margin-left: 10px;">아이템 삭제</button>
-		    	<button type="button" class="btn btn-primary btn-yoon update" style="float: right; margin-left: 10px;">아이템 수정</button>
-		        <button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 등록</button>
-	     	</c:if>	
-	    </div>
-	</div>
-	<div class="col-lg-14 stretch-card">
-	<div class="col-lg-4 stretch-card" style="margin:0 0 20px 0;">
-		<div class="btn-group" role="group" aria-label="Basic example">
-			 <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">전체</button> 
-             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">식물 아이템</button>
-             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">장식 아이템</button>
-        </div>
-    </div>
-    <div class="col-lg-5 stretch-card" style="margin:0 0 20px 0;">
-	</div>
-    <div class="col-lg-3 stretch-card" style="margin:0 0 20px 0x; ">
-    <div class="form-group">
-	        <div class="input-group">
-	          <input type="text" class="form-control" aria-label="search" value="${search.searchKeyword}"> <%--form-control은 css의 많은 스타일들 중 어떤 걸 사용할지 알려줌. 그리고 여기의 value는 사용자가 어떤 걸 입력하는지 나타냄. 이게 있어야 검색어 입력하고 검색 버튼 눌렀을 때, 검색 결과 보여주고 검색결과 보여줄 때 검색어를 유지해서 보여줌.  --%>
-	          <div class="input-group-append">
-	            <button class="btn btn-sm btn-primary" type="button">Search</button>
-	         </div>
-	       </div>
-	     </div> 
-	</div>
-	</div>
-	
-	<div class="col-lg-12 stretch-card">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <c:set var="i" value="0" />
-                    <c:forEach var="item" items="${item}">
-	                    <div class="col mb-5">
-	                        <div class="card h-100">
-	                            <!-- Product image-->
-	                             <c:if test="${isAdmin}">
-	                            <div class="mb-4" style="margin: 0 0 0 10px;">
-					                  <div class="form-check">
-					                    <label class="form-check-label text-muted">
-					                      <input type="radio" class="form-check-input" name="pno" value="${item.itemNo}">
-					                     
-					                    </label>
-					                  </div>
-					                </div>
-					             </c:if>   
-	                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
-	                            <!-- Product details-->
-	                            <div class="card-body p-4">
-	                                <div class="text-left">
-	                                 	<h5 class="fw-bolder">${item.itemCategory}아이템</h5> 
-	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder"><a href="/item/getItem?itemNo=${item.itemNo}" style="font-weight: bold;">${item.itemName}</a></h5>
-	                                    <!-- Product price-->
-	                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
-	                                </div>
-	                                <!-- Product actions-->
-		                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-		                                <div class="text-center">
-		                                	<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">장바구니</button> <%--이 버튼은 on click을 여기서 잡아줌. 그래서 onclick 어디서 거는지는 따로 안 넣어줘도 됨. 대신 function 호출하는 건 있어야 함.   --%>
-		                           		</div>
-		                           	</div>
-	                            	<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                               			<div class="text-center">
-                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" id="${item.itemNo}" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
-                            			</div>  
-                            		</div>
-	                            </div>
-	                    	</div> 
-	                    </div>
-                    </c:forEach>
-                </div>
-           	 </div>
+				     <div class="col-lg-12 stretch-card">
+				     	<div class="col-lg-8 stretch-card">
+						    	
+					    </div>	
+					    <div class="col-lg-4 grid-margin stretch-card">
+						    <c:if test="${isAdmin}">
+								<button type="button" class="btn btn-primary btn-yoon delete" style="float: right; margin-left: 10px;">아이템 삭제</button>
+						    	<button type="button" class="btn btn-primary btn-yoon update" style="float: right; margin-left: 10px;">아이템 수정</button>
+						        <button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 등록</button>
+					     	</c:if>	
+					    </div>
+					</div>
+					<div class="col-lg-14 stretch-card">
+						<div class="col-lg-4 stretch-card" style="margin:0 0 20px 0;">
+							<div class="btn-group" role="group" aria-label="Basic example">
+								 <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">전체</button> 
+					             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">식물 아이템</button>
+					             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">장식 아이템</button>
+					        </div>
+					    </div>
+					    <div class="col-lg-5 stretch-card" style="margin:0 0 20px 0;">
+						</div>
+					    <div class="col-lg-3 stretch-card" style="margin:0 0 20px 0x; ">
+					    	<div class="form-group">
+						        <div class="input-group">
+						          <input type="text" class="form-control" aria-label="search" value="${search.searchKeyword}"> <%--form-control은 css의 많은 스타일들 중 어떤 걸 사용할지 알려줌. 그리고 여기의 value는 사용자가 어떤 걸 입력하는지 나타냄. 이게 있어야 검색어 입력하고 검색 버튼 눌렀을 때, 검색 결과 보여주고 검색결과 보여줄 때 검색어를 유지해서 보여줌.  --%>
+						          <div class="input-group-append">
+						            <button class="btn btn-sm btn-primary" type="button">Search</button>
+						         </div>
+						       </div>
+						     </div> 
+						</div>
+					</div>
+			
+					<div class="col-lg-12 stretch-card">
+		                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+		                    <c:set var="i" value="0" />
+		                    <c:forEach var="item" items="${item}">
+			                    <div class="col mb-5">
+			                        <div class="card h-100" style="border: 1px solid #e3e3e3;">
+			                            <!-- Product image-->
+			                             <c:if test="${isAdmin}">
+			                            <div class="mb-4" style="margin: 0 0 0 10px;">
+							                  <div class="form-check">
+							                    <label class="form-check-label text-muted">
+							                      <input type="radio" class="form-check-input" name="pno" value="${item.itemNo}">
+							                     
+							                    </label>
+							                  </div>
+							                </div>
+							             </c:if>   
+			                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
+			                            <!-- Product details-->
+			                            <div class="card-body p-4">
+			                                <div class="text-left">
+			                                 	<h5 class="fw-bolder">${item.itemCategory}아이템</h5> 
+			                                    <!-- Product name-->
+			                                    <h5 class="fw-bolder"><a href="/item/getItem?itemNo=${item.itemNo}" style="font-weight: bold;">${item.itemName}</a></h5>
+			                                    <!-- Product price-->
+			                                    <h5 class="fw-bolder">${item.itemPrice}p</h5>   
+			                                </div>
+			                                <!-- Product actions-->
+				                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+				                                <div class="text-center">
+				                                	<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">장바구니</button> <%--이 버튼은 on click을 여기서 잡아줌. 그래서 onclick 어디서 거는지는 따로 안 넣어줘도 됨. 대신 function 호출하는 건 있어야 함.   --%>
+				                           		</div>
+				                           	</div>
+			                            	<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+		                               			<div class="text-center">
+		                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" id="${item.itemNo}" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
+		                            			</div>  
+		                            		</div>
+			                            </div>
+			                    	</div> 
+			                    </div>
+		                    </c:forEach>
+		                </div>
+		           	 </div>
+		         </div>
+		      </div>
           </div>
       </div>
     
