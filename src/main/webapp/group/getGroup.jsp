@@ -79,6 +79,13 @@
 		.slider.round:before {
 		  border-radius: 50%;
 		}
+		
+		.sideIcon
+		{
+			width:30px;
+			height:30px;
+			margin:0 10px 0 0;
+		}	
 		</style>
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
@@ -224,7 +231,7 @@
 		        <div class="col-12 grid-margin stretch-card">
 		            <div class="card">
 		                <div class="card-body">
-		                    <h4 class="card-title">${group.groupName}</h4>
+		                    <h4 class="card-title"><img class="sideIcon" src="/group/img/real-estate_13468499.png">${group.groupName}</h4>
 		                    <div style="float:right;">
 		                    	<c:if test="${empty groupMember}">
 		                    		<c:if test="${user.nickname != group.leaderNick}">
@@ -233,8 +240,8 @@
 		                        </c:if>
 		                        <c:if test="${!empty groupMember}">
 		                    		<c:if test="${user.nickname == group.leaderNick}">
-		                    			<img src="/group/img/arrow-repeat.svg"><span>수정</span>&nbsp;
-		                    			<img src="/group/img/eraser-fill.svg"><span>삭제</span>
+		                    			<span><img style="width:20px; height:20px; margin-right:5px;" src="/group/img/change.png">수정</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		                    			<span><img style="width:20px; height:20px; margin-right:5px;" src="/group/img/delete.png">삭제</span>
 		                    		</c:if>
 		                        </c:if>
 		                    </div>

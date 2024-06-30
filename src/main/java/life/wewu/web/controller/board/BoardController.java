@@ -225,6 +225,9 @@ public class BoardController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
+		search.setSearchCondition("");
+		search.setSearchKeyword("");
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
@@ -248,11 +251,12 @@ public class BoardController {
 			System.out.println("::: board : "+board);
 		}
 		
-		List<BoardFile> fileName = boardService.getBoardFile(boardType);
+		List<BoardFile> fileName = boardService.getBoardFile(map);
 		
 		
 		System.out.println("\n--lll"+list);
 		System.out.println("|||--"+ fileName);
+		System.out.println("|||--"+ search);
 		System.out.println();
 			
 		model.addAttribute("list",list);

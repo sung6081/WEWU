@@ -117,10 +117,12 @@
           dataType: "json",
           success: function (data) {
             console.log("Image URL: ", data.plantLevl.levlImg);
+            console.log("Selected Plant No: " + data.plantNo); // 디버깅 메시지 추가
+            console.log("Selected Plant Levl No: " + data.plantLevl.plantLevlNo); // 디버깅 메시지 추가
             // 이미지 출력
             $('.randomImage').attr('src', data.plantLevl.levlImg);
             $('.plantNo').val(data.plantNo);
-            $('.plantLevlNo').val(data.plantLevlNo);
+            $('.plantLevlNo').val(data.plantLevl.plantLevlNo);
             $('.randomImageContainer').show();
           },
           error: function (xhr, status, error) {
@@ -146,15 +148,17 @@
         var plantNo = $('.plantNo').val();
         var plantLevlNo = $('.plantLevlNo').val();
         var myPlantName = $('.myPlantName').val();
-        var randomImage = $('.randomImage').val();
+        
+        console.log("Plant No before saving: " + plantNo); // 디버깅 메시지 추가
+        console.log("Plant Levl No before saving: " + plantLevlNo); // 디버깅 메시지 추가
+        console.log("My Plant Name: " + myPlantName); // 디버깅 메시지 추가
 
         // AJAX 요청으로 데이터 전송
         $.ajax({
-          url: "/app/plant/addMyPlant",
+          url: "/app/plant/saveMyPlant",
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify({
-        	levlImg : levlImg,
             plantNo: plantNo,
             plantLevlNo: plantLevlNo,
             myPlantName: myPlantName

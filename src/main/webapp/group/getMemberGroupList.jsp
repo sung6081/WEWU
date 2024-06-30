@@ -165,7 +165,7 @@
         		<div class="col-lg-12 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <h4 class="card-title">모임원 목록</h4>
+	                  <h4 class="card-title"><img class="sideIcon" src="/group/img/memberList.png">모임원 목록</h4>
 	                    <div class="dropdown" style="float:right;">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
                         		data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

@@ -35,7 +35,7 @@ public interface BoardService {
 		
 	public List<BoardFile> getBoardFileList(int boardNo) throws Exception;
 		
-	public List<BoardFile> getBoardFile(int boardType) throws Exception;
+	public List<BoardFile> getBoardFile(Map map) throws Exception;
 		
 	//Comment Dao
 	public void addComment(Comment comment) throws Exception;

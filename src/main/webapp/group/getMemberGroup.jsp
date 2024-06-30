@@ -433,7 +433,7 @@
         		<div class="col-12 grid-margin stretch-card">
 		            <div class="card">
 		                <div class="card-body">
-		                    <h4 class="card-title">내 정보</h4>
+		                    <h4 class="card-title"><img class="sideIcon" src="/group/img/profile.png">내 정보</h4>
 		                    <div style="float:right;">
 			                    <c:if test="${groupMember.memberNickName != group.leaderNick}">
 	                    			<img src="/group/img/eraser-fill.svg"><span>탈퇴</span>

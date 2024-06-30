@@ -14,6 +14,7 @@
 		    .list-wrapper{
 		    	
 		    }
+		    
 			.sideIcon
 			{
 				width:30px;

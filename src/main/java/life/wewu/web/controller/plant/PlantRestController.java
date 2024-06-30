@@ -253,11 +253,16 @@ public class PlantRestController {
 	
 	@RequestMapping(value = "myPlantListbyLevlNo")
 	public List<MyPlant> myPlantListbyLevlNo(HttpSession session ,Model model,@RequestParam(value = "searchCondition", required = false) String searchCondition,
-            @RequestParam(value = "searchKeyword", required = false) String searchKeyword) throws Exception {
+            									@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+            									@RequestParam("plantLevlNo") int plantLevlNo) throws Exception {
+		
+		System.out.println("plant :: myPlantListByLevlNo");
 		User user = (User) session.getAttribute("user");
+		
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("nickname",user.getNickname());
+		map.put("plantLevlNo", plantLevlNo);
 		Search search = new Search();
         search.setSearchCondition(searchCondition);
         search.setSearchKeyword(searchKeyword);
@@ -265,7 +270,7 @@ public class PlantRestController {
 		
 		System.out.println("map = " + map);
 		
-		List<MyPlant> list = plantService.getMyPlantList(map);
+		List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
 		
 		System.out.println("List = " +list);
 	
@@ -342,22 +347,27 @@ public class PlantRestController {
 	    return map;
 	}
 	
-	@RequestMapping(value ="addMyPlant" , method = RequestMethod.POST)
+	
+	
+	@RequestMapping(value ="saveMyPlant" , method = RequestMethod.POST)
 	public MyPlant addRandomPlant(HttpSession session, @RequestBody MyPlant myPlant, Model model) throws Exception{
 		System.out.println(" /plant/addRandomPlant : POST ");
 		
 		User user = (User) session.getAttribute("user");
-		System.out.println("user + "+user);
-		myPlant.setNickname(user.getNickname());
-		System.out.println("Received MyPlant: " + myPlant);
+		Plant randomPlant = (Plant) session.getAttribute("randomPlant");
 		
-		int plantNo = myPlant.getPlantNo();
-        System.out.println("plantNo: " + plantNo);
+		System.out.println("User: " + user);
+	    System.out.println("RandomPlant: " + randomPlant);
+
+		
+		myPlant.setNickname(user.getNickname());
+		myPlant.setPlantNo(randomPlant.getPlantNo());
+		myPlant.setPlantLevlNo(randomPlant.getPlantLevl().getPlantLevlNo());
 		
 		plantService.addMyPlant(myPlant);
-		
-		
+
 		System.out.println("myPlant : " + myPlant);
+		
 		session.setAttribute("myPlant", myPlant);
 		model.addAttribute("myPlant", myPlant);
 		model.addAttribute("user", user);
@@ -376,13 +386,12 @@ public class PlantRestController {
 	}
 
 	@RequestMapping(value = "selectRandomPlant", method = RequestMethod.POST)
-	public Plant selectRandomPlant(Model model) throws Exception {
-		System.out.println(" /plant/selectRandomPlant : POST ");
-		Plant plant = plantService.selectRandomPlant();
-		System.out.println(plant);
-		model.addAttribute("plant", plant);
-
-		return plant;
+	public Plant selectRandomPlant(HttpSession session, Model model) throws Exception {
+	    System.out.println(" /plant/selectRandomPlant : POST ");
+	    Plant plant = plantService.selectRandomPlant();
+	    session.setAttribute("randomPlant", plant);
+	    System.out.println("Session attribute 'randomPlant' set: " + session.getAttribute("randomPlant"));
+	    return plant;
 	}
 
 	@RequestMapping(value = "getWeather", method = RequestMethod.POST)
