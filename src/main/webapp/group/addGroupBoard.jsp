@@ -95,8 +95,10 @@
 	                      <label>게시판 소개</label>
 	                      <input type="text" class="form-control" name="boardIntro" placeholder="게시판 소개">
 	                    </div>
+	                    
 	                    <div class="form-group">
 	                      <label>게시판 권한</label>
+	                      
 	                      <div class="form-check">
 		                    <label class="form-check-label text-muted">
 		                      <input type="radio" class="form-check-input" name="boardRole" value="G">
@@ -111,7 +113,7 @@
 		                  </div>
 	                    </div>
 	                  </form>
-	                <button onclick="javascript:addGroupBoard();"  class="btn btn-primary mr-2">개설</button>
+	                <button onclick="javascript:addGroupBoard();"  class="btn btn-success mr-2">개설</button>
 	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 	                </div>
 	              </div>

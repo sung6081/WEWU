@@ -30,7 +30,6 @@
 			color: black;
 			text-decoration-line: none;
 			background: rgba(3,199,90,.12);
-   			box-shadow: 0px 26px 56px 0px rgba(0, 0, 0, 0.10), 0px 102px 102px 0px rgba(0, 0, 0, 0.09), 0px 230px 138px 0px rgba(0, 0, 0, 0.05), 0px 410px 164px 0px rgba(0, 0, 0, 0.01), 0px 640px 179px 0px rgba(0, 0, 0, 0.00);
 		}
 	</style>
 	<script>
@@ -61,9 +60,16 @@
 					  var str = "";
 					  for(var i = 0 ; i < data.length ; i ++){
 						  str += "<li class=nav-item>" +
-					          		 "<a class=group_nav href=javascript:getGroupBoard(" + data[i].typeNo + ")>" +
-						            	 "<i class='menu-icon'><img class='sideIcon' src='/group/img/board.png'></i>" +
-					            		 "<span class=menu-title>" + data[i].boardName + "</span>" +
+					          		 "<a class=group_nav href=javascript:getGroupBoard(" + data[i].typeNo + ")>";
+					          		 if(data[i].boardType == "T")
+					          	     {
+					          			str +=   "<i class='menu-icon'><img class='sideIcon' src='/group/img/gallery.png'></i>";
+					          	     }else
+					          	     {
+					          	    	str +=   "<i class='menu-icon'><img class='sideIcon' src='/group/img/board.png'></i>"; 	    	 
+					          	     }
+						            	
+					          		str +=    "<span class=menu-title>" + data[i].boardName + "</span>" +
 				          			 "</a>" +
 				          		 "</li>";
 					  }
@@ -185,15 +191,11 @@
 		<!-- partial:partials/_sidebar.html -->
 	    <div class="container-fluid">
 	    	<div class="row">
-	    		<nav class="sidebar sidebar-offcanvas " id="sidebar">
-			        <ul class="nav">
-			          <li class="nav-item">
+	    		<nav class="sidebar sidebar-offcanvas" id="sidebar">
 			          	<a class="group_nav">
 			          		<i class="menu-icon"><img class="sideIcon" src="/group/img/real-estate_13468499.png"></i>
 			          		<span class="menu-title home"><b>${group.groupName }</b></span>
 			          	</a>
-			          </li>
-				  </ul>
 				  <hr>
 				  <h4>
 				  	&nbsp;&nbsp;<b>게시판</b> 
@@ -208,50 +210,36 @@
 				  </ul>
 				  <hr>
 		          <h4>&nbsp;&nbsp;<b>관리</b></h4>
-		          <ul class="nav">
-			          <li class="nav-item">
 					     <a class="group_nav">
 					     	<i class="menu-icon"><img class="sideIcon" src="/group/img/information.png"></i>
 				            <span class="menu-title">모임정보</span>
 					     </a>
-			          </li>
 				      <c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
-	                  	<li class="nav-item">
 				        	<a class="group_nav">
 					            <i class="menu-icon"><img class="sideIcon" src="/group/img/profile.png"></i>
 					            <span class="menu-title">내 정보</span>
 				            </a>
-				        </li>
 	                  </c:if>
 				      <c:if test="${!empty groupMember}">
 	                  	<c:if test="${user.nickname == group.leaderNick}">
-	                		<li class="nav-item">
 						    	<a class="group_nav">
 						        	<i class="menu-icon"><img class="sideIcon" src="/group/img/memberList.png"></i>
 						            <span class="menu-title">모임원목록</span>
 						        </a>
-						   </li>
-					       <li class="nav-item">
 					          <a class="group_nav">
 					            <i class="menu-icon"><img class="sideIcon" src="/group/img/form.png"></i>
 					            <span class="menu-title">가입신청서 양식</span>
 					          </a>
-					       </li>
-					       <li class="nav-item">
 					          <a class="group_nav">
 					            <i class="menu-icon"><img class="sideIcon" src="/group/img/attention.png"></i>
 					            <span class="menu-title">신고조회</span>
 					          </a>
-					       </li>
 	                	</c:if>
                      </c:if>
-			         <li class="nav-item">
 			            <a class="group_nav">
 			              <i class="menu-icon"><img class="sideIcon" src="/group/img/globe.png"></i>
 			              <span class="menu-title">모임활동구역</span>
 			            </a>
-			         </li>
-		          </ul>
 			    </nav>
 			    
 			    <form id="getGroupBoardList" method="post">
