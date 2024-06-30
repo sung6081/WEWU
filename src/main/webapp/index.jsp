@@ -9,6 +9,9 @@
 
 <head>
   <jsp:include page="/header.jsp" flush="true" />
+    <!-- 추가된 부분: Chart.js 및 jQuery 스크립트 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
   $(document).ready(function () {
 	    sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "groupRanking");
@@ -135,7 +138,91 @@
 	        });
 	    }
 
-	    // 페이지 로드 시 나의 식물 데이터를 불러옴
+	    function loadAirQualityData() {
+	        $.ajax({
+	          url: "/graph/airquality",
+	          type: "GET",
+	          dataType: "json",
+	          success: function(data) {
+	            // 데이터 파싱
+	            var labels = [];
+	            var seoulData = [];
+	            var busanData = [];
+	            var daeguData = [];
+	            var incheonData = [];
+
+	            for (var i = 0; i < data.response.body.items.length; i++) {
+	              var item = data.response.body.items[i];
+	              labels.push(item.dataTime);
+	              seoulData.push(item.seoul);
+	              busanData.push(item.busan);
+	              daeguData.push(item.daegu);
+	              incheonData.push(item.incheon);
+	            }
+
+	            // Chart.js 생성
+	            var ctx = document.getElementById('airQualityChart').getContext('2d');
+	            new Chart(ctx, {
+	              type: 'line',
+	              data: {
+	                labels: labels,
+	                datasets: [
+	                  {
+	                    label: 'Seoul',
+	                    data: seoulData,
+	                    borderColor: 'rgba(255, 99, 132, 1)',
+	                    borderWidth: 1,
+	                    fill: false
+	                  },
+	                  {
+	                    label: 'Busan',
+	                    data: busanData,
+	                    borderColor: 'rgba(54, 162, 235, 1)',
+	                    borderWidth: 1,
+	                    fill: false
+	                  },
+	                  {
+	                    label: 'Daegu',
+	                    data: daeguData,
+	                    borderColor: 'rgba(75, 192, 192, 1)',
+	                    borderWidth: 1,
+	                    fill: false
+	                  },
+	                  {
+	                    label: 'Incheon',
+	                    data: incheonData,
+	                    borderColor: 'rgba(153, 102, 255, 1)',
+	                    borderWidth: 1,
+	                    fill: false
+	                  }
+	                ]
+	              },
+	              options: {
+	                responsive: true,
+	                scales: {
+	                  x: {
+	                    beginAtZero: true,
+	                    ticks: {
+	                      font: {
+	                        size: 10 // x축 폰트 크기 조정
+	                      },
+	                      maxTicksLimit: 5, // x축에 표시되는 최대 틱 수
+	                      autoSkip: true // 자동으로 레이블 건너뛰기
+	                    }
+	                  },
+	                  y: {
+	                    beginAtZero: true
+	                  }
+	                }
+	              }
+	            });
+	          },
+	          error: function(xhr, status, error) {
+	            console.error('Error fetching air quality data', error);
+	          }
+	        });
+	      }
+
 	    
   });
   </script>
@@ -217,6 +304,29 @@
   	  border: 1px solid #00A06C; /* 테두리 색상과 두께 설정 */
   	  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 	}
+	
+	    .container-row {
+      display: flex;
+      flex-wrap: nowrap; /* 줄바꿈을 없앱니다. */
+    }
+
+    .container-column {
+      flex: 1;
+      padding: 10px;
+    }
+
+    .chart-container {
+      width: 100%; /* Full width */
+      max-width: 450px; /* 적절한 최대 너비 설정 */
+      height: auto; /* 자동 높이 */
+      margin: 0 auto; /* 가운데 정렬 */
+    }
+
+    #airQualityChart {
+      width: 110% !important; /* Full width */
+      height: 300px !important; /* 적절한 높이 설정 */
+    }
+	
   </style>
 </head>
 
@@ -295,9 +405,18 @@
               <!-- main-panel ends -->
             </div>
           </div>
+          
+                    <div class="col-md-4 grid-margin stretch-card container-column">
+            <div class="container chart-container">
+              <!-- 추가된 부분: 공기 질 데이터를 표시할 캔버스 -->
+              <canvas id="airQualityChart"></canvas>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+ 
+          
+
     <!-- footer.jsp -->
     <jsp:include page="footer.jsp" />
     <!-- footer.jsp -->

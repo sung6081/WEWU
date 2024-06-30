@@ -63,10 +63,20 @@
 	
 
 	<!-- DELETE PLANT -->
+	
+	<delete id="deleteMyPlant" parameterType="int">
+    DELETE FROM my_plant WHERE plant_no = #{plantNo};
+	</delete>
+	
+	<delete id="deletePlantLevl" parameterType="int">
+	    DELETE FROM plant_levl WHERE plant_no = #{plantNo};
+	</delete>
+	
 	<delete id="deletePlant" parameterType="int">
-        DELETE FROM plant 
-        WHERE plant_no = #{plantNo}
-    </delete>
+	    DELETE FROM plant WHERE plant_no = #{plantNo};
+	</delete>
+    
+    
 	
 
 	<select id = "getPlant" parameterType="int" resultMap="PlantSelectMap">

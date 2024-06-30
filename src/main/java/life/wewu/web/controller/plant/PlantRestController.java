@@ -110,6 +110,15 @@ public class PlantRestController {
 
 		return plantLevl;
 	}
+	
+	@RequestMapping(value = "deletePlant")
+	public Plant deleteplant(@RequestBody Plant plant, Model model) throws Exception {
+		System.out.println("::plant::REST::deleteQuest : POST");
+		plantService.deletePlant(plant.getPlantNo());
+		model.addAttribute("plant", plant);
+
+		return plant;
+	}
 
 	@RequestMapping(value = "updatePlant", method = RequestMethod.POST)
 	public Map<String, Object> updatePlant(@RequestPart("plantRequest") PlantRequest plantRequest, Model model,

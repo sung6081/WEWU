@@ -169,6 +169,26 @@ public class PlantServiceImpl implements PlantService {
 	public Plant selectRandomPlant() throws Exception {
 		return plantDao.selectRandomPlant();
 	}
+	
+	@Override
+	public void deletePlant(int plantNo) throws Exception {
+		plantDao.deleteMyPlant(plantNo);
+		plantDao.deletePlantLevl(plantNo);
+        plantDao.deletePlant(plantNo);
+		
+	}
+	@Override
+	public void deletePlantLevl(int plantNo) throws Exception {
+		plantDao.deletePlantLevl(plantNo);
+		
+	}
+	@Override
+	public void deleteMyPlant(int plantNo) throws Exception {
+		plantDao.deleteMyPlant(plantNo);
+		
+	}
+
+
 
 	// ---------------------------------------------------------------------------------------//
 	@Override
@@ -252,6 +272,8 @@ public class PlantServiceImpl implements PlantService {
 		
 		return questDao.getQuestByUser(nickname);
 	}
+
+
 
 
 
