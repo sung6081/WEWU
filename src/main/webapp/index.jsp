@@ -2,6 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,36 +11,11 @@
   <jsp:include page="/header.jsp" flush="true" />
   <script>
     $(document).ready(function () {
-      // 페이지가 로드되면 getMyPlant를 호출하여 세션에 myPlant 데이터를 설정
-      getMyPlant();
-      // 그룹 랭킹 목록을 불러오는 기존 AJAX 요청
+
       sendAjaxRequest("/app/group/getGroupRankingList", "Ranking", "", "groupRanking");
     });
 
-    function getMyPlant() {
-      $.ajax({
-        url: "/app/plant/getMyPlant", // 실제 컨트롤러의 매핑 URL
-        type: "POST",
-        async: true,
-        cache: false,
-        timeout: 3000,
-        contentType: "application/json",
-        dataType: "json",
-        success: function (data, status, xhr) {
-          console.log("MyPlant data:", data);
-          // 성공 시 처리 로직
-          // 필요한 경우 추가 처리를 여기에 추가할 수 있습니다.
-          $("#myPlantName").text(data.myPlantName);
-          $("#plantLevl").text(data.plantLevl.plantLevl);
-          $("#levlImg").attr("src", data.plantLevl.levlImg);
-          $("#myPlantExp").text("현재 경험치: " + data.myPlantExp);
-        },
-        error: function (xhr, status, error) {
-          // 오류 발생 시 처리 로직
-          console.error("Error while retrieving MyPlant data:", error);
-        }
-      });
-    }
+
     function sendAjaxRequest(url, searchCondition, searchKeyword, targetElementId) {
       $.ajax({
         url: url,
@@ -99,6 +75,7 @@
       justify-content: center;
       align-items: center;
       margin-botton: 0;
+      
     }
 
     .jumbotron img {
@@ -111,12 +88,15 @@
       /* Change this to your desired background color */
       padding: 0;
       margin: 0;
+      width: 100%;
     }
 
     .content-wrapper {
       background: #fff;
 		padding:0;
     }
+    
+    
     
     
   </style>
@@ -127,6 +107,7 @@
 
   <!-- 퀘스트사이드바 -->
   <!-- partial -->
+  
   <div class="main-panel">
     <div class="jumbotron">
       <div class="container">
@@ -158,10 +139,9 @@
           <div class="col-md-4 grid-margin stretch-card">
             <div class="container">
               <div class="card-myPlant">
-                <p id="myPlantName"></p>
-                <p id="plantLevl"></p>
-                <img id="levlImg" width="200">
-                <div id="myPlantExp"></div>
+               ${myPlant.myPlantExp}
+                 ${myPlant.plantLevl.levlImg}
+                 ${myPlant.plantLevl.plantLevl}
               </div>
             </div>
           </div>

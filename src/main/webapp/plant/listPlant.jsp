@@ -27,25 +27,7 @@
     .table-container::-webkit-scrollbar-track {
       background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
     }
-.jumbotron {
-      padding: 5px;
-      margin-top: 40px;
-      background-color: #00A06C;
-      border-radius: 0.3rem;
-      color: #FFFFFF;
-      font-size: 10px;
-      text-align: left;
-    }
- .jumbotron .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* 세로로 중앙 정렬 */
-      height: 40px; /* 점보트론의 높이 설정 */
-    }
-    
-        .jumbotron .display-4 {
-      font-size: 20px; /* 글씨 크기 설정 */
-    }
+
   </style>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
@@ -59,6 +41,12 @@
         });
 
   </script>
+  <style>
+.jumbotron{
+margin: 0 !important; /* 기본 마진 제거 */
+background-color: #00A06C;
+}
+</style>
 </head>
 <body>
   <jsp:include page="/plant/plantSide.jsp" />
