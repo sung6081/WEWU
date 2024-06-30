@@ -16,8 +16,7 @@
 		<result property="title" column="title" jdbcType="VARCHAR" />
 		<result property="contents" column="contents"
 			jdbcType="LONGVARCHAR" />
-		<result property="userGroupNo" column="user_group_no"
-			jdbcType="LONGVARCHAR" />
+		<result property="userGroupNo" column="user_group_no" jdbcType="LONGVARCHAR" />
 
 		<result property="regDate" column="reg_date" jdbcType="DATE" />
 		<result property="bookmarkCnt" column="bookmark_cnt"
@@ -25,6 +24,8 @@
 		<result property="views" column="views" jdbcType="NUMERIC" />
 		<result property="commentCnt" column="comments_cnt"
 			jdbcType="NUMERIC" />
+			
+		<result property="fileName" column="file_name" jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<!-- comment 테이블 -->
@@ -105,6 +106,14 @@
 		FROM bookmark
 		WHERE board_no= #{boardNo}
 	</select>
+	
+	<!-- Bookmark : GET BOOKMARK -->
+	<select id="getBookmark" parameterType ="map" resultMap="bookmarkSelectMap">
+		SELECT *
+		FROM bookmark
+		WHERE nickname = #{nickName}
+		AND board_no = #{boardNo}
+	</select>
 
 	<!-- =========================Boardfile================================== -->
 	<!-- Boardfile : INSERT ( 파일 추가하기 ) -->
@@ -160,7 +169,7 @@
 
 	<!-- Boardfile : SELECT ( 게시판별 썸네일 찾기 ) -->
 	<!-- 게시판에 업로드된 첫번째 파일 가져옴 -->
-	<select id="getBoardFile" parameterType="int"
+	<select id="getBoardFile" parameterType="map"
 		resultMap="boardfileSelectMap">
 		SELECT bf.board_no,
 		bf.file_no, bf.file_name
@@ -172,7 +181,9 @@
 		board_no IN (SELECT board_no FROM board WHERE type_no = #{boardType})
 		GROUP BY board_no)
 		subquery ON bf.board_no = subquery.board_no AND
-		bf.file_no = subquery.min_file_no;
+		bf.file_no = subquery.min_file_no
+		ORDER BY board_no desc
+		LIMIT #{offset}, 8;
 
 	</select>
 
@@ -191,13 +202,13 @@
 		DELETE FROM comment
 		<where>
 			<if test="baordNo != null and boardNo != ''">
-			 board_no = #{boardNo}
+				board_no = #{boardNo}
 			</if>
 			<if test="commentNo != null and commentNo != ''">
-			 OR comment_no = #{commentNo}
+				OR comment_no = #{commentNo}
 			</if>
 		</where>
-		
+
 	</delete>
 
 	<!-- Comment : UPDATE ( 댓글 수정하기 ) -->
@@ -334,68 +345,67 @@
 		WHERE board_no = #{boardNo}
 	</select>
 
+	<select id="getBoardList" parameterType="Map" resultMap="boardSelectMap">
+    SELECT DISTINCT
+        b.board_no,
+        b.type_no,
+        b.member_no,
+        b.nickname,
+        b.title,
+        b.user_group_no,
+        b.contents,
+        b.reg_date,
+        b.bookmark_cnt,
+        b.views,
+        b.comments_cnt,
+        f.file_name
+    FROM
+        board b
+    LEFT JOIN
+        boardfile f ON b.board_no = f.board_no
+    <where>
+        <if test="search.searchCondition != null and search.searchKeyword != ''">
+            <choose>
+                <when test="search.searchCondition == 0">
+                    AND INSTR(b.title, #{search.searchKeyword}) > 0
+                </when>
+                <when test="search.searchCondition == 1">
+                    AND INSTR(b.contents, #{search.searchKeyword}) > 0
+                </when>
+                <when test="search.searchCondition == 2">
+                    AND INSTR(b.nickname, #{search.searchKeyword}) > 0
+                </when>
+            </choose>
+        </if>
+        <if test="search.searchCondition == null and search.searchKeyword != ''">
+            AND INSTR(b.title, #{search.searchKeyword}) > 0
+        </if>
+        <if test="boardType != null">
+            AND b.type_no = #{boardType}
+        </if>
+    </where>
+    ORDER BY b.board_no DESC
+    LIMIT #{offset}, 8;
+</select>
 
-	<!-- SQL : SELECT ROW Count + views, -->
-	<select id="getBoardList" parameterType="Map"
-		resultMap="boardSelectMap">
-		SELECT board_no, type_no, nickname,
-		title,user_group_no, contents,
-		reg_date,
-		bookmark_cnt, views, comments_cnt
-		FROM board
-		<if test="search.searchCondition != null or boardType != null">
-			<where>
-				<if
-					test="search.searchCondition == 0 and search.searchKeyword != ''">
-					INSTR(title, #{search.searchKeyword}) > 0
-				</if>
-				<if
-					test="search.searchCondition == 1 and search.searchKeyword != ''">
-					INSTR(contents, #{search.searchKeyword}) > 0
-				</if>
-				<if
-					test="search.searchCondition == 2 and search.searchKeyword != ''">
-					INSTR(nickname, #{search.searchKeyword}) > 0
-				</if>
-				<if test="boardType != null">
-					AND type_no = #{boardType}
-				</if>
-			</where>
-		</if>
-		ORDER BY board_no;
-	</select>
 
-
-	<!-- SQL : SELECT ROW Count -->
 	<select id="getTotalCount" parameterType="Map" resultType="int">
-		SELECT COUNT(b.board_no)
-		FROM(
-		SELECT board_no ,title , contents ,
-		nickname
+		SELECT COUNT(board_no)
 		FROM board
 		<if test="search.searchCondition != null or boardType != null">
 			<where>
 				<if
-					test="search.searchCondition == 0 and  and search.searchKeyword != ''">
+					test="search.searchCondition != null and search.searchCondition == 0 and search.searchKeyword != ''">
 					INSTR(title, #{search.searchKeyword}) > 0
-				</if>
-				<if
-					test="search.searchCondition == 1 and search.searchKeyword != ''">
-					INSTR(contents, #{search.searchKeyword}) > 0
-				</if>
-				<if
-					test="search.searchCondition == 2 and search.searchKeyword != ''">
-					INSTR(nickname, #{search.searchKeyword}) > 0
 				</if>
 				<if test="boardType != null">
 					AND type_no = #{boardType}
 				</if>
-
 			</where>
 		</if>
-		) as b
-		ORDER BY board_no;
 	</select>
+
+
 
 
 

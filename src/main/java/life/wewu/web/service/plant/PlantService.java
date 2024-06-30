@@ -27,6 +27,8 @@ public interface PlantService {
 
 	public void completeQuest(Quest quest) throws Exception;
 	
+	public Quest getQuestByUser(String nickname) throws Exception;
+	
 	//---------------------------------------------------------------------------------------//
 	
 	public void addPlant(PlantRequest plantRequest) throws Exception;
@@ -61,7 +63,7 @@ public interface PlantService {
 	
 	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception;
 
-	public MyPlant deleteMyPlant(String nickname) throws Exception;
+	public void deleteMyPlant(String nickname) throws Exception;
 
 	public String getWeather(String location) throws Exception;
 	

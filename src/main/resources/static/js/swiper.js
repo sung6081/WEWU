@@ -10,8 +10,8 @@
                 observeParents: true,
                 spaceBetween: 24,
                 navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: '.custom-swiper-button-next',
+                    prevEl: '.custom-swiper-button-prev',
                 },
                 breakpoints: {
                     1280: {

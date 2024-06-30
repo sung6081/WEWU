@@ -26,12 +26,12 @@
 	<!--  ADD RANDOMPLANT -->
 	<insert id="addMyPlant" parameterType="myPlant">
 		INSERT INTO my_plant (my_plant_state,my_plant_name,my_plant_exp,plant_start_date,nickname,plant_no)
-		VALUE ('Y',#{myPlantName},1,now(),#{nickname},#{plant.plantNo})
+		VALUE ('Y',#{myPlantName},1,now(),#{nickname},#{plantNo})
 	</insert>
 
 	<select id ="getMyPlant" parameterType="string" resultMap="myPlantSelectMap">
 		SELECT 
-			m.*,le.plant_levl_no
+			m.*,le.*
     	FROM 
     		my_plant m , plant_levl le
     	WHERE m.plant_no = le.plant_no	
@@ -113,10 +113,11 @@
 	 </update>
 	 
 	 <!-- DELETE MYPLANT -->
-	 <update id="deleteMyPlant" parameterType="string">
+	 <update id="deleteMyPlant" parameterType="String">
 	 	UPDATE my_plant
 	 	<set>	
-	 		my_plant_state = 'N'
+	 		my_plant_state = 'N',
+	 		plant_end_date = NOW()
 	 	</set>
 	 	WHERE nickname = #{nickname}
 	 </update>

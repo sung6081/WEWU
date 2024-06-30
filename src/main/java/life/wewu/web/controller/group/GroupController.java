@@ -64,9 +64,26 @@ public class GroupController {
 		
 		ModelAndView model = new ModelAndView("forward:/group/getGroup.jsp");
 		
-		model.addObject("group", groupService.getGroup(groupNo));
+		int cnt = groupService.groupMemberCnt(groupNo);
+		Group group = groupService.getGroup(groupNo);
+		
+		group.setGroupPers(cnt);
+		
+		if (cnt >= 100) {
+			group.setGroupLevel("S");
+		} else if (cnt >= 50) {
+			group.setGroupLevel("A");
+		} else if (cnt >= 30) {
+			group.setGroupLevel("B");
+		} else if (cnt >= 10){
+			group.setGroupLevel("C");
+		}else {
+			group.setGroupLevel("D");
+		}
+		
+		model.addObject("group", group);
 		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
-		model.addObject("groupCnt", groupService.groupMemberCnt(groupNo));
+		model.addObject("groupCnt", cnt);
 		model.addObject("acleCnt", groupService.groupAcleCnt(groupNo));
 		return model;
 	}
@@ -79,7 +96,26 @@ public class GroupController {
 		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getAddAppl.jsp");
-		model.addObject("group", groupService.getGroup(groupNo));
+		
+		int cnt = groupService.groupMemberCnt(groupNo);
+		Group group = groupService.getGroup(groupNo);
+		
+		group.setGroupPers(cnt);
+		
+		if (cnt >= 100) {
+			group.setGroupLevel("S");
+		} else if (cnt >= 50) {
+			group.setGroupLevel("A");
+		} else if (cnt >= 30) {
+			group.setGroupLevel("B");
+		} else if (cnt >= 10){
+			group.setGroupLevel("C");
+		}else {
+			group.setGroupLevel("D");
+		}
+		
+		model.addObject("group", group);
+		
 		return model;
 	}
 	
@@ -90,6 +126,22 @@ public class GroupController {
 		System.out.println(":: /group/getApplJoin ::");
 		GroupMember groupMember = groupService.getApplJoin(memberNo);
 		Group group = groupService.getGroup(groupMember.getGroupNo());
+		int cnt = groupService.groupMemberCnt(groupMember.getGroupNo());
+		
+		group.setGroupPers(cnt);
+		
+		if (cnt >= 100) {
+			group.setGroupLevel("S");
+		} else if (cnt >= 50) {
+			group.setGroupLevel("A");
+		} else if (cnt >= 30) {
+			group.setGroupLevel("B");
+		} else if (cnt >= 10){
+			group.setGroupLevel("C");
+		}else {
+			group.setGroupLevel("D");
+		}
+		
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getApplJoin.jsp");
 		model.addObject("groupMember", groupMember);
@@ -120,7 +172,24 @@ public class GroupController {
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
 		
-		model.addObject("group", groupService.getGroup(groupNo));
+		Group group = groupService.getGroup(groupNo);
+		int cnt = groupService.groupMemberCnt(groupNo);
+		
+		group.setGroupPers(cnt);
+		
+		if (cnt >= 100) {
+			group.setGroupLevel("S");
+		} else if (cnt >= 50) {
+			group.setGroupLevel("A");
+		} else if (cnt >= 30) {
+			group.setGroupLevel("B");
+		} else if (cnt >= 10){
+			group.setGroupLevel("C");
+		}else {
+			group.setGroupLevel("D");
+		}
+		
+		model.addObject("group", group);
 		model.addObject("groupMember", groupService.getMemberGroup(memberNo));
 		return model;
 	}
@@ -136,7 +205,24 @@ public class GroupController {
 		map.put("nickname",nickname);
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
 		
-		model.addObject("group", groupService.getGroup(groupNo));
+		Group group = groupService.getGroup(groupNo);
+		int cnt = groupService.groupMemberCnt(groupNo);
+		
+		group.setGroupPers(cnt);
+		
+		if (cnt >= 100) {
+			group.setGroupLevel("S");
+		} else if (cnt >= 50) {
+			group.setGroupLevel("A");
+		} else if (cnt >= 30) {
+			group.setGroupLevel("B");
+		} else if (cnt >= 10){
+			group.setGroupLevel("C");
+		}else {
+			group.setGroupLevel("D");
+		}
+		
+		model.addObject("group", group);
 		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		model.addObject("acleCount", groupService.memberAcleListCnt(map));
@@ -154,11 +240,28 @@ public class GroupController {
 		map.put("groupNo", groupNo);
 		map.put("memberNickName",((User)session.getAttribute("user")).getNickname());
 		
+		Group group = groupService.getGroup(groupNo);
+		int cnt = groupService.groupMemberCnt(groupNo);
+		
+		group.setGroupPers(cnt);
+		
+		if (cnt >= 100) {
+			group.setGroupLevel("S");
+		} else if (cnt >= 50) {
+			group.setGroupLevel("A");
+		} else if (cnt >= 30) {
+			group.setGroupLevel("B");
+		} else if (cnt >= 10){
+			group.setGroupLevel("C");
+		}else {
+			group.setGroupLevel("D");
+		}
+		
 		ModelAndView model = new ModelAndView("forward:/group/getGroupAcle.jsp");
 		GroupAcle groupAcle = groupService.getGroupAcle(boardNo);
 		model.addObject("groupAcle", groupService.getGroupAcle(boardNo));
 		model.addObject("groupBoard", groupService.getGroupBoard(groupAcle.getTypeNo()));
-		model.addObject("group", groupService.getGroup(groupNo));
+		model.addObject("group", group);
 		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return model;

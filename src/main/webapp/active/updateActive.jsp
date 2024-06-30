@@ -7,10 +7,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-<title>모임 활동 지도</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
+<script src="/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
@@ -32,21 +34,29 @@
     }
     
     .mdi-target {
-		color: #FF4747;
+		color: #57B657;
+	}
+	
+	.btn-area {
+		margin-top: 20px;
+	}
+	
+	.content-wrapper {
+		margin-bottom: 50px;
 	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #searchBtn { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+	.search #searchBtn {
+		background: #57B657;
+		color: white;
+	}
     
 </style>
 
 </head>
 <body>
-
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
 
 	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script type="text/javascript">
@@ -79,6 +89,8 @@
 		
 		var map_x = ${active.activeX};
 		var map_y = ${active.activeY};
+		
+		console.log('${active.activeShortUrl}');
 	
 		var map = new naver.maps.Map("map", {
 		    center: new naver.maps.LatLng(map_x, map_y),
@@ -86,17 +98,33 @@
 		    mapTypeControl: true
 		});
 		
-		var markerOptions = {
-		    position: new naver.maps.LatLng(map_x, map_y),
-		    map: map,
-		    icon: {
-		        url: '${active.activeShortUrl}',
-		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-		    }
-		};
+		if ('${active.activeShortUrl}') {
+	        markerOptions = {
+	            position: new naver.maps.LatLng(map_x, map_y),
+	            map: map,
+	            icon: {
+	                url: '${active.activeShortUrl}',
+	                size: new naver.maps.Size(50, 50),
+	                scaledSize: new naver.maps.Size(50, 50),
+	                origin: new naver.maps.Point(0, 0),
+	                anchor: new naver.maps.Point(25, 50)
+	            }
+	        };
+	    } else {
+	        let iconSpritePositionX = 1;
+	        let iconSpritePositionY = 1;
+	        markerOptions = {
+	            position: new naver.maps.LatLng(map_x, map_y),
+	            map: map,
+	            icon: {
+	                url: '/images/icon/sp_pin_hd.png',
+	                size: new naver.maps.Size(26, 36),
+	                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+	                anchor: new naver.maps.Point(13, 36),
+	                scaledSize: new naver.maps.Size(395, 79)
+	            }
+	        };
+	    }
 		
 		activeMarker = new naver.maps.Marker(markerOptions);
 		
@@ -128,17 +156,33 @@
 		    		activeMarker.setMap(null);
 		        }
 		    	
-		    	var markerOptions = {
-	    		    position: new naver.maps.LatLng(map_x,map_y),
-	    		    map: map,
-	    		    icon: {
-	    		        url: '${active.activeShortUrl}',
-	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-	    		    }
-	    		};
+		    	if ('${active.activeShortUrl}') {
+			        markerOptions = {
+			            position: markerLocation,
+			            map: map,
+			            icon: {
+			                url: '${active.activeShortUrl}',
+			                size: new naver.maps.Size(50, 50),
+			                scaledSize: new naver.maps.Size(50, 50),
+			                origin: new naver.maps.Point(0, 0),
+			                anchor: new naver.maps.Point(25, 50)
+			            }
+			        };
+			    } else {
+			        let iconSpritePositionX = 1;
+			        let iconSpritePositionY = 1;
+			        markerOptions = {
+			            position: markerLocation,
+			            map: map,
+			            icon: {
+			                url: '/images/icon/sp_pin_hd.png',
+			                size: new naver.maps.Size(26, 36),
+			                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+			                anchor: new naver.maps.Point(13, 36),
+			                scaledSize: new naver.maps.Size(395, 79)
+			            }
+			        };
+			    }
 		    	
 		    	$('.activeX').val('${active.activeX}');
 		    	$('.activeY').val('${active.activeY}');
@@ -200,7 +244,7 @@
 	
 		async function searchAddressToCoordinate(address) {
 			
-			var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
+			var url = '/app/active/searchLocal?query=' + address;
 			
 			var local;
 			
@@ -311,17 +355,33 @@
 		    		activeMarker.setMap(null);
 		        }
 		        
-		        var markerOptions = {
-	    		    position: latlng,
-	    		    map: map,
-	    		    icon: {
-	    		        url: '${active.activeShortUrl}',
-	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-	    		    }
-	    		};
+		        if ('${active.activeShortUrl}') {
+			        markerOptions = {
+			            position: latlng,
+			            map: map,
+			            icon: {
+			                url: '${active.activeShortUrl}',
+			                size: new naver.maps.Size(50, 50),
+			                scaledSize: new naver.maps.Size(50, 50),
+			                origin: new naver.maps.Point(0, 0),
+			                anchor: new naver.maps.Point(25, 50)
+			            }
+			        };
+			    } else {
+			        let iconSpritePositionX = 1;
+			        let iconSpritePositionY = 1;
+			        markerOptions = {
+			            position: latlng,
+			            map: map,
+			            icon: {
+			                url: '/images/icon/sp_pin_hd.png',
+			                size: new naver.maps.Size(26, 36),
+			                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+			                anchor: new naver.maps.Point(13, 36),
+			                scaledSize: new naver.maps.Size(395, 79)
+			            }
+			        };
+			    }
 	    		
 	    		activeMarker = new naver.maps.Marker(markerOptions);
 		        
@@ -491,8 +551,8 @@
 	                    			<input type="time" name="activeStartTime" class="time form-control" value="${active.activeStartTime}" >
 	                    		</div>
 	                    		<div class="col-md-1 grid-margin" >
-	                    			<br/>
-	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
+	                    			<!-- <br/> -->
+	                    			<!-- <span style="display: flex; justify-content: center; align-items: center;" >~</span> -->
 	                    		</div>
 	                    		<div class="col-md-5 grid-margin" >
 	                    			<input type="time" name="activeEndTime" class="time form-control" value="${active.activeEndTime}" >
@@ -532,7 +592,7 @@
 						</div>
 						
 						<div class="row">
-							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-danger btn-icon-text">
+							<button type="button" onclick="upload()" class="upload-btn btn btn-outline-success btn-icon-text">
 		                      <i class="ti-upload btn-icon-prepend"></i>                                                    
 		                      변경할 마커 사진 upload
 		                    </button>
@@ -596,21 +656,24 @@
 	                      	
 	                      	<div class="row">
 	                      		<label>활동 코멘트</label>
-	                      		<textarea name="activeInfo" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+	                      		<!-- <textarea class="form-control" id="activeInfo" name="activeInfo" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea> -->
+	                      		<textarea class="form-control" id="activeInfo" name="activeInfo" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." style="width:100%;">
+	                      			${active.activeInfo}
+	                      		</textarea>
+	                      		<script type="text/javascript">
+									var oEditors = [];
+									nhn.husky.EZCreator.createInIFrame
+									({
+										 oAppRef: oEditors,
+										 elPlaceHolder: "activeInfo",
+										 sSkinURI: "/editor/SmartEditor2Skin.html",
+										 fCreator: "createSEditor2"
+									});
+								</script>
 	                      	</div>
 	                      	
-	                      	<script type="text/javascript">
-	                      	
-	                      		var active_info = "${active.activeInfo}";
-	                      		
-	                      		console.log(active_info);
-	                      	
-	                      		$('.info').val(active_info);
-	                      	
-	                      	</script>
-	                      	
-	                      	<div class="row">
-	                      		<button type="button" onclick="updateActive()" class="btn btn-primary btn-lg btn-block">
+	                      	<div class="row btn-area">
+	                      		<button type="button" onclick="updateActive()" class="btn btn-success btn-lg btn-block">
 		                      		수정하기
 			                    </button>
 	                      	</div>
@@ -656,6 +719,8 @@
 		                    		$('.hash').val(hashString);
 		                    		
 		                    		var activeNo = ${active.activeNo};
+		                    		
+		                    		oEditors.getById["activeInfo"].exec("UPDATE_CONTENTS_FIELD", []);
 		                    		
 		                    		$('form').attr('method', 'post');
 		                    		$('form').attr('action', '/active/updateActive');

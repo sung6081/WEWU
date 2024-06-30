@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
@@ -150,18 +152,48 @@ public class PlantRestController {
         return map;
 	}
 	
+	@RequestMapping(value = "getQuest", method = RequestMethod.POST)
+	public Quest getQuest(@RequestParam("questNo") int questNo,HttpSession session) throws Exception {
+		System.out.println("/app/plant/getQeust");
+
+		 // 세션에 퀘스트 정보 추가
+	    Quest quest = (Quest) session.getAttribute("quest");
+	    if (quest == null) {
+	        // 세션에 퀘스트 정보가 없으면 새로운 퀘스트 객체 생성
+	        quest = new Quest();
+	        session.setAttribute("quest", quest);
+	    } 
+	    
+	    User user = (User) session.getAttribute("user");
+		
+	    // 퀘스트 정보를 서비스에서 가져옴
+	    quest = plantService.getQuestByUser(user.getNickname());
+
+	    // 세션에 퀘스트 정보 업데이트
+	    session.setAttribute("quest", quest);
+
+		return quest;
+	}
 
 	@RequestMapping(value = "getQuestList", method = RequestMethod.POST)
 	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)
 			throws Exception {
-		System.out.println("/getQuestList");
+		System.out.println("/app/plant/getQuestList");
+		
+		 // 세션에 퀘스트 정보 추가
+	    Quest quest = (Quest) session.getAttribute("quest");
+	    if (quest == null) {
+	        // 세션에 퀘스트 정보가 없으면 새로운 퀘스트 객체 생성
+	        quest = new Quest();
+	        session.setAttribute("quest", quest);
+	    } 
 
 		Map<String, Object> map = plantService.getQuestList(search);
 		model.addAttribute("map", map);
 		model.addAttribute("search", search);
-
+		System.out.println("QeustList : " +map.get("list"));
+		
 		session.setAttribute("questList", map.get("list"));
-		System.out.println(map.get("list"));
 
 		return map;
 	}
@@ -198,6 +230,58 @@ public class PlantRestController {
 		return quest;
 	}
 	
+	@RequestMapping(value = "getMyPlant" , method = RequestMethod.POST)
+	public MyPlant getMyPlant(HttpSession session ,Model model) throws Exception {
+
+		User user = (User) session.getAttribute("user");
+		
+		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+		myPlant.setPlantLevl(plantLevl);
+		
+		System.out.println(myPlant);
+		System.out.println(plantLevl);
+		session.setAttribute("myPlant", myPlant);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("myPlant", myPlant);
+		
+		return myPlant;
+	
+	}
+		    
+	
+	@RequestMapping(value = "myPlantListbyLevlNo")
+	public List<MyPlant> myPlantListbyLevlNo(HttpSession session ,Model model,@RequestParam(value = "searchCondition", required = false) String searchCondition,
+            									@RequestParam(value = "searchKeyword", required = false) String searchKeyword
+            									) throws Exception {
+		
+		System.out.println("plant :: myPlantListByLevlNo");
+		User user = (User) session.getAttribute("user");
+		
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("nickname",user.getNickname());
+	
+		Search search = new Search();
+        search.setSearchCondition(searchCondition);
+        search.setSearchKeyword(searchKeyword);
+		map.put("search",search);
+		
+		System.out.println("map = " + map);
+		
+		List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
+		
+		System.out.println("List = " +list);
+	
+		model.addAttribute("list", list);
+
+
+		return list;
+
+	}
+	
+	
 	//history.jsp
 	@RequestMapping(value ="history" , method = RequestMethod.GET)
 	public List<MyPlant> getMyPlantList(@RequestParam(value = "searchCondition", required = false) String searchCondition,
@@ -205,7 +289,7 @@ public class PlantRestController {
 		System.out.println("/plant/history : GET");
 		
 		User user = (User) session.getAttribute("user");
-		
+	
 		Map<String,Object> map = new HashMap<String,Object>();
 		Search search = new Search();
         search.setSearchCondition(searchCondition);
@@ -219,29 +303,11 @@ public class PlantRestController {
 		
 		System.out.println("List = " +list);
 	
+		model.addAttribute("list", list);
+		model.addAttribute("search", search);
+
 
 		return list;
-	}
-	
-	//history.jsp
-	@RequestMapping(value ="myPlantListbyLevlNo" , method = RequestMethod.GET)
-	public Map<String, Object> myPlantListbyLevlNo(Model model, HttpSession session) throws Exception{
-		System.out.println("/plant/history : GET");
-		
-		User user = (User) session.getAttribute("user");
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("nickname",user.getNickname());
-		System.out.println("map = " + map);
-		
-		List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
-		
-		System.out.println("List = " +list);
-	
-		
-		model.addAttribute("list", list);
-
-		return map;
 	}
 	
 	
@@ -280,6 +346,35 @@ public class PlantRestController {
 
 	    return map;
 	}
+	
+	
+	
+	@RequestMapping(value ="saveMyPlant" , method = RequestMethod.POST)
+	public MyPlant addRandomPlant(HttpSession session, @RequestBody MyPlant myPlant, Model model) throws Exception{
+		System.out.println(" /plant/addRandomPlant : POST ");
+		
+		User user = (User) session.getAttribute("user");
+		Plant randomPlant = (Plant) session.getAttribute("randomPlant");
+		
+		System.out.println("User: " + user);
+	    System.out.println("RandomPlant: " + randomPlant);
+
+		
+		myPlant.setNickname(user.getNickname());
+		myPlant.setPlantNo(randomPlant.getPlantNo());
+		myPlant.setPlantLevlNo(randomPlant.getPlantLevl().getPlantLevlNo());
+		
+		plantService.addMyPlant(myPlant);
+
+		System.out.println("myPlant : " + myPlant);
+		
+		session.setAttribute("myPlant", myPlant);
+		model.addAttribute("myPlant", myPlant);
+		model.addAttribute("user", user);
+		
+		return myPlant;
+	}
+	
 
 	@RequestMapping(value = "updateMyPlant", method = RequestMethod.POST)
 	public MyPlant updateMyPlant(@RequestBody MyPlant myPlant) throws Exception {
@@ -291,12 +386,12 @@ public class PlantRestController {
 	}
 
 	@RequestMapping(value = "selectRandomPlant", method = RequestMethod.POST)
-	public Plant selectRandomPlant(Model model) throws Exception {
-		System.out.println(" /plant/selectRandomPlant : POST ");
-		Plant plant = plantService.selectRandomPlant();
-		model.addAttribute("plant", plant);
-
-		return plant;
+	public Plant selectRandomPlant(HttpSession session, Model model) throws Exception {
+	    System.out.println(" /plant/selectRandomPlant : POST ");
+	    Plant plant = plantService.selectRandomPlant();
+	    session.setAttribute("randomPlant", plant);
+	    System.out.println("Session attribute 'randomPlant' set: " + session.getAttribute("randomPlant"));
+	    return plant;
 	}
 
 	@RequestMapping(value = "getWeather", method = RequestMethod.POST)

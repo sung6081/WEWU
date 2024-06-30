@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>활동 목록 조회</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 <style>
     .clickable-text {
         cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
@@ -18,15 +20,27 @@
 	    pointer-events: auto; /* 클릭 가능하도록 설정 */
 	    position: relative; /* 필요에 따라 position 속성 설정 */
 	}
+	
+	.options {
+		color: #FFC107;
+	}
+	
+	.options:hover {
+		color: #FFC107 !important;
+	}
+	
+	.activing {
+		color: #00A06C;
+	}
+	
+	.activeEnd {
+		color: red;
+	}
     
 </style>
 </head>
 <body>
 
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
-	
 	<!-- SIDE -->
 	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
@@ -115,7 +129,7 @@
 								    </div>
 								    <c:if test="${isLeader}">
 								        <div class="col-lg-6 text-lg-right">
-								            <button type="button" id="addBtn" class="btn btn-outline-primary btn-fw">등록하기</button>
+								            <button type="button" id="addBtn" class="btn btn-outline-success btn-fw">등록하기</button>
 								        </div>
 								    </c:if>
 								</div>
@@ -133,7 +147,7 @@
 								<div class="input-group text-right">
 									
 									<div class="input-group-prepend">
-										<button class="dropdown-btn btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button class="dropdown-btn btn btn-sm btn-outline-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<c:if test="${search.searchCondition == null || search.searchCondition == ''}">
 												활동 상태
 											</c:if>
@@ -142,11 +156,11 @@
 											</c:if>
 										</button>
 										<div class="dropdown-menu" style="">
-											<a class="dropdown-item" href="#">전체</a>
+											<a class="dropdown-item options" href="#">전체</a>
 											<div role="separator" class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">활동중</a>
+											<a class="dropdown-item options" href="#">활동중</a>
 											<div role="separator" class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">활동 종료</a>
+											<a class="dropdown-item options" href="#">활동 종료</a>
 										</div>
 									</div>
 									<input type="hidden" class="condition" name="searchCondition" value="${search.searchCondition}" >
@@ -154,7 +168,7 @@
 									<input type="text" name="searchKeyword" class="form-control-sm keyword" value="${search.searchKeyword}" placeholder="활동명 해쉬태그 검색">
 									
 									<div class="input-group-append">
-									  <button class="btn btn-sm btn-primary search-btn" type="button">Search</button>
+									  <button class="btn btn-sm btn-success search-btn" type="button">Search</button>
 									</div>
 									
 					 			</div>
@@ -189,7 +203,12 @@
 											<td>${active.activeStartDate}</td>
 											<td>${active.activeEndDate}</td>
 											<td>${active.activeRegDate}</td>
-											<td>${active.stateFlag}</td>
+											<c:if test="${active.stateFlag == '활동중'}">
+												<td class="activing">${active.stateFlag}</td>
+											</c:if>
+											<c:if test="${active.stateFlag == '활동 종료'}">
+												<td class="activeEnd">${active.stateFlag}</td>
+											</c:if>
 										</tr>
 			                        	
 			                        <c:set var="i" value="${i+1}" ></c:set>
@@ -201,7 +220,7 @@
 			                    
 			                    <script type="text/javascript">
 			                    
-			                    	$('.name').css('color', 'blue');
+			                    	$('.name').css('color', '#FFC107');
 			                    	
 			                    	$('.name').on('click', function(event) {
 			                    		
@@ -300,7 +319,7 @@
 																	'<td>'+list[i].activeStartDate+'</td>\n'+
 																	'<td>'+list[i].activeEndDate+'</td>\n'+
 																	'<td>'+list[i].activeRegDate+'</td>\n'+
-																	'<td>'+list[i].stateFlag+'</td>\n'+
+																	'<td class="activeState">'+list[i].stateFlag+'</td>\n'+
 																'</tr>';
 			                    					
 			                    				}

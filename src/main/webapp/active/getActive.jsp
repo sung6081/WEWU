@@ -7,8 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-<title>모임 활동 지도</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
@@ -32,21 +33,25 @@
     }
     
     .mdi-target {
-		color: #FF4747;
+		color: #57B657;
+	}
+	
+	input {
+		background: white !important;
 	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+	.search #submit {
+		background: #57B657 !important;
+		color: white;
+	}
     
 </style>
 
 </head>
 <body>
-
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
 
 	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script type="text/javascript">
@@ -71,373 +76,110 @@
 	}); */
 	
 	$(document).ready(function() {
-		
-		var location;
-		
-		var activeMarker = null;
-		
-		//$('.time').val(new Date().toISOString().slice(11, 16));
-		
-		var map_x = ${active.activeX};
-		var map_y = ${active.activeY};
-	
-		var map = new naver.maps.Map("map", {
-		    center: new naver.maps.LatLng(map_x, map_y),
-		    zoom: 15,
-		    mapTypeControl: true
-		});
-		
-		var markerOptions;
-		
-		if('${active.activeShortUrl}') {
-			//alert('exist');
-			
-			markerOptions = {
-			    position: new naver.maps.LatLng(map_x, map_y),
-			    map: map,
-			    icon: {
-			        url: '${active.activeShortUrl}',
-			        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-			        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-			        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-			        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-			    }
-			};
-		}else {
-			//alert('empty');
-			
-			let iconSpritePositionX = 1;
-		    let iconSpritePositionY = 1;
-			
-			markerOptions = {
-			    position: new naver.maps.LatLng(map_x, map_y),
-			    map: map,
-			    icon: {
-			    	url: '/images/icon/sp_pin_hd.png',
-					size: new naver.maps.Size(26, 36), // 이미지 크기
-					origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY), // 스프라이트 이미지에서 클리핑 위치
-					anchor: new naver.maps.Point(13, 36), // 지도상 위치에서 이미지 위치의 offset
-					scaledSize: new naver.maps.Size(395, 79)
-			    }
-			};
-		}
-		
-		activeMarker = new naver.maps.Marker(markerOptions);
-		
-		var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="mdi mdi-target"></i></a>';
-		//var map = new naver.maps.Map('map', {zoom: 13});
-		
-		naver.maps.Event.once(map, 'init', function() {
-		    //customControl 객체 이용하기
-		    /* var customControl = new naver.maps.CustomControl(locationBtnHtml, {
-		        position: naver.maps.Position.TOP_LEFT
-		    });
-	
-		    customControl.setMap(map); */
-	
-		    /* naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
-		        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
-		    }); */
-	
-		    //Map 객체의 controls 활용하기
-		    var $locationBtn = $(locationBtnHtml),
-		        locationBtnEl = $locationBtn[0];
-	
-		    map.controls[naver.maps.Position.RIGHT_BOTTOM].push(locationBtnEl);
-	
-		    naver.maps.Event.addDOMListener(locationBtnEl, 'click', function() {
-		    	
-		    	var markerLocation = new naver.maps.LatLng(map_x,map_y);
-		    	
-		    	$('#address').val('');
-		    	
-		    	map.setCenter(markerLocation);
-		    });
-		});
-	
-		var infoWindow = new naver.maps.InfoWindow({
-		    anchorSkew: true
-		});
-	
-		map.setCursor('pointer');
-	
-		/* function searchCoordinateToAddress(latlng) {
-	
-		    //infoWindow.close();
-	
-		    /* naver.maps.Service.reverseGeocode({
-		        coords: latlng,
-		        orders: [
-		            naver.maps.Service.OrderType.ADDR,
-		            naver.maps.Service.OrderType.ROAD_ADDR
-		        ].join(',')
-		    }, function(status, response) {
-		        if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('Something Wrong!');
-		        }
-	
-		        var items = response.v2.results,
-		            address = '',
-		            htmlAddresses = [];
-	
-		        for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
-		            item = items[i];
-		            address = makeAddress(item) || '';
-		            addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
-	
-		            htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
-		        } */
-	
-		        /* infoWindow.setContent([
-		            '<div style="padding:10px;min-width:200px;line-height:150%;">',
-		            '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
-		            htmlAddresses.join('<br />'),
-		            '</div>'
-		        ].join('\n')); */
-	
-		        //infoWindow.open(map, latlng);
-		    //});
-		//} */
-	
-		async function searchAddressToCoordinate(address) {
-			
-			var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
-			
-			var local;
-			
-			await $.ajax({
-				url: url,
-				method: 'GET',
-				success: function(response) {
-					
-					console.log(response);
-					//console.log(response.mapX);
-					//console.log(response.address);
-					
-					local = response.address;
-					
-					//var point = new naver.maps.Point(response.mapX, response.mapY);
-					
-					//map.setCenter(point);
-					
-				},
-			    error: function(xhr, status, error) {
-			        // 서버 목록을 가져오는 데 실패했을 때의 처리
-			        console.error('Failed to fetch server list:', error);
-			    }
-			});
-			
-		    naver.maps.Service.geocode({
-		        query: local
-		    }, function(status, response) {
-		    	
-		        /* if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('Something Wrong!');
-		        }
-	
-		        if (response.v2.meta.totalCount === 0) {
-		            return alert('totalCount' + response.v2.meta.totalCount);
-		        } */
-	
-		        var htmlAddresses = [],
-		            item = response.v2.addresses[0],
-		            point = new naver.maps.Point(item.x, item.y);
-	
-		        if (item.roadAddress) {
-		            htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
-		        }
-	
-		        if (item.jibunAddress) {
-		            htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
-		        }
-	
-		        if (item.englishAddress) {
-		            htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
-		        }
-	
-		        map.setCenter(point);
-		        //infoWindow.open(map, point);
-		    });
-		    
-		}
-	
-		function initGeocoder() {
-			
-			var latlng = map.getCenter();
-		    var utmk = naver.maps.TransCoord.fromLatLngToUTMK(latlng); // 위/경도 -> UTMK
-		    var tm128 = naver.maps.TransCoord.fromUTMKToTM128(utmk);   // UTMK -> TM128
-		    var naverCoord = naver.maps.TransCoord.fromTM128ToNaver(tm128); // TM128 -> NAVER
-		    
-		    /* map.addListener('click', function(e) {
-		        var latlng = e.coord,
-		            utmk = naver.maps.TransCoord.fromLatLngToUTMK(latlng),
-		            tm128 = naver.maps.TransCoord.fromUTMKToTM128(utmk),
-		            naverCoord = naver.maps.TransCoord.fromTM128ToNaver(tm128);
-	
-		        utmk.x = parseFloat(utmk.x.toFixed(1));
-		        utmk.y = parseFloat(utmk.y.toFixed(1));
-		        
-		        console.clear();
-		        
-		        naver.maps.Service.reverseGeocode({
-			        coords: latlng,
-			        orders: naver.maps.Service.OrderType.ADDR
-			    }, function(status, response) {
-			        if (status === naver.maps.Service.Status.ERROR) {
-			            return alert('Something Wrong!');
-			        }
-	
-			        var items = response.v2.results,
-			            address = '',
-			            htmlAddresses = [];
-	
-			        for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
-			            item = items[i];
-			            address = makeAddress(item);
-			            //addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
-	
-			            //htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
-			        }
-			        
-			        console.log(address);
-			        
-			        $('.activeLocal').val(address);
-			        
-			        
-	
-			        //infoWindow.open(map, latlng);
-			    });
-		        
-		        if(activeMarker) {
-		    		activeMarker.setMap(null);
-		        }
-		        
-		        var markerOptions = {
-	    		    position: latlng,
-	    		    map: map,
-	    		    icon: {
-	    		        url: '${active.activeShortUrl}',
-	    		        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
-	    		        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
-	    		        origin: new naver.maps.Point(0, 0), // 이미지의 원점
-	    		        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
-	    		    }
-	    		};
-	    		
-	    		activeMarker = new naver.maps.Marker(markerOptions);
-		        
-		        
-		        
-		        console.log('LatLng: ' + latlng.toString());
-		        console.log('UTMK: ' + utmk.toString());
-		        console.log('TM128: ' + tm128.toString());
-		        console.log('NAVER: ' + naverCoord.toString());
-		        
-		        $('.activeX').val(latlng.lat());
-		        $('.activeY').val(latlng.lng());
-		        
-		        console.log('activeX: ' + $('.activeX').val());
-		        console.log('activeY: ' + $('.activeY').val());
-		        console.log('activeLocal: ' + $('.activeLocal').val());
-		        
-		        
-		    }); */
-	
-		    $('#address').on('keydown', function(e) {
-		        var keyCode = e.which;
-	
-		        if (keyCode === 13) { // Enter Key
-		        	
-		            searchAddressToCoordinate($('#address').val());
-		        }
-		    });
-	
-		    $('#submit').on('click', function(e) {
-		    	
-		        e.preventDefault();
-	
-		        searchAddressToCoordinate($('#address').val());
-		    });
-		    
-		}
-	
-		function makeAddress(item) {
-		    if (!item) {
-		        return;
-		    }
-	
-		    var name = item.name,
-		        region = item.region,
-		        land = item.land,
-		        isRoadAddress = name === 'roadaddr';
-	
-		    var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
-	
-		    if (hasArea(region.area1)) {
-		        sido = region.area1.name;
-		    }
-	
-		    if (hasArea(region.area2)) {
-		        sigugun = region.area2.name;
-		    }
-	
-		    if (hasArea(region.area3)) {
-		        dongmyun = region.area3.name;
-		    }
-	
-		    if (hasArea(region.area4)) {
-		        ri = region.area4.name;
-		    }
-	
-		    if (land) {
-		        if (hasData(land.number1)) {
-		            if (hasData(land.type) && land.type === '2') {
-		                rest += '산';
-		            }
-	
-		            rest += land.number1;
-	
-		            if (hasData(land.number2)) {
-		                rest += ('-' + land.number2);
-		            }
-		        }
-	
-		        if (isRoadAddress === true) {
-		            if (checkLastString(dongmyun, '면')) {
-		                ri = land.name;
-		            } else {
-		                dongmyun = land.name;
-		                ri = '';
-		            }
-	
-		            if (hasAddition(land.addition0)) {
-		                rest += ' ' + land.addition0.value;
-		            }
-		        }
-		    }
-	
-		    //return [sido, sigugun, dongmyun, ri, rest].join(' ');
-		    return sigugun;
-		}
-	
-		function hasArea(area) {
-		    return !!(area && area.name && area.name !== '');
-		}
-	
-		function hasData(data) {
-		    return !!(data && data !== '');
-		}
-	
-		function checkLastString (word, lastString) {
-		    return new RegExp(lastString + '$').test(word);
-		}
-	
-		function hasAddition (addition) {
-		    return !!(addition && addition.value);
-		}
-	
-		naver.maps.onJSContentLoaded = initGeocoder;
-	    
+	    var location;
+	    var activeMarker = null;
+	    var map_x = ${active.activeX};
+	    var map_y = ${active.activeY};
+	    var map = new naver.maps.Map("map", {
+	        center: new naver.maps.LatLng(map_x, map_y),
+	        zoom: 15,
+	        mapTypeControl: true
+	    });
+
+	    var markerOptions;
+	    if ('${active.activeShortUrl}') {
+	        markerOptions = {
+	            position: new naver.maps.LatLng(map_x, map_y),
+	            map: map,
+	            icon: {
+	                url: '${active.activeShortUrl}',
+	                size: new naver.maps.Size(50, 50),
+	                scaledSize: new naver.maps.Size(50, 50),
+	                origin: new naver.maps.Point(0, 0),
+	                anchor: new naver.maps.Point(25, 50)
+	            }
+	        };
+	    } else {
+	        let iconSpritePositionX = 1;
+	        let iconSpritePositionY = 1;
+	        markerOptions = {
+	            position: new naver.maps.LatLng(map_x, map_y),
+	            map: map,
+	            icon: {
+	                url: '/images/icon/sp_pin_hd.png',
+	                size: new naver.maps.Size(26, 36),
+	                origin: new naver.maps.Point(iconSpritePositionX, iconSpritePositionY),
+	                anchor: new naver.maps.Point(13, 36),
+	                scaledSize: new naver.maps.Size(395, 79)
+	            }
+	        };
+	    }
+
+	    activeMarker = new naver.maps.Marker(markerOptions);
+
+	    var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="mdi mdi-target"></i></a>';
+
+	    naver.maps.Event.once(map, 'init', function() {
+	        var $locationBtn = $(locationBtnHtml),
+	            locationBtnEl = $locationBtn[0];
+
+	        map.controls[naver.maps.Position.RIGHT_BOTTOM].push(locationBtnEl);
+
+	        naver.maps.Event.addDOMListener(locationBtnEl, 'click', function(e) {
+	            e.preventDefault(); // 기본 동작 방지
+
+	            var markerLocation = new naver.maps.LatLng(map_x, map_y);
+	            $('#address').val('');
+	            map.setCenter(markerLocation);
+	        });
+	    });
+
+	    var infoWindow = new naver.maps.InfoWindow({
+	        anchorSkew: true
+	    });
+
+	    map.setCursor('pointer');
+
+	    async function searchAddressToCoordinate(address) {
+	        var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
+	        var local;
+
+	        await $.ajax({
+	            url: url,
+	            method: 'GET',
+	            success: function(response) {
+	                local = response.address;
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Failed to fetch server list:', error);
+	            }
+	        });
+
+	        naver.maps.Service.geocode({
+	            query: local
+	        }, function(status, response) {
+	            var item = response.v2.addresses[0],
+	                point = new naver.maps.Point(item.x, item.y);
+
+	            map.setCenter(point);
+	        });
+	    }
+
+	    function initGeocoder() {
+	        $('#address').on('keydown', function(e) {
+	            var keyCode = e.which;
+	            if (keyCode === 13) {
+	                searchAddressToCoordinate($('#address').val());
+	            }
+	        });
+
+	        $('#submit').on('click', function(e) {
+	            e.preventDefault();
+	            searchAddressToCoordinate($('#address').val());
+	        });
+	    }
+
+	    naver.maps.onJSContentLoaded = initGeocoder;
 	});
 	
 	</script>
@@ -491,8 +233,8 @@
 	                    			<input type="time" readonly="readonly" name="activeStartTime" class="time form-control" value="${active.activeStartTime}" >
 	                    		</div>
 	                    		<div class="col-md-1 grid-margin" >
-	                    			<br/>
-	                    			<span style="display: flex; justify-content: center; align-items: center;" >~</span>
+	                    			<!-- <br/> -->
+	                    			<!-- <span style="display: flex; justify-content: center; align-items: center;" >~</span> -->
 	                    		</div>
 	                    		<div class="col-md-5 grid-margin" >
 	                    			<input type="time" readonly="readonly" name="activeEndTime" class="time form-control" value="${active.activeEndTime}" >
@@ -560,7 +302,20 @@
 					
 					<div class="col-md-12 grid-margin" >
                    		<label>활동 코멘트</label>
-                   		<textarea readonly="readonly" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea>
+                   		<!-- <textarea readonly="readonly" class="form-control info" rows="10" placeholder="주의 사항이나 첨부링크를 자유롭게 작성해 주세요." ></textarea> -->
+                   		<div class="row">
+                   			<div class="col-lg-12 grid-margin stretch-card">
+                   				<div class="card">
+                   					<div class="card-body">
+	                   					<div class="card-title">
+	                   						
+	                   						${active.activeInfo}
+	                   						
+	                   					</div>
+                   					</div>
+                   				</div>
+                   			</div>
+                   		</div>
                    	</div>
                    	
                    	<div class="col-md-3 grid-margin" >
@@ -570,7 +325,7 @@
 	                   	<div class="col-md-5 grid-margin" >
 							<div class="row">
 								<div class="col-md-6 grid-margin" >
-		                      		<button type="button" onclick="updateActive()" class="btn btn-primary btn-lg btn-block">
+		                      		<button type="button" onclick="updateActive()" class="btn btn-success btn-lg btn-block">
 			                      		수정하기
 				                    </button>
 				                </div>
@@ -586,8 +341,8 @@
                    	
                    	<c:if test="${user.role == 1}">
                    	
-                   		<div class="col-md-5 grid-margin" >
-                   			<button type="button" onclick="deleteActive()" class="btn btn-danger btn-lg btn-block">
+                   		<div class="col-md-5 grid-margin btn-area" >
+                   			<button type="button" onclick="deleteActive()" style="margin-bottom: 50px;" class="btn btn-danger btn-lg btn-block">
 	                      		삭제하기
 		                    </button>
                    		</div>
@@ -616,18 +371,6 @@
                    	
                    	<div class="col-md-3 grid-margin" >
                    	</div>
-                   	
-                   	<script type="text/javascript">
-                   	
-                   		var active_info = "${active.activeInfo}";
-                   		
-                   		console.log(active_info);
-                   		
-                   		console.log('${active.hashList}');
-                   	
-                   		$('.info').val(active_info);
-                   	
-                   	</script>
 					
 				</div>
 				

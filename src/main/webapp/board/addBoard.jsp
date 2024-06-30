@@ -15,8 +15,17 @@
 			self.location="/board/listBoard?boardType=${param.boardType}"
 		});
 		 $('footer').removeClass('fixed-bottom');
+		 
+		 $('.add-btn').on('click', function() {
+			 alert('asdfa');
+				oEditors.getById["acleContents"].exec("UPDATE_CONTENTS_FIELD", []);
+				$('forms-sample').submit();
+				
+			});
 	});
-
+	window.onload=(function(){
+		getGroupList();
+	})
 	function upload() {
 		$('.file').click();
 	};
@@ -34,7 +43,10 @@
             async: true,
             cache: true,
             timeout: 3000,
-            data: JSON.stringify({ nickname: '${sessionScope.user.nickname}' }),
+            data: JSON.stringify
+            		(
+            			{nickname: '${sessionScope.user.nickname}'}
+            		),
             processData: false,
             contentType: "application/json",
             dataType: "json",
@@ -102,8 +114,18 @@
 
 							<div class="form-group row">
 								<div class="col-sm-12">
-									<textarea class="form-control" id="exampleTextarea1" name="contents" rows="40"></textarea>
-									
+									<!-- <textarea class="form-control" id="exampleTextarea1" name="contents" rows="40"></textarea> -->
+									<textarea class="form-control" id="contents" name="contents" style="width:100%;"></textarea>
+									<script type="text/javascript">
+										var oEditors = [];
+										nhn.husky.EZCreator.createInIFrame
+										({
+											 oAppRef: oEditors,
+											 elPlaceHolder: "contents",
+											 sSkinURI: "/editor/SmartEditor2Skin.html",
+											 fCreator: "createSEditor2"
+										});
+									</script>
 								</div>
 							</div>
 
@@ -114,7 +136,7 @@
 								<input class="file" type="file" hidden="true" name="file" accept=".jpg,.jpeg,.png,.gif" multiple>
 							</div>
 
-							<button type="submit" class="btn btn-primary mr-2">등&nbsp;록</button>
+							<button type="button" class="btn btn-primary mr-2 add-btn">등록</button>
 							<button class="btn btn-light">취&nbsp;소</button>
 						</form>
 					</div>

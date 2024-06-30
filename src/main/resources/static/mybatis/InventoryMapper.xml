@@ -27,6 +27,8 @@
 		ORDER BY item_purchase_no
 	</select>
 	
+	
+	
 	<update id="updateInventory" parameterType="inventory">
 		UPDATE item_purchase
 		<set>

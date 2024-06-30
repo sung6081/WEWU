@@ -88,8 +88,26 @@ public class GroupRestController {
 		search.setPageSize(1);
 		System.out.println(search);
 		System.out.println("getGroupList :: " + groupService.getGroupList(search));
+		List<Group> list = new ArrayList<Group>();
+		for(Group group : groupService.getGroupList(search))
+		{
+			int cnt = groupService.groupMemberCnt(group.getGroupNo());
+			group.setGroupPers(cnt);
+			if (cnt >= 100) {
+				group.setGroupLevel("S");
+			} else if (cnt >= 50) {
+				group.setGroupLevel("A");
+			} else if (cnt >= 30) {
+				group.setGroupLevel("B");
+			} else if (cnt >= 10){
+				group.setGroupLevel("C");
+			}else {
+				group.setGroupLevel("D");
+			}
+			list.add(group);
+		}
 		// Business logic 수행
-		return groupService.getGroupList(search);
+		return list;
 	}
 	
 	@RequestMapping(value="getGroupRankingList",method = RequestMethod.POST)
@@ -100,10 +118,28 @@ public class GroupRestController {
 			search.setCurrentPage((search.getCurrentPage() - 1)*10);
 		}
 		search.setPageSize(1);
-		System.out.println(search);
-		System.out.println("getGroupRankingList :: " + groupService.getGroupRankingList(search));
+		
+		List<Group> list = new ArrayList<Group>();
+		
+		for(Group group : groupService.getGroupRankingList(search))
+		{
+			int cnt = groupService.groupMemberCnt(group.getGroupNo());
+			group.setGroupPers(cnt);
+			if (cnt >= 100) {
+				group.setGroupLevel("S");
+			} else if (cnt >= 50) {
+				group.setGroupLevel("A");
+			} else if (cnt >= 30) {
+				group.setGroupLevel("B");
+			} else if (cnt >= 10){
+				group.setGroupLevel("C");
+			}else {
+				group.setGroupLevel("D");
+			}
+			list.add(group);
+		}
 		// Business logic 수행
-		return groupService.getGroupRankingList(search);
+		return list;
 	}
 	
 	@RequestMapping(value="getApplJoinList",method = RequestMethod.POST)
@@ -162,15 +198,15 @@ public class GroupRestController {
 	
 	//지원이 사용해야 함
 	@RequestMapping(value="getUserGroupList",method = RequestMethod.POST)
-	public List<Group> getUserGroupList(@RequestBody String nickname) throws Exception 
+	public List<Group> getUserGroupList(@RequestBody Map<String, Object> requestData) throws Exception 
 	{
 		System.out.println(":: /app/group/getMemberGroupList ::");
 		
 		String searchCondition = "user";
-	    String searchKeyword = nickname;
+	    String searchKeyword = (String)requestData.get("nickname");
 	    
 		Search search = new Search();
-		search.setSearchKeyword(searchCondition);
+		search.setSearchCondition(searchCondition);
 		search.setSearchKeyword(searchKeyword);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("search", search);
@@ -542,9 +578,13 @@ public class GroupRestController {
 		map.put("typeNo", typeNo);
 		
 		// Business logic 수행
-		List<GroupAcle> acleList = groupService.getGroupAcleList(map);
-		
-
+		List<GroupAcle> acleList = new ArrayList<GroupAcle>();
+		for(GroupAcle groupAcle : groupService.getGroupAcleList(map))
+		{
+			String imgSrc = findFirstImgSrc(groupAcle.getAcleContents());
+			groupAcle.setImgSrc(imgSrc);
+			acleList.add(groupAcle);
+		}
 		System.out.println(acleList);
 		return acleList;
 	}
@@ -630,6 +670,23 @@ public class GroupRestController {
 		}
 		return list;
 	}
+	
+    public static String findFirstImgSrc(String text) {
+        // Split by img tag
+        String[] parts = text.split("<img");
+
+        if (parts.length > 1) {
+            // Find src attribute in the first part after splitting by '>'
+            String firstImgTag = parts[1];
+            int srcStartIndex = firstImgTag.indexOf("src=\"") + 5;
+            int srcEndIndex = firstImgTag.indexOf("\"", srcStartIndex);
+            if (srcStartIndex != -1 && srcEndIndex != -1) {
+                return firstImgTag.substring(srcStartIndex, srcEndIndex);
+            }
+        }
+
+        return null;  // Return null if no img src found
+    }
 	
 	//오리날다............덕슨날다.....
 }

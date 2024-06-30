@@ -5,11 +5,11 @@
     <html>
     <head>
       <meta charset="UTF-8">
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
     </head>
     <body>
-      <!-- HEADER -->
-      <jsp:include page="/header.jsp" />
-      <!-- HEADER -->
       <div class="main-panel">
         <div class="content-wrapper">
           <br>

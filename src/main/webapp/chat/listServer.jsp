@@ -35,7 +35,7 @@
 			            tbody.append(row);
 			        });
 			        
-			        $('.serverName').css('color', 'red');
+			        $('.serverName').css('color', '#FFC107');
 					
 					$('.serverName').on('click', function(event) {
 						//alert('check');
@@ -51,7 +51,8 @@
 						var room = $(event.target).text().trim();
 						console.log(room);
 						
-						self.location = '/chat/chatting.jsp?room="'+room+'"&nick="'+nick+'"';
+						//self.location = '/chat/chatting.jsp?room="'+room+'"&nick="'+nick+'"';
+						window.open('/chat/chatting.jsp?room="'+room+'"&nick="'+nick+'"', 'popupWindow', 'width=800,height=660,left=100,top=100,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes');
 					});
 			        
 			    },

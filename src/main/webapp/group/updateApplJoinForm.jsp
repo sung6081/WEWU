@@ -65,7 +65,7 @@
 	        	<div class="col-md-12 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <h1 class="card-title">가입질문 수정</h1>
+	                  <h1 class="card-title"><img class="sideIcon" src="/group/img/form.png">가입질문 수정</h1>
 	                  <h4 class="card-title">${group.groupName}</h4>
 	                  <form class="forms-sample" id="updateApplJoinForm" method="post">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">

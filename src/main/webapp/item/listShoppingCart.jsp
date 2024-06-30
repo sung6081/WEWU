@@ -14,7 +14,7 @@
 	<!-- HEADER -->
 	
 	<script>
-	<%--추가 전--%>
+	<%--추가 전
 		function deleteShoppingCartList(shoppingCartNo)
 		{
 			if (!confirm("정말 삭제하시겠습니까?")) {
@@ -25,40 +25,55 @@
 		        // 확인(예) 버튼 클릭 시 이벤트
 		    }
 		}
-		
+	--%>
+	
 		<%--추가 후--%>
 		$(function() {
 			 $( "button.btn-primary:contains('삭제하기')" ).on("click" , function() {
 				 //fncListRefundPoint();
-				 var rslt = $("input[type='radio']:checked").val();
-				 if(rslt == undefined)
+				 var shoppingCartNo = $("input[type='radio']:checked").val();
+				 if(shoppingCartNo == undefined)
 				 {
 				 	alert("삭제할 상품을 선택하세요.");
 				 	return;
 				 }else
 				 {
-					 alert(rslt);
-					 //location.href="/item/deleteShoppingCartList?shoppingCartNo=9"; //삭제할 때마다 원하는 아이템 카트 번호 넣어야 해서 이래놓음. 
+					 
+					 location.href="/item/deleteShoppingCartList?shoppingCartNo="+shoppingCartNo;
 				 }
 				 
-			});
+			})
 			 
 			 $( "button.btn-primary:contains('구매하기')" ).on("click" , function() {
 				 //fncListRefundPoint();
-				 var rslt = $("input[type='radio']:checked").attr("id"); //여기서는 구매하기는 requestParam이 itemNo고, 삭제하기는 shoppingCartNo임. 그럼 checked 되는 게 달라야 하지 않나...?
-				 if(rslt == undefined)
+				 var itemNo = $("input[type='radio']:checked").attr("id"); //여기서는 구매하기는 requestParam이 itemNo고, 삭제하기는 shoppingCartNo임. 그럼 checked 되는 게 달라야 하지 않나...?
+				 if(itemNo == undefined)
 				 {
 				 	alert("구매할 상품을 선택하세요.");
 				 	return;
 				 }else
 				 {
-					 //addPurchase(rslt); 아직 없어서 이렇게 놓음. 
-					 alert(rslt);
-					
+					 addPurchase(itemNo);  
 				 }
 				 
 			});
 		});	
+		
+		
+		function addPurchase(itemNo){
+			var itemPrice = $("."+itemNo).find("td").eq(3).text().trim();
+			if ("${user.currentPoint}" > itemPrice) { 
+		        alert("구매 완료되었습니다.");
+		      }else
+		      {
+	    		alert("포인트가 부족해 구매에 실패했습니다.");
+	        	return;
+		      }
+			
+			var form = document.getElementById("forms-sample")
+			form.action="/item/addPurchase";
+			form.submit();
+		}
 		
 		
 		
@@ -86,7 +101,7 @@
 			                                    <table class="table">
 			                                        <thead>
 			                                            <tr>
-			                                            	<th>이미지</th>
+			                                            	<th></th>
 															<th>아이템명</th>
 															<th>개수</th>
 															<th>가격</th>
@@ -96,8 +111,14 @@
 												<tbody>
 													<c:set var="i" value="0" />
 													<c:forEach var="shoppingCart" items="${shoppingCart}"> <!-- 향상된 for문 돌릴 때 값을 저장하는 곳의 이름을 itemPurchase라고 한다는 의미. 따라서 refundCompdate, itemName도 저장된 곳의 이름인 itemPurchase. 으로 가져옴.   -->
-														<tr>
-													 	  <td>${shoppingCart.itemImg}</td>
+														<tr class="${shoppingCart.itemNo}">
+													 	  <td>
+													 	  	<div class="thumbnail">
+                                           							 <img src="${shoppingCart.itemImg}"
+                                                						alt="${shoppingCart.itemName}">
+													 	  	</div>
+													 	  </td>
+													 	  
 													 	  <td>${shoppingCart.itemName}</td>
 													 	  <td>${shoppingCart.itemCnt}</td>
 													 	  <td>${shoppingCart.itemPrice}</td>

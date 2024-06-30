@@ -4,7 +4,47 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>chat practice</title>
+<title>WEWU 채팅방</title>
+ <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
+ <script src="https://code.jquery.com/jquery-latest.js"></script>
+ <!-- plugins:js -->
+ <script src="/vendors/js/vendor.bundle.base.js"></script>
+ <!-- endinject -->
+ <!-- Plugin js for this page -->
+ <script src="/vendors/chart.js/Chart.min.js"></script>
+ <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
+ <script src="/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+ <script src="/js/dataTables.select.min.js"></script>
+ <!-- End plugin js for this page -->
+ <!-- inject:js -->
+ <script src="/js/off-canvas.js"></script>
+ <script src="/js/hoverable-collapse.js"></script>
+ <script src="/js/template.js"></script>
+ <script src="/js/settings.js"></script>
+ <script src="/js/todolist.js"></script>
+ <!-- endinject -->
+ <!-- Custom js for this page-->
+ <script src="/js/dashboard.js"></script>
+ <script src="/js/Chart.roundedBarCharts.js"></script>
+ <!-- dropdown -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <!-- plugins:css -->
+ <link rel="stylesheet" href="/vendors/feather/feather.css">
+ <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+ <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+ <!-- endinject -->
+ <!-- Plugin css for this page -->
+ <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+ <link rel="stylesheet" type="/text/css" href="/js/select.dataTables.min.css">
+ <!-- End plugin css for this page -->
+ <!-- inject:css -->
+ <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+ <link rel="stylesheet" href="/css/index.css">
+ <link rel="stylesheet" href="/css/swiper.css">
+ <!-- endinject -->
+ <link rel="shortcut icon" href="/images/favicon.ico" />
+ <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
+ <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 
@@ -15,10 +55,6 @@
         margin: 0;
         padding: 0;
     }
-
-	.main-panel {
-		margin-bottom: 70px;
-	}
 
     #chatBox {
         border: 1px solid #ccc;
@@ -57,7 +93,7 @@
     }
     
     #messageInput {
-      width: 70%;
+      width: 60%;
       padding: 10px;
     }
     
@@ -98,7 +134,7 @@
 	}
 	
 	.added {
-		background-color: #4B49AC !important;
+		background-color: #57B657 !important;
 		color: white !important;
 	}
 	
@@ -126,7 +162,6 @@
     }
     
     .messages {
-		padding: 1rem;
 		background: $background;
 		flex-shrink: 2;
 		overflow-y: auto;
@@ -162,9 +197,9 @@
 				0rem 1rem 1rem -1rem rgba(black, 0.1);
 			
 			&.parker {
-				background-color: #4B49AC !important;
+				background-color: #FFC107 !important;
 				margin-left: 1rem;
-				color: white !important;
+				color: black !important;
 			}
 			
 			.typing {
@@ -186,15 +221,15 @@
 	#loading {
 		padding: 20px; /* Loading 요소의 패딩을 조정하여 크기를 조절 */
 	}
+	
+	.mdi-close {
+        font-size: 48px; /* 원하는 크기로 설정 */
+    }
     
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 </head>
 <body>
-
-	<div id="header">
-	    <c:import url="/header.jsp"></c:import>
-	</div>
 
 	<script type="text/javascript">
 	
@@ -222,7 +257,13 @@
 					console.log(chat);
 					
 					var date = new Date(chat.chat_date);
-					var formattedDate = date.toLocaleString();
+					//var formattedDate = date.toLocaleString();
+					// 시간 부분 포맷 (오후 3:24 형식으로)
+					var formattedDate = date.toLocaleTimeString('ko-KR', {
+					    hour: 'numeric',
+					    minute: 'numeric',
+					    hour12: true // 12시간제로 표시 (오전/오후)
+					});
 					
 					//console.log(chat.file_url);
 					
@@ -275,6 +316,22 @@
 				
 				console.log(data);
 				
+				// MongoDB에서 가져온 날짜 문자열
+				var dateString = data.date; // 예: '2024-06-29T06:52:50.000Z'
+
+				// Date 객체로 변환
+				var date = new Date(dateString);
+
+				// 로컬 시간으로 변환
+				var localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+
+				// 시간 부분 포맷 (오후 3:48 형식으로)
+				var formattedTime = localDate.toLocaleTimeString('ko-KR', {
+				    hour: 'numeric',
+				    minute: 'numeric',
+				    hour12: true // 12시간제로 표시 (오전/오후)
+				});
+				
 				var chatBox = $('#chatBox');
 				var isScrolledToBottom = chatBox[0].scrollHeight - chatBox[0].clientHeight <= chatBox[0].scrollTop + 1;
 				//$('#chatBox').append('<div><strong>'+data.nick+'</strong> : ' + data.msg + '<span>' + data.date + '</span></div>');
@@ -282,26 +339,26 @@
 					$('#loading').remove();
 					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick) {
-		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedTime + '</span><img class="chat-img" src="'+data.shortUrl+'"></div>');
 					}else {
-						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><img class="chat-img" src="'+data.shortUrl+'"><span class="date" style="font-size: 10px;">' + formattedTime + '</span></div>');
 					}
 				}else if(data.file_url != undefined && data.fileType == 'video') {
 					$('#loading').remove();
 					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick) {
-		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + data.date + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
+		        		$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">' + formattedTime + '</span><video src="'+data.file_short_url+'" controls="controls" ></video></div>');
 					}else {
-						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><video src="'+data.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats"><video src="'+data.file_short_url+'" controls="controls" ></video><span class="date" style="font-size: 10px;">' + formattedTime + '</span></div>');
 					}
 		        }
 				if(data.msg != '') {
 					$('#loading').remove();
 					$('#sendButton').prop('disabled', false); // disabled 속성 제거하여 버튼 활성화
 					if(data.nick == nick){
-						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ data.date +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
+						$('#chatBox').append('<div class="chats my"><span class="date" style="font-size: 10px;">'+ formattedTime +'</span><div class="message parker">' + data.msg + '</div>' + '</div>');
 					}else {
-						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats other"><div class="message">' + data.msg + '</div><span class="date" style="font-size: 10px;">' + data.date + '</span></div>');
+						$('#chatBox').append('<strong>'+data.nick+'</strong><br/><div class="chats other"><div class="message">' + data.msg + '</div><span class="date" style="font-size: 10px;">' + formattedTime + '</span></div>');
 					}
 				}
 				if (isScrolledToBottom) {
@@ -462,29 +519,35 @@
 		
 	</script>
 
-	<div id="chattingDiv" class="main-panel">
+	<div id="chattingDiv">
         	<div class="content-wrapper">
+        	<!-- <div>
+        		<i class="mdi mdi-close"></i>
+        	</div> -->
 				<h3 class="center-text">
 					${param.room}
 				</h3>
 				<div class="messages">
 				<div id="chatBox"></div>
 				</div>
+				<div class="row">
+				<div class="col-lg-12">
+				
 				<div class="input-group text-right">
 				    <div class="input-group-prepend">
 				        <!-- 이미지 업로드 버튼 -->
-				        <button type="button" class="btn btn-outline-primary btn-icon-text img-btn">
+				        <button type="button" class="btn btn-outline-success btn-icon-text img-btn">
 				            <i class="mdi mdi-file-image btn-icon-prepend"></i>
-				            이미지 선택
+				            이미지
 				        </button>
 				        <!-- 이미지 파일 입력 -->
 				        <input type="file" hidden="hidden" id="fileInput" accept=".jpg,.jpeg,.png,.gif">
 				    </div>
 				    <div class="input-group-prepend">
 				        <!-- 영상 업로드 버튼 -->
-				        <button type="button" class="btn btn-outline-primary btn-icon-text video-btn">
+				        <button type="button" class="btn btn-outline-success btn-icon-text video-btn">
 				            <i class="mdi mdi-movie btn-icon-prepend"></i>
-				            영상 선택
+				            영상
 				        </button>
 				        <!-- 영상 파일 입력 -->
 				        <input type="file" hidden="hidden" id="videoInput" accept=".mp4">
@@ -530,15 +593,12 @@
 				    <input type="text" id="messageInput" class="form-control-sm keyword" placeholder="채팅을 입력하세요...">
 				    <!-- 전송 버튼 -->
 				    <div class="input-group-append">
-				        <button id="sendButton" class="btn btn-sm btn-primary search-btn">Send</button>
+				        <button id="sendButton" class="btn btn-sm btn-success search-btn">Send</button>
 				    </div>
 				</div>
-
+				</div>
+				</div>
 			</div>
-	</div>
-	
-	<div id="footer">
-	    <c:import url="/footer.jsp"></c:import>
 	</div>
 
 </body>

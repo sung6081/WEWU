@@ -4,7 +4,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>List Quest</title>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
     
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
@@ -15,11 +17,21 @@
     });
   });
 </script>
+<style>
+.jumbotron{
+margin: 0 !important; /* 기본 마진 제거 */
+background-color: #00A06C;
+}
+</style>
 </head>
 <body>
-	<jsp:include page="/header.jsp" flush="true" />
 	<jsp:include page="/plant/plantSide.jsp" />
 <div class="main-panel">
+  <div class="jumbotron">
+  <div class="container">
+    <p class="display-4"><b>Plant Manage</b></p>
+  </div>
+</div>
     <div class="content-wrapper">
         <div class="row mt-5">
             <div class="col-lg-12 grid-margin stretch-card mx-auto">

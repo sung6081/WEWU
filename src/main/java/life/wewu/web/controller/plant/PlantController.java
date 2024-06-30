@@ -73,6 +73,8 @@ public class PlantController {
 	@RequestMapping(value ="addQuest" , method = RequestMethod.POST)
 	public String addQuest(@ModelAttribute("quest") Quest quest, Model model ,HttpSession session) throws Exception{	
 		System.out.println(" /plant/addQuest : POST ");	
+		
+	    
 		User user = (User) session.getAttribute("user");
 		quest.setNickName(user.getNickname());
 		plantService.addQuest(quest);		
@@ -174,45 +176,31 @@ public class PlantController {
 	
 	//----------------MyPlant
 	
-	@RequestMapping(value ="selectRandomPlant" , method = RequestMethod.POST)
-	public String selectRandomPlant(Model model) throws Exception{
-		System.out.println(" /plant/selectRandomPlant : POST ");
-		Plant plant = plantService.selectRandomPlant();
-		model.addAttribute("plant", plant);
-		
-		return "forward:/plant/selectRandomPlant.jsp";
-	}
-	
-	@RequestMapping(value ="addMyPlant" , method = RequestMethod.POST)
-	public String addRandomPlant(HttpServletRequest request, HttpSession session) throws Exception{
-		System.out.println(" /plant/addRandomPlant : POST ");
-		User user = (User) session.getAttribute("user");
-		Plant plant = plantService.selectRandomPlant();
-		MyPlant myPlant = new MyPlant();
-		myPlant.setPlant(plant);
-		myPlant.setNickname(request.getParameter("user"));
-		myPlant.setMyPlantName(request.getParameter("myPlantName"));
-		plantService.addMyPlant(myPlant);
-		
-		return "forward:/plant/addRandomPlant.jsp";
-	}
-	
+
+
 	//getMyPlant.jsp
 	@RequestMapping(value ="getMyPlant" , method = RequestMethod.GET)
 	public String getMyPlant( Model model,HttpSession session ) throws Exception{
 		System.out.println(" /plant/getMyPlant : GET ");
 		
 		User user = (User) session.getAttribute("user");
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	    
+	    if (myPlant == null) {
+	       System.out.println("myPlant가 없습니다");
+	       return "forward:/plant/randomPlantModal.jsp";
+	    }
 		
-		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		myPlant.setPlantLevl(plantLevl);
+	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+	    myPlant.setPlantLevl(plantLevl);
 		
-		System.out.println(myPlant);
-		System.out.println(plantLevl);
-		
+	    
+	    System.out.println("myPlant : " +myPlant);
+	    session.setAttribute("myPlant", myPlant);
+	    
 		model.addAttribute("user", user);
 		model.addAttribute("myPlant", myPlant);
+		model.addAttribute("plantLevl", plantLevl);
 	
 		
 		return "forward:/plant/getMyPlant.jsp";
@@ -255,11 +243,7 @@ public class PlantController {
 		
 		System.out.println(" /plant/getInventory : GET ");
 	    User user = (User) session.getAttribute("user");
-	    
-	    if (user == null) {
-	        throw new Exception("User not found in session");
-	    }
-	    
+
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("nickname", user.getNickname());
 	    

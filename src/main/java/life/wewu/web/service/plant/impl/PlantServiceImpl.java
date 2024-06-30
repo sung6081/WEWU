@@ -80,6 +80,7 @@ public class PlantServiceImpl implements PlantService {
 	public Quest getQuest(int questNo) throws Exception {
 		return questDao.getQuest(questNo);
 	}
+	
 
 	@Override
 	public Map<String, Object> getQuestList(Search search) throws Exception {
@@ -98,6 +99,7 @@ public class PlantServiceImpl implements PlantService {
 	public void completeQuest(Quest quest) throws Exception {
 		questDao.completeQuest(quest);
 	}
+
 
 	// ---------------------------------------------------------------------------------------//
 
@@ -194,8 +196,8 @@ public class PlantServiceImpl implements PlantService {
 	}
 
 	@Override
-	public MyPlant deleteMyPlant(String nickname) throws Exception {
-		return myPlantDao.deleteMyPlant(nickname);
+	public void deleteMyPlant(String nickname) throws Exception {
+		myPlantDao.deleteMyPlant(nickname);
 	}
 
 	@Override
@@ -205,7 +207,9 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public void addMyPlant(MyPlant myPlant) throws Exception {
+		
 		myPlantDao.addMyPlant(myPlant);
+		myPlant = myPlantDao.getMyPlant(myPlant.getNickname());
 	}
 
 	// ---------------------------------------------------------------------------------------//
@@ -223,9 +227,31 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public Map<String, Object> UseItem(Inventory inventory) throws Exception {
-
+		
+		int currentStock = inventory.getItemNum();
+		int itemEffect = Integer.parseInt(inventory.getItemExp());
+		String nickname = inventory.getNickname();
+		
+		if(currentStock>0) {
+			inventory.setItemNum(currentStock - 1);
+            inventoryDao.updateInventory(inventory);
+		}
+		
+		 MyPlant myPlant = myPlantDao.getMyPlant(nickname);
+         int newExp = myPlant.getMyPlantExp() + itemEffect;
+         myPlant.setMyPlantExp(newExp);
+         myPlantDao.updateMyPlant(myPlant);
+		
 		return null;
 
 	}
+
+	@Override
+	public Quest getQuestByUser(String nickname) throws Exception {
+		
+		return questDao.getQuestByUser(nickname);
+	}
+
+
 
 }

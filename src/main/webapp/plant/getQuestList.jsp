@@ -1,116 +1,149 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html>
+ <!DOCTYPE html>
+ <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-
-$(document).ready(function() {
-    $(".btn-white").on("click", function() {
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(".btn-complete").on("click", function () {
         var questNo = $(this).closest(".events").find("#questNo").val();
         var $currentButton = $(this);
+        var questContents = $(this).closest(".events").find("#questContents").text();
 
         $.ajax({
-            url: "/app/plant/completeQuest",
-            type: "POST",
-            data: JSON.stringify({
-                questNo: questNo
-            }),
-            contentType: "application/json",
-            dataType: "json",
-            success: function(response) {
-                console.log("Quest completed successfully", response);
-                // 완료된 퀘스트의 상태를 업데이트
-				$currentButton.prop("disabled", true);
-                // getQuestList 호출하여 화면 업데이트
-                updateQuestList();
-            },
-            error: function(xhr, status, error) {
-                console.error("Error occurred while completing quest: ", error);
-            },
-            complete: function(xhr, status) {
-                // success와 error 콜백이 호출된 후에 반드시 호출, finally 구문과 동일
-            }
+          url: "/app/plant/completeQuest",
+          type: "POST",
+          data: JSON.stringify({
+            questNo: questNo,
+            questContents : questContents
+          }),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (response) {
+            console.log("Quest completed successfully", response);
+            $currentButton.prop("disabled", true);
+            $currentButton.closest(".events").find("#questContents").html("<del>" + response.questContents + "</del> 퀘스트완료");
+            $currentButton.remove(); // 완료 버튼 제거
+            
+            $currentEvent.appendTo("#todo-section");
+            updateQuestList();
+          },
+          error: function (xhr, status, error) {
+            console.error("Error occurred while completing quest: ", error);
+          }
         });
+      });
     });
-});
 
-function updateQuestList() {
-    var form = document.getElementById('getQuestList');
-    
-    if (form) {
+    function updateQuestList() {
+      var form = document.getElementById('getQuestList');
+
+      if (form) {
         var formData = new FormData(form);
         var jsonData = Object.fromEntries(formData.entries());
 
         $.ajax({
-            url: "/app/plant/getQuestList",
-            type: "POST",
-            data: JSON.stringify(jsonData),
-            contentType: "application/json",
-            dataType: "json",
-            success: function(data, status, xhr) {
-                var str = "";
-                for (var i = 0; i < data.length; i++) {
-                    str += "<del><p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p></del>";
-                }
-                $("#questResult").html(str); // 데이터를 화면에 즉시 반영
-            },
-            error: function(xhr, status, error) {
-                console.error("Error occurred while fetching quest list: ", error);
-            },
-            complete: function(xhr, status) {
-                console.log("Quest list update completed.");
+          url: "/app/plant/getQuestList",
+          type: "POST",
+          data: JSON.stringify(jsonData),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data, status, xhr) {
+            var str = "";
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].questState === 'N') {
+                str += "<del><p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p></del>";
+              } else {
+                str += "<p class='mb-0 font-weight-thin text-gray'>" + data[i].questContents + "</p>";
+              }
             }
+            $("#questResult").html(str); // 데이터를 화면에 즉시 반영
+          },
+          error: function (xhr, status, error) {
+            console.error("Error occurred while fetching quest list: ", error);
+          },
+          complete: function (xhr, status) {
+            console.log("Quest list update completed.");
+          }
         });
-    } else {
+      } else {
         console.error('Form with id "getQuestList" not found.');
+      }
     }
-}
 
-window.onload = function() {
-    updateQuestList();
-};
+    window.onload = function () {
+      updateQuestList();
+    };
+  </script>
+  <style>
+    #right-sidebar {
+      max-height: 90vh;
+      overflow-y: auto;
+    }
 
-	
-	
-</script>
+    .quest-container {
+      width: 100%;
+    }
+
+    .quest-item {
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-complete {
+      background-color: #00A06C;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .btn-complete:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
+
 <body>
-      <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Quest</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <h4 class="px-5 text-muted mt-5 font-weight-light mb-0">Quest</h4>
-            <c:forEach var="quest" items="${map.list}">
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
-                <input type = "hidden" id = "questNo" name = "questNo" value = "${quest.questNo}">
-                <c:if test = "${quest.questState eq 'N'}">퀘스트완료</c:if>
-                <c:if test = "${quest.questState eq 'Y'}">진행중</c:if>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray" id ="questContents">${quest.questContents}
-              <button type="button" class="btn btn-white"> 완료 </button>  
-              </p>              
-              <p class="text-gray mb-0" id = "questResult"></p>
-                
-                          
+  <div id="right-sidebar" class="settings-panel">
+    <i class="settings-close ti-close"></i>
+    <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">퀘스트</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="setting-content">
+      <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
+        <c:forEach var="quest" items="${sessionScope.questList}">
+          <div class="events pt-4 px-3">
+            <div class="wrapper d-flex mb-2">
+              <i class="ti-control-record text-primary mr-2"></i>
+              <input type="hidden" id="questNo" name="questNo" value="${quest.questNo}">
+              <c:if test="${quest.questState eq 'N'}">
+                <p class='mb-0 font-weight-thin text-gray'><del>${quest.questContents}</del> 퀘스트완료 </p>
+              </c:if>
+              <c:if test="${quest.questState eq 'Y'}">
+                <div class="quest-item">
+                  <p class='mb-0 font-weight-thin text-gray' id="questContents">${quest.questContents}</p>
+                </div>
+                <div class="quest-item">
+                  <button type="button" class="btn-complete btn-primary btn-sm"> 완료 </button>
+                </div>
+              </c:if>
             </div>
-            </c:forEach>
+            <p class="text-gray mb-0" id="questResult"></p>
           </div>
-          <!-- To do section tab ends -->
-        </div>
+        </c:forEach>
       </div>
-      
-      <form id = "getQuestList" method = "post">
-      	<input type="hidden" name ="questNo" value = "${quest.questNo}"> 
-      </form>
+    </div>
+  </div>
+
+  <form id="getQuestList" method="post">
+    <input type="hidden" name="questNo" value="${quest.questNo}">
+  </form>
 </body>
+
 </html>

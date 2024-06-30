@@ -101,7 +101,7 @@
 	<!-- 지도의 활동 -->
 	<select id="getActiveList" parameterType="life.wewu.web.common.Search" resultMap="ActiveResultMap">
 	
-		SELECT DISTINCT a.*, leader_nick, group_name FROM active a
+		SELECT DISTINCT a.active_no, a.group_no, a.active_name, a.active_start_time, a.active_end_time, active_x, active_y, active_start_date, active_end_date, active_local, active_reg_date, active_short_url, leader_nick, group_name FROM active a
 		LEFT JOIN group_info g ON a.group_no = g.group_no
 		LEFT JOIN active_hash ah ON a.active_no = ah.active_no
 		<where>

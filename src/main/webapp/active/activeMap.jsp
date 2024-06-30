@@ -7,8 +7,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- HEADER -->
+<jsp:include page="/header.jsp"/>
+<!-- HEADER -->
 
-<title>모임 활동 지도</title>
 <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
 <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=panorama,geocoder"></script>
@@ -28,7 +30,7 @@
     }
     
     .group-name {
-    	color: blue;
+    	color: #00A06C;
     }
     
     .left {
@@ -121,26 +123,35 @@
 	}
 	
 	.mdi-target {
-		color: #FF4747;
+		color: #57B657;
 	}
 	
 	.activeName {
 		color: #FFC107;
+	}
+	
+	input.default:checked + .slider {
+	    background-color: #FFC107 !important;
+	}
+	
+	.slider.round {
+	    border-radius: 34px;
+	    background: #00A06C !important;
 	}
     
     .search { position:absolute;z-index:1000;top:20px;left:20px; }
     .search #condition { width:50px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
 	.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+	.search #submit {
+		background: #57B657;
+		color: white;
+	}
     
 </style>
 </head>
 <body>
 
-	<div id="header">
-	    <c:import url="/header.jsp"></c:import>
-	</div>
-	
 	<script type="text/javascript">
 	
 		$(document).ready(function(activeNo) {
@@ -367,7 +378,7 @@
 					                    '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
 					                    '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
 					                    '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
-					                    '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
+					                    '   <button class="btn btn-success info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
 					                    '</div>'
 					                ].join('');
 					                
@@ -635,12 +646,12 @@
 					
 					var contentString = [
 	                    '<div class="iw_inner" style="padding: 10px; font-family: Arial, sans-serif;">',
-	                    '   <h3 style="margin-top: 0;">' + activeListString[i].activeName + '</h3>',
+	                    '   <h3 style="margin-top: 0;" class="activeName">' + activeListString[i].activeName + '</h3>',
 	                    '   <p><strong>모임 이름:</strong> ' + activeListString[i].groupName + '</p>',
 	                    '   <p><strong>활동 시작일:</strong> ' + new Date(activeListString[i].activeStartDate).toLocaleDateString() + '</p>',
 	                    '   <p><strong>활동 종료일:</strong> ' + new Date(activeListString[i].activeEndDate).toLocaleDateString() + '</p>',
 	                    '   <p><strong>활동 시간:</strong> ' + activeListString[i].activeStartTime + ' ~ ' + activeListString[i].activeEndTime + '</p>',
-	                    '   <button class="btn btn-primary info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
+	                    '   <button class="btn btn-success info-btn" onclick="gotoActive(' + activeListString[i].activeNo + ')" style="margin-top: 10px; margin-bottom: 10px; float: right;">활동 상세<input type="hidden" value="' + activeListString[i].activeNo + '"></button>',
 	                    '</div>'
 	                ].join('');
 	                
@@ -692,7 +703,7 @@
 		                  </h4>
 		                  <div class="table-responsive">
 		                  <div class="switch-btn">
-		                  <p class="btn-label">모임/채팅</p>
+		                  <p class="btn-label" style="color: #57B657;">모임/채팅</p>
 		                  <label class="switch">
 								<input type="checkbox" id="listChanger" class="default">
 								<span class="slider round"></span>
@@ -713,6 +724,7 @@
 							        $('.more-btn').attr('hidden', 'hidden');
 							        $('.card-title').html('채팅 서버 리스트');
 							        $('.btn-label').html('채팅/모임');
+							        $('.btn-label').css('color', '#FFC107');
 							    } else {
 							    	//alert('unchecked');
 							    	$('.groupTable').removeAttr('hidden');
@@ -720,7 +732,8 @@
 							        $('.groupSearch').removeAttr('hidden');
 							        $('.more-btn').removeAttr('hidden');
 							        $('.card-title').html('모임 활동 리스트');
-							        $('.btn-label').html('모임/채팅')
+							        $('.btn-label').html('모임/채팅');
+							        $('.btn-label').css('color', '#57B657');
 							    }
 						  		
 						  	});
@@ -731,7 +744,7 @@
 							  <div class="input-group">
 							    <input type="text" id="groupSearchKeyword" class="form-control group-search" placeholder="모임 검색" aria-label="Recipient's username">
 							    <div class="input-group-append">
-							      <button id="groupSearchBtn" class="btn btn-sm btn-primary group-btn" type="button">Search</button>
+							      <button id="groupSearchBtn" class="btn btn-sm btn-success group-btn" type="button">Search</button>
 							    </div>
 							  </div>
 							</div>
@@ -820,7 +833,8 @@
 	              		$('.group-search').val('');
 	              		currentPage = 1;
 	              		
-	              		var url = 'http://localhost:8080/app/active/listGroup';
+	              		//var url = 'http://localhost:8080/app/active/listGroup';
+	              		var url = 'https://www.wewu.life/app/active/listGroup';
 	              		
 	              		await $.ajax({
 	              			
@@ -874,7 +888,7 @@
 	    							
 	    							newTable += '<tr>\n'+
 	    											'<td class="numb">'+(i+1)+'</td>\n'+
-	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+(i+1)+'" ></td>\n'+
+	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+groupList[i].groupNo+'" ></td>\n'+
 	    											'<td>'+groupList[i].leaderNick+'</td>\n'+
 	    											'<td class="clickable-text groupScrab">\n'+
 	    											scrabElement+'\n'+
@@ -1107,7 +1121,7 @@
 	    							
 	    							newTable += '<tr class="appendTable">\n'+
 	    											'<td class="numb">'+((currentPage - 1) * 10 + i + 1)+'</td>\n'+
-	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+(i+1)+'" ></td>\n'+
+	    											'<td class="group-name clickable-text">'+groupList[i].groupName+'<input type="hidden" value="'+groupList[i].groupNo+'" ></td>\n'+
 	    											'<td>'+groupList[i].leaderNick+'</td>\n'+
 	    											'<td class="clickable-text groupScrab">\n'+
 	    											scrabElement+'\n'+

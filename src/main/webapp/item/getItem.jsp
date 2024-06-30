@@ -13,15 +13,6 @@
 		<script>
 		function addShoppingCart(itemNo){
 			
-	    	var input = "<input type=hidden name=itemNo value="+itemNo+">";
-			input+= "<input type=hidden name=nickname value='${user.nickname}'>";
-			$("#addShoppingCart").html(input);
-	    	// form 데이터 가져오기
-	       	var form = document.getElementById('addShoppingCart'); //var은 데이터를 담는 변수. 다른 이름이어도 가능. 
-			var formData = new FormData(form);
-
-	       	// JSON으로 변환
-	       	var jsonData = Object.fromEntries(formData);
 			$.ajax ({
 				url	: "/app/item/addShoppingCart", // (Required) 요청이 전송될 URL 주소
 				type  : "POST", // (default: ‘GET’) http 요청 방식
@@ -29,7 +20,8 @@
 				cache : true,  // (default: true, false for dataType 'script' and 'jsonp') 캐시 여부
 				timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
 				data  : JSON.stringify(
-							jsonData
+							{nickname:"${user.nickname}",
+							 itemNo:itemNo}
 				 		), // 요청 시 전달할 데이터
 				processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
 				contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
@@ -40,10 +32,10 @@
 				},
 				success : function(data, status, xhr) {
 					if(data.flag == "Y"){
-						alert("장바구니 담기 완료");
+						alert("장바구니 담기가 완료되었습니다.");
 						
 					}else{
-						alert("실패");
+						alert("로그인 후 시도하세요.");
 					}
 				},
 				error	: function(xhr, status, error) {
@@ -66,8 +58,13 @@
 		
 		<style>
 	     .btn-consistent {
-	            margin-top: 30px; /* 버튼 간의 간격 조절 */
-	        }
+	            margin-top: 50px; /* 버튼 간의 간격 조절 */ 
+	     }
+	     
+	    .large.mb-1 {
+        		color: grey; /* 회색으로 설정할 색상 */
+   		 }   
+	        
 	    </style>
 	    
 	</head>
@@ -75,18 +72,26 @@
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-        	
-        	
+        		 
         	 <section class="py-5">
 	            <div class="container px-4 px-lg-5 my-5">
 	                <div class="row gx-4 gx-lg-5 align-items-center">
 	                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${item.itemImg}" alt="${item.itemName}" /></div>
 	                    <div class="col-md-6">
-	                        <div class="small mb-1">${item.itemCategory}</div>
-	                        <h1 class="display-5 fw-bolder">${item.itemName}</h1>
-	                        <div class="fs-5 mb-5">${item.itemPrice}p</div>
-	                        
-	                        <p class="lead">${item.itemEffect}</p>
+	                        <div class="large mb-1" style="font-size: 0.9rem;">${item.itemCategory} 아이템</div>
+	                        <br>
+	                        <h1 class="display-5 fw-bolder" style="font-weight: bold; font-size: 2rem;">${item.itemName}</h1>
+	                        <br>
+	                        <br>
+	                        <div class="fs-5 mb-5" style="font-size: 1.3rem; font-style: italic;">${item.itemPrice} p</div>
+                           <div class="form-group">
+			                    <label for="exampleFormControlSelect1" style="font-size: 1.1rem;">개수</label>
+			                    <select class="form-control form-control" id="exampleFormControlSelect1" style="font-size: 1.1rem;">
+			                      <option>1</option>
+			                    </select>
+			                </div>
+	                        <br>
+	                        <p class="lead" style="font-style: italic;">"${item.itemEffect}"</p>
 	                        <div class="d-flex">
 	                            <button class="btn btn-primary btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
 	                             장바구니 담기
@@ -100,7 +105,7 @@
 	                 </div>
             	  </div>
       		  </section>
-        	
+        		
         	
         		
         	</div>
