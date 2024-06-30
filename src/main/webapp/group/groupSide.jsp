@@ -4,6 +4,35 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<style>
+		.sideIcon
+		{
+			width:25px;
+			height:25px;
+			margin:0 10px 0 0;
+		}	
+			
+		.group_nav
+		{
+			display: flex;
+			align-items: center;
+		    white-space: nowrap;
+		    padding: 0.8125rem 1.937rem 0.8125rem 1rem;
+		    color: #6C7383;
+		    border-radius: 8px;
+		    
+		}
+		.sidebar .nav {
+			margin : 0px;
+		}
+		.group_nav:hover 
+		{ 
+			color: black;
+			text-decoration-line: none;
+			background: rgba(3,199,90,.12);
+   			box-shadow: 0px 26px 56px 0px rgba(0, 0, 0, 0.10), 0px 102px 102px 0px rgba(0, 0, 0, 0.09), 0px 230px 138px 0px rgba(0, 0, 0, 0.05), 0px 410px 164px 0px rgba(0, 0, 0, 0.01), 0px 640px 179px 0px rgba(0, 0, 0, 0.00);
+		}
+	</style>
 	<script>
 		window.onload = function() {
 			// form 데이터 가져오기
@@ -32,8 +61,8 @@
 					  var str = "";
 					  for(var i = 0 ; i < data.length ; i ++){
 						  str += "<li class=nav-item>" +
-					          		 "<a class=nav-link href=javascript:getGroupBoard(" + data[i].typeNo + ")>" +
-						            	 "<i class='icon-grid menu-icon'></i>" +
+					          		 "<a class=group_nav href=javascript:getGroupBoard(" + data[i].typeNo + ")>" +
+						            	 "<i class='menu-icon'><img class='sideIcon' src='/group/img/board.png'></i>" +
 					            		 "<span class=menu-title>" + data[i].boardName + "</span>" +
 				          			 "</a>" +
 				          		 "</li>";
@@ -63,7 +92,7 @@
 		{
 			$( "span" ).css("cursor","pointer");
 			
-			$( "span:contains('게시판추가')" ).on("click" , function() 
+			$( "span > img" ).on("click" , function() 
 		 	{
 				// 내 모임 신청정보
 				addGroupBoardSide();
@@ -75,32 +104,32 @@
 				getGroupSide();
 			}); 
 			
-			$(".nav-link:contains('모임정보')").on("click",function()
+			$(".group_nav:contains('모임정보')").on("click",function()
 			{
 				getGroupSide();
 			});
 			
-			$(".nav-link:contains('내 정보')").on("click",function()
+			$(".group_nav:contains('내 정보')").on("click",function()
 			{
 				getMemberGroupSide();
 			});
 			
-			$(".nav-link:contains('모임원목록')").on("click",function()
+			$(".group_nav:contains('모임원목록')").on("click",function()
 			{
 				getMemberGroupListSide();
 			});
 			
-			$(".nav-link:contains('가입신청서 양식')").on("click",function()
+			$(".group_nav:contains('가입신청서 양식')").on("click",function()
 			{
 				updateApplJoinFormSide();
 			});
 			
-			$(".nav-link:contains('모임활동구역')").on("click",function()
+			$(".group_nav:contains('모임활동구역')").on("click",function()
 			{
 				listActive();
 			});
 			
-			$(".nav-link:contains('신고조회')").on("click",function()
+			$(".group_nav:contains('신고조회')").on("click",function()
 			{
 				getReportListSide();
 			});
@@ -156,68 +185,73 @@
 		<!-- partial:partials/_sidebar.html -->
 	    <div class="container-fluid">
 	    	<div class="row">
-			    <nav class="sidebar sidebar-offcanvas" id="sidebar">
-			      <ul class="nav boardList">
-			        <br><br>
-			        <li>
-			        <br>
-			          <h4><img src="/group/img/house-door.svg">&nbsp;<span class="home">${group.groupName }</span></h4>
-			        </li>
-			      </ul>
-			      <c:if test="${!empty groupMember}">
-			      	<c:if test="${user.nickname == group.leaderNick}">
-			      		&nbsp;&nbsp;&nbsp;<img src="/group/img/journal-plus.svg">&nbsp;<span>게시판추가</span>
-			      	</c:if>
-			      </c:if>
-			      <hr>
-			      <ul class="nav">
-			      	<li>
-			        <br>
-			          <h4>관리</h4>
-			        </li>
+	    		<nav class="sidebar sidebar-offcanvas " id="sidebar">
+			        <ul class="nav">
+			          <li class="nav-item">
+			          	<a class="group_nav">
+			          		<i class="menu-icon"><img class="sideIcon" src="/group/img/real-estate_13468499.png"></i>
+			          		<span class="menu-title home"><b>${group.groupName }</b></span>
+			          	</a>
+			          </li>
+				  </ul>
+				  <hr>
+				  <h4>
+				  	&nbsp;&nbsp;<b>게시판</b> 
+				  	<c:if test="${!empty groupMember}">
+						<c:if test="${user.nickname == group.leaderNick}">
+				      		<i class="menu-icon" style="float:right;"><span><img class="sideIcon" src="/group/img/add.png"></span></i>
+				      		
+				    	</c:if>
+				    </c:if>
+				  </h4>
+				  <ul class="nav boardList">
+				  </ul>
+				  <hr>
+		          <h4>&nbsp;&nbsp;<b>관리</b></h4>
+		          <ul class="nav">
+			          <li class="nav-item">
+					     <a class="group_nav">
+					     	<i class="menu-icon"><img class="sideIcon" src="/group/img/information.png"></i>
+				            <span class="menu-title">모임정보</span>
+					     </a>
+			          </li>
+				      <c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
+	                  	<li class="nav-item">
+				        	<a class="group_nav">
+					            <i class="menu-icon"><img class="sideIcon" src="/group/img/profile.png"></i>
+					            <span class="menu-title">내 정보</span>
+				            </a>
+				        </li>
+	                  </c:if>
+				      <c:if test="${!empty groupMember}">
+	                  	<c:if test="${user.nickname == group.leaderNick}">
+	                		<li class="nav-item">
+						    	<a class="group_nav">
+						        	<i class="menu-icon"><img class="sideIcon" src="/group/img/memberList.png"></i>
+						            <span class="menu-title">모임원목록</span>
+						        </a>
+						   </li>
+					       <li class="nav-item">
+					          <a class="group_nav">
+					            <i class="menu-icon"><img class="sideIcon" src="/group/img/form.png"></i>
+					            <span class="menu-title">가입신청서 양식</span>
+					          </a>
+					       </li>
+					       <li class="nav-item">
+					          <a class="group_nav">
+					            <i class="menu-icon"><img class="sideIcon" src="/group/img/attention.png"></i>
+					            <span class="menu-title">신고조회</span>
+					          </a>
+					       </li>
+	                	</c:if>
+                     </c:if>
 			         <li class="nav-item">
-				      	<a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-				              <i class="icon-paper menu-icon"></i>
-				              <span class="menu-title">모임정보</span>
-				        </a>
-			        </li>
-			        <c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
-                		<li class="nav-item">
-			              <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-			              <i class="icon-head menu-icon"></i>
-			              <span class="menu-title">내 정보</span>
-			            </a>
-			        </li>
-                    </c:if>
-			        <c:if test="${!empty groupMember}">
-                		<c:if test="${user.nickname == group.leaderNick}">
-                			<li class="nav-item">
-					           <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-					             <i class="icon-ellipsis menu-icon"></i>
-					             <span class="menu-title">모임원목록</span>
-					           </a>
-					        </li>
-					        <li class="nav-item">
-					           <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-					             <i class="icon-grid-2 menu-icon"></i>
-					             <span class="menu-title">가입신청서 양식</span>
-					           </a>
-					        </li>
-					        <li class="nav-item">
-					           <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-					             <i class="icon-ban menu-icon"></i>
-					             <span class="menu-title">신고조회</span>
-					           </a>
-					        </li>
-                		</c:if>
-                    </c:if>
-			         <li class="nav-item">
-			            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-			              <i class="icon-contract menu-icon"></i>
+			            <a class="group_nav">
+			              <i class="menu-icon"><img class="sideIcon" src="/group/img/globe.png"></i>
 			              <span class="menu-title">모임활동구역</span>
 			            </a>
 			         </li>
-			      </ul>
+		          </ul>
 			    </nav>
 			    
 			    <form id="getGroupBoardList" method="post">
