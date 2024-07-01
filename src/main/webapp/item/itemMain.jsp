@@ -88,7 +88,7 @@
 					alert("장바구니 담기 완료");
 					
 				}else{
-					alert("실패");
+					alert("장바구니 담기 실패");
 				}
 			},
 			error	: function(xhr, status, error) {
@@ -136,7 +136,7 @@
 						
 		 });
 		 
-		 $( "button.btn-primary:contains('아이템 수정')" ).on("click" , function() {
+		 $( "button.btn-success:contains('아이템 수정')" ).on("click" , function() {
 		//$( ".update" ).on("click" , function() {
 			 //fncListRefundPoint();
 			 var rslt = $("input[type='radio']:checked").val();
@@ -152,7 +152,7 @@
 			 
 		 });
 		
-		 $( "button.btn-primary:contains('아이템 삭제')" ).on("click" , function() {
+		 $( "button.btn-success:contains('아이템 삭제')" ).on("click" , function() {
 				//$( ".delete" ).on("click" , function() {
 					 //fncListRefundPoint();
 					 var rslt = $("input[type='radio']:checked").val();
@@ -168,7 +168,7 @@
 				 });
 				 
 			 
-		 $( "button.btn-primary:contains('아이템 등록')" ).on("click" , function() {
+		 $( "button.btn-success:contains('아이템 등록')" ).on("click" , function() {
 				location.href="/item/addItem"
 		 });	 
 			
@@ -234,9 +234,9 @@
 					    </div>	
 					    <div class="col-lg-4 grid-margin stretch-card">
 						    <c:if test="${isAdmin}">
-								<button type="button" class="btn btn-primary btn-yoon delete" style="float: right; margin-left: 10px;">아이템 삭제</button>
-						    	<button type="button" class="btn btn-primary btn-yoon update" style="float: right; margin-left: 10px;">아이템 수정</button>
-						        <button type="button" class="btn btn-primary btn-yoon" style="float: right; margin-left: 10px;">아이템 등록</button>
+								<button type="button" class="btn btn-success btn-yoon delete" style="float: right; margin-left: 10px;">아이템 삭제</button>
+						    	<button type="button" class="btn btn-success btn-yoon update" style="float: right; margin-left: 10px;">아이템 수정</button>
+						        <button type="button" class="btn btn-success btn-yoon" style="float: right; margin-left: 10px;">아이템 등록</button>
 					     	</c:if>	
 					    </div>
 					</div>
@@ -255,7 +255,7 @@
 						        <div class="input-group">
 						          <input type="text" class="form-control" aria-label="search" value="${search.searchKeyword}"> <%--form-control은 css의 많은 스타일들 중 어떤 걸 사용할지 알려줌. 그리고 여기의 value는 사용자가 어떤 걸 입력하는지 나타냄. 이게 있어야 검색어 입력하고 검색 버튼 눌렀을 때, 검색 결과 보여주고 검색결과 보여줄 때 검색어를 유지해서 보여줌.  --%>
 						          <div class="input-group-append">
-						            <button class="btn btn-sm btn-primary" type="button">Search</button>
+						            <button class="btn btn-sm btn-success" type="button">Search</button>
 						         </div>
 						       </div>
 						     </div> 

@@ -70,6 +70,7 @@
 					                  <p class="card-description">
 					                       
 					                  </p>
+					                  <br>
 					                  <form class="forms-sample" encType="multipart/form-data">
 					                    <div class="form-group">
 					                      <label for="exampleitemName" style="font-size: 15px;">충전할 포인트 양</label>
@@ -86,7 +87,7 @@
 					                  <h4 style="font-size: 15px;">결제 수단</h4>
 					                   
 					                    <div class="text-right mt-4">
-						                      <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;" onclick="javascript:pay();">카카오페이</button>
+						                      <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;" onclick="javascript:pay();">카카오페이</button>
 	        							</div> 
 	        							
 	        							<%-- 넣을지말지 고민

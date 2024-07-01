@@ -24,10 +24,10 @@
 		
 	
 		function fncAddPurchase(){
-			alert("${user.currentPoint}" + " ===== " + "${item.itemPrice}");
+			//alert("${user.currentPoint}" + " ===== " + "${item.itemPrice}");
 			
 			if ("${user.currentPoint}" > "${item.itemPrice}") { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
-		        alert("구매 완료되었습니다.");
+		        alert("구매 완료되었습니다."); //사용자쪽에 현재 포인트 정보 넣어준 뒤, 잘 뜨게 하기. 
 		      }else
 		      {
 	    		alert("포인트가 부족해 구매에 실패했습니다.");
@@ -40,7 +40,7 @@
 		}
 		
 		$(function() {
-			 $( "button.btn-primary:contains('목록')" ).on("click" , function() {
+			 $( "button.btn-success:contains('목록')" ).on("click" , function() {
 				location.href="/item/getShoppingCartList?nickname=${user.nickname}"
 			 });
 		});
@@ -114,8 +114,8 @@
                    </div>
                    
              
-                   <button type="button" class="btn btn-primary mr-2" onclick="javaScript:fncAddPurchase();" >구매하기</button>
-        	  	   <button type="button" class="btn btn-primary">장바구니 목록</button>
+                   <button type="button" class="btn btn-success mr-2" onclick="javaScript:fncAddPurchase();" >구매하기</button>
+        	  	   <button type="button" class="btn btn-success">장바구니 목록</button>
 	   			  
                  </form>
                </div>

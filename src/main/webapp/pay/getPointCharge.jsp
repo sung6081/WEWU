@@ -18,7 +18,7 @@
 	
 		
 	 $(function() {
-			 $( "button.btn-primary:contains('목록')" ).on("click" , function() {
+			 $( "button.btn-success:contains('목록')" ).on("click" , function() {
 				location.href="/pay/getPointChargeList?buyerNickname=${user.nickname}"
 			 });
 	});
@@ -65,7 +65,7 @@
 	                                    </table>
 	                                </div>
 	                                <div class="text-right mt-4">
-	     		 						<button type="button" class="btn btn-primary">목록</button>
+	     		 						<button type="button" class="btn btn-success">목록</button>
    		 					   		</div>
 	                            </div>
 	                        </div>

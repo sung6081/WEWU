@@ -65,7 +65,7 @@
 	}
 	*/
 	$(function() {
-		 $( "button.btn-primary:contains('상세조회')" ).on("click" , function() {
+		 $( "button.btn-success:contains('상세조회')" ).on("click" , function() {
 			 //fncListRefundPoint();
 			 var rslt = $("input[type='radio']:checked").val();
 			 if(rslt == undefined)
@@ -80,7 +80,7 @@
 			 
 		});
 		 
-		 $( "button.btn-primary:contains('구매취소')" ).on("click" , function() {
+		 $( "button.btn-success:contains('구매취소')" ).on("click" , function() {
 			 //fncListRefundPoint();
 			 var rslt = $("input[type='radio']:checked").val();
 			 if(rslt == undefined)
@@ -99,7 +99,7 @@
 	
 /*
 	$(function() {
-		 $( "button.btn-primary:contains('구매 취소')" ).on("click" , function() {
+		 $( "button.btn-success:contains('구매 취소')" ).on("click" , function() {
 			location.href="/item/updatePurchase?itemPurchaseNo="+itemPurchaseNo;
 		 });
 	});
@@ -150,9 +150,19 @@
 												 	  <td>${itemPurchase.itemName}</td>
 												 	  <td>${itemPurchase.itemCnt}</td>
 												 	  <td>${itemPurchase.itemPrice}</td>
-												 	  <th>${itemPurchase.refundFlag} </th>
-												 	 
-												 	  
+												 	  <td>
+												 	     <c:choose>
+		                                                        <c:when test="${itemPurchase.refundFlag == 'Y'}">
+		                                                         환불 성공
+		                                                        </c:when>
+		                                                        <c:when test="${itemPurchase.refundFlag == 'Z'}">
+		                                                        환불 실패
+		                                                        </c:when>
+		                                                        <c:otherwise>
+	                                                            환불 미신청
+	                                                        	</c:otherwise>
+		                                               	</c:choose>
+												 	  </td>
 												 	 
 												 	  <!-- 
 												 	  "미환불 : N
@@ -172,11 +182,11 @@
 	                                    </table>
 	                                </div>
 	                                 <div class="text-right mt-4">
-                                <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">상세조회</button>
-                                <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">구매취소</button>
+                                <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">상세조회</button>
+                                <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">구매취소</button>
                                 <!-- 
 							    <div class="text-right mt-4">
-	     		 						<button type="button" class="btn btn-primary">목록</button>
+	     		 						<button type="button" class="btn btn-success">목록</button>
 		 					   	</div>
 		 					   	 -->
 		 					   	

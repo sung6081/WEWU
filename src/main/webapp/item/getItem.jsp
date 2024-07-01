@@ -49,7 +49,7 @@
 		}
 		
 		$(function() {
-			$( "button.btn-primary:contains('구매하기')" ).on("click" , function() {
+			$( "button.btn-success:contains('구매하기')" ).on("click" , function() {
 				location.href="/item/addPurchase?itemNo="+${item.itemNo}
 		 	});	 
 		});
@@ -65,6 +65,9 @@
         		color: grey; /* 회색으로 설정할 색상 */
    		 }
    		  
+   		.button-spacing {
+        margin-right: 10px; /* 버튼 사이의 간격 조절 */
+ 		}
 	    </style>
 	    
 	</head>
@@ -94,10 +97,10 @@
 		                        <br>
 		                        <p class="lead" style="font-style: italic;">"${item.itemEffect}"</p>
 		                        <div class="d-flex">
-		                            <button class="btn btn-primary btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
+		                            <button class="btn btn-success btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
 		                             장바구니 담기
 		                            </button>
-		                            <button class="btn btn-primary btn-consistent" type="button">
+		                            <button class="btn btn-success btn-consistent" type="button">
 		                             구매하기
 		                            </button>
 		                     	</div>
