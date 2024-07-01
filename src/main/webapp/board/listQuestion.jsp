@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WEWU</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
 <script type="text/javascript">
 	$(function() {
 
@@ -47,11 +48,14 @@
 	});
 	
 	function fncQuestionList(page) {
+		
         var form = $('form');
         form.method = 'GET';
         form.action = '/board/listQuestion';
 
         $('.currentPage').val(page);
+        
+        //alert($('.currentPage').val());
 
         form.submit();
     }
@@ -66,9 +70,7 @@
 <body>
 	<input type="hidden" name="questionType" value="${param.questionType}">
 
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp" />
-	<!-- HEADER -->
+	
 
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
@@ -90,6 +92,22 @@
 						<br>
 						<br>
 						<br>
+						<!-- 검색 폼 -->
+						<div class="form-group">
+							<form id="listSearchForm" action="/board/listQuestion" method="get">
+								<div class="input-group">
+									<input type="hidden" class="currentPage" name="currentPage" value="${search.currentPage}" >
+									<input type="hidden" class="form-control" placeholder="검색어 입력"
+										aria-label="Recipient's username" name="searchKeyword"
+										value="${search.searchKeyword}"> <input type="hidden"
+										name="questionType" value="${param.questionType}">
+									<!-- <div class="input-group-append">
+										<button class="btn btn-sm btn-primary" type="submit">Search</button>
+									</div> -->
+								</div>
+							</form>
+						</div>
+						<!-- 검색 폼 끝 -->
 
 						<div class="table-responsive">
 							<table class="table table-striped">
@@ -114,18 +132,20 @@
 											</td>
 											<td>${question.nickName}</td>
 											<td>${question.regDate}</td>
+											<c:if test="${param.questionType eq '문의' }">
 											<td><c:if test="${question.replyState eq '1'}">접수 완료</c:if>
-												<c:if test="${question.replyState eq '3'}">답변 완료</c:if></td>
+												<c:if test="${question.replyState eq '3'}">답변 완료</c:if>
+												</td></c:if>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
 						</div>
 					</div>
-					<%-- <div align="center">
+					<div align="center">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <c:if test="${resultPage.currentPage > 1}">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${resultPage.currentPage - 1})">&lt;</button>
                                 </c:if>
                                 <c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}">
                                     <c:choose>
@@ -141,7 +161,7 @@
                                     <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${resultPage.currentPage + 1})">&gt;</button>
                                 </c:if>
                             </div>
-                        </div> --%>
+                        </div> 
 					
 					<div class="card">
 						<div class="card-body">
