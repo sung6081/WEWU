@@ -58,8 +58,16 @@
 											 	  	<td>${pay.payAmount}p</td>
 											 	  	<td>${pay.afterChargePoint}p</td>
 											 	  	<td>${pay.payOption}</td>
-											 	  	<td>${pay.payFlag}</td>
-	                                                <td>
+											 	  	<td>
+												 	   <c:choose>
+		                                                        <c:when test="${pay.payFlag == 'T'}">
+		                                                            결제 성공
+		                                                        </c:when>
+		                                                        <c:when test="${pay.payFlag == 'F'}">
+		                                                            결제 실패
+		                                                        </c:when>
+		                                               </c:choose>
+											 	    </td>
 	                                            </tr>
 	                                        </tbody>
 	                                    </table>

@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,35 +48,32 @@ public class PayController {
       System.out.println("/pay/kakaoPay/success");
       
       //구매 후 유저 예상 포인트
-        int afterPoint = (pay.getCurrentPoint() + pay.getPayAmount());
-        pay.setAfterChargePoint(afterPoint);
+      int afterPoint = (pay.getCurrentPoint() + pay.getPayAmount());
+      pay.setAfterChargePoint(afterPoint);
         
-        //충전내역 저장 
-        payService.addPointCharge(pay);
+      //충전내역 저장 
+      payService.addPointCharge(pay);
         
-        //유저의 현재포인트를 구매후 포인트로 set
-        user.setCurrentPoint(afterPoint);
-        userService.updateUserPoint(user.getUserId(), afterPoint);
+      //유저의 현재포인트를 구매후 포인트로 set
+      user.setCurrentPoint(afterPoint);
+      userService.updateUserPoint(user.getUserId(), afterPoint);
         
-        //세션에 저장된 유저 정보를 업데이트
-        session.setAttribute("user", user);
+      //세션에 저장된 유저 정보를 업데이트
+      session.setAttribute("user", user);
         
-        //완료 페이지로 이동
-        ModelAndView model = new ModelAndView("forward:/pay/getPointChargeRslt.jsp");
-        model.addObject("pay", pay);
-       return model;
-      
-   }
-   
-   @RequestMapping(value="kakaoPay/cancel")
-   public String kakaoPayCancel() throws Exception 
-   {
-      return "/";
+      //완료 페이지로 이동
+      ModelAndView model = new ModelAndView("forward:/pay/getPointChargeRslt.jsp");
+      model.addObject("pay", pay);
+      return model;
    }
    
    @RequestMapping(value="kakaoPay/fail")
-   public String kakaoPayFail() throws Exception 
+   public String kakaoPayFail(@RequestParam("flag")String flag,Model model) throws Exception 
    {
-      return "/";
+	   System.out.println("/pay/kakaoPay/success");
+	   model.addAttribute("flag", flag);
+	   
+	   return "forward:/pay/payFail.jsp";
+       
    }
 }
