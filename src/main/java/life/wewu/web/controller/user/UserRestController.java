@@ -90,7 +90,7 @@ public class UserRestController {
                 session.removeAttribute("loginAttempts"); // 로그인 성공 시 로그인 시도 횟수 초기화
                 try {
                 	MyPlant myPlant = plantService.getMyPlant(dbUser.getNickname());
-                    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevlNo());
+                    PlantLevl plantLevl = plantService.getPlantLevl().getPlantLevlNo();
                     myPlant.setPlantLevl(plantLevl);
                     session.setAttribute("myPlant", myPlant);
                 } catch (Exception e) {
