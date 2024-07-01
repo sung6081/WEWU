@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세 보기</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
 
 <style>
 .comment-container {
@@ -82,6 +83,10 @@
 
         $("button.btn:contains('목록 보기')").on("click", function() {
             self.location = "/board/listBoard?boardType=${param.boardType}";
+        });
+        
+        $("button.btn:contains('후원하기')").on("click", function() {
+            self.location = "/board/addDonation";
         });
     });
 
@@ -224,9 +229,7 @@
         document.getElementById('updateCommentForm_' + commentNo).style.display = 'none';
     }
 </script>
-<!-- HEADER -->
-<jsp:include page="/header.jsp" />
-<!-- HEADER -->
+
 </head>
 <body>
 	<input type="hidden" name="boardNo" value="${param.boardNo}">
@@ -307,7 +310,15 @@
 							<div id="commentList"></div>
 						</div>
 						<br />
+						
+						<div align="center">
+							<c:if test="${board.boardType eq '4'}">
+								<button type="button" class="btn btn-primary mr-2">후원하기</button>
+							</c:if>
+						</div>
+						
 						<div class="card-body">
+						
 							<c:if
 								test="${board.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
 								<button type="button" class="btn btn-primary mr-2">수정</button>
@@ -319,6 +330,7 @@
 							<button type="button" class="btn btn-inverse-primary btn-fw">목록 보기</button>
 
 						</div>
+						
 					</div>
 				</div>
 
