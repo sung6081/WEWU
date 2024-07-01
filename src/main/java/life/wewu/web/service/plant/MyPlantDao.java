@@ -29,6 +29,6 @@ public interface MyPlantDao {
 	
 	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception;
 
-
+	public void updateMyPlantExp(Map<String,Object> map) throws Exception;
 
 }

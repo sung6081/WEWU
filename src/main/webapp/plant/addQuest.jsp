@@ -12,6 +12,13 @@
 .custom-title-space {
 	padding-left: 20px; /* 20px의 왼쪽 여백을 설정 */
 }
+.jumbotron{
+margin: 0 !important; /* 기본 마진 제거 */
+background-color: #00A06C;
+}
+.display-4 {
+  color: #fff; /* 원하는 색상으로 변경 */
+}
 
 </style>
 </head>
@@ -28,16 +35,6 @@
 	    });
 	});
 	</script>
-	  <style>
-.jumbotron{
-margin: 0 !important; /* 기본 마진 제거 */
-background-color: #00A06C;
-}
-.display-4 {
-  color: #fff; /* 원하는 색상으로 변경 */
-}
-</style>
-	
 	<jsp:include page="/plant/plantSide.jsp" />
 	<div class="main-panel">
 	 <div class="jumbotron">
@@ -66,8 +63,8 @@ background-color: #00A06C;
 										<input type="number" class="form-control" name="questReward" id="questReward" placeholder="questReward">
 								</div>
 								<div class="form-group">
-									<label for="questState">Quest Count ( 퀘스트 목표치)</label>
-										<input type="text" class="form-control" name="questState" id="questState" placeholder="questState">
+									<label for="questTargetCnt">Quest Count (퀘스트 목표치)</label>
+										<input type="text" class="form-control" name="questTargetCnt" id="questTargetCnt" placeholder="questTargetCnt">
 								</div>
 									<input type="submit" class="btn btn-primary mr-2" name="submit" value="등록">
            							 <button type = "button" class="btn btn-white" name="cancel">취소</button>

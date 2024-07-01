@@ -233,6 +233,7 @@ public class PlantController {
 		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
 		System.out.println(myPlant);
 		System.out.println(plantLevl);
+		System.out.println(list);
 
 		System.out.println("list: " + list);
 
