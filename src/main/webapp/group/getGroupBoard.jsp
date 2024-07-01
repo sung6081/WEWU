@@ -9,10 +9,39 @@
 		<!-- HEADER -->
 		<script>
 			var total;
+			
 			$(function() 
 			{
 				getGroupAcleList(1,"");
 				
+				$( "span:contains('작성')" ).on("click" , function() 
+			 	{
+					// 내 모임 신청정보
+					addGroupAcle();
+				}); 
+				$( "span:contains('게시판 수정')" ).on("click" , function() 
+			 	{
+					// 내 모임 신청정보
+					updateGroupBoard();
+				}); 
+				
+				$( "span:contains('게시판 삭제')" ).on("click" , function() 
+			 	{
+					// 내 모임 신청정보
+					deleteGroupBoard();
+				}); 
+				
+				$('.searchKeyword').keypress(function(event) {
+			        if (event.which === 13) {
+			        	$( "button:contains('Search')" ).click();
+			        }
+			    });
+				
+				
+			});
+			
+			function getGroupAcleListCnt(searchKeyword)
+			{
 				$.ajax ({
 					url	: "/app/group/getAcleListCnt", // (Required) 요청이 전송될 URL 주소
 					  type	: "POST", // (default: ‘GET’) http 요청 방식
@@ -21,7 +50,8 @@
 					  timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
 					  data  : JSON.stringify(
 					 				{
-					 					typeNo:${groupBoard.typeNo}
+					 					typeNo:${groupBoard.typeNo},
+					 					searchKeyword:searchKeyword
 					 				}
 				 				), // 요청 시 전달할 데이터
 					  processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
@@ -63,34 +93,14 @@
 				    
 				    $( "button:contains('Search')" ).on("click" , function() 
 				 	{
-				    	getGroupAcleList($(".active").attr("id"),$(".searchKeyword").val());
+				    	getGroupAcleList("1",$(".searchKeyword").val());
 					}); 
 				   
 				});
-				
-				$( "span:contains('작성')" ).on("click" , function() 
-			 	{
-					// 내 모임 신청정보
-					addGroupAcle();
-				}); 
-				$( "span:contains('게시판 수정')" ).on("click" , function() 
-			 	{
-					// 내 모임 신청정보
-					updateGroupBoard();
-				}); 
-				
-				$( "span:contains('게시판 삭제')" ).on("click" , function() 
-			 	{
-					// 내 모임 신청정보
-					deleteGroupBoard();
-				}); 
-				
-				
-				
-			});
-			
+			}
 			function getGroupAcleList(currentPage,searchKeyword)
 			{
+				getGroupAcleListCnt(searchKeyword);
 				$.ajax ({
 					  url	: "/app/group/getAcleList", // (Required) 요청이 전송될 URL 주소
 					  type	: "POST", // (default: ‘GET’) http 요청 방식

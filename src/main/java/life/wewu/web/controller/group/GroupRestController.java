@@ -119,8 +119,6 @@ public class GroupRestController {
 		}
 		search.setPageSize(1);
 		
-		List<Group> list = new ArrayList<Group>();
-		
 		for(Group group : groupService.getGroupRankingList(search))
 		{
 			int cnt = groupService.groupMemberCnt(group.getGroupNo());
@@ -136,8 +134,9 @@ public class GroupRestController {
 			}else {
 				group.setGroupLevel("D");
 			}
-			list.add(group);
+			groupService.updateGroup(group);
 		}
+		List<Group> list = groupService.getGroupRankingList(search);
 		// Business logic 수행
 		return list;
 	}

@@ -81,7 +81,7 @@
 			        	<div class="col-lg-8" style="margin-top:20px;">
 				        	<div class="form-group">
 								<div class="input-group">
-			                    	<input type="text" class="form-control searchKeyword" placeholder="모임명" aria-label="모임명">
+			                    	<input type="text" class="form-control searchKeyword" placeholder="게시글 이름" aria-label="게시글 이름">
 				                    <div class="input-group-append">
 				                    	<button class="btn btn-sm btn-success" type="button">Search</button>
 				                    </div>
