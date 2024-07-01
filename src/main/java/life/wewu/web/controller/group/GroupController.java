@@ -235,6 +235,7 @@ public class GroupController {
 	public ModelAndView getGroupAcle(@RequestParam("boardNo") int boardNo, @RequestParam("groupNo") int groupNo, HttpSession session) throws Exception 
 	{
 		System.out.println(":: /group/getGroupAcle ::");
+		
 		// Business logic 수행
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("groupNo", groupNo);

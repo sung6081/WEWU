@@ -234,12 +234,12 @@
 		                    <h4 class="card-title"><img class="sideIcon" src="/group/img/real-estate_13468499.png">${group.groupName}</h4>
 		                    <div style="float:right;">
 		                    	<c:if test="${empty groupMember}">
-		                    		<c:if test="${user.nickname != group.leaderNick}">
+		                    		<c:if test="${user.nickname != group.leaderNick && isAdmin != true}">
 			                        	<img src="/group/img/person-fill-add.svg"><span>가입신청</span>&nbsp;
 			                        </c:if>
 		                        </c:if>
-		                        <c:if test="${!empty groupMember}">
-		                    		<c:if test="${user.nickname == group.leaderNick}">
+		                        <c:if test="${!empty groupMember || isAdmin == true}">
+		                    		<c:if test="${user.nickname == group.leaderNick || isAdmin == true}">
 		                    			<span><img style="width:20px; height:20px; margin-right:5px;" src="/group/img/change.png">수정</span>&nbsp;&nbsp;&nbsp;&nbsp;
 		                    			<span><img style="width:20px; height:20px; margin-right:5px;" src="/group/img/delete.png">삭제</span>
 		                    		</c:if>

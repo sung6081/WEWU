@@ -21,6 +21,12 @@
         var useItemNum = $("#userItemNum").val();
         var nickname = $("input[name='nickname']").val();
         var myPlantNo = $("input[name='myPlantNo']").val();
+        var itemExp = $(".itemExp").val();
+        var itemNum = $(".itemNum").val();
+        var userItemNum = $("#userItemNum").val();
+        
+        //alert(userItemNum);
+        
 
         if (!useItemNum || useItemNum <= 0) {
           alert("1개 이상 사용가능합니다.");
@@ -34,7 +40,10 @@
         	  itemPurNo: itemPurNo,
         	  pageSize: parseInt(useItemNum),
         	  nickname: nickname,
-        	  myPlantNo: parseInt(myPlantNo)
+        	  myPlantNo: parseInt(myPlantNo),
+        	  itemExp: itemExp,
+        	  itemNum: itemNum,
+        	  useItemNum: useItemNum
           }),
           success: function (response) {
             alert("아이템을 성공적으로 사용했습니다.");
@@ -83,7 +92,9 @@
                   <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-itemExp">사용 시 경험치가 +${inventory.itemExp}이 된다!</p>
+                    <input type="hidden" name="itemExp" class="itemExp" value="${inventory.itemExp}">
                     <p class="card-itemNum">남은 수량 : ${inventory.itemNum}</p>
+                    <input type="hidden" name="itemNum" class="itemNum" value="${inventory.itemNum}">
                     <div class="input-group">
                       <input type="number" id="userItemNum" class="form-control" min="1">
                       <div class="input-group-append">

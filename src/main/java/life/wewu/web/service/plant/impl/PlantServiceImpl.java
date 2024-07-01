@@ -108,18 +108,15 @@ public class PlantServiceImpl implements PlantService {
 			
             User user = (User) session.getAttribute("user");
             System.out.println("completeQuest:uset = "+user);
-            if (user.getNickname() == null) {
-                throw new Exception("User nickname not found in session.");
-            }
+
             quest.setNickName(user.getNickname());
             System.out.println("quest : "+quest);
+            
             MyPlant myPlant = (MyPlant) session.getAttribute("myPlant");
-            if (myPlant == null) {
-                throw new Exception("MyPlant not found in session.");
-            }          
+         
             System.out.println("completeQuest:myPlant = "+myPlant);
-
             myPlant.setMyPlantExp(myPlant.getMyPlantExp() + quest.getQuestReward());
+            
             System.out.println("update된 myPlnat : "+myPlant);
             System.out.println("quest.getQuestReward() : "+quest.getQuestReward());
             myPlantDao.updateMyPlant(myPlant);
@@ -283,23 +280,39 @@ public class PlantServiceImpl implements PlantService {
 	}
 
 	@Override
-	public Map<String, Object> UseItem(Inventory inventory) throws Exception {
+	public Inventory UseItem(Inventory inventory) throws Exception {
 		
 		int currentStock = inventory.getItemNum();
+		int useItemNum = inventory.getUseItemNum();
 		int itemEffect = Integer.parseInt(inventory.getItemExp());
-		String nickname = inventory.getNickname();
+		User user = (User) session.getAttribute("user");
+		
+		System.out.println("UserItem currentStock : "+currentStock);
+		System.out.println("UserItem useItemNum : "+useItemNum);
+		System.out.println("UserItem itemEffect : "+itemEffect);
 		
 		if(currentStock>0) {
-			inventory.setItemNum(currentStock - 1);
+			inventory.setItemNum(currentStock - useItemNum);
+			System.out.println("::::inventory Before update : "+inventory);
             inventoryDao.updateInventory(inventory);
 		}
+		System.out.println("UserItem inventory : "+inventory);
 		
-		 MyPlant myPlant = myPlantDao.getMyPlant(nickname);
+		 MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
          int newExp = myPlant.getMyPlantExp() + itemEffect;
+         System.out.println("UserItem newExp : "+newExp);
          myPlant.setMyPlantExp(newExp);
          myPlantDao.updateMyPlant(myPlant);
+         
+         Map<String,Object> map = new HashMap<String, Object>();
+         map.put("myPlantNo", inventory.getMyPlant().getMyPlantNo());
+         map.put("myPlantExp", inventory.getItemExp());
 		
-		return null;
+		myPlantDao.updateMyPlantExp(map);
+		
+		
+		return inventory;
+		
 
 	}
 

@@ -17,7 +17,7 @@
 
 	<!-- GET INVENTORY -->
 	<select id="getInventoryList" parameterType="string" resultMap="InventorySelectMap">
-		SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no,SUM(item_stock)
+		SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no,SUM(item_stock) item_stock
 		FROM item_purchase p, item i
 		WHERE 
 		p.item_no = i.item_no
@@ -27,16 +27,18 @@
 		ORDER BY item_purchase_no
 	</select>
 	
-	
-	
 	<update id="updateInventory" parameterType="inventory">
 		UPDATE item_purchase
 		<set>
 			item_stock = #{itemNum}
 		</set>
-		WHERE item_no = #{itemNo}
+		WHERE item_purchase_no = #{itemPurNo}
 	</update>
 	
+	<select id="getInventory" parameterType="int" resultMap="InventorySelectMap">
+		SELECT * FROM inventory
+		WHERE inventory_no = #{inventoryNo}
+	</select>
 	
 </mapper>
 			

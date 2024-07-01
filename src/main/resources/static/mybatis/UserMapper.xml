@@ -113,7 +113,7 @@
     </where>
     ORDER BY user_id
     LIMIT #{pageSize} OFFSET #{startRowNum}
-</select>
+	</select>
 
 	 <select  id="getTotalCount"  parameterType="life.wewu.web.common.Search" resultType="int">
 	  	SELECT COUNT(*)
@@ -131,11 +131,11 @@
 						</if> ) countTable						
 	 </select>
     
-    <update  id = "updateUserPoints" parameterType="map">
-    	UPDATE user
-    	SET
-    		current_Point = current_Point + #{point}
-    		where user_id = #{userId}
+	<update  id = "updateUserPoint" parameterType="map">
+       UPDATE user
+       SET
+          current_Point = #{point}
+          where user_id = #{userId}
     </update>
     
 </mapper>
