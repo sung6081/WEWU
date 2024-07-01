@@ -284,7 +284,9 @@ public class BoardController {
 			,@RequestParam("payType") String payType) throws Exception{
 		System.out.println("/board/addDonation : POST");
 		
-		boardService.addDonation(donation);
+		donation = boardService.addDonation(donation);
+		
+		model.addAttribute("donation", donation);
 		
 		return "redirect:/board/getDonation?payType="+payType+"payNo="+donation.getPayNo();
 	}

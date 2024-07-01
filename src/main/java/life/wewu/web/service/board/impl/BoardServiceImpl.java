@@ -201,9 +201,11 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	
 	@Override//
- 	public void addDonation(Donation donation) throws Exception {
+ 	public Donation addDonation(Donation donation) throws Exception {
 		donationDao.addDonation(donation);
-		
+		donation = getDonationById(donation.getPayNo());
+
+		 return donation;	
 	}
 
 	@Override//
