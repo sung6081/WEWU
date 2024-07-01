@@ -23,5 +23,7 @@ public class Quest {
 	private int questReward;		//퀘스트보상
 	private Date regDate;			//등록일
 	private String nickName;
+	
+	private int currentCnt;
 
 }

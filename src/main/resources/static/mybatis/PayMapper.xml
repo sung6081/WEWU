@@ -81,10 +81,11 @@
   			pay_date,
   			delete_pay_date
   		FROM pay
-  		<if test="searchCondition != null and searchCondition != ''">
-  			<where>
-  			pay_flag = #{searchCondition}
+  		<where>
+  			buyer_nickname = #{searchKeyword}
   		</where>
+  		<if test="searchCondition != null and searchCondition != ''">
+  			AND pay_flag = #{searchCondition}
   		</if>
   		
   	</select>

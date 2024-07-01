@@ -24,7 +24,9 @@
 		
 	
 		function fncAddPurchase(){
-			if ("${user.currentPoint}" > ${item.itemPrice}) { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
+			alert("${user.currentPoint}" + " ===== " + "${item.itemPrice}");
+			
+			if ("${user.currentPoint}" > "${item.itemPrice}") { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
 		        alert("구매 완료되었습니다.");
 		      }else
 		      {

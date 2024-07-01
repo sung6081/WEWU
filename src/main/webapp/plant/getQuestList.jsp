@@ -23,13 +23,16 @@
           dataType: "json",
           success: function (response) {
             console.log("Quest completed successfully", response);
-            $currentButton.prop("disabled", true);
-            $currentButton.closest(".events").find("#questContents").html("<del>" + response.questContents + "</del> 퀘스트완료");
-            $currentButton.remove(); // 완료 버튼 제거
-            
-            $currentEvent.appendTo("#todo-section");
-            updateQuestList();
-          },
+            if (response.questState === 'N') {
+                $currentButton.prop("disabled", true);
+                $currentButton.closest(".events").find("#questContents").html("<del>" + response.questContents + "</del> 퀘스트완료");
+                $currentButton.remove(); // 완료 버튼 제거
+                $currentButton.closest(".events").appendTo("#todo-section");
+              } else {
+                $currentButton.prop("disabled", true);
+              }
+              updateQuestList();
+            },
           error: function (xhr, status, error) {
             console.error("Error occurred while completing quest: ", error);
           }
