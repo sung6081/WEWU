@@ -87,6 +87,7 @@ public class UserRestController {
             if (dbUser != null) {
                 session.setAttribute("user", dbUser);
                 session.setAttribute("isAdmin", "1".equals(dbUser.getRole()));
+                session.setAttribute("userNickname", dbUser.getNickname()); // 사용자 닉네임 세션에 저장
                 session.removeAttribute("loginAttempts"); // 로그인 성공 시 로그인 시도 횟수 초기화
                 try {
                 	MyPlant myPlant = plantService.getMyPlant(dbUser.getNickname());
