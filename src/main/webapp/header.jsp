@@ -194,20 +194,16 @@
                  </li>
                </c:if>
              </c:if>
-            <!-- <li class="nav-settings">
+            <li class="nav-settings">
                <img src="/images/quest.png" alt="quest" style="height: 40px;">
            </ul>
            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
              data-toggle="offcanvas">
              <span class="icon-menu"></span>
            </button>
-
-
-             
-           <jsp:include page="/plant/getQuestList.jsp">
+        <jsp:include page="/plant/getQuestList.jsp">
              <jsp:param name="questNo" value="${quest.questNo}" />
            </jsp:include>
-             -->
          </div>
        </div>
    </div>
