@@ -16,20 +16,6 @@
 	
 	<script type="text/javascript">
 	
-		function fncAddPurchase(){
-			if ("${user.currentPoint}" > ${item.itemPrice}) { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
-		        alert("구매 완료되었습니다.");
-		      }else
-		      {
-	    		alert("포인트가 부족해 구매에 실패했습니다.");
-	        	return;
-		      }
-			
-			var form = document.getElementById("forms-sample")
-			form.action="/item/addPurchase";
-			form.submit();
-		}
-		
 		$(function() {
 			 $( "button.btn-success:contains('목록')" ).on("click" , function() {
 				location.href="/item/getShoppingCartList?nickname=${user.nickname}"
@@ -56,12 +42,12 @@
                   
                  </p>
                  <form id="forms-sample" method="POST">
-                 	<input type="hidden" name="buyerNickname" value="nick1">
+                 	<input type="hidden" name="buyerNickname" value="${pay.buyerNickname }">
 					<input type="hidden" name="payNo" value="${pay.payNo}">
                    <div class="form-group row">
                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">충전된 포인트</label>
                      <div class="col-sm-9">
-                       <label for="exampleInputUsername2" class="col-sm-3 col-form-label">${amount}p</label>
+                       <label for="exampleInputUsername2" class="col-sm-3 col-form-label">${pay.payAmount }p</label>
                      </div>
                    </div>
                    <div class="form-group row">
