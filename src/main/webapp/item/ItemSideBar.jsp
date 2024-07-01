@@ -28,39 +28,33 @@
         <ul class="nav">
           <li class="nav-item active">
             <a class="nav-link" href="/item/getItemPurchaseHistoryList?buyerNickname=${user.nickname}">
-              <i class="icon-paper menu-icon"></i>
+              <i class="mdi mdi-checkbox-multiple-marked menu-icon"></i>
               <span class="menu-title">아이템 구매내역</span>
             </a>
           </li>
       
           <li class="nav-item">
             <a class="nav-link" href="/item/getShoppingCartList?nickname=${user.nickname}">
-              <i class="icon-paper menu-icon"></i>
+              <i class="mdi mdi-cart menu-icon"></i>
               <span class="menu-title">장바구니 목록</span>
             </a>
           </li>
           
           <li class="nav-item">
-	          <a class="nav-link" href="/pay/addPointCharge">
-	            <i class="icon-paper menu-icon"></i>
+	          <a class="nav-link" href="/pay/addPoint.jsp">
+	            <i class="mdi mdi-square-inc-cash menu-icon"></i>
 	            <span class="menu-title">포인트 충전</span>
 	          </a>
          </li>
         
           <li class="nav-item">
-            <a class="nav-link" href="/pay/getPointChargeList">
-              <i class="icon-paper menu-icon"></i>
+            <a class="nav-link" href="/pay/getPointChargeList?buyerNickname=${user.nickname}">
+              <i class="mdi mdi-credit-card menu-icon"></i>
               <span class="menu-title">포인트 충전내역</span>
             </a>
          </li>
          
-	        
-	      <li class="nav-item">
-	       <a class="nav-link" href="/item/getRefundPointList?buyerNickname=${user.nickname}">
-	       	<i class="icon-paper menu-icon"></i>
-	         <span class="menu-title">포인트 환불 내역</span>
-	       </a>
-	     </li>
+	     
          <c:if test="${isAdmin}">
          <%-- 
 			<li class="nav-item">
@@ -79,7 +73,7 @@
 		     --%>
 	     	 <li class="nav-item">
 		       <a class="nav-link" href="/item/getItemSalesHistoryList">
-		       	<i class="icon-paper menu-icon"></i>
+		       	<i class="mdi mdi-store menu-icon"></i>
 		         <span class="menu-title">아이템 판매내역</span>
 		       </a>
 	     	</li>          

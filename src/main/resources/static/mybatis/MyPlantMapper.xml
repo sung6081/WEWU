@@ -118,9 +118,9 @@
 	   		<if test='myPlantExp != 0'>
 	   			my_plant_exp = #{myPlantExp},
 	   		</if>
-	   		my_plant_no = #{myPlantNo}
+	   	 nickname = #{nickname}
 	   	</set>
-	   	WHERE my_plant_no = #{myPlantNo}
+	   	WHERE nickname = #{nickname}
 	 </update>
 	 
 	 <!-- DELETE MYPLANT -->
@@ -140,5 +140,15 @@
 	 	</set>
 	 	WHERE my_plant_no = #{myPlantNo}
  	</update>
+ 	
+ 	<update id="updateMyPlantExp" parameterType="map">
+        UPDATE my_plant
+        <set>
+            my_plant_exp = my_plant_exp + #{myPlantExp}
+        </set>
+        WHERE my_plant_no = #{myPlantNo}
+    </update>
+    
+ 
 	
 </mapper>

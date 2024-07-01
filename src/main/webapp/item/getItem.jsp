@@ -63,8 +63,8 @@
 	     
 	    .large.mb-1 {
         		color: grey; /* 회색으로 설정할 색상 */
-   		 }   
-	        
+   		 }
+   		  
 	    </style>
 	    
 	</head>
@@ -72,44 +72,41 @@
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-        		 
-        	 <section class="py-5">
-	            <div class="container px-4 px-lg-5 my-5">
-	                <div class="row gx-4 gx-lg-5 align-items-center">
-	                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${item.itemImg}" alt="${item.itemName}" /></div>
-	                    <div class="col-md-6">
-	                        <div class="large mb-1" style="font-size: 0.9rem;">${item.itemCategory} 아이템</div>
-	                        <br>
-	                        <h1 class="display-5 fw-bolder" style="font-weight: bold; font-size: 2rem;">${item.itemName}</h1>
-	                        <br>
-	                        <br>
-	                        <div class="fs-5 mb-5" style="font-size: 1.3rem; font-style: italic;">${item.itemPrice} p</div>
-                           <div class="form-group">
-			                    <label for="exampleFormControlSelect1" style="font-size: 1.1rem;">개수</label>
-			                    <select class="form-control form-control" id="exampleFormControlSelect1" style="font-size: 1.1rem;">
-			                      <option>1</option>
-			                    </select>
-			                </div>
-	                        <br>
-	                        <p class="lead" style="font-style: italic;">"${item.itemEffect}"</p>
-	                        <div class="d-flex">
-	                            <button class="btn btn-primary btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
-	                             장바구니 담기
-	                            </button>
-	                            <button class="btn btn-primary btn-consistent" type="button">
-	                             구매하기
-	                            </button>
-	                     	</div>
-	                     	
-	                    </div>
+        		<div class="card">
+        			<div class="card-body">
+        				<div class="col-lg-12 stretch-card">
+        					<div class="col-lg-6 grid-margin stretch-card">
+        						<img class="card-img-top mb-5 mb-md-0" style="width:572.111px; height:398.958px;" src="${item.itemImg}" alt="${item.itemName}" />
+        					</div>
+        					
+        					<div class="col-lg-5 grid-margin">
+		                        <br>
+		                        <h1 class="display-5 fw-bolder" style="font-weight: bold; font-size: 2rem;">${item.itemName}</h1>
+		                        <br>
+		                        <br>
+		                        <div class="fs-5 mb-5" style="font-size: 1.3rem; font-style: italic;">${item.itemPrice} p</div>
+	                           <div class="form-group">
+				                    <label for="exampleFormControlSelect1" style="font-size: 1.1rem;">개수</label>
+				                    <select class="form-control form-control" id="exampleFormControlSelect1" style="font-size: 1.1rem;">
+				                      <option>1</option>
+				                    </select>
+				                </div>
+		                        <br>
+		                        <p class="lead" style="font-style: italic;">"${item.itemEffect}"</p>
+		                        <div class="d-flex">
+		                            <button class="btn btn-primary btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
+		                             장바구니 담기
+		                            </button>
+		                            <button class="btn btn-primary btn-consistent" type="button">
+		                             구매하기
+		                            </button>
+		                     	</div>
+		                    </div>   
+	                     </div>	
 	                 </div>
-            	  </div>
-      		  </section>
-        		
-        	
-        		
+        		</div>
+        		</div>
         	</div>
-        </div>
         
 		<!-- FOOTER -->
 	    <jsp:include page="/footer.jsp" />

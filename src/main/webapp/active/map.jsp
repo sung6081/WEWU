@@ -168,7 +168,7 @@
                 return;
             }
 
-            var url = '/app/active/searchLocal?query=' + address;
+            var url = 'https://www.wewu.life/app/active/searchLocal?query=' + address;
             var local;
 
             await $.ajax({

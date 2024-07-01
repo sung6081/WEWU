@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.plant.InventoryDao;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
@@ -55,6 +58,9 @@ public class PlantServiceImpl implements PlantService {
 	@Autowired
 	@Qualifier("inventoryDao")
 	private InventoryDao inventoryDao;
+	
+	@Autowired
+    private HttpSession session;
 
 	public void setPlantDao(PlantDao plantDao) {
 		this.plantDao = plantDao;
@@ -97,10 +103,37 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public void completeQuest(Quest quest) throws Exception {
-		questDao.completeQuest(quest);
+		if (quest.getCurrentCnt() >= quest.getQuestTargetCnt()) {
+			quest.setQuestState("N");
+			
+            User user = (User) session.getAttribute("user");
+            System.out.println("completeQuest:uset = "+user);
+
+            quest.setNickName(user.getNickname());
+            System.out.println("quest : "+quest);
+            
+            MyPlant myPlant = (MyPlant) session.getAttribute("myPlant");
+         
+            System.out.println("completeQuest:myPlant = "+myPlant);
+            myPlant.setMyPlantExp(myPlant.getMyPlantExp() + quest.getQuestReward());
+            
+            System.out.println("update된 myPlnat : "+myPlant);
+            System.out.println("quest.getQuestReward() : "+quest.getQuestReward());
+            myPlantDao.updateMyPlant(myPlant);
+            
+            
+
+            // 퀘스트 업데이트
+            questDao.completeQuest(quest);
+        }
 	}
 
 
+	@Override
+	public Quest getQuestByUser(String nickname) throws Exception {
+		
+		return questDao.getQuestByUser(nickname);
+	}
 	// ---------------------------------------------------------------------------------------//
 
 	@Transactional
@@ -247,31 +280,44 @@ public class PlantServiceImpl implements PlantService {
 	}
 
 	@Override
-	public Map<String, Object> UseItem(Inventory inventory) throws Exception {
+	public Inventory UseItem(Inventory inventory) throws Exception {
 		
 		int currentStock = inventory.getItemNum();
+		int useItemNum = inventory.getUseItemNum();
 		int itemEffect = Integer.parseInt(inventory.getItemExp());
-		String nickname = inventory.getNickname();
+		User user = (User) session.getAttribute("user");
+		
+		System.out.println("UserItem currentStock : "+currentStock);
+		System.out.println("UserItem useItemNum : "+useItemNum);
+		System.out.println("UserItem itemEffect : "+itemEffect);
 		
 		if(currentStock>0) {
-			inventory.setItemNum(currentStock - 1);
+			inventory.setItemNum(currentStock - useItemNum);
+			System.out.println("::::inventory Before update : "+inventory);
             inventoryDao.updateInventory(inventory);
 		}
+		System.out.println("UserItem inventory : "+inventory);
 		
-		 MyPlant myPlant = myPlantDao.getMyPlant(nickname);
+		 MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
          int newExp = myPlant.getMyPlantExp() + itemEffect;
+         System.out.println("UserItem newExp : "+newExp);
          myPlant.setMyPlantExp(newExp);
          myPlantDao.updateMyPlant(myPlant);
+         
+         Map<String,Object> map = new HashMap<String, Object>();
+         map.put("myPlantNo", inventory.getMyPlant().getMyPlantNo());
+         map.put("myPlantExp", inventory.getItemExp());
 		
-		return null;
+		myPlantDao.updateMyPlantExp(map);
+		
+		
+		return inventory;
+		
 
 	}
 
-	@Override
-	public Quest getQuestByUser(String nickname) throws Exception {
-		
-		return questDao.getQuestByUser(nickname);
-	}
+
+
 
 
 

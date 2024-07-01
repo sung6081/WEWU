@@ -76,7 +76,7 @@ public interface PlantService {
 	
 	public void updateInventory(Inventory inventory) throws Exception;
 
-	public Map<String, Object> UseItem(Inventory inventory) throws Exception;
+	public Inventory UseItem(Inventory inventory) throws Exception;
 
 	public List<Inventory> getInventoryList(String nickname) throws Exception;
 

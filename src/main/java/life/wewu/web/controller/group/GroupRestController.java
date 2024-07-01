@@ -119,8 +119,6 @@ public class GroupRestController {
 		}
 		search.setPageSize(1);
 		
-		List<Group> list = new ArrayList<Group>();
-		
 		for(Group group : groupService.getGroupRankingList(search))
 		{
 			int cnt = groupService.groupMemberCnt(group.getGroupNo());
@@ -136,8 +134,9 @@ public class GroupRestController {
 			}else {
 				group.setGroupLevel("D");
 			}
-			list.add(group);
+			groupService.updateGroup(group);
 		}
+		List<Group> list = groupService.getGroupRankingList(search);
 		// Business logic 수행
 		return list;
 	}
@@ -570,7 +569,9 @@ public class GroupRestController {
 			currentPage = Integer.parseInt((String.valueOf(rslt.get("currentPage"))));
 		}
 		
+		String searchKeyword = (String)rslt.get("searchKeyword");
 		Search search = new Search();
+		search.setSearchKeyword(searchKeyword);
 		search.setCurrentPage(((currentPage - 1)*10)); // 0
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -595,8 +596,10 @@ public class GroupRestController {
 		System.out.println(":: /app/group/getAcleList ::");
 		int typeNo = (int)rslt.get("typeNo");
 		
+		String searchKeyword = (String)rslt.get("searchKeyword");
 		Search search = new Search();
-		
+		search.setSearchKeyword(searchKeyword);
+		System.out.println("search = " + search);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("typeNo", typeNo);

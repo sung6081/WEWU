@@ -46,9 +46,9 @@ public class PayRestController {
         requestBodyMap.put("quantity", params.get("quantity"));
         requestBodyMap.put("total_amount", params.get("total_amount"));
         requestBodyMap.put("tax_free_amount", params.get("tax_free_amount"));
-        requestBodyMap.put("approval_url", "http://175.106.97.19/pay/kakaoPay/success"); //결제 성공시 넘어갈 url
-        requestBodyMap.put("cancel_url", "http://175.106.97.19/pay/kakaoPay/cancel"); //결제 취소시 넘어갈 url
-        requestBodyMap.put("fail_url", "http://175.106.97.19/pay/kakaoPay/fail"); //결제 실패시 넘어갈 url
+        requestBodyMap.put("approval_url", "http://www.wewu.life/pay/kakaoPay/success"); //결제 성공시 넘어갈 url
+        requestBodyMap.put("cancel_url", "http://www.wewu.life/pay/kakaoPay/cancel"); //결제 취소시 넘어갈 url
+        requestBodyMap.put("fail_url", "http://www.wewu.life/pay/kakaoPay/fail"); //결제 실패시 넘어갈 url
 
         String requestBody;
         try 

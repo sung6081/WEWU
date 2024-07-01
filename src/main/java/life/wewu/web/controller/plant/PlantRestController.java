@@ -352,6 +352,8 @@ public class PlantRestController {
 		plantService.getMyPlant(user.getNickname());
 		System.out.println(myPlant);
 		plantService.deleteMyPlant(user.getNickname());
+		
+		session.setAttribute("myPlant", myPlant);
 
 		model.addAttribute("myPlant", myPlant);
 		model.addAttribute("user", user.getNickname());
@@ -363,10 +365,17 @@ public class PlantRestController {
 			throws Exception {
 
 		System.out.println("::plant::REST::useItem : POST");
+		System.out.println("::::::: "+inventory);
 
 		plantService.updateInventory(inventory);
 		User user = (User) session.getAttribute("user");
-
+		
+		inventory.setMyPlant(plantService.getMyPlant(user.getNickname()));
+		
+		System.out.println("::::: myplant: "+inventory.getMyPlant());
+		
+		plantService.UseItem(inventory);
+		
 		model.addAttribute("inventory", inventory);
 
 		Map<String, Object> map = new HashMap<>();

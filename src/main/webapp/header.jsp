@@ -179,7 +179,7 @@
                      <li class=" nav-item dropdown">
                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         ${user.nickname}님 환영합니다
+                           "${user.nickname}"님 환영합니다 &nbsp&nbsp 포인트 : ${user.currentPoint} 
                        </a>
                        <div class="dropdown-menu" aria-labelledby="userDropdown">
                          <a class="dropdown-item" href="/user/myInfo">마이페이지</a>
@@ -194,7 +194,7 @@
                  </li>
                </c:if>
              </c:if>
-             <li class="nav-settings">
+            <!-- <li class="nav-settings">
                <img src="/images/quest.png" alt="quest" style="height: 40px;">
            </ul>
            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
@@ -203,11 +203,11 @@
            </button>
 
 
-           <!--  -->
+             
            <jsp:include page="/plant/getQuestList.jsp">
              <jsp:param name="questNo" value="${quest.questNo}" />
            </jsp:include>
-           <!--  -->
+             -->
          </div>
        </div>
    </div>
