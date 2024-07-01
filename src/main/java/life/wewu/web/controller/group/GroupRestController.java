@@ -119,24 +119,32 @@ public class GroupRestController {
 		}
 		search.setPageSize(1);
 		
+		List<Group> list = new ArrayList<Group>();
+		
 		for(Group group : groupService.getGroupRankingList(search))
 		{
+			Group exmpl = new Group();
+			
 			int cnt = groupService.groupMemberCnt(group.getGroupNo());
-			group.setGroupPers(cnt);
+			exmpl.setGroupNo(group.getGroupNo());
+			exmpl.setGroupPers(cnt);
+			exmpl.setGroupNo(group.getGroupNo());
 			if (cnt >= 100) {
-				group.setGroupLevel("S");
+				exmpl.setGroupLevel("S");
 			} else if (cnt >= 50) {
-				group.setGroupLevel("A");
+				exmpl.setGroupLevel("A");
 			} else if (cnt >= 30) {
-				group.setGroupLevel("B");
+				exmpl.setGroupLevel("B");
 			} else if (cnt >= 10){
-				group.setGroupLevel("C");
+				exmpl.setGroupLevel("C");
 			}else {
-				group.setGroupLevel("D");
+				exmpl.setGroupLevel("D");
 			}
-			groupService.updateGroup(group);
+			
+			groupService.updateGroup(exmpl);
+			
 		}
-		List<Group> list = groupService.getGroupRankingList(search);
+		list = groupService.getGroupRankingList(search);
 		// Business logic 수행
 		return list;
 	}
