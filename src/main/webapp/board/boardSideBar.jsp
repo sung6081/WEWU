@@ -20,9 +20,14 @@
 <title>Insert title here</title>
 <style>
  .nav-item > a:hover {
-     color: inherit; /* 클릭, 포커스, 호버 상태에서 색상 변경 방지 */
+     color: block !important; /* 클릭, 포커스, 호버 상태에서 색상 변경 방지 */
      background-color: transparent; /* 배경색 변경 방지 */
    }
+ 
+   
+  /* .nav-item:hover {
+  	color: block !important;
+  } */
 
 </style>
 </head>
@@ -36,6 +41,7 @@
               <span class="menu-title">공지 사항</span>
             </a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="icon-layout menu-icon"></i>
