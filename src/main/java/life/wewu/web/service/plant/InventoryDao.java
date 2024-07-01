@@ -21,7 +21,9 @@ public interface InventoryDao {
 	
 	public void updateInventory(Inventory inventory) throws Exception;
 
-	public Map<String, Object> useItem(Inventory inventory) throws Exception;
+	public Inventory useItem(Inventory inventory) throws Exception;
+	
+	public Inventory getInventory(int inventoryNo);
 
 
 }
