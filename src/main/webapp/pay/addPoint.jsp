@@ -84,6 +84,7 @@
                   $(".paySuccess").attr("method","POST").attr("action","/pay/kakaoPay/success").submit();
                }else
                {
+            	   location.href="/pay/kakaoPay/fail";
                   //실패
                   
                }
