@@ -24,8 +24,8 @@
 	
 	<!-- Question : INSERT( 질문 추가 하기 ) -->
 	<insert id="addQuestion" parameterType="question" useGeneratedKeys="true" keyProperty="questionNo" keyColumn="question_no">
-		INSERT INTO question (nickname, question_type, question_category, title, contents, reg_date , question_state)
-        VALUES (#{nickName}, #{questionType}, #{questionCategory}, #{title}, #{contents}, now(), 1)
+		INSERT INTO question (nickname, question_type, question_category, title, contents, reg_date,reply ,reply_date, question_state)
+        VALUES (#{nickName}, #{questionType}, #{questionCategory}, #{title}, #{contents}, now(),#{reply},now(), 1)
 	</insert>
 	
 	<!-- Reply : UPDATE ( 답변 등록 및 변경 하기 ) -->
@@ -49,7 +49,6 @@
 	<update id="updateQuestion" parameterType="int">
 		UPDATE question
 		<set>
-			nickname = #{nickName},
 			title = #{title},
 			contents = #{contents},
 			reg_date = now()
@@ -72,8 +71,8 @@
 	  	question_no, nickname, question_type, question_category, title, reg_date, question_state
 	  	FROM question
 		WHERE  question_type = #{questionType}
-		ORDER BY question_no desc
-
+		ORDER BY question_no DESC
+		LIMIT #{offset}, 8;
 	 </select>
 	 
 	<select id="getTotalCountQ" parameterType="Map" resultType="int">

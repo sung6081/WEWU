@@ -57,6 +57,11 @@
 .caption .btn {
 	margin-right: 5px;
 }
+
+.jumbotron {
+	margin: 0 !important; /* 기본 마진 제거 */
+	background-color: #00A06C;
+}
 </style>
 <script type="text/javascript">
     var currentPage = 1;
@@ -182,19 +187,29 @@
 			<div class="col-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<h1 class="card-title">
-							<c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
-							<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
-							<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
-							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
-						</h1>
+
+						<div class="jumbotron">
+							<div class="container">
+								<p class="display-4">
+									<b><h3>
+											<c:if test="${param.boardType eq '1'}"> 공지 사항 </c:if>
+											<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
+											<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
+											<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
+									</h3></b>
+								</p>
+							</div>
+						</div>
+						<br><br>
+				
 
 						<!-- 검색 폼 -->
 						<div class="form-group">
 							<form id="listSearchForm" action="/board/listBoard" method="get">
 								<div class="input-group">
-									<input type="hidden" class="currentPage" name="currentPage" value="${search.currentPage}" >
-									<input type="text" class="form-control" placeholder="검색어 입력"
+									<input type="hidden" class="currentPage" name="currentPage"
+										value="${search.currentPage}"> <input type="text"
+										class="form-control" placeholder="검색어 입력"
 										aria-label="Recipient's username" name="searchKeyword"
 										value="${search.searchKeyword}"> <input type="hidden"
 										name="boardType" value="${param.boardType}">
@@ -217,8 +232,8 @@
 												<img src="/images/back.png" alt="Default Thumbnail">
 											</c:if>
 											<c:if test="${not empty board.fileName}">
-                                            	<img src="${board.fileName}" alt="${board.fileName}">
-                                        	</c:if>
+												<img src="${board.fileName}" alt="${board.fileName}">
+											</c:if>
 
 											<div class="caption">
 												<h4 class="card-title">${board.title}</h4>
@@ -243,53 +258,65 @@
 
 											</c:if>
 										</div>
-										 
+
 
 									</div>
-									
-									
+
+
 								</div>
 								<c:set var="index" value="${index + 1}" />
 							</c:forEach>
 						</div>
-						
+
 						<div align="center">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <c:if test="${resultPage.currentPage > 1}">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
-                                </c:if>
-                                <c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}">
-                                    <c:choose>
-                                        <c:when test="${i == resultPage.currentPage}">
-                                            <button type="button" class="btn btn-primary">${i}</button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${i})">${i}</button>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                                <c:if test="${resultPage.endUnitPage < resultPage.maxPage}">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage + 1})">&gt;</button>
-                                </c:if>
-                            </div>
-                        </div>
+							<div class="btn-group" role="group" aria-label="Basic example">
+								<c:if test="${resultPage.currentPage > 1}">
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
+								</c:if>
+								<c:forEach var="i" begin="${resultPage.beginUnitPage}"
+									end="${resultPage.endUnitPage}">
+									<c:choose>
+										<c:when test="${i == resultPage.currentPage}">
+											<button type="button" class="btn btn-primary">${i}</button>
+										</c:when>
+										<c:otherwise>
+											<button type="button" class="btn btn-outline-secondary"
+												onclick="fncGetList(${i})">${i}</button>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:if test="${resultPage.endUnitPage < resultPage.maxPage}">
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="fncGetList(${resultPage.currentPage + 1})">&gt;</button>
+								</c:if>
+							</div>
+						</div>
 
 						<div class="card mt-4">
 							<div class="card-body">
 								<c:if
 									test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">공지 글 등록하기</button>
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">공지 글
+										등록하기</button>
 								</c:if>
 								<c:if
 									test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">모임 홍보 글 등록하기</button>
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">모임 홍보
+										글 등록하기</button>
 								</c:if>
 								<c:if
 									test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
-									<button type="button"  class="btn btn-outline-primary btn-fw add-btn">모임 후기 글 등록하기</button>
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">모임 후기
+										글 등록하기</button>
 								</c:if>
 								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">후원 글 등록하기</button>
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">후원 글
+										등록하기</button>
 								</c:if>
 							</div>
 						</div>
