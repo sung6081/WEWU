@@ -671,6 +671,14 @@
 				        	
 				        	var activeNo = $(this).children().val();
 				        	
+				        	var nick = '${user.nickname}';
+							
+							if(nick == '') {
+								alert('로그인을 해주세요.');
+								self.location = '/user/login';
+								return;
+							}
+				        	
 				        	//alert(activeNo);
 				        	self.location = '/active/getActive/'+activeNo;
 				        	
