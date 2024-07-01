@@ -94,7 +94,7 @@ public class UserRestController {
                     myPlant.setPlantLevl(plantLevl);
                     session.setAttribute("myPlant", myPlant);
                 } catch (Exception e) {
-                    System.out.println("MyPlant 가져오기 중 예외 발생: " + e.getMessage());
+                    System.out.println("MyPlant 가져오기 중 예외 발생 : " + e.getMessage());
                     e.printStackTrace();
                 }
                 System.out.println("로그인 성공: " + dbUser.getUserId());
