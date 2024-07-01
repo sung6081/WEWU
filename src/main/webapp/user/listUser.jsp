@@ -73,12 +73,25 @@
             padding: 10px 20px; /* 버튼 크기 조정 */
         }
     </style>
+    
+    
 </head>
 <body>
 
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
+    
+        <script type="text/javascript">
+        function fncGetList(currentPage) {
+            document.getElementById('currentPage').value = currentPage;
+            document.detailForm.submit();
+        }
+        
+        function fncGetUser(userId) {
+            window.location.href = "/user/getUser?userId=" + userId;
+        }
+    </script>
 
 <div class="main-panel">
      <div class="content-wrapper">
@@ -198,15 +211,5 @@
     </div>
     <!-- FOOTER -->
 
-    <script type="text/javascript">
-        function fncGetList(currentPage) {
-            document.getElementById('currentPage').value = currentPage;
-            document.detailForm.submit();
-        }
-        
-        function fncGetUser(userId) {
-            window.location.href = "/user/getUser?userId=" + userId;
-        }
-    </script>
 </body>
 </html>
