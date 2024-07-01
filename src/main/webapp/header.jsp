@@ -189,12 +189,12 @@
                      </li>
                    </c:otherwise>
                  </c:choose>
-                 <li class="nav-item">
+                   <li class="nav-item">
                    <a class="nav-link" href="/user/logout">LogOut</a>
                  </li>
                </c:if>
              </c:if>
-            <li class="nav-settings">
+          <!--  <li class="nav-settings">
                <img src="/images/quest.png" alt="quest" style="height: 40px;">
            </ul>
            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
@@ -203,7 +203,7 @@
            </button>
         <jsp:include page="/plant/getQuestList.jsp">
              <jsp:param name="questNo" value="${quest.questNo}" />
-           </jsp:include>
+           </jsp:include>-->
          </div>
        </div>
    </div>
