@@ -126,7 +126,7 @@
                  <div class="dropdown-menu" aria-labelledby="adminDropdown">
                    <!-- Menu 1 with nested dropdown -->
                    <div class="dropdown">
-                     <a class="dropdown-item" href="#">회원관리</a>
+                     <a class="dropdown-item" href="/user/listUser">회원관리</a>
                    </div>
                    <!-- Menu 2 with nested dropdown -->
                    <div class="dropdown">
@@ -189,25 +189,21 @@
                      </li>
                    </c:otherwise>
                  </c:choose>
-                 <li class="nav-item">
+                   <li class="nav-item">
                    <a class="nav-link" href="/user/logout">LogOut</a>
                  </li>
                </c:if>
              </c:if>
-            <!-- <li class="nav-settings">
+         <li class="nav-settings">
                <img src="/images/quest.png" alt="quest" style="height: 40px;">
            </ul>
            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
              data-toggle="offcanvas">
              <span class="icon-menu"></span>
            </button>
-
-
-             
-           <jsp:include page="/plant/getQuestList.jsp">
+        <jsp:include page="/plant/getQuestList.jsp">
              <jsp:param name="questNo" value="${quest.questNo}" />
            </jsp:include>
-             -->
          </div>
        </div>
    </div>

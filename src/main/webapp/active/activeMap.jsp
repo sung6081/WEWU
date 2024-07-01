@@ -296,7 +296,7 @@
 				
 				if(searchCondition == 'active') {
 					
-					alert('check');
+					//alert('check');
 					
 					//var url = 'http://localhost:8080/app/active/listActive';
 					var url = 'https://www.wewu.life/app/active/listActive';
@@ -323,6 +323,12 @@
 							for(let i = 0; i < activeListString.length; i++) {
 								
 								let markerOptions = null;
+								
+								if(i == 0) {
+									var point = new naver.maps.Point(activeListString[0].activeX, activeListString[0].activeY);
+									
+									map.setCenter(point);
+								}
 								
 								//console.log('start');
 								

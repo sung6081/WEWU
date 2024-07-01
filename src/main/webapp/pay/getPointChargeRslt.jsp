@@ -31,7 +31,7 @@
 		}
 		
 		$(function() {
-			 $( "button.btn-primary:contains('목록')" ).on("click" , function() {
+			 $( "button.btn-success:contains('목록')" ).on("click" , function() {
 				location.href="/item/getShoppingCartList?nickname=${user.nickname}"
 			 });
 		});

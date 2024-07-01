@@ -29,7 +29,7 @@
 		            </ul>
 		          </div>
 		        </li>
-		       <!--   <li class="nav-item">
+		       <li class="nav-item">
 		          <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
 		            <i class="icon-columns menu-icon"></i>
 		            <span class="menu-title">Quest Management</span>
@@ -41,7 +41,7 @@
 		              <li class="nav-item"><a class="nav-link" href="/plant/listQuest">Äù½ºÆ® °ü¸®</a></li>
 		            </ul>
 		          </div>
-		        </li>-->
+		        </li>
 		      </ul>
 		    </nav>
 </body>

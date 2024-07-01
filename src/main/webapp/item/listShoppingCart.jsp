@@ -29,7 +29,7 @@
 	
 		<%--추가 후--%>
 		$(function() {
-			 $( "button.btn-primary:contains('삭제하기')" ).on("click" , function() {
+			 $( "button.btn-success:contains('삭제하기')" ).on("click" , function() {
 				 //fncListRefundPoint();
 				 var shoppingCartNo = $("input[type='radio']:checked").val();
 				 if(shoppingCartNo == undefined)
@@ -44,7 +44,7 @@
 				 
 			})
 			 
-			 $( "button.btn-primary:contains('구매하기')" ).on("click" , function() {
+			 $( "button.btn-success:contains('구매하기')" ).on("click" , function() {
 				 //fncListRefundPoint();
 				 var itemNo = $("input[type='radio']:checked").attr("id"); //여기서는 구매하기는 requestParam이 itemNo고, 삭제하기는 shoppingCartNo임. 그럼 checked 되는 게 달라야 하지 않나...?
 				 if(itemNo == undefined)
@@ -87,8 +87,6 @@
 	
 			<div class="main-panel">
 		        	<div class="content-wrapper">
-						<div class="main-panel">
-			        		<div class="content-wrapper">
 				        		 <div class="row">
 				                    <div class="col-lg-12 grid-margin stretch-card">
 				                        <div class="card">
@@ -136,8 +134,8 @@
 		                                    </table>
 		                                </div>
 		                                 <div class="text-right mt-4">
-		                               <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">삭제하기</button>
-		                               <button type="button" class="btn btn-primary" style="float: right; margin-left: 10px;">구매하기</button>
+		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">삭제하기</button>
+		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">구매하기</button>
 		                     
 			 					   	
 					            </div>
