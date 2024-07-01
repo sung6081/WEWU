@@ -126,7 +126,7 @@
                  <div class="dropdown-menu" aria-labelledby="adminDropdown">
                    <!-- Menu 1 with nested dropdown -->
                    <div class="dropdown">
-                     <a class="dropdown-item" href="#">회원관리</a>
+                     <a class="dropdown-item" href="/user/listUser">회원관리</a>
                    </div>
                    <!-- Menu 2 with nested dropdown -->
                    <div class="dropdown">
