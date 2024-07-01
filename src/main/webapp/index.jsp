@@ -345,6 +345,9 @@
             </div>
           </div>
           <c:if test="${empty user}">
+          <div class="card-myPlant">
+           	<img src="/images/gogreen.png">
+           	</div>
           </c:if>
           <c:if test="${!empty user}">
             <div class="col-md-4 grid-margin stretch-card">

@@ -30232,9 +30232,9 @@ div.tagsinput span.tag a {
   display: block;
   position: fixed;
   top: 60px;
-  right: -250px;
+  right: -400px;
   bottom: 0;
-  width: 250px;
+  width: 400px;
   height: 100vh;
   min-height: 100%;
   background: #ffffff;
