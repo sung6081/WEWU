@@ -398,22 +398,37 @@ public class BoardController {
 	
 	//문의 목록 조회 GET
 	@GetMapping(value = "listQuestion")
-	public String getQuestionList(@RequestParam("questionType")String questionType, Model model) throws Exception{
+	public String getQuestionList(@RequestParam("questionType")String questionType,@ModelAttribute Search search,Model model) throws Exception{
 		
 		System.out.println("/board/listQeustion : GET");
 		
-		Search search = new Search();
+		
+		System.out.println(":::::: search : "+search);
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		search.setSearchCondition("");
+		search.setSearchKeyword("");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("questionType",questionType);
 		//map.put("questionType", "문의");
 		map.put("offset", (search.getCurrentPage() - 1) * 8);
+		map.put("search", search);
+		
+		int totalCount = boardService.getTotalCountQ(map);
+		Page resultPage = new Page(search.getCurrentPage(), totalCount, pageUnit, pageSize);
+		System.out.println("\n::::::::::::RESULT PAGE"+resultPage);
 		
 		List<Question> list = boardService.getQuestionList(map);
 		
 		System.out.println("::::: "+map.get("questionType"));
 		
 		model.addAttribute("list", list);
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
 		
 		return "forward:/board/listQuestion.jsp";		
 	}

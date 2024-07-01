@@ -16,7 +16,7 @@
 	
 	$(function(){
 		$("button.btn:contains('답변등록')").on("click",function(){
-			self.location="/board/updateRely?questionType=${param.questionType}&questionNo=${param.questionNo}"
+			self.location="/board/updateReply?questionType=${param.questionType}&questionNo=${param.questionNo}"
 		});
 	});
 	
@@ -52,7 +52,7 @@
 						<div class="card-body">
 							<h1 class="card-title">${question.title}</h1>
 							<p class="card-description">
-								<c:if test="${param.questionType eq 'FAQ'}"> 자주하는 질문 </c:if>
+								<c:if test="${param.questionType eq '자주'}"> 자주하는 질문 </c:if>
 								<c:if test="${param.questionType eq '문의'}"> 1:1 문의</c:if>
 								/ ${question.questionCategory}
 								<hr>
@@ -81,8 +81,8 @@
 								<button type="button" class="btn btn-primary mr-2">삭제</button>
 							</c:if>
 							<c:if
-								test="${question.questionType eq '문의' && sessionScope.isAdmin}">
-								<button type="button" class="btn btn-primary mr-2">답변 등록</button>
+								test="${sessionScope.isAdmin}">
+								<button type="button" class="btn btn-primary mr-2">답변등록</button>
 							</c:if>
 							<c:if
 								test="${question.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">

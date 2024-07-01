@@ -5,24 +5,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의 등록</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- HEADER -->
+<jsp:include page="/header.jsp" />
+<!-- HEADER -->
 <script src="../../js/file-upload.js"></script>
 <script src="/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function(){
-		$("button.btn:contains('취소')").on("click", function() {
+		$(".reloadBtn").on("click", function() {
 			self.location="/board/listBoard?boardType=${param.boardType}"
 		});
 		 $('footer').removeClass('fixed-bottom');
 		 
-		 $('.add-btn').on('click', function() {
-			 alert('asdf');
+		
+	});
+	$(function(){
+		 $('.addBtn').on('click', function() {
 				oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
-				$('forms-sample').submit();
+				$('form').submit();
 				
 			});
 	});
+	
+	
+	
 	window.onload=(function(){
 		getGroupList();
 	})
@@ -69,10 +75,6 @@
 </script>
 </head>
 <body>
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp" />
-	<!-- HEADER -->
-
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
 
@@ -138,8 +140,8 @@
 									</script>
 								</div>
 							</div>
-							<button type="button" class="btn btn-primary mr-2 add-btn">등록</button>
-							<button class="btn btn-light">취&nbsp;소</button>
+							<button type="button" class="btn btn-primary mr-2 addBtn">등록</button>
+							<button type="button" class="btn btn-light reloadBtn">취&nbsp;소</button>
 						</form>
 					</div>
 				</div>
