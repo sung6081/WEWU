@@ -32,6 +32,22 @@
 			       
 		        </c:if>
 	        </div>
+	        <div class="col-lg-12 grid-margin stretch-card">
+	        	<div class="col-lg-2">
+	        	</div>
+	        	<div class="col-lg-8" style="margin-top:20px;">
+		        	<div class="form-group">
+						<div class="input-group">
+	                    	<input type="text" class="form-control searchKeyword" placeholder="모임명" aria-label="모임명">
+		                    <div class="input-group-append">
+		                    	<button class="btn btn-sm btn-success" type="button">Search</button>
+		                    </div>
+						</div>
+	                </div>
+                </div>
+                <div class="col-lg-2">
+	        	</div>
+	        </div>
 			<p class="card-description">
 				${groupBoard.boardIntro}
 		    </p>

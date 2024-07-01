@@ -77,9 +77,10 @@
   		FROM board
   		<where>
   			type_no = #{typeNo}
-  			<if test="search.searchCondition != null and search.searchCondition != ''">
-  				and member_no = #{search.searchCondition}
+  			<if test="search.searchKeyword != null and search.searchKeyword != ''">
+  				AND title LIKE CONCAT('%', #{search.searchKeyword}, '%')
   			</if>
+  			
   		</where>
   		LIMIT #{search.currentPage}, 10
   	</select>                                                                                                                                                                                                                                                                                                                                                                   
@@ -92,8 +93,8 @@
   		FROM board
   		<where>
   			type_no = #{typeNo}
-  			<if test="search.searchCondition != null and search.searchCondition != ''">
-  				and member_no = #{search.searchCondition}
+  			<if test="search.searchKeyword != null and search.searchKeyword != ''">
+  				AND title LIKE CONCAT('%', #{search.searchKeyword}, '%')
   			</if>
   		</where>
   	</select>
@@ -189,8 +190,12 @@
   							type_no 
   						FROM 
   							board_type 
-  						WHERE 
-  							group_no = ${groupNo}
+  						<if test="${groupNo != null}">
+							<where>
+								group_no = #{groupNo}
+							</where>
+						</if>
+  							
   					)
   		AND 
   			nickname = '${nickname}'
@@ -244,8 +249,12 @@
   												type_no
   											FROM
   												board_type
-  											WHERE
-  												group_no = #{groupNo}
+  											<if test="${groupNo != null}">
+  												<where>
+  													group_no = #{groupNo}
+  												</where>
+  											</if>
+  											
   										)
   					)
   		AND 

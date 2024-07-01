@@ -203,7 +203,9 @@
 		<if test='searchCondition == "search"'>
 			<where>
 				group_name LIKE CONCAT('%', #{searchKeyword}, '%')
-				AND 
+				OR
+				group_hash LIKE CONCAT('%', #{searchKeyword}, '%') 
+				AND
 				group_rslt = 'T'
 			</where>
 		</if>

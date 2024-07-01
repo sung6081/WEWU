@@ -7,12 +7,11 @@
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
-		
 		<script>
 			var total;
 			$(function() 
 			{
-				getGroupAcleList(1);
+				getGroupAcleList(1,"");
 				
 				$.ajax ({
 					url	: "/app/group/getAcleListCnt", // (Required) 요청이 전송될 URL 주소
@@ -51,7 +50,7 @@
 				    });
 				    
 				    $(document).on('click', '.page-link', function() {
-				    	getGroupAcleList($(this).attr("id"));
+				    	getGroupAcleList($(this).attr("id"),$(".searchKeyword").val());
 				    });
 				    
 				    $(document).on('mouseenter', '.acle', function() {
@@ -61,6 +60,11 @@
 				    $(document).on('click', '.acle', function() {
 				    	getGroupAcle($(this).attr("id"));
 				    });
+				    
+				    $( "button:contains('Search')" ).on("click" , function() 
+				 	{
+				    	getGroupAcleList($(".active").attr("id"),$(".searchKeyword").val());
+					}); 
 				   
 				});
 				
@@ -81,9 +85,11 @@
 					deleteGroupBoard();
 				}); 
 				
+				
+				
 			});
 			
-			function getGroupAcleList(currentPage)
+			function getGroupAcleList(currentPage,searchKeyword)
 			{
 				$.ajax ({
 					  url	: "/app/group/getAcleList", // (Required) 요청이 전송될 URL 주소
@@ -94,7 +100,8 @@
 					  data  : JSON.stringify(
 					 				{
 					 					typeNo:${groupBoard.typeNo},
-					 					currentPage:currentPage
+					 					currentPage:currentPage,
+					 					searchKeyword:searchKeyword
 					 				}
 				 				), // 요청 시 전달할 데이터
 					  processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
@@ -259,7 +266,7 @@
 			    // 페이지 번호
 			    for (var i = 1; i <= totalPages; i++) {
 			        if (i == currentPage) {
-			            paginationHTML += '    <li class="page-item active">\n' +
+			            paginationHTML += '    <li class="page-item active" id=' + i + '>\n' +
 			                              '      <span class="page-link" id=' + i + '>' + i + ' <span class="sr-only">(current)</span></span>\n' +
 			                              '    </li>\n';
 			        } else {
