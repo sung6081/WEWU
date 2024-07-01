@@ -108,18 +108,15 @@ public class PlantServiceImpl implements PlantService {
 			
             User user = (User) session.getAttribute("user");
             System.out.println("completeQuest:uset = "+user);
-            if (user.getNickname() == null) {
-                throw new Exception("User nickname not found in session.");
-            }
+
             quest.setNickName(user.getNickname());
             System.out.println("quest : "+quest);
+            
             MyPlant myPlant = (MyPlant) session.getAttribute("myPlant");
-            if (myPlant == null) {
-                throw new Exception("MyPlant not found in session.");
-            }          
+         
             System.out.println("completeQuest:myPlant = "+myPlant);
-
             myPlant.setMyPlantExp(myPlant.getMyPlantExp() + quest.getQuestReward());
+            
             System.out.println("update된 myPlnat : "+myPlant);
             System.out.println("quest.getQuestReward() : "+quest.getQuestReward());
             myPlantDao.updateMyPlant(myPlant);

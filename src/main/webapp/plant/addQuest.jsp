@@ -31,6 +31,7 @@ background-color: #00A06C;
 
 	    $("input[name='submit']").on("click", function(){
 	        alert("등록하시겠습니까?");
+	        
 	        // 폼 제출을 수행합니다.
 	    });
 	});
