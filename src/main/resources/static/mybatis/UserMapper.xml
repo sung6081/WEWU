@@ -46,6 +46,7 @@
 	        CASE
 	            WHEN role = '2' THEN '5'
 	            WHEN role = '5' THEN '2'
+	            WHEN role = '4' THEN '2'
 	            ELSE role
 	        END
 	    WHERE user_id = #{userId}

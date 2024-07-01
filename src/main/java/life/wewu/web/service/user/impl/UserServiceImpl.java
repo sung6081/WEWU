@@ -189,7 +189,9 @@ public class UserServiceImpl implements UserService {
 	            System.out.println("role 2 => 5");
 	        } else if ("5".equals(currentRole)) {
 	            System.out.println("role 5 => 2");
-	        } else {
+	        } else if ("4".equals(currentRole)) {
+	            System.out.println("role 4 => 2");
+	        }else {
 	            System.out.println("role update => no change or different role");
 	        }
 	    }

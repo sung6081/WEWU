@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>My Info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <style>
         .info-label {
             font-weight: bold;
@@ -32,7 +33,9 @@
     </style>
     
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../vendors/js/vendor.bundle.base.js"></script>
 </head>
 <body>
 
@@ -49,49 +52,48 @@
                                 <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                                     <h4 class="mb-4">회원 정보</h4>
                                     <div class="pt-3 form-horizontal">
-                                        <input type="hidden" name="userId" value="${user.userId}">
+                                        <input type="hidden" name="userId" value="${viewedUser.userId}">
                                         <div class="form-group row">
                                             <label for="userName" class="col-sm-3 col-form-label info-label">이름</label>
                                             <div class="col-sm-9">
-                                                <div class="info-value">${user.userName}</div>
+                                                <div class="info-value">${viewedUser.userName}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="nickname" class="col-sm-3 col-form-label info-label">닉네임</label>
                                             <div class="col-sm-9">
-                                                <div class="info-value">${user.nickname}</div>
+                                                <div class="info-value">${viewedUser.nickname}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="email" class="col-sm-3 col-form-label info-label">이메일</label>
                                             <div class="col-sm-9">
-                                                <div class="info-value">${user.email}</div>
+                                                <div class="info-value">${viewedUser.email}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="phoneNum" class="col-sm-3 col-form-label info-label">휴대전화번호</label>
                                             <div class="col-sm-9">
-                                                <div class="info-value">${user.phoneNum}</div>
+                                                <div class="info-value">${viewedUser.phoneNum}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
                                             <div class="col-sm-9">
-                                                <div class="info-value">${user.addr}</div>
+                                                <div class="info-value">${viewedUser.addr}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="getAddr" class="col-sm-3 col-form-label info-label">상세주소</label>
                                             <div class="col-sm-9">
-                                                <div class="info-value">${user.getAddr}</div>
+                                                <div class="info-value">${viewedUser.getAddr}</div>
                                             </div>
                                         </div>
-
 
                                         <c:choose>
                                             <c:when test="${sessionScope.isAdmin}">
                                                 <form action="/user/checkPassword" method="post">
-                                                    <input type="hidden" name="userId" value="${user.userId}">
+                                                    <input type="hidden" name="userId" value="${viewedUser.userId}">
                                                     <div class="form-group text-center">
                                                         <input type="submit" value="수정 페이지로 이동" class="btn btn-primary btn-block">
                                                         <a class="btn btn-secondary btn-block" href="#" role="button">취소</a>
@@ -101,12 +103,12 @@
                                             <c:otherwise>
                                                 <div class="form-group text-center password-section">
                                                     <form action="/user/checkPassword" method="post">
-                                                        <input type="hidden" name="userId" value="${user.userId}">
+                                                        <input type="hidden" name="userId" value="${viewedUser.userId}">
                                                         <label for="password" class="info-label">비밀번호:</label>
                                                         <input type="password" id="password" name="password" class="form-control password-input d-inline-block" required>
                                                         <div class="mt-3">
                                                             <input type="submit" value="수정 페이지로 이동" class="btn btn-primary btn-block">
-                                                            <a class="btn btn-secondary btn-block" href="#" role="button">취소</a>
+                                                            <a class="btn btn-secondary btn-block" href="/user/listUser" role="button">취소</a>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -117,19 +119,27 @@
                                             <c:when test="${sessionScope.user.role == '1'}">
                                                 <!-- 관리자만 볼 수 있는 버튼 -->
                                                 <c:choose>
-                                                    <c:when test="${user.role == '2'}">
+                                                    <c:when test="${viewedUser.role == '2'}">
                                                         <form action="/user/updateRole" method="post">
-                                                            <input type="hidden" name="userId" value="${user.userId}">
+                                                            <input type="hidden" name="userId" value="${viewedUser.userId}">
                                                             <div class="form-group text-center">
                                                                 <input type="submit" value="사용정지" class="btn btn-danger btn-block">
                                                             </div>
                                                         </form>
                                                     </c:when>
-                                                    <c:when test="${user.role == '5'}">
+                                                    <c:when test="${viewedUser.role == '5'}">
                                                         <form action="/user/updateRole" method="post">
-                                                            <input type="hidden" name="userId" value="${user.userId}">
+                                                            <input type="hidden" name="userId" value="${viewedUser.userId}">
                                                             <div class="form-group text-center">
                                                                 <input type="submit" value="정지해제" class="btn btn-success btn-block">
+                                                            </div>
+                                                        </form>
+                                                    </c:when>
+                                                    <c:when test="${viewedUser.role == '4'}">
+                                                        <form action="/user/updateRole" method="post">
+                                                            <input type="hidden" name="userId" value="${viewedUser.userId}">
+                                                            <div class="form-group text-center">
+                                                                <input type="submit" value="계정복구" class="btn btn-success btn-block">
                                                             </div>
                                                         </form>
                                                     </c:when>
@@ -150,9 +160,6 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../../vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <!-- End plugin js for this page -->

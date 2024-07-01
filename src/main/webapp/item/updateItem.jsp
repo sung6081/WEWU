@@ -11,7 +11,9 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- HEADER -->
+    <jsp:include page="/header.jsp" />
+    <!-- HEADER -->
 
 <script type="text/javascript">
 function fncUpdateItem() {
@@ -33,9 +35,7 @@ $(function() {
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
-    <!-- HEADER -->
-    <jsp:include page="/header.jsp" />
-    <!-- HEADER -->
+    
 
     <div class="main-panel">
         <div class="content-wrapper">
@@ -70,12 +70,12 @@ $(function() {
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled placeholder="이미지 파일 첨부">
                                     <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-primary" type="button">파일 업로드</button>
+                                        <button class="file-upload-browse btn btn-success" type="button">파일 업로드</button>
                                     </span>
                                 </div>
                             </div>
                             <%-- 
-                            <button type="button" class="btn btn-primary mr-2">수정</button>
+                            <button type="button" class="btn btn-success mr-2">수정</button>
                             <button type="button" class="btn btn-light">목록</button>
                         	--%>
                         	
@@ -90,7 +90,7 @@ $(function() {
 												
 												</td>
 												<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-												<button type="button" class="btn btn-primary">수정</button>
+												<button type="button" class="btn btn-success">수정</button>
 												</td>
 												<td width="17" height="23">
 												
@@ -99,7 +99,7 @@ $(function() {
 												<td width="17" height="23">
 												</td>
 												<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-												<button type="button" class="btn btn-primary">목록</button>
+												<button type="button" class="btn btn-success">목록</button>
 												</td>
 												<td width="14" height="23">
 												

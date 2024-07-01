@@ -151,83 +151,87 @@ public class UserController {
 		//Business Logic
 		userService.addUser(user);
 		
-		return "redirect:/plant/randomPlantModal.jsp";
+		return "redirect:/user/login";
 	}
 	
 	//user 내정보조회페이지로 이동
-	 @GetMapping("/myInfo")
-	    public String myInfo(HttpSession session, Model model) throws Exception {
-		 
-	        System.out.println("/user/myInfo : GET");
+	@GetMapping("/myInfo")
+	public String myInfo(HttpSession session, Model model) throws Exception {
+	 
+	    System.out.println("/user/myInfo : GET");
 
-	        User sessionUser = (User) session.getAttribute("user");
-	        if (sessionUser == null) {
-	            return "redirect:/user/loginView.jsp"; // 세션에 유저 정보가 없으면 로그인 페이지로 리디렉션
-	        }
-	        
-	        String userId = sessionUser.getUserId();
-	        User user = userService.getUser(userId);
-	        model.addAttribute("user", user);
-
-	        return "forward:/user/myInfo.jsp"; // 뷰 이름 반환
+	    User sessionUser = (User) session.getAttribute("user");
+	    if (sessionUser == null) {
+	        return "redirect:/user/loginView.jsp"; // 세션에 유저 정보가 없으면 로그인 페이지로 리디렉션
 	    }
+	    
+	    String userId = sessionUser.getUserId();
+	    User user = userService.getUser(userId);
+	    model.addAttribute("viewedUser", user); // 'viewedUser' 속성으로 변경
+
+	    return "forward:/user/myInfo.jsp"; // 뷰 이름 반환
+	}
+
 	 
 	 //listUser (admin)에서 유저상세정보 보기
-		@RequestMapping( value="/getUser", method=RequestMethod.GET )
-		public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
-			
-			System.out.println("/user/myInfo : GET");
-			//Business Logic
-			User user = userService.getUser(userId);
-			// Model 과 View 연결
-			model.addAttribute("user", user);
-			
-			return "forward:/user/myInfo.jsp";
-		}
-		@PostMapping("/checkPassword")
-		public String checkPassword(@RequestParam("userId") String userId, 
-		                            @RequestParam(value = "password", required = false) String password, 
-		                            HttpSession session,
-		                            Model model) throws Exception {
+	 @RequestMapping(value = "/getUser", method = RequestMethod.GET)
+	 public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
+	     
+	     System.out.println("/user/myInfo : GET");
+	     // Business Logic
+	     User user = userService.getUser(userId);
+	     // Model 과 View 연결
+	     model.addAttribute("viewedUser", user);  // 수정된 변수명
+	     
+	     return "forward:/user/myInfo.jsp";
+	 }
 
-		    System.out.println("/user/checkPassword : POST");
+	 @PostMapping("/checkPassword")
+	 public String checkPassword(@RequestParam("userId") String userId, 
+	                             @RequestParam(value = "password", required = false) String password, 
+	                             HttpSession session,
+	                             Model model) throws Exception {
 
-		    User user = userService.getUser(userId);
-		    User loggedInUser = (User) session.getAttribute("user");
+	     System.out.println("/user/checkPassword : POST");
 
-		    if (user != null && loggedInUser != null) {
-		        boolean isAdmin = Boolean.TRUE.equals(session.getAttribute("isAdmin"));
+	     User user = userService.getUser(userId);
+	     User loggedInUser = (User) session.getAttribute("user");
 
-		        if (isAdmin || (password != null && user.getUserPwd().equals(password))) {
-		            model.addAttribute("user", user);
-		            return "forward:/user/myInfoView.jsp?userId=" + userId;
-		        } else {
-		            model.addAttribute("error", "유효하지 않은 비밀번호 입니다. 다시 입력하세요.");
-		            return "forward:/user/myInfo.jsp";
-		        }
-		    } else {
-		        model.addAttribute("error", "사용자를 찾을 수 없습니다.");
-		        return "forward:/user/myInfo.jsp";
-		    }
-		}
+	     if (user != null && loggedInUser != null) {
+	         boolean isAdmin = Boolean.TRUE.equals(session.getAttribute("isAdmin"));
+
+	         if (isAdmin || (password != null && user.getUserPwd().equals(password))) {
+	             model.addAttribute("viewedUser", user);
+	             return "forward:/user/myInfoView.jsp";
+	         } else {
+	             model.addAttribute("error", "유효하지 않은 비밀번호 입니다. 다시 입력하세요.");
+	             return "forward:/user/myInfo.jsp";
+	         }
+	     } else {
+	         model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+	         return "forward:/user/myInfo.jsp";
+	     }
+	 }
+
 
 	//myInfoView submit => myInfo
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
-		
-	    System.out.println("/user/updateUser : POST");
-	    
-	    // Business Logic: 유저 정보 수정
-	    userService.updateUser(user);
+	 @RequestMapping(value = "update", method = RequestMethod.POST)
+	 public String updateUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+	     
+	     System.out.println("/user/updateUser : POST");
+	     
+	     // Business Logic: 유저 정보 수정
+	     userService.updateUser(user);
 
-	    // 수정된 유저 정보 조회
-	    User updatedUser = userService.getUser(user.getUserId());
+	     // 수정된 유저 정보 조회
+	     User updatedUser = userService.getUser(user.getUserId());
 
-	    // 수정된 유저 정보를 모델에 담아 전달
-	    model.addAttribute("user", updatedUser);
+	     // 수정된 유저 정보를 모델에 담아 전달
+	     model.addAttribute("viewedUser", updatedUser);
 
-	    return "/user/myInfo";  // 수정된 유저 정보를 보여주는 JSP 페이지로 리다이렉트
-	}
+	     return "forward:/user/myInfo.jsp";  // 수정된 유저 정보를 보여주는 JSP 페이지로 리다이렉트
+	 }
+
 
 	
 	@RequestMapping(value="listUser")
