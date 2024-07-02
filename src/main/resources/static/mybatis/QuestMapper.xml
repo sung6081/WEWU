@@ -6,10 +6,11 @@
 <mapper namespace = "life.wewu.web.service.plant.QuestDao">
 
 <resultMap id="questResultMap" type="life.wewu.web.domain.plant.Quest">
-        <id property="questNo" column="quest_no" jdbcType="INTEGER"/>
+        <id property="questStateNo" column="quest_state_no" jdbcType="INTEGER"/>
+        <result property="questNo" column="quest_no" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-        <result property="questReward" column="quest_reward" jdbcType="VARCHAR"/>
-        <result property="questContents" column="quest_contents" jdbcType="VARCHAR"/>
+        <result property="questState" column="quest_state" jdbcType="VARCHAR"/>
+        	<association property="quest" javaType="life.wewu.web.domain.plant.Quest" resultMap="questSelectMap"/>	
         <!-- 추가적인 속성들... -->
     </resultMap>
 
@@ -62,10 +63,8 @@
 	
 	<!-- GET QUESTLIST -->
 	<select  id="getQuestList"  parameterType="map" resultMap="questSelectMap">
-	  	SELECT q.*, qs.quest_state
-	  	from quest q , quest_state qs
-	  	WHERE qs.quest_no = q.quest_no
-	  	
+	  	SELECT *
+	  	from quest 
 	</select>
 	
 	<update id = "completeQuest" parameterType ="int">
