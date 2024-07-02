@@ -196,7 +196,6 @@ public class PlantRestController {
 	    List<QuestState> list = plantService.getQuestListByUser(map);
 
 	    model.addAttribute("list", list);
-	    session.setAttribute("questStateList", list); // 세션에 questStateList 추가
 
 	    System.out.println("getQuestListByUserRest : " + list);
 
