@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -10,9 +11,13 @@
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 .thumbnail {
 	padding: 10px;
@@ -79,14 +84,18 @@
         $("button.add-btn").on("click", function() {
             self.location = "/board/addBoard?boardType=${param.boardType}";
         });
+        
+        $(".searchBtn").on("click",function(){
+        	//alert(${search.searchKeyword}));
+    		fncGetList(1);
+    	})
 
         // 수정된 부분: 이벤트 위임을 사용하여 동적으로 추가된 요소에도 이벤트 적용
         $(document).on("click", "div.thumbnail", function() {
             var boardNo = $(this).data("board-no");
-            self.location = "/board/getBoard?boardType=${param.boardType}&boardNo=" + boardNo;
+            self.location = "/board/listBoard?boardType=${param.boardType}";
         });
     });
-
     function addBookmark(boardNo) {    	
         var bookmark = {
             boardNo: boardNo,
@@ -139,6 +148,7 @@
         });
     }
 
+
     $(function(){
         $("div.boardClick").on("click",function(){
             self.location ="/board/getBoard?boardType=${param.boardType}&boardNo="+$($(this).children()).val();
@@ -148,9 +158,13 @@
     function fncGetList(page) {
         var form = $('form#listSearchForm');
         form.find('.currentPage').val(page);
-        form.submit();
-    }
-    
+        form.attr("method", "GET").attr("action",
+				"/board/listBoard?boardType=${param.boardType}").submit();      
+
+        // 검색 후 텍스트 입력창 비우기
+        form.find('input[name="searchKeyword"]').val('');
+    }  
+ 
 </script>
 </head>
 <body>
@@ -172,27 +186,56 @@
 											<c:if test="${param.boardType eq '2'}"> 모임 홍보 </c:if>
 											<c:if test="${param.boardType eq '3'}"> 모임 후기 </c:if>
 											<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
-									</h3></b>
+										</h3></b>
 								</p>
 							</div>
 						</div>
-						<br><br>
+						<br>
+						<br>
 
 						<!-- 검색 폼 -->
 						<div class="form-group">
+							<div class="col-md-6 text-left">
+								<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
+									${resultPage.currentPage} 페이지</p>
+							</div>
+							
 							<form id="listSearchForm" action="/board/listBoard" method="get">
 								<div class="input-group">
+									<div class="dropdown show">
+										<button type="button" class="btn btn-success dropdown-toggle"
+											id="dropdownMenuIconButton9" data-toggle="dropdown"
+											aria-haspopup="true" aria-expanded="true">
+											<i class="ti-user"></i>
+										</button>
+										<div class="dropdown-menu show"
+											aria-labelledby="dropdownMenuIconButton9"
+											style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 46px, 0px);"
+											x-placement="bottom-start">
+											<h6 class="dropdown-header">Settings</h6>
+											<a class="dropdown-item" href="#">Action</a> <a
+												class="dropdown-item" href="#">Another action</a> <a
+												class="dropdown-item" href="#">Something else here</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">Separated link</a>
+										</div>
+									</div>
 									<input type="hidden" class="currentPage" name="currentPage" value="${search.currentPage}"> 
-									<input type="text" class="form-control" placeholder="검색어 입력" aria-label="Recipient's username" name="searchKeyword" value="${search.searchKeyword}"> 
+									<input type="text" class="form-control" placeholder="검색어 입력" aria-label="Recipient's username" 
+										name="searchKeyword" value="${!empty search.searchKeyword ? search.searchKeyword: '' }">
+										
 									<input type="hidden" name="boardType" value="${param.boardType}">
 									<div class="input-group-append">
-										<button class="btn btn-sm btn-primary" type="submit">Search</button>
+										<button class="btn btn-sm btn-primary searchBtn" type="button">Search</button>
 									</div>
 								</div>
 							</form>
 						</div>
 						<!-- 검색 폼 끝 -->
-
+						
+						<button type="button" class="btn btn-success" name="" value="0">Success</button>
+						<button type="button" class="btn btn-success" name="" value="1">Success</button>
+						<button type="button" class="btn btn-success" name="" value="2">Success</button>
 						<div class="row">
 							<c:set var="index" value="0" />
 							<c:forEach var="board" items="${list}" varStatus="loop">
@@ -221,10 +264,12 @@
 										</div>
 										<div class="caption">
 											<c:if test="${board.bookmarkFlag}">
-												<button class="btn btn-outline-danger btn-fw" onclick="deleteBookmark(${board.boardNo});">북마크 삭제</button>
+												<button class="btn btn-outline-danger btn-fw"
+													onclick="deleteBookmark(${board.boardNo});">북마크 삭제</button>
 											</c:if>
 											<c:if test="${!board.bookmarkFlag}">
-												<button class="btn btn-outline-primary btn-fw" onclick="addBookmark(${board.boardNo});">북마크</button>
+												<button class="btn btn-outline-primary btn-fw"
+													onclick="addBookmark(${board.boardNo});">북마크</button>
 											</c:if>
 										</div>
 									</div>
@@ -236,36 +281,51 @@
 						<div align="center">
 							<div class="btn-group" role="group" aria-label="Basic example">
 								<c:if test="${resultPage.currentPage > 1}">
-									<button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
 								</c:if>
-								<c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}">
+								<c:forEach var="i" begin="${resultPage.beginUnitPage}"
+									end="${resultPage.endUnitPage}">
 									<c:choose>
 										<c:when test="${i == resultPage.currentPage}">
 											<button type="button" class="btn btn-primary">${i}</button>
 										</c:when>
 										<c:otherwise>
-											<button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${i})">${i}</button>
+											<button type="button" class="btn btn-outline-secondary"
+												onclick="fncGetList(${i})">${i}</button>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<c:if test="${resultPage.endUnitPage < resultPage.maxPage}">
-									<button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage + 1})">&gt;</button>
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="fncGetList(${resultPage.currentPage + 1})">&gt;</button>
 								</c:if>
 							</div>
 						</div>
 						<div class="card mt-4">
 							<div class="card-body">
-								<c:if test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">공지 글 등록하기</button>
+								<c:if
+									test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">공지 글
+										등록하기</button>
 								</c:if>
-								<c:if test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">모임 홍보 글 등록하기</button>
+								<c:if
+									test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">모임 홍보
+										글 등록하기</button>
 								</c:if>
-								<c:if test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">모임 후기 글 등록하기</button>
+								<c:if
+									test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">모임 후기
+										글 등록하기</button>
 								</c:if>
 								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
-									<button type="button" class="btn btn-outline-primary btn-fw add-btn">후원 글 등록하기</button>
+									<button type="button"
+										class="btn btn-outline-primary btn-fw add-btn">후원 글
+										등록하기</button>
 								</c:if>
 							</div>
 						</div>
