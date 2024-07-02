@@ -8,6 +8,12 @@
 		<!-- HEADER -->
 		<script>
 			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+				
 			    $(document).on('mouseenter', '.getMemberGroup', function() {
 			        $(this).css('cursor', 'pointer');
 			    });
@@ -114,24 +120,64 @@
 							  
 				          	  if(data[i].joinFlag == "T")
 	                       	  {
+				          		  if(data[i].gender == "M")
+								  {
+									  str += "<td><img style='border-radius:0%;' src=/group/img/man.png></td>";
+								  }else
+								  {
+									  str += "<td><img style='border-radius:0%;' src=/group/img/woman.png></td>";
+								  }
 			          			  str += "<td>" + data[i].memberNickName +"</td>";
 								  str += "<td>" + data[i].joinDate +"</td>";
-							  	  str += "<td>남</td>";
+								  if(data[i].gender == "M")
+								  {
+									  str += "<td>남</td>";
+								  }else
+								  {
+									  str += "<td>여</td>";
+								  }
+							  	 
                        			  str +=  "<td><label class='badge badge-success'>가입완료</label></td>";
                        			  str += "</tr>";
 	                       	  }else
 	                       	  if(data[i].joinFlag == "F"){
+	                       		  if(data[i].gender == "M")
+								  {
+									  str += "<td><img style='border-radius:0%;' src=/group/img/man.png></td>";
+								  }else
+								  {
+									  str += "<td><img style='border-radius:0%;' src=/group/img/woman.png></td>";
+								  }
 	                       		  str += "<td>" + data[i].memberNickName +"</td>";
-								  str += "<td>" + data[i].joinDate +"</td>";
-								  str += "<td>남</td>";
+								  str += "<td>" + data[i].applDate +"</td>";
+								  if(data[i].gender == "M")
+								  {
+									  str += "<td>남</td>";
+								  }else
+								  {
+									  str += "<td>여</td>";
+								  }
 	                       		  str +=  "<td><label class='badge badge-danger'>가입거부</label></td>";
 	                       		  str += "</tr>";
 	                       	  }
 	                       	  else
 	                       	  if(data[i].joinFlag == "E"){
+	                       		  if(data[i].gender == "M")
+								  {
+									  str += "<td><img style='border-radius:0%;' src=/group/img/man.png></td>";
+								  }else
+								  {
+									  str += "<td><img style='border-radius:0%;' src=/group/img/woman.png></td>";
+								  }
 	                       		  str += "<td>" + data[i].memberNickName +"</td>";
-								  str += "<td>" + data[i].joinDate +"</td>";
-							  	  str += "<td>남</td>";
+								  str += "<td>" + data[i].applDate +"</td>";
+								  if(data[i].gender == "M")
+								  {
+									  str += "<td>남</td>";
+								  }else
+								  {
+									  str += "<td>여</td>";
+								  }
 	                       		  str +=  "<td><label class='badge badge-info'>가입대기</label></td>";
 	                       		  str += "</tr>";
 	                       	  }else
@@ -181,6 +227,7 @@
 	                    <table class="table table-hover">
 	                      <thead>
 	                        <tr>
+	                          <th></th>
 	                          <th>닉네임</th>
 	                          <th>가입/신청일</th>
 	                          <th>성별</th>

@@ -91,7 +91,14 @@
 		<!-- HEADER -->
 		
 		<script>
-		
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
+			
 			$(function() 
 			{
 				$( "span:contains('가입신청')" ).on("click" , function() 
@@ -227,6 +234,7 @@
 		<jsp:include page="/group/groupSide.jsp"/>
 		<!-- SIDE -->
 		<div class="main-panel">
+			<c:import url="/group/groupJumbo.jsp"></c:import>
 		    <div class="content-wrapper">
 		        <div class="col-12 grid-margin stretch-card">
 		            <div class="card">

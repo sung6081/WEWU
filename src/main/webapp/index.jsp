@@ -56,10 +56,6 @@
               delay: 3000, // 자동 재생 지연 시간 (밀리초)
             },
             loop: true,
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev'
-            }
           });
 
           rankingSwiper.update(); // Swiper 업데이트

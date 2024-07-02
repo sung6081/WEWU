@@ -7,7 +7,7 @@
 
 <resultMap id="questResultMap" type="life.wewu.web.domain.plant.Quest">
         <id property="questNo" column="quest_no" jdbcType="INTEGER"/>
-        <result property="questName" column="quest_name" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
         <result property="questReward" column="quest_reward" jdbcType="VARCHAR"/>
         <result property="questContents" column="quest_contents" jdbcType="VARCHAR"/>
         <!-- 추가적인 속성들... -->
@@ -25,9 +25,9 @@
 	</resultMap>
 
 	<!-- ADD QUEST -->
-	<insert id="addQuest" parameterType ="quest">
-	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date,nickName)
-        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),#{nickName})
+	<insert id="addQuest" parameterType ="quest" useGeneratedKeys="true" keyProperty="questNo">
+	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date,nickname)
+        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),#{nickname})
     </insert>
 	
 

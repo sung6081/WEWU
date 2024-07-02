@@ -10,7 +10,14 @@
 		<title>Insert title here</title>
 		<script src="/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 		<script>
-		
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
+			
 			function addGroupAcle()
 			{
 		        if(!confirm("정말 작성을 하시겠습니까?")){
