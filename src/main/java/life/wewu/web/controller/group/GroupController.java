@@ -510,9 +510,8 @@ public class GroupController {
 	
 	@RequestMapping(value="uploadFile", method = RequestMethod.POST)
     public void smarteditorImageUpload2(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("1");
-		String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
-		//String fileDir = "/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/group/upload/";
+		//String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
+		String fileDir = "/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/group/upload/";
 		try{
             if(file.isEmpty()) {
                 System.out.println("이미지 미등록");
@@ -550,8 +549,8 @@ public class GroupController {
 	
 	@RequestMapping(value="groupImg", method = RequestMethod.POST)
     public void groupImg(MultipartFile file, @ModelAttribute Group group,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
-		//String fileDir = "/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/group/upload/";
+		//String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
+		String fileDir = "/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/group/upload/";
 		try{
             if(file.isEmpty()) {
                 System.out.println("이미지 미등록");
