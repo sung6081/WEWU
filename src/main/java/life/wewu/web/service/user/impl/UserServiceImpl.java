@@ -196,25 +196,21 @@ public class UserServiceImpl implements UserService {
 	        }
 	    }
 	
-	public void updateUserPoint(String userId, int point) throws Exception{
-		
-		User user = userDao.getUser(userId);
-		if (user == null) {
-            throw new IllegalArgumentException("User not found");
-        }
+	   public void updateUserPoint(String userId, int afterPoint) throws Exception{
+		      
+		      User user = userDao.getUser(userId);
+		      if (user == null) {
+		            throw new IllegalArgumentException("User not found");
+		        }
 
-        int currentPoint = user.getCurrentPoint();
-        int updatedPoint = currentPoint + point;
-        if (updatedPoint < 0) {
-            throw new IllegalArgumentException("Insufficient points");
-        }
+		        if (afterPoint < 0) {
+		            throw new IllegalArgumentException("Insufficient points");
+		        }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
-        params.put("points", point);
-        userDao.updateUserPoint(params);
-        
-        user.setCurrentPoint(updatedPoint);
-	}
+		        Map<String, Object> params = new HashMap<>();
+		        params.put("userId", userId);
+		        params.put("points", afterPoint);
+		        userDao.updateUserPoint(params);
+		   }
 	
 }
