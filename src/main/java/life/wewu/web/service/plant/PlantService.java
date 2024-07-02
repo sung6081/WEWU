@@ -29,6 +29,11 @@ public interface PlantService {
 	public void completeAndupdateReward(int questNo) throws Exception;
 	
 	public Quest getQuestByUser(String nickname) throws Exception;
+	
+	public void checkQuestCompletion(String nickname) throws Exception;
+	
+	public boolean checkAcleCount(Quest quest,String nickname) throws Exception;
+	
 	//---------------------------------------------------------------------------------------//
 	
 	public List<QuestState> getQuestListByUser(Map<String,Object> map) throws Exception;
