@@ -91,6 +91,14 @@
 	  	WHERE nickname = #{nickname}
 	  	LIMIT 1 
 	</select>
+	
+	<select  id="getActiveQuestByUser"  parameterType="String" resultMap="questSelectMap">
+	  	SELECT * FROM q.*,qs.*
+	  	FROM quest q, quest_state qs
+	  	WHERE q.quest_no = qs.quest_no
+	  	AND nickname = #{nickname}
+	  	AND qs.quest_state = 'Y' 
+	</select>
 
 	 
 
