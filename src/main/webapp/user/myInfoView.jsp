@@ -18,7 +18,7 @@
 	      display: flex;
 	      justify-content: center;
 	      align-items: center;
-	      margin-bottom: 0;
+	      margin-bottom:0;
 	    }
 	
 	    .jumbotron img {
