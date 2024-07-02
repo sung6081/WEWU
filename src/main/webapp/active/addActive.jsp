@@ -45,6 +45,29 @@
         background: #57B657;
         color: white;
     }
+    
+    .display-4 {
+	  color: #fff; /* 원하는 색상으로 변경 */
+	}
+	
+	.main-panel{
+		margin:0;
+	}
+	
+	.jumbotron{
+		background-color: #00A06C;
+		margin-top:160px;
+		margin-bottom:0;
+		background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+		background-image: url('/images/plant1.jpg'); /* 배경 이미지 경로 */
+		background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+		background-position: center; /* 이미지가 중앙에 위치하도록 */
+	}
+	
+	.sidebar {
+		margin-top: 30px;
+	}
+	
 </style>
 </head>
 <body>
@@ -137,7 +160,14 @@
             }
             activeMarker = new naver.maps.Marker({
                 position: latlng,
-                map: map
+                map: map,
+                icon: {
+			        url: 'https://cdn-icons-png.freepik.com/512/297/297362.png?ga=GA1.1.1709417345.1719880420',
+			        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+			        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+			        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+			        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+			    }
             });
 
             $('.activeX').val(latlng.lat());
@@ -189,6 +219,12 @@
         });
     });
 </script>
+
+<div class="jumbotron">
+  <div class="container">
+    <p class="display-4"><b>addActive</b></p>
+  </div>
+</div>
 
 <!-- SIDE -->
 <jsp:include page="/group/groupSide.jsp"></jsp:include>
@@ -248,7 +284,7 @@
                     <div class="row">
                         <div id="map">
                             <div class="search">
-                                <input id="address" type="text" placeholder="검색할 주소" value="강남">
+                                <input id="address" type="text" placeholder="검색할 주소">
                                 <input id="searchBtn" type="button" value="주소 검색">
                             </div>
                         </div>
@@ -345,4 +381,3 @@
 </div>
 </body>
 </html>
-y
