@@ -61,7 +61,7 @@
                    <div class="form-group row">
                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">충전된 포인트</label>
                      <div class="col-sm-9">
-                       <label for="exampleInputUsername2" class="col-sm-3 col-form-label">${amount}p</label>
+                       <label for="exampleInputUsername2" class="col-sm-3 col-form-label">${pay.payAmount}p</label>
                      </div>
                    </div>
                    <div class="form-group row">
