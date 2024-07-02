@@ -38,6 +38,7 @@ import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.domain.plant.QuestState;
 import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
+import life.wewu.web.service.group.GroupService;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
 
@@ -48,6 +49,10 @@ public class PlantRestController {
 	@Autowired
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
+	
+	@Autowired
+	@Qualifier("groupService")
+	private GroupService groupService;
 
 	@Value("${weather.api.key}")
 	private String apiKey;
@@ -200,17 +205,30 @@ public class PlantRestController {
 	
 
 	@RequestMapping(value = "getQuestListByUser", method = RequestMethod.POST)
-	public List<QuestState> getQuestListByUser(@RequestBody Quest quest, Model model, HttpSession session)
+	public List<QuestState> getQuestListByUser(@RequestBody Quest quest, Model model, 
+			HttpSession session)
 			throws Exception {
 	      	System.out.println("::plant::REST::getQuestListByUser : POST");
 	        
 	        User user = (User) session.getAttribute("user");
 	        System.out.println("User: " + user);
 	        
+	        Search searchCriteria = new Search();
+	        if (searchCriteria.getSearchKeyword() == null) {
+	            searchCriteria.setSearchKeyword("");
+	        }
+	        
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("nickname", user.getNickname());
+	     
 	        
 	        List<QuestState> list = plantService.getQuestListByUser(map);
+	        
+	        for (QuestState questState : list) {
+	            int currentCnt = groupService.memberAcleListCnt(map);  // currentCnt 계산
+	            questState.setCurrentCnt(currentCnt);  // currentCnt 설정
+	            System.out.println(currentCnt);
+	        }
 	        System.out.println("getQuestListByUserRest : " + list);
 	        
 	        return list; // JSON 형식으로 반환됩니다.
