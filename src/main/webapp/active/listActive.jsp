@@ -21,6 +21,10 @@
 	    position: relative; /* 필요에 따라 position 속성 설정 */
 	}
 	
+	.stretch-card {
+		justify-content: space-around;
+	}
+	
 	.options {
 		color: #FFC107;
 	}
@@ -36,10 +40,38 @@
 	.activeEnd {
 		color: red;
 	}
+	
+	.display-4 {
+	  color: #fff; /* 원하는 색상으로 변경 */
+	}
+	
+	.main-panel{
+		margin:0;
+	}
+	
+	.jumbotron{
+		background-color: #00A06C;
+		margin-top:160px;
+		margin-bottom:0;
+		background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+		background-image: url('/images/plant1.jpg'); /* 배경 이미지 경로 */
+		background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+		background-position: center; /* 이미지가 중앙에 위치하도록 */
+	}
+	
+	.sidebar {
+		margin-top: 30px;
+	}
     
 </style>
 </head>
 <body>
+
+	<div class="jumbotron">
+	  <div class="container">
+	    <p class="display-4"><b>ActiveList</b></p>
+	  </div>
+  	</div>
 
 	<!-- SIDE -->
 	<jsp:include page="/group/groupSide.jsp"></jsp:include>
@@ -109,16 +141,14 @@
 	</script>
 	
 	<div class="main-panel">
+		
        	<div class="content-wrapper">
        	
        		<div class="row">
        		
-       				<div class="col-lg-2 grid-margin stretch-card">
-       				</div>
-       		
-	       			<div class="col-lg-6 grid-margin stretch-card">
+	       			<div class="col-lg-12 grid-margin stretch-card">
 	       			
-		       			<form id="searchForm" class="searchForm" >
+		       			<form id="searchForm" style="width: 100%;" class="searchForm" >
 		       			
 			              <div class="card">
 			                <div class="card-body">
@@ -358,8 +388,8 @@
 		              
 		            </div>
 		            
-		            <div class="col-lg-3 grid-margin stretch-card">
-       				</div>
+		            <!-- <div class="col-lg-3 grid-margin stretch-card">
+       				</div> -->
 	            
 	            
        		
