@@ -25,8 +25,9 @@
 	
 		function fncAddPurchase(){
 			//alert("${user.currentPoint}" + " ===== " + "${item.itemPrice}");
-			
-			if ("${user.currentPoint}" > "${item.itemPrice}") { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
+			let currentPoint = parseInt("${user.currentPoint}", 10);
+			let itemPrice = parseInt("${item.itemPrice}", 10);
+			if (currentPoint >= itemPrice) { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
 		        alert("구매 완료되었습니다."); //사용자쪽에 현재 포인트 정보 넣어준 뒤, 잘 뜨게 하기. 
 		      }else
 		      {
@@ -63,9 +64,7 @@
                   <div class="col-md-2">
                   	<img class="card-img-top mb-5 mb-md-0" src="${item.itemImg}" alt="${item.itemName}" />
                   </div>
-	              <div class="col-md-2">
-                  	<form class="forms-sample">
-                  	
+	              	<div class="col-md-2">
 	                    <div class="form-group row">
 	                     	<label for="exampleInputUsername2" class="col-sm-4 col-form-label">${item.itemName}</label>
 	                    </div>
@@ -83,8 +82,6 @@
 	                    <div class="form-group row">
 	                    	<label for="exampleInputMobile" class="col-sm-3 col-form-label">${item.itemPrice}p</label>
 	                    </div>
-	                    
-                     </form>	
                    </div> 
                 </div>
               </div>
@@ -98,8 +95,13 @@
                   
                  </p>
                  <form id="forms-sample" method="POST">
-                 	<input type="hidden" name="buyerNickname" value="nick1">
+                 	<input type="hidden" name="buyerNickname" value="${user.nickname }">
 					<input type="hidden" name="itemNo" value="${item.itemNo}">
+			   	   	<input type="hidden" id="currentPoint" name="currentPoint" value="${user.currentPoint }">
+			   	   	<input type="hidden" id="itemStock" name="itemStock" value="1">
+			   	   	<input type="hidden" id="refundFlag" name="refundFlag" value="N">
+			   	   	<input type="hidden" id="itemCnt" name="itemCnt" value="1">
+			   	   		
                    <div class="form-group row">
                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">구매 아이템</label>
                      <div class="col-sm-9">

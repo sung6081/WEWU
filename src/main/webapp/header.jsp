@@ -37,7 +37,7 @@
    <!-- endinject -->
    <!-- Plugin css for this page -->
    <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-   <link rel="stylesheet" type="/text/css" href="/js/select.dataTables.min.css">
+   <link rel="stylesheet" href="/js/select.dataTables.min.css">
    <!-- End plugin css for this page -->
    <!-- inject:css -->
    <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
@@ -49,7 +49,7 @@
    <!-- swiper -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
-  
+
    <!-- Font Awesome CDN 추가 -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    <script src="/js/swiper.js"></script>
@@ -78,27 +78,43 @@
        background-color: transparent;
      }
 
+     .navbar {
+       border-bottom: none;
+     }
+
+     .navbar-nav .nav-item .nav-link:hover {
+       color: #00A06C;
+       /* Change this to the desired text color on hover */
+     }
+
+     .navbar-nav .nav-item .nav-link {
+       color: #000000;
+       /* Change this to the desired text color on hover */
+     }
+
+     .navbar.navbar-white {
+       background-color: #000000;
+       background-color: rgba(255, 255, 255, 0.8);
+       /* Change this to the desired background color */
+     }
+
+     .navbar-toggler-icon {
+       background-color: #000000;
+       /* 여기에 원하는 색상 코드를 넣으세요 */
+     }
+
+     .navbar-collapse.collapse.show {
+       background-color: #fff;
+       display: block;
+       /* 배경색을 원하는 색상으로 설정하세요 */
+     }
+     a{
+     font-size : 15px;
      
-.navbar{
-border-bottom:none;
-}
-  .navbar-nav .nav-item .nav-link:hover {
-    color: #00A06C; /* Change this to the desired text color on hover */
-  }
-  .navbar-nav .nav-item .nav-link {
-    color: #000000; /* Change this to the desired text color on hover */
-  }
-  
-    .navbar.navbar-white {
-    background-color: #000000;
-    background-color: rgba(255, 255, 255, 0.8); /* Change this to the desired background color */
-  }
-
-
+     }
    </style>
  </head>
-<script>
-</script>
+
  <body>
    <div class="fixed-top">
      <header class="navbar navbar-expand-lg navbar-light" style="height: 100px;">
@@ -116,7 +132,7 @@ border-bottom:none;
          </a>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-           <span class="navbar-toggler-icon"></span>
+           <span class="mdi mdi-chevron-double-down"></span>
          </button>
          <div class="collapse navbar-collapse" id="navbarNavDropdown">
            <ul class="navbar-nav wewu">
@@ -130,7 +146,6 @@ border-bottom:none;
                <c:if test="${ ! empty user}">
                  <a class="nav-link" href="/plant/getMyPlant">식물키우기</a>
                </c:if>
-
              </li>
              <li class="nav-item"><a class="nav-link" href="/item/getItemList">아이템상점</a></li>
              <!-- 관리자모드 -->
@@ -191,43 +206,44 @@ border-bottom:none;
                          ${user.nickname} 관리자
                        </a>
                      </li>
+                     <li>
+                     <a class="nav-link" href="/user/logout">LogOut</a>
+                     </li>
                    </c:when>
                    <c:otherwise>
                      <li class=" nav-item dropdown">
                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           "${user.nickname}"님 환영합니다 &nbsp&nbsp 포인트 : ${user.currentPoint} 
+                         "${user.nickname}"님 환영합니다 ! &nbsp;&nbsp; Point : ${user.currentPoint} p
                        </a>
                        <div class="dropdown-menu" aria-labelledby="userDropdown">
                          <a class="dropdown-item" href="/user/myInfo">마이페이지</a>
                          <a class="dropdown-item" href="/group/mainGroup.jsp">내모임</a>
                          <a class="dropdown-item" href="#">결제관리</a>
+                         <a class="dropdown-item" href="/user/logout">LogOut</a>
+                       </div>
+                     <li class="nav-settings">
+                       <div class="d-flex justify-content-center align-items-center w-100"
+                         style="height: 100%;">
+                         <button type="button" class="btn btn-outline-success btn-fw btn-sm"
+                           data-toggle="tooltip" data-placement="top" title="새로운 퀘스트를 확인해 보세요!">
+                           Quest
+                         </button>
                        </div>
                      </li>
-                   </c:otherwise>
-                 </c:choose>
-                   <li class="nav-item">
-                   <a class="nav-link" href="/user/logout">LogOut</a>
-                 </li>
-               </c:if>
-             </c:if>
-         <li class="nav-settings">
-               <img src="/images/quest.png" alt="quest" style="height: 40px;">
            </ul>
-           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-             data-toggle="offcanvas">
-             <span class="icon-menu"></span>
-           </button>
-        	<jsp:include page="/plant/getQuestList.jsp">
-             <jsp:param name="questNo" value="${quest.questNo}" />
-           </jsp:include>
+           
+           </li>
+           </c:otherwise>
+           </c:choose>
+           </c:if>
+
+           </c:if>
          </div>
        </div>
+     </nav>
    </div>
-   </div>
-   </nav>
-   </div>
+   <jsp:include page="/plant/getQuestList.jsp" />
  </body>
-
 
  </html>

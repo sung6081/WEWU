@@ -46,13 +46,6 @@
 									<input type="text" class="form-control" name="title" value="${question.title}">
 								</div>
 							</div>
-
-							<div class="form-group row">
-								<label for="contents" class="col-sm-3 col-form-label">내용</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" name="contents" value="${question.contents}">
-								</div>
-							</div>
 							
 							<div class="form-group row">
 								<label class="col-sm-3 col-form-label">문의 카테고리</label>
@@ -64,8 +57,15 @@
 									</select>
 								</div>
 							</div>
-							
-							<c:if test="${param.questionType eq '자주'}">
+
+							<div class="form-group row">
+								<label for="contents" class="col-sm-3 col-form-label">내용</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="contents" value="${question.contents}">
+								</div>
+							</div>
+
+							<c:if test="${param.questionType eq '자주' || isAdmin}">
 								<div class="form-group row">
 									<label class="col-sm-3 col-form-label">답변 내용</label>
 									<div class="col-sm-3">

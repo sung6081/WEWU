@@ -8,6 +8,14 @@
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
 		<script>
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
+			
 			function deleteApplJoin(){
 				
 		        if(!confirm("정말 삭제하시겠습니까?")){

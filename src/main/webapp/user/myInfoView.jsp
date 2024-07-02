@@ -7,9 +7,33 @@
     <meta charset="UTF-8">
     <title>Update User Info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+    
     <style>
+    
+	    .jumbotron {
+	      position: relative;
+	      background: none;
+	      padding: 0;
+	      display: flex;
+	      justify-content: center;
+	      align-items: center;
+	      margin-bottom:0;
+	    }
+	
+	    .jumbotron img {
+	      width: 100%;
+	      height: auto;
+	    }
+	
+	    .jumbotron-container {
+	      background-color: #FBFBFB;
+	      padding: 0;
+	      margin: 0;
+	      width: 100%;
+	    }
         .info-label {
-            font-weight: bold;
+            font-weight:bold;
         }
         .info-value {
             border: 1px solid #ccc;
@@ -38,6 +62,18 @@
         .text-success {
             color: #28a745 !important;
         }
+        .mb-4 {
+            color: #3b5cff;
+            font-weight: bold;
+            text-align: center;
+                font-size: 30px;
+        }
+        .info-label{
+        	color: #187fff;
+       	 	font-weight: bold;
+           	text-align: center;
+            font-size: 30px;
+        }
     </style>
 </head>
 <body>
@@ -45,6 +81,11 @@
     <!-- HEADER -->
     <jsp:include page="/header.jsp"/>
     <!-- HEADER -->
+   	  <div class="jumbotron">
+	    <div class="container">
+	      <img src="/images/wewujumbo.jpg" alt="Background Image">
+	    </div>
+	  </div>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="container-scroller">
@@ -59,13 +100,13 @@
                                         <div class="form-group row">
                                             <label for="userName" class="col-sm-3 col-form-label info-label">이름</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${viewedUser.userName}" required>
+                                                <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${viewedUser.userName}" required readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="nickname" class="col-sm-3 col-form-label info-label">닉네임</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${viewedUser.nickname}" required>
+                                                <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${viewedUser.nickname}" required readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -101,7 +142,7 @@
                                             <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${viewedUser.addr}" required>
+                                                    <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${viewedUser.addr}" required readonly>
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-primary" id="find-postcode" onclick="execDaumPostcode()">주소 찾기</button>
                                                     </div>

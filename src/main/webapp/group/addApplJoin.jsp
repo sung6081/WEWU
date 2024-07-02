@@ -8,6 +8,14 @@
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
 		<script>
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
+			
 			function addApplJoin()
 			{
 		        if(!confirm("정말 가입신청 하시겠습니까?")){
@@ -75,6 +83,7 @@
 	                  <form class="forms-sample" id="addApplJoin" method="post" action="/group/getApplJoin">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
 						<input type="hidden" name="memberNickName" value="${user.nickname }">
+						<input type="hidden" name="gender" value="${user.gender }">
 						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
 						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
 						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
@@ -112,7 +121,7 @@
 		                    </div>
 						</c:if>
 	                  </form>
-	                <button onclick="javascript:addApplJoin();"  class="btn btn-primary mr-2">신청</button>
+	                <button onclick="javascript:addApplJoin();"  class="btn btn-success mr-2">신청</button>
 	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 	                </div>
 	              </div>

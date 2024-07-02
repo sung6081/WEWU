@@ -283,7 +283,17 @@
 			                            <!-- Product details-->
 			                            <div class="card-body p-4">
 			                                <div class="text-left">
-			                                 	<h5 class="fw-bolder">${item.itemCategory}아이템</h5> 
+			                                 	<h5 class="fw-bolder">
+			                                 	
+			                                 	<c:choose>
+	                                                        <c:when test="${item.itemCategory == 'Y'}">
+                                                            식물
+	                                                        </c:when>
+	                                                        <c:when test="${item.itemCategory == 'N'}">
+                                                            장식
+	                                                        </c:when>
+                                                </c:choose>
+			                                 	아이템</h5> 
 			                                    <!-- Product name-->
 			                                    <h5 class="fw-bolder"><a href="/item/getItem?itemNo=${item.itemNo}" style="font-weight: bold;">${item.itemName}</a></h5>
 			                                    <!-- Product price-->

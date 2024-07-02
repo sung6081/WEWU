@@ -17,7 +17,13 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script>
-		
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
 			function addApplGroup()
 			{
 		        if(!confirm("정말 개설신청 하시겠습니까?")){
@@ -107,7 +113,7 @@
 			                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
 							
 							  </form>
-			                <button onclick="javascript:addApplGroup();"  class="btn btn-primary mr-2">신청</button>
+			                <button onclick="javascript:addApplGroup();"  class="btn btn-success mr-2">신청</button>
 			    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 			                </div>
 			              </div>

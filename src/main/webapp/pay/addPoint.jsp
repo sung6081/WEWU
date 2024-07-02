@@ -78,9 +78,6 @@
                   $("#currentPoint").val("${user.currentPoint}");
                   $("#payFlag").val("T");
                   
-                  alert($("#payFlag").val());
-                  alert($("#currentPoint").val());
-                  alert($("#buyerNickname").val());
                   $(".paySuccess").attr("method","POST").attr("action","/pay/kakaoPay/success").submit();
                }else
                {
@@ -127,7 +124,7 @@
                              <div class="text-right mt-4">
                                   <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;" onclick="javascript:pay();">카카오페이</button>
                             </div> 
-                            s
+                            
                             <form class="paySuccess">
                                <input type="hidden" name="buyerNickname" id="buyerNickname">   <!-- 구매자 닉네임 -->
                                <input type="hidden" name="payOption" id="payOption">      <!-- 카카오? 네이버? -->

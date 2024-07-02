@@ -17,6 +17,14 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script>
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
+			
 			function updateAddAppl(){
 				var form = document.getElementById("updateAddAppl");
 				form.action="/group/updateAddAppl";

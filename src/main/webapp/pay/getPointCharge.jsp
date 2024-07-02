@@ -57,7 +57,16 @@
 											 	  	<td>${pay.payAmount}원</td>
 											 	  	<td>${pay.payAmount}p</td>
 											 	  	<td>${pay.afterChargePoint}p</td>
-											 	  	<td>${pay.payOption}</td>
+											 	  	<td>
+											 	  		<c:choose>
+		                                                        <c:when test="${pay.payOption == 'P'}">
+		                                                         카카오페이
+		                                                        </c:when>
+		                                                        <c:when test="${pay.payOption == 'Q'}">
+		                                                         네이버페이
+		                                                        </c:when>
+		                                               </c:choose>
+											 	  	</td>
 											 	  	<td>
 												 	   <c:choose>
 		                                                        <c:when test="${pay.payFlag == 'T'}">

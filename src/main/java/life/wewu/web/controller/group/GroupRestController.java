@@ -167,8 +167,6 @@ public class GroupRestController {
 			list.add(group);
 			list.add(groupMember);
 		}
-		System.out.println(search);
-		System.out.println(list);
 		// Business logic 수행
 		return list;
 	}

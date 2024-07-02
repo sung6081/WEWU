@@ -39,6 +39,26 @@
 				background: rgba(3,199,90,.12);
 			}
 			
+			.jumbotron
+			{
+			    padding: 6rem 2rem;
+				background-color: #00A06C;
+				margin-top:160px;
+				margin-bottom:0;
+				background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+				background-image: url('/group/img/illustration.jpg'); /* 배경 이미지 경로 */
+				background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+				background-position: center; /* 이미지가 중앙에 위치하도록 */
+			}
+			.main-panel
+			{
+				margin:0;
+			}
+			
+			.display-4 
+			{
+			  color: #459BF6; /* 원하는 색상으로 변경 */
+			}
 		</style>
 		<script>
 			$(function() 
@@ -129,6 +149,12 @@
 				        }
 				    });
 					 
+					if("${user}" == "")
+					{
+						alert("모임은 WEWU 회원만 사용 가능합니다!");
+						location.href="/";
+					}
+					
 				    $(document).on('mouseenter', '.groupNo', function() {
 				        $(this).css('cursor', 'pointer');
 				    });
@@ -221,6 +247,7 @@
 	                        if(targetElementId == "getMyGroupList"){
 	                        	str = 	"<thead>" +
 	                        				"<tr>" +
+	                        					"<th></th>" +
 	                        					"<th>모임명</th>" +
 	                        					"<th>모임등급</th>" +
 	                        					"<th>개설/신청일</th>" +
@@ -231,6 +258,7 @@
 	                        if(targetElementId == "getApplJoinList"){
 	                        	str = 	"<thead>" +
 				               				"<tr>" +
+				               					"<th></th>" +
 				               					"<th>모임명</th>" +
 				               					"<th>모임등급</th>" +
 				               					"<th>가입/신청일</th>" +
@@ -241,6 +269,7 @@
 	                        if(targetElementId == "getGroupListWait"){
 	                        	str = 	"<thead>" +
 				               				"<tr>" +
+				               					"<th></th>" +
 				               					"<th>모임명</th>" +
 				               					"<th>신청자</th>" +
 				               					"<th>신청일</th>" +
@@ -251,6 +280,7 @@
 	                        if(targetElementId == "getGroupListTrue"){
 	                        	str = 	"<thead>" +
 				               				"<tr>" +
+				               					"<th></th>" +
 					               				"<th>모임명</th>" +
 				               					"<th>신청자</th>" +
 				               					"<th>개설일</th>" +
@@ -261,6 +291,7 @@
 	                        if(targetElementId == "getGroupListNone"){
 	                        	str = 	"<thead>" +
 				               				"<tr>" +
+				               					"<th></th>" +
 					               				"<th>모임명</th>" +
 				               					"<th>신청자</th>" +
 				               					"<th>거부일</th>" +
@@ -273,13 +304,20 @@
                         	if(data.length != 0){
                         		for (var i = 0; i < data.length; i++) {
                         			if(targetElementId == "getGroupList"){
-		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">" +
-			    					            "  <td>"+ data[i].groupName +"</td>" +
-			    					            "  <td>#"+ data[i].groupHash +"</td>" +
-			    					            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-			    					            "  <td>"+ data[i].groupPers +"</td>" +
-			    					            "  <td>"+ data[i].openDate +"</td>" +
-			    					            "</tr>";
+		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">";
+		                        		if(data[i].groupImg != null)
+		                        		{
+		                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+		                        		}else
+		                        		{
+		                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+		                        		}
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td>#"+ data[i].groupHash +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+		                        		str +=  "  <td>"+ data[i].groupPers +"</td>";
+		                        		str +=  "  <td>"+ data[i].openDate +"</td>";
+		                        		str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupRankingList"){
 		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">";
@@ -298,6 +336,13 @@
 		                        				{
 		                        					str +=  "  <td>"+(i+1)+"</td>";
 		                        				}
+		                        				if(data[i].groupImg != null)
+				                        		{
+				                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+				                        		}else
+				                        		{
+				                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+				                        		}
 		                        				str +=  "  <td>"+ data[i].groupName +"</td>";
 		                        				str +=  "  <td>"+ data[i].groupHash +"</td>";
 		                        				str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
@@ -313,6 +358,13 @@
 		                        		}else
 		                        		{
 		                        			str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
+		                        		}
+		                        		if(data[i].groupImg != null)
+		                        		{
+		                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+		                        		}else
+		                        		{
+		                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
 		                        		}
 		                        			str +=  "  <td>"+ data[i].groupName +"</td>" +
 										            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
@@ -337,6 +389,13 @@
 							            if(data[i+1].joinFlag == "E")
 							            {
 							            	str += "<tr class='getApplJoin' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            	if(data[i].groupImg != null)
+			                        		{
+			                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+			                        		}else
+			                        		{
+			                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+			                        		}
 			                        		str += "  <td>"+ data[i].groupName +"</td>";
 			                        		str += "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 							            	str += "  <td>"+ data[i+1].applDate +"</td>";
@@ -344,6 +403,13 @@
 							            }else
 							            if(data[i+1].joinFlag == "T"){
 							            	str +=  "<tr class='getMemberGroup' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            	if(data[i].groupImg != null)
+			                        		{
+			                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+			                        		}else
+			                        		{
+			                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+			                        		}
 			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 							            	str +=  "  <td>"+ data[i+1].joinDate +"</td>";
@@ -353,6 +419,13 @@
 							            	if(data[i].groupRslt == "T")
 							            	{
 							            		str +=  "<tr class='getMemberGroup' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            		if(data[i].groupImg != null)
+				                        		{
+				                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+				                        		}else
+				                        		{
+				                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+				                        		}
 				                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 				                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 								            	str +=  "  <td>"+ data[i+1].applDate +"</td>";
@@ -361,6 +434,13 @@
 							            	
 							            }else{
 							            	str +=  "<tr class='getApplJoin' id=" + data[i+1].memberNo + " name=" + data[i].groupNo + ">";
+							            	if(data[i].groupImg != null)
+			                        		{
+			                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+			                        		}else
+			                        		{
+			                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+			                        		}
 			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
 							            	str +=  " <td>"+ data[i+1].applDate +"</td>";
@@ -371,9 +451,16 @@
 							            str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListWait"){
-		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>";
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
+		                        		if(data[i].groupImg != null)
+		                        		{
+		                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+		                        		}else
+		                        		{
+		                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+		                        		}
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>";
 									            
 									            if(data[i].groupRslt == "T")
 				                        		{
@@ -392,10 +479,17 @@
 									            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListTrue"){
-		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>";
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
+		                        		if(data[i].groupImg != null)
+		                        		{
+		                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+		                        		}else
+		                        		{
+		                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+		                        		}
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>";
+		                        		str +=  "  <td>"+ data[i].groupPers +"</td>";
 									            if(data[i].groupRslt == "T")
 				                        		{
 				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
@@ -410,10 +504,17 @@
 									            str += "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupListNone"){
-		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">" +
-									            "  <td>"+ data[i].groupName +"</td>" +
-									            "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>" +
-									            "  <td>"+ data[i].groupPers +"</td>";
+		                        		str +=  "<tr class='getAddAppl' id=" + data[i].groupNo + ">";
+		                        		if(data[i].groupImg != null)
+		                        		{
+		                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+		                        		}else
+		                        		{
+		                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+		                        		}
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].leaderNick +"</td>";
+		                        		str +=  "  <td>"+ data[i].groupPers +"</td>";
 									            if(data[i].groupRslt == "T")
 				                        		{
 				                        			str +=  "<td><label class='badge badge-success'>개설완료</label></td>";
@@ -589,26 +690,15 @@
 			        </div>
 			    </nav>
 		<!-- SIDE -->
+		
 		<!-- Main Content -->
 		<div class="main-panel">
+			<div class="jumbotron">
+			  <div class="container">
+			    <p class="display-4"></p>
+			  </div>
+			</div>
         	<div class="content-wrapper">
-        		<div class="col-12">
-        			<div class="col-md-12 grid-margin stretch-card">
-        				<div class="card">
-        					<div class="card-body" style="height:30%;">
-	        					
-        						<div>
-        							<div style="z-index: 1;">
-		        						<h4 class="card-title"><img class="sideIcon" src="/group/img/real-estate_13468499.png">모임홈</h4>
-		        						<h5><b>다양한 사람들과 함께 환경보호를 위한 모임에 동참하세요!</b></h5>
-	        						</div>
-        							<img src="/group/img/58510501_9433629.jpg" style="height:400px; width:100%; position: relative;
-        							" class="img-fluid" alt="Responsive image">
-        						</div>
-        					</div>
-        				</div>
-        			</div>
-        		</div>
         		<div class="col-12">
 					<div class="row">
 						<!-- 왼쪽 1번  -->
@@ -631,6 +721,7 @@
 										<table class="table table-striped todo-list todo-list-custom table-hover">
 											<thead>
 												<tr>
+													<th></th>
 													<th>모임명</th>
 													<th>모임태그</th>
 													<th>모임등급</th>
@@ -708,6 +799,7 @@
 											<thead>
 												<tr>
 													<th>순위</th>
+													<th></th>
 													<th>모임명</th>
 													<th>모임태그</th>
 													<th>모임등급</th>

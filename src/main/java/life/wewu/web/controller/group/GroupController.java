@@ -482,7 +482,7 @@ public class GroupController {
 		model.addObject("groupMember", groupService.getMemberGroupForNick(map));
 		
 		return model;
-	}
+	} 
 	
 	@RequestMapping(value="updateGroupAcle",method = RequestMethod.POST)
 	public ModelAndView updateGroupAcle(@RequestParam("boardNo") int boardNo,@RequestParam("typeNo") int typeNo, HttpSession session) throws Exception 
@@ -510,7 +510,6 @@ public class GroupController {
 	
 	@RequestMapping(value="uploadFile", method = RequestMethod.POST)
     public void smarteditorImageUpload2(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("1");
 		//String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
 		String fileDir = "/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/group/upload/";
 		try{
@@ -541,6 +540,38 @@ public class GroupController {
                 print.flush();
                 print.close();
 
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+	@RequestMapping(value="groupImg", method = RequestMethod.POST)
+    public void groupImg(MultipartFile file, @ModelAttribute Group group,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//String fileDir = "C:\\Users\\chu54\\OneDrive\\바탕 화면\\demo\\src\\main\\resources\\static\\group\\upload\\";
+		String fileDir = "/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/static/group/upload/";
+		try{
+            if(file.isEmpty()) {
+                System.out.println("이미지 미등록");
+            } else {
+                File saveDir = new File(fileDir);
+                if(!saveDir.exists()){
+                    saveDir.mkdir();
+                }
+                String rfileName = file.getOriginalFilename();
+                String extension = StringUtils.getFilenameExtension(rfileName);
+                String pFileName = UUID.randomUUID().toString() + "." + extension;
+                File saveFile = new File(saveDir, pFileName);
+                try {
+                    file.transferTo(saveFile);
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println(group);
+                group.setGroupImg(pFileName);
+                groupService.updateGroup(group);
+                
             }
 
         } catch (Exception e) {
