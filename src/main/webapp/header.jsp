@@ -76,13 +76,28 @@
        align-items: center;
        background-color: transparent;
      }
+     
+.navbar{
+border-bottom:none;
+}
+  .navbar-nav .nav-item .nav-link:hover {
+    color: #00A06C; /* Change this to the desired text color on hover */
+  }
+  .navbar-nav .nav-item .nav-link {
+    color: #000000; /* Change this to the desired text color on hover */
+  }
+  
+    .navbar.navbar-white {
+    background-color: #000000;
+    background-color: rgba(255, 255, 255, 0.8); /* Change this to the desired background color */
+  }
+
+
    </style>
  </head>
 <script>
 </script>
  <body>
-   <c:set var="quest" value="${sessionScope.quest}" />
-
    <div class="fixed-top">
      <header class="navbar navbar-expand-lg navbar-light" style="height: 100px;">
        <div class="container-fluid" style="display: flex; justify-content: center;">
@@ -102,7 +117,7 @@
            <span class="navbar-toggler-icon"></span>
          </button>
          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-           <ul class="navbar-nav  ml-auto">
+           <ul class="navbar-nav wewu">
              <li class="nav-item"><a class="nav-link" href="/board/listBoard?boardType=1">게시판</a></li>
              <li class="nav-item"><a class="nav-link" href="/group/mainGroup.jsp">모임</a></li>
              <li class="nav-item"><a class="nav-link" href="/active/activeMap">모임활동지도</a></li>
@@ -201,7 +216,7 @@
              data-toggle="offcanvas">
              <span class="icon-menu"></span>
            </button>
-        <jsp:include page="/plant/getQuestList.jsp">
+        	<jsp:include page="/plant/getQuestList.jsp">
              <jsp:param name="questNo" value="${quest.questNo}" />
            </jsp:include>
          </div>

@@ -26,11 +26,13 @@ import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.plant.QuestState;
 import life.wewu.web.domain.user.User;
 import life.wewu.web.service.plant.InventoryDao;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
 import life.wewu.web.service.plant.QuestDao;
+import life.wewu.web.service.plant.QuestStateDao;
 import life.wewu.web.service.plant.MyPlantDao;
 
 @Service("plantServiceImpl")
@@ -50,6 +52,10 @@ public class PlantServiceImpl implements PlantService {
 	@Autowired
 	@Qualifier("questDao")
 	private QuestDao questDao;
+	
+	@Autowired
+	@Qualifier("questStateDao")
+	private QuestStateDao questStateDao;
 
 	@Autowired
 	@Qualifier("myPlantDao")
@@ -70,6 +76,13 @@ public class PlantServiceImpl implements PlantService {
 	@Override
 	public void addQuest(Quest quest) throws Exception {
 		questDao.addQuest(quest);
+        // 새로 추가된 퀘스트 상태를 진행 중(Y)으로 설정
+        Map<String, Object> questStateMap = new HashMap<>();
+        questStateMap.put("questNo", quest.getQuestNo());
+        User user = (User) session.getAttribute("user");
+        questStateMap.put("nickname", user.getNickname());
+        questStateMap.put("questState", "Y");
+        questStateDao.insertQuestState(questStateMap);
 	}
 
 	@Override
@@ -89,51 +102,125 @@ public class PlantServiceImpl implements PlantService {
 	
 
 	@Override
-	public Map<String, Object> getQuestList(Search search) throws Exception {
+	public List<Quest> getQuestList(Map<String,Object> map) throws Exception {
 
-		int questNo = 1;
-		Quest quest = questDao.getQuest(questNo);
-		search.setSearchKeyword(String.valueOf(quest.getQuestNo()));
-		List<Quest> list = questDao.getQuestList(search);
-		Map<String, Object> map = new HashMap<>();
-		map.put("list", list);
-
-		return map;
-	}
-
-	@Override
-	public void completeQuest(Quest quest) throws Exception {
-		if (quest.getCurrentCnt() >= quest.getQuestTargetCnt()) {
-			quest.setQuestState("N");
+		List<Quest> quests = questDao.getQuestList(map);
+		System.out.println(quests);
+		
+		
+		for(Quest quest : quests) {
 			
-            User user = (User) session.getAttribute("user");
-            System.out.println("completeQuest:uset = "+user);
-
-            quest.setNickName(user.getNickname());
-            System.out.println("quest : "+quest);
-            
-            MyPlant myPlant = (MyPlant) session.getAttribute("myPlant");
-         
-            System.out.println("completeQuest:myPlant = "+myPlant);
-            myPlant.setMyPlantExp(myPlant.getMyPlantExp() + quest.getQuestReward());
-            
-            System.out.println("update된 myPlnat : "+myPlant);
-            System.out.println("quest.getQuestReward() : "+quest.getQuestReward());
-            myPlantDao.updateMyPlant(myPlant);
-            
-            
-
-            // 퀘스트 업데이트
-            questDao.completeQuest(quest);
-        }
+			map.put("questNo", quest.getQuestNo());
+			quest.setQuestState(questStateDao.getQuestState(map));
+		}
+		
+		
+		List<QuestState> list = questStateDao.getQuestListByUser(map);
+		System.out.println("getQuestListByUser : "+map);
+		return quests;
 	}
 
+	
+	@Override
+	public void completeAndupdateReward(int questStateNo) throws Exception {
+		
+		Map<String, Object> updateMap = new HashMap<>();
+		
+        updateMap.put("quest_state_no", questStateNo);
+        updateMap.put("quest_state", "N");
+        questStateDao.updateQuestState(updateMap);
+        
+        // 디버깅을 위해 업데이트 매개변수를 로그로 출력
+        System.out.println("1.questStateNo : " +questStateNo);
+        System.out.println("2.Updating quest state: " + updateMap);
+        
+        // 현재 식물 경험치 가져오기
+        User user = (User) session.getAttribute("user");
+        MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
+        // myPlant가 null인지 체크
+        if (myPlant == null) {
+            throw new Exception("해당 사용자의 식물 정보가 존재하지 않습니다.");
+        }
+        System.out.println("3.myPlant :"+myPlant);
+        
+        int currentExp = myPlant.getMyPlantExp();
+        System.out.println("4.currentExp :"+currentExp);
+        
+        // 퀘스트 정보 가져오기 (퀘스트 보상 포함) 
+        Quest quest = questDao.getQuestByUser(user.getNickname());
+        int questReward = quest.getQuestReward();
+        System.out.println("5.questReward :"+questReward);
+
+        // 새로운 경험치 계산
+        int newExp = currentExp + questReward;
+        System.out.println("6.newExp :"+newExp);
+
+        // 식물 경험치 업데이트
+        Map<String, Object> expMap = new HashMap<>();
+        expMap.put("nickname", user.getNickname());
+        expMap.put("myPlantExp", newExp);
+        myPlantDao.updateMyPlantExp(expMap);
+        System.out.println("7.expMap : "+expMap);
+		
+		
+	}
+	
+
+	// ---------------------------------------------------------------------------------------//
+	
+	@Override
+	public List<QuestState> getQuestListByUser(Map<String,Object> map) throws Exception {
+		
+		User user = (User) session.getAttribute("user");
+		System.out.println(user);
+	
+		List<Quest> quests = questDao.getQuestList(map);
+		System.out.println(quests);
+		
+		
+		for(Quest quest : quests) {
+			
+			map.put("questNo", quest.getQuestNo());
+			quest.setQuestState(questStateDao.getQuestState(map));
+		}
+		
+		map.put("quest", quests);
+		map.put("user", user);
+		
+		
+		List<QuestState> list = questStateDao.getQuestListByUser(map);
+		System.out.println("getQuestListByUser : "+map);
+		return list;
+	}
+        
 
 	@Override
 	public Quest getQuestByUser(String nickname) throws Exception {
 		
 		return questDao.getQuestByUser(nickname);
 	}
+	
+	@Override
+	public void updateQuestState(Map<String, Object> map) throws Exception {
+		questStateDao.updateQuestState(map);
+		
+	}
+
+	@Override
+	public void insertQuestState(Map<String, Object> map) throws Exception {
+		questStateDao.insertQuestState(map);
+		
+	}
+	
+	@Override
+	public QuestState getQuestState(Map<String, Object> map) throws Exception {
+		
+		return questStateDao.getQuestState(map);
+	}
+
+
+
+
 	// ---------------------------------------------------------------------------------------//
 
 	@Transactional
@@ -315,6 +402,9 @@ public class PlantServiceImpl implements PlantService {
 		
 
 	}
+
+
+
 
 
 

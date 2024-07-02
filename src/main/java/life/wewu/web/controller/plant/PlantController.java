@@ -74,7 +74,7 @@ public class PlantController {
 		System.out.println("::plant::addQuest : POST");
 
 		User user = (User) session.getAttribute("user");
-		quest.setNickName(user.getNickname());
+		quest.setNickname(user.getNickname());
 		plantService.addQuest(quest);
 		model.addAttribute("quest", quest);
 		model.addAttribute("user", user);
@@ -95,12 +95,13 @@ public class PlantController {
 	}
 
 	@RequestMapping(value = "listQuest", method = RequestMethod.GET)
-	public String getQuestList(@ModelAttribute("search") Search search, Model model) throws Exception {
+	public String getQuestList( Model model) throws Exception {
 		System.out.println("::plant::listQuest : GET");
-		Map<String, Object> map = plantService.getQuestList(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Quest> list = plantService.getQuestList(map);
 
-		model.addAttribute("map", map);
-		model.addAttribute("search", search);
+		model.addAttribute("list", list);
 
 		System.out.println(map);
 

@@ -5,6 +5,14 @@
 		
 <mapper namespace = "life.wewu.web.service.plant.QuestDao">
 
+<resultMap id="questResultMap" type="life.wewu.web.domain.plant.Quest">
+        <id property="questNo" column="quest_no" jdbcType="INTEGER"/>
+        <result property="questName" column="quest_name" jdbcType="VARCHAR"/>
+        <result property="questReward" column="quest_reward" jdbcType="VARCHAR"/>
+        <result property="questContents" column="quest_contents" jdbcType="VARCHAR"/>
+        <!-- 추가적인 속성들... -->
+    </resultMap>
+
 	<resultMap id="questSelectMap" type="quest">
 		<result property="questNo" 			column="quest_no" 			jdbcType="INTEGER"/>
 		<result property="questContents"	column="quest_contents" 	jdbcType="VARCHAR" />
@@ -12,14 +20,14 @@
 		<result property="questTargetCnt" 	column="quest_target_cnt" 	jdbcType="VARCHAR" />
 		<result property="regDate"			column="reg_date"			jdbcType="DATE"	/>
 		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
-		<result property="nickName" 		column="nickName" 			jdbcType="VARCHAR" />
-		<result property="questState"		column="quest_state"		jdbcType="VARCHAR" />
+		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />
+		
 	</resultMap>
 
 	<!-- ADD QUEST -->
 	<insert id="addQuest" parameterType ="quest">
-	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date, quest_state,nickName)
-        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),'Y',#{nickName})
+	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date,nickName)
+        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),#{nickName})
     </insert>
 	
 
@@ -53,27 +61,36 @@
 	</select>
 	
 	<!-- GET QUESTLIST -->
-	<select  id="getQuestByUser"  parameterType="String" resultMap="questSelectMap">
-	  	SELECT * FROM quest	
-	  	WHERE nickname = #{nickname} 
-	</select>
-
-	<!-- GET QUESTLIST -->
-	<select  id="getQuestList"  parameterType="search" resultMap="questSelectMap">
-	  	SELECT * FROM quest	
-	  	order by quest_state DESC;
+	<select  id="getQuestList"  parameterType="map" resultMap="questSelectMap">
+	  	SELECT q.*, qs.quest_state
+	  	from quest q , quest_state qs
+	  	WHERE qs.quest_no = q.quest_no
+	  	
 	</select>
 	
-	<update id = "completeQuest" parameterType ="quest">
+	<update id = "completeQuest" parameterType ="int">
 		UPDATE quest
 		<set>
 			quest_state = 'N'
 		</set>
 		WHERE quest_no = #{questNo}
 	</update>
+	<!-- 보상까지받는 쿼리를 짜야함 -->
+	
+	<update id = "updateReward" parameterType ="quest">
+		UPDATE quest
+		<set>
+			quest_reward = #{questReward}
+		</set>
+		WHERE quest_no = #{questNo}
+	</update>
 	
 	
-	
+		<select  id="getQuestByUser"  parameterType="String" resultMap="questSelectMap">
+	  	SELECT * FROM quest	
+	  	WHERE nickname = #{nickname}
+	  	LIMIT 1 
+	</select>
 
 	 
 

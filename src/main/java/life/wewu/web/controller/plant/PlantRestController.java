@@ -35,6 +35,7 @@ import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.plant.QuestState;
 import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.plant.PlantDao;
@@ -166,51 +167,60 @@ public class PlantRestController {
 
 		// 세션에 퀘스트 정보 추가
 		Quest quest = (Quest) session.getAttribute("quest");
-		if (quest == null) {
-			// 세션에 퀘스트 정보가 없으면 새로운 퀘스트 객체 생성
-			quest = new Quest();
-			session.setAttribute("quest", quest);
-		}
-
 		User user = (User) session.getAttribute("user");
 
 		// 퀘스트 정보를 서비스에서 가져옴
-		quest = plantService.getQuestByUser(user.getNickname());
-
+		Map<String,Object> map = new HashMap<>();
+		QuestState questState = plantService.getQuestState(map);
+		System.out.println("session questStage: "+quest);
 		// 세션에 퀘스트 정보 업데이트
-		session.setAttribute("quest", quest);
+		session.setAttribute("questState", questState);
 
 		return quest;
 	}
 
 	@RequestMapping(value = "getQuestList", method = RequestMethod.POST)
-	public Map<String, Object> getQuestList(@RequestBody Search search, Model model, HttpSession session)
+	public List<QuestState> getQuestList( Model model, HttpSession session)
 			throws Exception {
-		System.out.println("::plant::REST::getQuestList : POST");
+	    System.out.println("::plant::REST::getQuestList : POST");
 
-		// 세션에 퀘스트 정보 추가
-		Quest quest = (Quest) session.getAttribute("quest");
-		if (quest == null) {
-			// 세션에 퀘스트 정보가 없으면 새로운 퀘스트 객체 생성
-			quest = new Quest();
-			session.setAttribute("quest", quest);
-		}
+	    User user = (User) session.getAttribute("user");
+	    Map<String, Object> map = new HashMap<>();
 
-		Map<String, Object> map = plantService.getQuestList(search);
-		model.addAttribute("map", map);
-		model.addAttribute("search", search);
-		System.out.println("QeustList : " + map.get("list"));
+	    map.put("nickname", user.getNickname());
+	    List<QuestState> list = plantService.getQuestListByUser(map);
 
-		session.setAttribute("questList", map.get("list"));
+	    model.addAttribute("list", list);
+	    session.setAttribute("questStateList", list); // 세션에 questStateList 추가
 
-		return map;
+	    System.out.println("getQuestListByUserRest : " + list);
+
+	    return list;
+	}
+	
+
+	@RequestMapping(value = "getQuestListByUser", method = RequestMethod.POST)
+	public List<QuestState> getQuestListByUser(@RequestBody Quest quest, Model model, HttpSession session)
+			throws Exception {
+	      	System.out.println("::plant::REST::getQuestListByUser : POST");
+	        
+	        User user = (User) session.getAttribute("user");
+	        System.out.println("User: " + user);
+	        
+	        Map<String, Object> map = new HashMap<>();
+	        map.put("nickname", user.getNickname());
+	        
+	        List<QuestState> list = plantService.getQuestListByUser(map);
+	        System.out.println("getQuestListByUserRest : " + list);
+	        
+	        return list; // JSON 형식으로 반환됩니다.
 	}
 
 	@RequestMapping(value = "completeQuest", method = RequestMethod.POST)
 	public Quest completeQuest(@RequestBody Quest quest) throws Exception {
 		System.out.println("::plant::REST::completeQuest : POST");
 
-		plantService.completeQuest(quest);
+		plantService.completeAndupdateReward(quest.getQuestNo());
 
 		return quest;
 	}
