@@ -147,12 +147,12 @@
                                     position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
                                     map: map,
                                     icon: {
-                                        url: '/images/icon/sp_pin_hd.png',
-                                        size: new naver.maps.Size(26, 36),
-                                        origin: new naver.maps.Point(1, 1),
-                                        anchor: new naver.maps.Point(13, 36),
-                                        scaledSize: new naver.maps.Size(395, 79)
-                                    }
+                    			        url: 'https://cdn-icons-png.freepik.com/512/297/297362.png?ga=GA1.1.1709417345.1719880420',
+                    			        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+                    			        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+                    			        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+                    			        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+                    			    }
                                 };
                             }
 
@@ -241,12 +241,12 @@
                     position: new naver.maps.LatLng(activeListString[i].activeX, activeListString[i].activeY),
                     map: map,
                     icon: {
-                        url: '/images/icon/sp_pin_hd.png',
-                        size: new naver.maps.Size(26, 36),
-                        origin: new naver.maps.Point(1, 1),
-                        anchor: new naver.maps.Point(13, 36),
-                        scaledSize: new naver.maps.Size(395, 79)
-                    }
+    			        url: 'https://cdn-icons-png.freepik.com/512/297/297362.png?ga=GA1.1.1709417345.1719880420',
+    			        size: new naver.maps.Size(50, 50), // 원래 이미지 크기
+    			        scaledSize: new naver.maps.Size(50, 50), // 조정된 이미지 크기
+    			        origin: new naver.maps.Point(0, 0), // 이미지의 원점
+    			        anchor: new naver.maps.Point(25, 50) // 마커 이미지의 앵커 포인트
+    			    }
                 };
             }
 

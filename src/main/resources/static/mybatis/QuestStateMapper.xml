@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace = "life.wewu.web.service.plant.QuestStateDao">
+
+	<resultMap id="questStateSelectMap" type="life.wewu.web.domain.plant.QuestState">
+		<result property="questStateNo" 	column="quest_state_no" 	jdbcType="INTEGER"/>
+		<result property="questNo"			column="quest_no" 			jdbcType="VARCHAR" />
+		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />
+		<result property="questState" 		column="quest_state" 		jdbcType="VARCHAR" />
+			<association property="quest" javaType="life.wewu.web.domain.plant.Quest" resultMap="questSelectMap"/>	
+	</resultMap>
+	
+	<resultMap id="questSelectMap" type="quest">
+		<result property="questNo" 			column="quest_no" 			jdbcType="INTEGER"/>
+		<result property="questContents"	column="quest_contents" 	jdbcType="VARCHAR" />
+		<result property="questTarget" 		column="quest_target" 		jdbcType="VARCHAR" />
+		<result property="questTargetCnt" 	column="quest_target_cnt" 	jdbcType="VARCHAR" />
+		<result property="regDate"			column="reg_date"			jdbcType="DATE"	/>
+		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
+		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />	
+	</resultMap>
+
+	<select  id="getQuestState"  parameterType="map" resultMap="questStateSelectMap">
+	  	SELECT * from quest_state
+	  	<where>
+	  		nickname = #{nickname}
+	  		AND quest_no = #{questNo}
+	  	</where>
+	</select>
+	
+	<select  id="getQuestListByUser"  parameterType="map" resultMap="questStateSelectMap">
+	  	SELECT q.*, qs.*
+	  	from quest q , quest_state qs
+	  	WHERE qs.quest_no = q.quest_no
+	  	AND q.nickname = #{nickname}
+	  	order by quest_state DESC; 
+	</select>
+	
+	<!-- 퀘스트 상태 업데이트 -->
+    <update id="updateQuestState" parameterType="map" >
+        UPDATE quest_State
+        SET quest_state = #{quest_state}
+        WHERE quest_state_no = #{quest_state_no}
+    </update>
+    
+    <!-- 새로운 퀘스트 상태 삽입 -->
+    <insert id="insertQuestState" parameterType="map">
+        INSERT INTO quest_state (quest_no, nickname, quest_state)
+        VALUES (#{quest_no}, #{nickname}, #{quest_state})
+    </insert>
+	
+</mapper>

@@ -125,23 +125,40 @@
  </script>
    <style>
 .jumbotron{
-margin: 0 !important; /* 기본 마진 제거 */
+
 background-color: #00A06C;
+margin-top:160px;
+margin-bottom:0;
+background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+background-image: url('/images/plant1.jpg'); /* 배경 이미지 경로 */
+background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+background-position: center; /* 이미지가 중앙에 위치하도록 */
 }
 .display-4 {
   color: #fff; /* 원하는 색상으로 변경 */
 }
+.main-panel{
+margin:0;
+}
+
+ .b {
+  font-family: "Nanum Gothic Coding", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+     
 </style>
 </head>
 
 <body>
-  <jsp:include page="/plant/plantSide.jsp" />
- <div class="main-panel">
-  <div class="jumbotron">
+<div class="jumbotron">
   <div class="container">
     <p class="display-4"><b>ADD PLANT</b></p>
   </div>
   </div>
+  <jsp:include page="/plant/plantSide.jsp" />
+ <div class="main-panel">
+
    <div class="content-wrapper">
    <div class="row">
      <div class="flex-container d-flex flex-nowrap">

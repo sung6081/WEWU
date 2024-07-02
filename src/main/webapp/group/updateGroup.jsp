@@ -6,9 +6,30 @@
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
+		<!-- 클라이언트 소스 로드 -->
+		<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+		
 		<script>
+		 	Dropzone.options.myGreatDropzone = { // camelized version of the `id`
+		 			
+	        	paramName: "file", // The name that will be used to transfer the file
+			    acceptedFiles: ".jpg, .jpeg, .png, .pdf",
+			    addRemoveLinks: true,
+			    maxFilesize: 2, // MB
+			    maxFiles: 1, // MB
+			    init: function() {
+			    	
+			    },
+			 	accept: function(file, done) {
+		            done();
+		        }
+		 	}
+		 	
+		 	
 			function updateGroup()
 			{
+				
 		        if(!confirm("정말 수정하시겠습니까?")){
 					return;
 					
@@ -65,7 +86,7 @@
         		<div class="col-md-12 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <h1 class="card-title">모임수정</h1>
+	                  <h1 class="card-title"><img class="sideIcon" src="/group/img/change.png">모임수정</h1>
 	                  <h4 class="card-title">${group.groupName}</h4>
 	                  <form class="forms-sample" id="updateGroup">
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
@@ -77,13 +98,19 @@
 	                      <label>모임소개</label>
 	                      <input type="text" class="form-control" name="groupIntro" value="${group.groupIntro}" placeholder="모임소개">
 	                    </div>
+	                    
 	                  </form>
-	                <button onclick="javascript:updateGroup();"  class="btn btn-primary mr-2">수정</button>
-	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+	                  <label>모임사진</label>
+	                  <br>
+	                  <form action="/group/groupImg" class="dropzone" id="my-great-dropzone" style="width:19%;">
+	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+	                  </form>
+					  <br>
+	                  <button onclick="javascript:updateGroup();" class="btn btn-primary mr-2">수정</button>
+	    			  <button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 	                </div>
 	              </div>
 	            </div>
-	            
 				<form id="getGroup" method="post" action="/group/getGroup">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
 					<input type="hidden" name="memberNickName" value="nick4">

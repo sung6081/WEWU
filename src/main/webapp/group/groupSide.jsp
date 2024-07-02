@@ -192,10 +192,11 @@
 	    <div class="container-fluid">
 	    	<div class="row">
 	    		<nav class="sidebar sidebar-offcanvas" id="sidebar">
-			          	<a class="group_nav">
-			          		<i class="menu-icon"><img class="sideIcon" src="/group/img/real-estate_13468499.png"></i>
-			          		<span class="menu-title home"><b>${group.groupName }</b></span>
-			          	</a>
+	    			<br>
+		          	<a class="group_nav">
+		          		<i class="menu-icon"><img class="sideIcon" src="/group/img/real-estate_13468499.png"></i>
+		          		<span class="menu-title home"><b>${group.groupName }</b></span>
+		          	</a>
 				  <hr>
 				  <h4>
 				  	&nbsp;&nbsp;<b>게시판</b> 
