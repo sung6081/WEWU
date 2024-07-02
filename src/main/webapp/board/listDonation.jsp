@@ -5,8 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>후원 내역 보기</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- HEADER -->
+	<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
+<style type="text/css">
+.jumbotron {
+	margin: 0 !important; /* 기본 마진 제거 */
+	background-color: #00A06C;
+}
+b {
+    color: white;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 
@@ -35,9 +45,7 @@ $(function() {
 </head>
 <body>
 <input type="hidden" name="payType" value="${param.payType}" >
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
+	
 
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
@@ -47,7 +55,16 @@ $(function() {
 
 				<div class="card">
 					<div class="card-body">
-						<h4 class="card-title">후원하기</h4>
+						<div class="jumbotron">
+						<div class="container">
+							<p class="display-4">
+								<b>후원 내역 보기</b>
+							</p>
+						</div>
+						
+					</div>
+					<br>
+						<br>
 						<div class="table-responsive">
 							<table class="table table-striped">
 								<thead>
@@ -71,7 +88,7 @@ $(function() {
 											</td>
 											<td>${donation.email}</td>
 											<td>${donation.payDate}</td>
-											<td>${donation.payOption}</td>
+											<td><c:if test="${donation.payOption eq 'P'}">카카오 페이</c:if></td>
 											<td>${donation.payAmount}</td>
 										</tr>
 									</c:forEach>
@@ -80,6 +97,26 @@ $(function() {
 						</div>
 						
 					</div>
+					<div align="center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <c:if test="${resultPage.currentPage > 1}">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${resultPage.currentPage - 1})">&lt;</button>
+                                </c:if>
+                                <c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}">
+                                    <c:choose>
+                                        <c:when test="${i == resultPage.currentPage}">
+                                            <button type="button" class="btn btn-primary">${i}</button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${i})">${i}</button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                                <c:if test="${resultPage.endUnitPage < resultPage.maxPage}">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${resultPage.currentPage + 1})">&gt;</button>
+                                </c:if>
+                            </div>
+                        </div> 
 				</div>
 
 			</div>

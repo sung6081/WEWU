@@ -65,6 +65,9 @@
 	margin: 0 !important; /* 기본 마진 제거 */
 	background-color: #00A06C;
 }
+b {
+    color: white;
+}
 </style>
 </head>
 <body>
