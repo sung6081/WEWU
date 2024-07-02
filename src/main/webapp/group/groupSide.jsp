@@ -241,6 +241,7 @@
 			              <i class="menu-icon"><img class="sideIcon" src="/group/img/globe.png"></i>
 			              <span class="menu-title">모임활동구역</span>
 			            </a>
+			            
 			    </nav>
 			    
 			    <form id="getGroupBoardList" method="post">
@@ -279,5 +280,6 @@
 				<form id="getReportListSide" method="POST">
 					<input type="hidden" name="groupNo" value="${group.groupNo}">
 				</form>
+				
 	</body>
 </html>

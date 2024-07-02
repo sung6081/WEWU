@@ -227,6 +227,7 @@
 		<jsp:include page="/group/groupSide.jsp"/>
 		<!-- SIDE -->
 		<div class="main-panel">
+			<c:import url="/group/groupJumbo.jsp"></c:import>
 		    <div class="content-wrapper">
 		        <div class="col-12 grid-margin stretch-card">
 		            <div class="card">
