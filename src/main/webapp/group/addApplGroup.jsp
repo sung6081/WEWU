@@ -9,8 +9,8 @@
 		<style>
 			.sideIcon
 			{
-				width:30px;
-				height:30px;
+				width:20px;
+				height:20px;
 				margin:0 10px 0 0;
 			}	
 		</style>
@@ -72,41 +72,49 @@
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-	        	<div class="col-md-12 grid-margin stretch-card">
-	              <div class="card">
-	                <div class="card-body">
-	                  <h1 class="card-title"><img class="sideIcon" src="/group/img/home_7457021.png">모임개설신청</h1>
-	                  <form class="forms-sample" id="addApplGroup" method="post" action="/group/addApplGroup">
-	                  	
-	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${user.nickname }">
-	                    <div class="form-group">
-	                      <label>모임명</label>
-	                      <input type="text" class="form-control" name="groupName" placeholder="모임명">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임소개</label>
-	                      <input type="text" class="form-control" name="groupIntro" placeholder="모임소개">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임태그</label>
-	                      <input type="text" class="form-control" name="groupHash" placeholder="모임태그">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임주소</label>
-	                      <input type="text" class="form-control" name="groupAddr" placeholder="모임주소">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임계획</label>
-	                      <input type="text" class="form-control" name="groupPlan" placeholder="모임계획">
-	                    </div>
-	                  </form>
-	                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
-					
-					  </form>
-	                <button onclick="javascript:addApplGroup();"  class="btn btn-primary mr-2">신청</button>
-	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
-	                </div>
-	              </div>
+	        	<div class="col-12">
+        			<div class="row">
+	        			<div class="col-md-2 grid-margin stretch-card">
+						</div>
+			        	<div class="col-md-8 grid-margin stretch-card">
+			              <div class="card">
+			                <div class="card-body">
+			                  <h1 class="card-title"><img class="sideIcon" src="/group/img/home_7457021.png">모임개설신청</h1>
+			                  <form class="forms-sample" id="addApplGroup" method="post" action="/group/addApplGroup">
+			                  	
+			                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${user.nickname }">
+			                    <div class="form-group">
+			                      <label>모임명</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupName" placeholder="모임명">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임소개</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupIntro" placeholder="모임소개">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임태그</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupHash" placeholder="모임태그">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임주소</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupAddr" placeholder="모임주소">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임계획</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupPlan" placeholder="모임계획">
+			                    </div>
+			                  </form>
+			                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
+							
+							  </form>
+			                <button onclick="javascript:addApplGroup();"  class="btn btn-primary mr-2">신청</button>
+			    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
+			                </div>
+			              </div>
+			              <div class="col-md-2 grid-margin stretch-card">
+						  </div>
+					   </div>
+		        	</div>
 	            </div>
         	</div>
         </div>

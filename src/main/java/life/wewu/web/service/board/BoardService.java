@@ -75,7 +75,7 @@ public interface BoardService {
 	 * DonationDao
 	 */
 	
-	public void addDonation(Donation donation) throws Exception;
+	public Donation addDonation(Donation donation) throws Exception;
 	
 	public void deleteDonation(int payNo) throws Exception;
 	

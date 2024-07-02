@@ -11,23 +11,23 @@
 <div class="col-lg-12 grid-margin stretch-card">
 	<div class="card">
 		<div class="card-body">
-		    <h4 class="card-title">${groupBoard.boardName}</h4>
+		    <h4 class="card-title"><i class='menu-icon'><img class='sideIcon' src='/group/img/board.png'></i>${groupBoard.boardName}</h4>
 		    <div style="float:right;">
 		    	<c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
 		    	
 		    		<c:if test="${groupBoard.boardRole == 'G' }">
 		    			<c:if test="${user.nickname == group.leaderNick}">
-		    				<img src="/group/img/pencil.svg"><span>작성</span>&nbsp;
+		    				<span><img style="width:11px; height:11px;" src="/group/img/pencil.png">작성</span>&nbsp;
 		    			</c:if>
 		    		</c:if>
 		    		
 		    		<c:if test="${groupBoard.boardRole == 'A' }">
-		    			<img src="/group/img/pencil.svg"><span>작성</span>&nbsp;
+		    			<span><img style="width:11px; height:11px;" src="/group/img/pencil.png">작성</span>&nbsp;
 		    		</c:if>
 		    		
 		           	<c:if test="${user.nickname == group.leaderNick}">
-			           	<img src="/group/img/arrow-repeat.svg"><span>게시판 수정</span>&nbsp;
-			           	<img src="/group/img/eraser-fill.svg"><span>게시판 삭제</span>
+			           	<img style="width:11px; height:11px;" src="/group/img/change.png"><span>게시판 수정</span>&nbsp;
+			           	<img style="width:11px; height:11px;" src="/group/img/delete.png"><span>게시판 삭제</span>
 			       </c:if>
 			       
 		        </c:if>

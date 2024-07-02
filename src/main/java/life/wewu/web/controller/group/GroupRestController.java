@@ -307,11 +307,10 @@ public class GroupRestController {
 		System.out.println(":: /app/group/updateApplGroup ::");
 		// Business logic 수행
 		group = groupService.updateGroup(group);
-		User user = (User)session.getAttribute("user");
+		User user = userService.getUser(group.getLeaderNick());
 		if(group.getGroupRslt().equals("T")){
 			groupService.updateRole(user.getNickname());
 			user = userService.getUser(user.getUserId());
-			session.setAttribute("user", user);
 		}
         return group;
 	}

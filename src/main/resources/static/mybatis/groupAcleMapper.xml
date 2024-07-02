@@ -190,7 +190,7 @@
   							type_no 
   						FROM 
   							board_type 
-  						<if test="${groupNo != null}">
+  						<if test="#{groupNo != null}">
 							<where>
 								group_no = #{groupNo}
 							</where>
@@ -249,7 +249,7 @@
   												type_no
   											FROM
   												board_type
-  											<if test="${groupNo != null}">
+  											<if test="#{groupNo != null}">
   												<where>
   													group_no = #{groupNo}
   												</where>

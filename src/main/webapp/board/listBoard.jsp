@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +10,9 @@
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 .thumbnail {
 	padding: 10px;
@@ -67,7 +63,6 @@
     var currentPage = 1;
     var isLoading = false;
  
-
     function onScroll() {
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
             loadMoreData();
@@ -88,7 +83,7 @@
         // 수정된 부분: 이벤트 위임을 사용하여 동적으로 추가된 요소에도 이벤트 적용
         $(document).on("click", "div.thumbnail", function() {
             var boardNo = $(this).data("board-no");
-           // self.location = "/board/getBoard?boardType=${param.boardType}&boardNo=" + boardNo;
+            self.location = "/board/getBoard?boardType=${param.boardType}&boardNo=" + boardNo;
         });
     });
 
@@ -143,6 +138,7 @@
             }
         });
     }
+
     $(function(){
         $("div.boardClick").on("click",function(){
             self.location ="/board/getBoard?boardType=${param.boardType}&boardNo="+$($(this).children()).val();
@@ -150,32 +146,12 @@
     });
     
     function fncGetList(page) {
-        var form = $('form');
-        form.method = 'GET';
-        form.action = '/board/listBoard';
-
-        /* var inputBoardType = document.createElement('input');
-        inputBoardType.type = 'hidden';
-        inputBoardType.name = 'boardType';
-        inputBoardType.value = '${param.boardType}';
-        form.appendChild(inputBoardType);
-
-        var inputPage = document.createElement('input');
-        inputPage.type = 'hidden';
-        inputPage.name = 'page';
-        inputPage.value = page;
-        form.appendChild(inputPage); */
-        
-        $('.currentPage').val(page);
-
-        //document.body.appendChild(form);
+        var form = $('form#listSearchForm');
+        form.find('.currentPage').val(page);
         form.submit();
     }
     
-    
-    
 </script>
-
 </head>
 <body>
 	<input type="hidden" name="boardType" value="${param.boardType}">
@@ -201,18 +177,14 @@
 							</div>
 						</div>
 						<br><br>
-				
 
 						<!-- 검색 폼 -->
 						<div class="form-group">
 							<form id="listSearchForm" action="/board/listBoard" method="get">
 								<div class="input-group">
-									<input type="hidden" class="currentPage" name="currentPage"
-										value="${search.currentPage}"> <input type="text"
-										class="form-control" placeholder="검색어 입력"
-										aria-label="Recipient's username" name="searchKeyword"
-										value="${search.searchKeyword}"> <input type="hidden"
-										name="boardType" value="${param.boardType}">
+									<input type="hidden" class="currentPage" name="currentPage" value="${search.currentPage}"> 
+									<input type="text" class="form-control" placeholder="검색어 입력" aria-label="Recipient's username" name="searchKeyword" value="${search.searchKeyword}"> 
+									<input type="hidden" name="boardType" value="${param.boardType}">
 									<div class="input-group-append">
 										<button class="btn btn-sm btn-primary" type="submit">Search</button>
 									</div>
@@ -225,7 +197,7 @@
 							<c:set var="index" value="0" />
 							<c:forEach var="board" items="${list}" varStatus="loop">
 								<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-									<div class="thumbnail">
+									<div class="thumbnail" data-board-no="${board.boardNo}">
 										<div class="boardClick">
 											<input type="hidden" name="boardNo" value="${board.boardNo}">
 											<c:if test="${empty board.fileName}">
@@ -249,20 +221,13 @@
 										</div>
 										<div class="caption">
 											<c:if test="${board.bookmarkFlag}">
-												<button class="btn btn-outline-danger btn-fw"
-													onclick="deleteBookmark(${board.boardNo});">북마크 삭제</button>
+												<button class="btn btn-outline-danger btn-fw" onclick="deleteBookmark(${board.boardNo});">북마크 삭제</button>
 											</c:if>
 											<c:if test="${!board.bookmarkFlag}">
-												<button class="btn btn-outline-primary btn-fw"
-													onclick="addBookmark(${board.boardNo});">북마크</button>
-
+												<button class="btn btn-outline-primary btn-fw" onclick="addBookmark(${board.boardNo});">북마크</button>
 											</c:if>
 										</div>
-
-
 									</div>
-
-
 								</div>
 								<c:set var="index" value="${index + 1}" />
 							</c:forEach>
@@ -271,55 +236,40 @@
 						<div align="center">
 							<div class="btn-group" role="group" aria-label="Basic example">
 								<c:if test="${resultPage.currentPage > 1}">
-									<button type="button" class="btn btn-outline-secondary"
-										onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
+									<button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage - 1})">&lt;</button>
 								</c:if>
-								<c:forEach var="i" begin="${resultPage.beginUnitPage}"
-									end="${resultPage.endUnitPage}">
+								<c:forEach var="i" begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}">
 									<c:choose>
 										<c:when test="${i == resultPage.currentPage}">
 											<button type="button" class="btn btn-primary">${i}</button>
 										</c:when>
 										<c:otherwise>
-											<button type="button" class="btn btn-outline-secondary"
-												onclick="fncGetList(${i})">${i}</button>
+											<button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${i})">${i}</button>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<c:if test="${resultPage.endUnitPage < resultPage.maxPage}">
-									<button type="button" class="btn btn-outline-secondary"
-										onclick="fncGetList(${resultPage.currentPage + 1})">&gt;</button>
+									<button type="button" class="btn btn-outline-secondary" onclick="fncGetList(${resultPage.currentPage + 1})">&gt;</button>
+								</c:if>
+							</div>
+						</div>
+						<div class="card mt-4">
+							<div class="card-body">
+								<c:if test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
+									<button type="button" class="btn btn-outline-primary btn-fw add-btn">공지 글 등록하기</button>
+								</c:if>
+								<c:if test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
+									<button type="button" class="btn btn-outline-primary btn-fw add-btn">모임 홍보 글 등록하기</button>
+								</c:if>
+								<c:if test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
+									<button type="button" class="btn btn-outline-primary btn-fw add-btn">모임 후기 글 등록하기</button>
+								</c:if>
+								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
+									<button type="button" class="btn btn-outline-primary btn-fw add-btn">후원 글 등록하기</button>
 								</c:if>
 							</div>
 						</div>
 
-						<div class="card mt-4">
-							<div class="card-body">
-								<c:if
-									test="${sessionScope.user.role eq '1' && param.boardType eq '1'}">
-									<button type="button"
-										class="btn btn-outline-primary btn-fw add-btn">공지 글
-										등록하기</button>
-								</c:if>
-								<c:if
-									test="${(sessionScope.isAdmin || sessionScope.user.role eq '3') && param.boardType eq '2'}">
-									<button type="button"
-										class="btn btn-outline-primary btn-fw add-btn">모임 홍보
-										글 등록하기</button>
-								</c:if>
-								<c:if
-									test="${sessionScope.user.role eq '2' && param.boardType eq '3'}">
-									<button type="button"
-										class="btn btn-outline-primary btn-fw add-btn">모임 후기
-										글 등록하기</button>
-								</c:if>
-								<c:if test="${sessionScope.isAdmin && param.boardType eq '4'}">
-									<button type="button"
-										class="btn btn-outline-primary btn-fw add-btn">후원 글
-										등록하기</button>
-								</c:if>
-							</div>
-						</div>
 
 					</div>
 				</div>
@@ -327,8 +277,5 @@
 		</div>
 	</div>
 
-	<!-- FOOTER -->
-	<jsp:include page="/footer.jsp" />
-	<!-- FOOTER -->
 </body>
 </html>
