@@ -24,6 +24,7 @@
 		<result property="frstQuest"  column="frst_quest"  jdbcType="INTEGER"/>
 		<result property="scndQuest"  column="scnd_quest"  jdbcType="INTEGER"/>
 		<result property="thrdQuest"  column="thrd_quest"  jdbcType="INTEGER"/>
+		<result property="groupImg"   column="group_img"   jdbcType="VARCHAR"/>
 	</resultMap>
   	
 	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
@@ -158,6 +159,9 @@
 		    </if>
 		    <if test="groupRslt != null and groupRslt != ''">
 		        group_rslt = #{groupRslt},
+		    </if>
+		     <if test="groupImg != null and groupImg != ''">
+		        group_img = #{groupImg},
 		    </if>
 		    
 		    group_no =  #{groupNo}

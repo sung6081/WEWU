@@ -86,7 +86,7 @@ margin:0;
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row">
-        <div class="col-lg-11 grid-margin stretch-card mx-auto">
+        <div class="col-lg-12 grid-margin stretch-card mx-auto">
           <div class="card">
             <div class="card-body">
               

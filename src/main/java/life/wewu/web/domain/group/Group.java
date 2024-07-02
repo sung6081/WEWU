@@ -37,4 +37,5 @@ public class Group {
 	private String frstQuest;	//모임가입 1번째 질문
 	private String scndQuest;	//모임가입 2번째 질문
 	private String thrdQuest;	//모임가입 3번째 질문
+	private String groupImg;	//모임사진
 }
