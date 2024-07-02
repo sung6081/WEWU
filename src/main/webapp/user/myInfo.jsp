@@ -8,7 +8,30 @@
     <title>My Info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
+    <header>
+        <jsp:include page="/header.jsp"/>
+    </header>
+    
     <style>
+    	 .jumbotron {
+            position: relative;
+            background-color: white; /* 배경 색깔 흰색으로 변경 */
+            padding: 10rem 0rem 11rem 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: -24rem;
+        }
+        
+        .jumbotron img {
+            width: 100%;
+        }
+        
+        .jumbotron-container {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
         .info-label {
             font-weight: bold;
         }
@@ -27,8 +50,8 @@
             width: 50%;
         }
         .btn-block {
-            width: 48%;
             display: inline-block;
+            color: white;
         }
         .member-info-title {
             color: #3b5cff;
@@ -50,10 +73,12 @@
     <script src="../../vendors/js/vendor.bundle.base.js"></script>
 </head>
 <body>
-
-    <!-- HEADER -->
-    <jsp:include page="/header.jsp"/>
-    <!-- HEADER -->
+	
+	<div class="jumbotron">
+        <div class="container">
+            <img src="/images/wewujumbo.jpg" alt="Background Image">
+        </div>
+    </div>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="container-scroller">

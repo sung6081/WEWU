@@ -4,6 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <title>loginView</title>
+    <header>
+        <jsp:include page="/header.jsp"/>
+    </header>
+    <style>
+        .jumbotron {
+            position: relative;
+            background-color: white; /* 배경 색깔 흰색으로 변경 */
+            padding: 10rem 0rem 11rem 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: -24rem;
+        }
+        
+        .jumbotron img {
+            width: 100%;
+        }
+        
+        .jumbotron-container {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+        
+        .welcome-message {
+            width: 100%;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.85em;
+            font-family: 'Baloo Bhai 2', cursive;
+            font-weight: bold;
+        }
+        
+        .green {
+            color: #049f04;
+        }
+        
+        .yellow {
+            color: #ffd120;
+        }
+        
+        .font-weight-light {
+            width: 100%;
+            margin-bottom: 20px;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 1.7rem;
+            text-align: center;
+            font-weight: 900;
+            color: #1e35e5;
+        }
+        
+        .auth-form-light {
+            padding: 60px 50px;
+        }
+        
+        .form-control-lg {
+            height: calc(2.875rem + 2px);
+            font-size: 1rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .text-primary {
+            font-size: 1.25rem;
+        }
+        
+        .link-group {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .link-group a {
+            margin: 0 10px;
+            font-size: 1rem;
+            color: black;
+            text-decoration: none;
+        }
+        
+        .link-group a:hover {
+            text-decoration: underline;
+        }
+        
+        #captcha-section {
+            display: none;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $(function() {
@@ -134,68 +224,25 @@
             });
         });
     </script>
-    <style>
-        .welcome-message {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        .auth-form-light {
-            padding: 60px 50px;
-        }
-
-        .form-control-lg {
-            height: calc(2.875rem + 2px);
-            padding: 1.5rem 1rem;
-            font-size: 1.25rem;
-        }
-
-        .btn-lg {
-            padding: 0.75rem 1.5rem;
-            font-size: 1.25rem;
-        }
-
-        .font-weight-light {
-            font-size: 1.5rem;
-            text-align: center;
-        }
-
-        .text-primary {
-            font-size: 1.25rem;
-        }
-
-        .link-group {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .link-group a {
-            margin: 0 10px;
-            font-size: 1rem;
-            color: black;
-            text-decoration: none;
-        }
-
-        .link-group a:hover {
-            text-decoration: underline;
-        }
-
-        #captcha-section {
-            display: none;
-        }
-    </style>
 </head>
 <body>
-    <jsp:include page="/header.jsp"/>
+    <div class="jumbotron">
+        <div class="container">
+            <img src="/images/wewujumbo.jpg" alt="Background Image">
+        </div>
+    </div>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row w-100 mx-0">
                 <div class="col-lg-4 mx-auto">
                     <div class="auth-form-light text-left py-5 px-5 px-sm-6">
                         <div class="brand-logo"></div>
-                        <h3 class="welcome-message">WeWu에 오신걸 환영합니다.</h3>
+                        <h3 class="welcome-message">
+                            <span class="green">W</span>
+                            <span class="yellow">e</span>
+                            <span class="green">W</span>
+                            <span class="yellow">u</span>
+                        </h3>
                         <h6 class="font-weight-light">로그인을 진행해주세요.</h6>
                         <form class="pt-3">
                             <div class="form-group">
