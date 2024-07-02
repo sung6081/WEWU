@@ -107,7 +107,7 @@
 			                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
 							
 							  </form>
-			                <button onclick="javascript:addApplGroup();"  class="btn btn-primary mr-2">신청</button>
+			                <button onclick="javascript:addApplGroup();"  class="btn btn-success mr-2">신청</button>
 			    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 			                </div>
 			              </div>

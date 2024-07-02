@@ -112,7 +112,7 @@
 		                    </div>
 						</c:if>
 	                  </form>
-	                <button onclick="javascript:addApplJoin();"  class="btn btn-primary mr-2">신청</button>
+	                <button onclick="javascript:addApplJoin();"  class="btn btn-success mr-2">신청</button>
 	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 	                </div>
 	              </div>

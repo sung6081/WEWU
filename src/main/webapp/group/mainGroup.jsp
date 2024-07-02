@@ -273,13 +273,20 @@
                         	if(data.length != 0){
                         		for (var i = 0; i < data.length; i++) {
                         			if(targetElementId == "getGroupList"){
-		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">" +
-			    					            "  <td>"+ data[i].groupName +"</td>" +
-			    					            "  <td>#"+ data[i].groupHash +"</td>" +
-			    					            "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>" +
-			    					            "  <td>"+ data[i].groupPers +"</td>" +
-			    					            "  <td>"+ data[i].openDate +"</td>" +
-			    					            "</tr>";
+		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">";
+		                        		if(data[i].groupImg != null)
+		                        		{
+		                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+		                        		}else
+		                        		{
+		                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+		                        		}
+		                        		str +=  "  <td>"+ data[i].groupName +"</td>";
+		                        		str +=  "  <td>#"+ data[i].groupHash +"</td>";
+		                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
+		                        		str +=  "  <td>"+ data[i].groupPers +"</td>";
+		                        		str +=  "  <td>"+ data[i].openDate +"</td>";
+		                        		str +=  "</tr>";
 		                        	}else
 		                        	if(targetElementId == "getGroupRankingList"){
 		                        		str +=  "<tr class=groupNo id=" + data[i].groupNo + ">";
@@ -298,6 +305,13 @@
 		                        				{
 		                        					str +=  "  <td>"+(i+1)+"</td>";
 		                        				}
+		                        				if(data[i].groupImg != null)
+				                        		{
+				                        			str +=  "  <td><img src=/group/upload/"+ data[i].groupImg +"/></td>";	
+				                        		}else
+				                        		{
+				                        			str +=  "  <td><img src=/group/img/team.png /></td>";	
+				                        		}
 		                        				str +=  "  <td>"+ data[i].groupName +"</td>";
 		                        				str +=  "  <td>"+ data[i].groupHash +"</td>";
 		                        				str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
@@ -631,6 +645,7 @@
 										<table class="table table-striped todo-list todo-list-custom table-hover">
 											<thead>
 												<tr>
+													<th></th>
 													<th>모임명</th>
 													<th>모임태그</th>
 													<th>모임등급</th>
@@ -708,6 +723,7 @@
 											<thead>
 												<tr>
 													<th>순위</th>
+													<th></th>
 													<th>모임명</th>
 													<th>모임태그</th>
 													<th>모임등급</th>
