@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.aspectj.apache.bcel.classfile.Module.Require;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
@@ -29,9 +32,11 @@ import life.wewu.web.common.Search;
 import life.wewu.web.domain.item.Item;
 import life.wewu.web.domain.item.ItemPurchase;
 import life.wewu.web.domain.item.ShoppingCart;
+import life.wewu.web.domain.user.User;
 import life.wewu.web.service.item.ItemPurchaseService;
 import life.wewu.web.service.item.ItemService;
 import life.wewu.web.service.item.ShoppingCartService;
+import life.wewu.web.service.user.UserService;
 
 @RestController
 @RequestMapping("/app/item/*")
@@ -49,6 +54,10 @@ public class ItemRestController {
 	@Autowired
 	@Qualifier("shoppingCartServiceImpl")
 	private ShoppingCartService shoppingCartService;
+	
+	@Autowired //처음 spring boot 올라갈 때 autowired 되어있는 애들 올라가면서 생성
+    @Qualifier("userServiceImpl") //자동 생성 시 사용. 구현체인 itemPurchaseServiceImpl을 사용. 
+    private UserService userService; //itemService에 itemPurchaseServiceImpl가 담김.
 	
 	public ItemRestController()
 	{
@@ -79,13 +88,14 @@ public class ItemRestController {
 	}
 	
 	@RequestMapping(value="updatePurchase")
-	public String updatePurchase(@RequestBody Map<String, Object> rslt) throws Exception 
+	public String updatePurchase(@RequestBody Map<String, Object> rslt, HttpSession session , @SessionAttribute("user")User user) throws Exception 
 	{
 		System.out.println(":: /app/item/updatePurchase ::");
 		// Business logic 수행
 		int itemPurchaseNo = Integer.parseInt((String)rslt.get("itemPurchaseNo"));
 		
 		ItemPurchase itemPurchase = itemPurchaseService.getItemPurchaseHistory(itemPurchaseNo);
+		System.out.println(itemPurchase);
         Item item = itemService.getItem(itemPurchase.getItemNo());
         String flag = "";
         if(item.getItemCategory().equals("Y") && itemPurchase.getRefundFlag().equals("N"))
@@ -99,13 +109,17 @@ public class ItemRestController {
 	        				.itemPurchaseNo(itemPurchase.getItemPurchaseNo())
 	                        .refundFlag("Y")
 	                        .refundPoint(item.getItemPrice())
-	                        .beforeRefundpoint(90)
-	                        .afterRefundpoint(90+item.getItemPrice())
-	                        .currentPoint(90 + item.getItemPrice())
+	                        .beforeRefundpoint(user.getCurrentPoint())
+	                        .afterRefundpoint(user.getCurrentPoint()+item.getItemPrice())
+	                        .currentPoint(user.getCurrentPoint() + item.getItemPrice())
 	                        .refundAskdate(Date.valueOf("2024-04-02"))
 	                        .refundCompdate(Date.valueOf("2024-04-02"))
 	                        .build();
         		itemPurchaseService.updatePurchase(afterItemPurchase);
+        		user.setCurrentPoint(user.getCurrentPoint()+item.getItemPrice());
+        		session.setAttribute("user", user);
+        		userService.updateUserPoint(user.getUserId(),user.getCurrentPoint()+item.getItemPrice());
+        		
         		flag="Y";
         	}else
         	{

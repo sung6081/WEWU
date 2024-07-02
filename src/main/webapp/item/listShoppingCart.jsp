@@ -63,16 +63,13 @@
 		function addPurchase(itemNo){
 			var itemPrice = $("."+itemNo).find("td").eq(3).text().trim();
 			if ("${user.currentPoint}" > itemPrice) { 
-		        alert("구매 완료되었습니다.");
 		      }else
 		      {
 	    		alert("포인트가 부족해 구매에 실패했습니다.");
 	        	return;
 		      }
 			
-			var form = document.getElementById("forms-sample")
-			form.action="/item/addPurchase";
-			form.submit();
+			location.href="/item/addPurchase?itemNo="+itemNo;
 		}
 		
 		
@@ -133,7 +130,7 @@
 		                                        </tbody>
 		                                    </table>
 		                                </div>
-		                                 <div class="text-right mt-4">
+		                               <div class="text-right mt-4">
 		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">삭제하기</button>
 		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">구매하기</button>
 		                     
@@ -144,7 +141,7 @@
 		               </div>
 		           </div>
 		       </div>
-		   </form>  	
+		   	 	
 	
 	
 	

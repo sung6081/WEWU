@@ -149,6 +149,7 @@
     INNER JOIN item i ON ip.item_no = i.item_no 
     <where>
         buyer_nickname = #{buyerNickname}
+        AND i.item_category='Y'
         <if test='search.searchCondition == "itemName"'>
         	AND i.item_name LIKE CONCAT('%', #{search.searchKeyword}, '%')
         </if>
