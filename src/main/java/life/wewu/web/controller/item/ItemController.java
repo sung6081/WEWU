@@ -310,7 +310,8 @@ public class ItemController {
 		 map.put("search", search);
 	     map.put("buyerNickname", nickname);
 		 List<ItemPurchase> list = itemPurchaseService.getItemPurchaseHistoryList(map);
-		
+		System.out.println(list);
+		System.out.println(map);
 		model.addAttribute("list", list);
 		
 		return "forward:/item/listItemPurchaseHistory.jsp"; 

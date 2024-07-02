@@ -72,11 +72,11 @@
 					                    </div>
 					                    <div class="form-group">
 					                      <label for="exampleInputitemCategory">아이템 카테고리</label>
-					                      <input type="text" name="itemCategory" class="form-control" id="itemCategory">
+					                      <input type="text" name="itemCategory" class="form-control" id="itemCategory" placeholder="식물아이템: Y, 장식아이템: N">
 					                    </div>
 					                    <div class="form-group">
 					                      <label for="exampleSelectGender">아이템 효과</label>
-					                      <input type="text" name="itemEffect" class="form-control" id="itemEffect">
+					                      <input type="text" name="itemEffect" class="form-control" id="itemEffect" placeholder="식물아이템: 횟수, 장식아이템: 설명">
 					                    </div> 
 					                    <div class="form-group">
 					                      <label>아이템 이미지</label>
@@ -84,7 +84,7 @@
 					                      <div class="input-group col-xs-12">
 					                        <input type="text" class="form-control file-upload-info" disabled placeholder="이미지 파일 첨부">
 					                        <span class="input-group-append">
-					                          <button class="file-upload-browse btn btn-primary" type="button">파일 업로드</button>
+					                          <button class="file-upload-browse btn btn-success" type="button">파일 업로드</button>
 					                        </span>
 					                      </div>
 					                    </div>
@@ -98,7 +98,6 @@
 					                    	});
 					                    
 					                    </script>
-					                  
 									
 								
 								<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
@@ -111,7 +110,7 @@
 													
 													</td>
 													<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-													<button type="button" class="btn btn-primary">등록</button>
+													<button type="button" class="btn btn-success">등록</button>
 													</td>
 													<td width="17" height="23">
 													
@@ -120,7 +119,7 @@
 													<td width="17" height="23">
 													</td>
 													<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-													<button type="button" class="btn btn-primary">목록</button>
+													<button type="button" class="btn btn-success">목록</button>
 													</td>
 													<td width="14" height="23">
 													
