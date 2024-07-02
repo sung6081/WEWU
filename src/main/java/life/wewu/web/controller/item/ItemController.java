@@ -228,7 +228,7 @@ public class ItemController {
 	
 		System.out.println("/itemPurchase/addPurchase ::POST");
 		Item item = itemService.getItem(itemPurchase.getItemNo()); //itemService의 itemNo와 같은 걸 itemPurchaseService에서 가져오도록. 
-		int currentPoint = 3000 - (item.getItemPrice() * itemPurchase.getItemCnt()); //지금은 session 안 해 놔서 일단 3000으로 설정해 놓은 것. 
+		int currentPoint = ((itemPurchase.getCurrentPoint()) - (item.getItemPrice() * itemPurchase.getItemCnt())); //지금은 session 안 해 놔서 일단 3000으로 설정해 놓은 것. 
 		itemPurchase.setCurrentPoint(currentPoint);
 		itemPurchaseService.addPurchase(itemPurchase);
 		
