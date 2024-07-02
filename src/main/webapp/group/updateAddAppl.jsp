@@ -7,6 +7,14 @@
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
+		<style>
+			.sideIcon
+			{
+				width:20px;
+				height:20px;
+				margin:0 10px 0 0;
+			}
+		</style>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script>
@@ -64,80 +72,88 @@
 		
 		<div class="main-panel">
         	<div class="content-wrapper">
-	        	<div class="col-md-12 grid-margin stretch-card">
-	              <div class="card">
-	                <div class="card-body">
-	                  <h1 class="card-title">모임개설신청</h1>
-	                  <form class="forms-sample" id="updateApplGroup">
-	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
-						<input type="hidden" name="groupPers" id="groupPers" value="${group.groupPers}">
-						<input type="hidden" name="groupLevel" id="groupLevel" value="${group.groupLevel}">
-	                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${group.leaderNick }">
-	                    <div class="form-group">
-	                      <label>모임명</label>
-	                      <input type="text" class="form-control" name="groupName" value="${group.groupName}" placeholder="모임명">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임소개</label>
-	                      <input type="text" class="form-control" name="groupIntro" value="${group.groupIntro}" placeholder="모임소개">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임태그</label>
-	                      <input type="text" class="form-control" name="groupHash" value="${group.groupHash}" placeholder="모임태그">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임주소</label>
-	                      <input type="text" class="form-control" name="groupAddr" value="${group.groupAddr}" placeholder="모임주소">
-	                    </div>
-	                    <div class="form-group">
-	                      <label>모임계획</label>
-	                      <input type="text" class="form-control" name="groupPlan" value="${group.groupPlan}" placeholder="모임계획">
-	                    </div>
-	                    <!-- 관리자만 -->
-	                    <div class="form-group">
-	                      <label>개설여부</label>
-	                      <c:if test="${isAdmin}">
-	                      	<div class="form-check">
-			                    <label class="form-check-label text-muted">
-			                      <input type="radio" class="form-check-input" name="groupRslt" value="E"
-			                      ${group.groupRslt == 'E' ? 'checked' : ''}>
-			                      개설대기
-			                    </label>
-			                  </div>
-			                  <div class="form-check">
-			                    <label class="form-check-label text-muted">
-			                      <input type="radio" class="form-check-input" name="groupRslt" value="T"
-			                      ${group.groupRslt == 'T' ? 'checked' : ''}>
-			                      개설완료
-			                    </label>
-			                  </div>
-			                  <div class="form-check">
-			                    <label class="form-check-label text-muted">
-			                      <input type="radio" class="form-check-input" name="groupRslt" value="F"
-			                      ${group.groupRslt == 'F' ? 'checked' : ''}>
-			                      개설누락
-			                    </label>
+	        	<div class="col-12">
+        			<div class="row">
+	        			<div class="col-md-2 grid-margin stretch-card">
+						</div>
+			        	<div class="col-md-8 grid-margin stretch-card">
+			              <div class="card">
+			                <div class="card-body">
+			                  <h1 class="card-title">모임개설신청</h1>
+			                  <form class="forms-sample" id="updateApplGroup">
+			                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
+								<input type="hidden" name="groupPers" id="groupPers" value="${group.groupPers}">
+								<input type="hidden" name="groupLevel" id="groupLevel" value="${group.groupLevel}">
+			                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${group.leaderNick }">
+			                    <div class="form-group">
+			                      <label>모임명</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupName" value="${group.groupName}" placeholder="모임명">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임소개</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupIntro" value="${group.groupIntro}" placeholder="모임소개">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임태그</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupHash" value="${group.groupHash}" placeholder="모임태그">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임주소</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupAddr" value="${group.groupAddr}" placeholder="모임주소">
+			                    </div>
+			                    <div class="form-group">
+			                      <label>모임계획</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
+			                      <input type="text" class="form-control" name="groupPlan" value="${group.groupPlan}" placeholder="모임계획">
+			                    </div>
+			                    <!-- 관리자만 -->
+			                    <div class="form-group">
+			                      <label>개설여부</label>
+			                      <c:if test="${isAdmin}">
+			                      	<div class="form-check">
+					                    <label class="form-check-label text-muted">
+					                      <input type="radio" class="form-check-input" name="groupRslt" value="E"
+					                      ${group.groupRslt == 'E' ? 'checked' : ''}>
+					                      개설대기
+					                    </label>
+					                  </div>
+					                  <div class="form-check">
+					                    <label class="form-check-label text-muted">
+					                      <input type="radio" class="form-check-input" name="groupRslt" value="T"
+					                      ${group.groupRslt == 'T' ? 'checked' : ''}>
+					                      개설완료
+					                    </label>
+					                  </div>
+					                  <div class="form-check">
+					                    <label class="form-check-label text-muted">
+					                      <input type="radio" class="form-check-input" name="groupRslt" value="F"
+					                      ${group.groupRslt == 'F' ? 'checked' : ''}>
+					                      개설누락
+					                    </label>
+					                </div>
+					              </c:if>
+					              <c:if test="${!isAdmin}">
+					              <h4>
+					              	<c:if test="${group.groupRslt == 'E'}"><b style="color:#7DA0FA;">개설대기</b></c:if>
+					              	<c:if test="${group.groupRslt == 'T'}"><b style="color:#a8d9a8;">개설완료</b></c:if>
+					              	<c:if test="${group.groupRslt == 'F'}"><b style="color:#ffcbcb;">개설누락</b></c:if>
+					              </h4>
+					              </c:if>
+				              </div>
+			                   
+			                      
+			                    <!-- 관리자만 -->
+			                  </form>
+			                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
+							
+							  </form>
+			                <button onclick="javascript:updateApplGroup();"  class="btn btn-primary mr-2">수정하기</button>
+			    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
 			                </div>
-			              </c:if>
-			              <c:if test="${!isAdmin}">
-			              <h4>
-			              	<c:if test="${group.groupRslt == 'E'}"><b style="color:#7DA0FA;">개설대기</b></c:if>
-			              	<c:if test="${group.groupRslt == 'T'}"><b style="color:#a8d9a8;">개설완료</b></c:if>
-			              	<c:if test="${group.groupRslt == 'F'}"><b style="color:#ffcbcb;">개설누락</b></c:if>
-			              </h4>
-			              </c:if>
-		              </div>
-	                   
-	                      
-	                    <!-- 관리자만 -->
-	                  </form>
-	                  <form id="getAddAppl" method="post" action="/group/getAddAppl">
-					
-					  </form>
-	                <button onclick="javascript:updateApplGroup();"  class="btn btn-primary mr-2">수정하기</button>
-	    			<button onclick="javascript:history.go(-1);" class="btn btn-light">취소</button>
-	                </div>
-	              </div>
+			              </div>
+			              <div class="col-md-2 grid-margin stretch-card">
+						  </div>
+						</div>
+					</div>
 	            </div>
         	</div>
         </div>

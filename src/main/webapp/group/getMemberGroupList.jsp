@@ -29,22 +29,22 @@
 			$(function() 
 			{
 				getMemberGroupList("");
-				$(".btn-primary").text("전체");
+				$(".btn-success").text("전체");
 				
 				$(".dropdown-item").on("click",function(){
 					if($(this).text() == "전체")
 					{
-						$(".btn-primary").text("전체");
+						$(".btn-success").text("전체");
 						getMemberGroupList("");
 					}else
 					if($(this).text() == "가입인원")
 					{
-						$(".btn-primary").text("가입인원");
+						$(".btn-success").text("가입인원");
 						getMemberGroupList("T");
 					}else
 					if($(this).text() == "신청인원")
 					{
-						$(".btn-primary").text("신청인원");
+						$(".btn-success").text("신청인원");
 						getMemberGroupList("E");
 					}
 				})
@@ -167,7 +167,7 @@
 	                <div class="card-body">
 	                  <h4 class="card-title"><img class="sideIcon" src="/group/img/memberList.png">모임원 목록</h4>
 	                    <div class="dropdown" style="float:right;">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" 
                         		data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         		
                         </button>
