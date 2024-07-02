@@ -76,9 +76,14 @@ public class PlantServiceImpl implements PlantService {
 	@Override
 	public void addQuest(Quest quest) throws Exception {
 		questDao.addQuest(quest);
-        // 새로 추가된 퀘스트 상태를 진행 중(Y)으로 설정
+        int questNo = quest.getQuestNo();
+        if (questNo == 0) {
+            throw new Exception("Generated questNo is null or 0");
+        }
+        System.out.println("Generated questNo: " + questNo);
+
         Map<String, Object> questStateMap = new HashMap<>();
-        questStateMap.put("questNo", quest.getQuestNo());
+        questStateMap.put("quest_no", questNo);
         User user = (User) session.getAttribute("user");
         questStateMap.put("nickname", user.getNickname());
         questStateMap.put("questState", "Y");
