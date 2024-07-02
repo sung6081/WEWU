@@ -33,7 +33,7 @@
 	      width: 100%;
 	    }
         .info-label {
-            font-weight: bold;
+            font-weight:bold;
         }
         .info-value {
             border: 1px solid #ccc;
