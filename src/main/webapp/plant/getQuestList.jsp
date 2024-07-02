@@ -150,28 +150,7 @@ function updateQuestList() {
     <div class="tab-content" id="setting-content">
       <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
         <div id="questResult">
-          <c:forEach var="questState" items="${list}">
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <input type="hidden" class="questStateNo" name="questStateNo" value="${questState.questStateNo}"> <!-- 숨김 필드 추가 -->
-                <input type="hidden" class="questNo" name="questNo" value="${questState.quest.questNo}"> <!-- 숨김 필드 추가 -->
-                <i class="ti-control-record text-primary mr-2"></i>
-                <c:choose>
-                  <c:when test="${questState.questState == 'N'}">
-                    <del>식물 경험치 +${questState.quest.questReward}</del>
-                    <del><p class="mb-0 font-weight-thin text-gray questContents">${questState.quest.questContents}</p></del>
-                  </c:when>
-                  <c:otherwise>
-                    <span>식물 경험치 +${questState.quest.questReward}</span>
-                    <p class="mb-0 font-weight-thin text-gray questContents">${questState.quest.questContents}</p>
-                    <div class="quest-item">
-                      <button type="button" class="btn-complete btn-primary btn-sm"> 완료 </button>
-                    </div>
-                  </c:otherwise>
-                </c:choose>
-              </div>
-            </div>
-          </c:forEach>
+          <!---->
         </div>
       </div>
     </div>
