@@ -151,10 +151,21 @@
                                                 <input type="text" class="form-control form-control-lg" id="getAddr" name="getAddr" value="${viewedUser.getAddr}" required>
                                             </div>
                                         </div>
-                                        <div class="form-group text-center mt-4">
-                                            <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn" style="background-color:#103ff2;">정보 수정</button>
-                                            <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="/user/listUser" role="button">취소</a>
-                                        </div>
+                                        <c:choose>
+										    <c:when test="${sessionScope.isAdmin}">
+										        <div class="form-group text-center mt-4">
+										            <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn" style="background-color:#103ff2;">정보 수정</button>
+										            <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="/user/listUser" role="button">취소</a>
+										        </div>
+										    </c:when>
+										    <c:otherwise>
+										        <div class="form-group text-center user">
+								                    <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn" style="background-color:#103ff2;">정보 수정</button>
+								                    <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="/user/myInfo" role="button">취소</a>
+										        </div>
+										    </c:otherwise>
+										</c:choose>
+
                                         <div class="form-group text-center mt-4">
                                             <button type="button" class="btn btn-danger btn-lg font-weight-medium auth-form-btn" onclick="openDeleteModal()">회원 탈퇴</button>
                                         </div>
