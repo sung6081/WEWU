@@ -49,7 +49,7 @@ margin:0;
                     <div class="card-body">
                         <h4 class="card-title">List Quest</h4>
                         <p class="card-description">
-                            Add class <code>.table-striped</code>
+                            Manage Quest <code>.퀘스트 수정 & 관리</code>
                         </p>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -65,7 +65,7 @@ margin:0;
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="quest" items="${map.list}">
+                                <c:forEach var="quest" items="${list}">
                                     <tr>
                                         <td>${quest.questNo}</td>
                                         <td>${quest.regDate}</td>
