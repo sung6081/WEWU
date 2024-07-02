@@ -17,7 +17,13 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script>
-		
+			$(document).ready(function() {
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			})
 			function addApplGroup()
 			{
 		        if(!confirm("정말 개설신청 하시겠습니까?")){

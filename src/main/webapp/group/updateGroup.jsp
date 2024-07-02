@@ -11,6 +11,15 @@
 		<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 		
 		<script>
+			$(document).ready(function() {
+				
+				if("${user}" == "")
+				{
+					alert("모임은 WEWU 회원만 사용 가능합니다!");
+					location.href="/";
+				}
+			});
+			
 		 	Dropzone.options.myGreatDropzone = { // camelized version of the `id`
 		 			
 	        	paramName: "file", // The name that will be used to transfer the file

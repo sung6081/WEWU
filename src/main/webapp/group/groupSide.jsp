@@ -34,6 +34,13 @@
 	</style>
 	<script>
 		window.onload = function() {
+				
+			if("${user}" == "")
+			{
+				alert("모임은 WEWU 회원만 사용 가능합니다!");
+				location.href="/";
+			}
+			
 			// form 데이터 가져오기
 			var form = document.getElementById('getGroupBoardList');
 			var formData = new FormData(form);
