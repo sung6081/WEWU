@@ -19,22 +19,29 @@
 </script>
 <style>
 .jumbotron{
-margin: 0 !important; /* 기본 마진 제거 */
 background-color: #00A06C;
+margin-top:160px;
+margin-bottom:0;
 }
 .display-4 {
   color: #fff; /* 원하는 색상으로 변경 */
 }
+
+.main-panel{
+margin:0;
+}
 </style>
 </head>
 <body>
-	<jsp:include page="/plant/plantSide.jsp" />
-<div class="main-panel">
-  <div class="jumbotron">
+	
+<div class="jumbotron">
   <div class="container">
     <p class="display-4"><b>LIST QUEST</b></p>
   </div>
 </div>
+<jsp:include page="/plant/plantSide.jsp" />
+<div class="main-panel">
+  
     <div class="content-wrapper">
         <div class="row mt-5">
             <div class="col-lg-12 grid-margin stretch-card mx-auto">

@@ -8,6 +8,11 @@
     .sidebar {
         background-color: #ffffff; /* 원하는 배경색으로 변경 */
     }
+      .sidebar-offcanvas {
+
+    margin:0;
+  
+  }
 </style>
 </head>
 <body>
@@ -29,7 +34,7 @@
 		            </ul>
 		          </div>
 		        </li>
-		       <li class="nav-item">
+		        <li class="nav-item">
 		          <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
 		            <i class="icon-columns menu-icon"></i>
 		            <span class="menu-title">Quest Management</span>
