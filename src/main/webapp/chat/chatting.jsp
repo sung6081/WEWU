@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>WEWU 채팅방</title>
- <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
+ <%-- <!-- 필요한 메타 데이터 및 CSS/JS 링크 포함 -->
  <script src="https://code.jquery.com/jquery-latest.js"></script>
  <!-- plugins:js -->
  <script src="/vendors/js/vendor.bundle.base.js"></script>
@@ -45,7 +45,7 @@
  <link rel="shortcut icon" href="/images/favicon.ico" />
  <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
  <link rel="shortcut icon" href="/images/favicon.ico" />
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 <style>
 
 	body {
@@ -93,7 +93,7 @@
     }
     
     #messageInput {
-      width: 60%;
+      width: 50%;
       padding: 10px;
     }
     
@@ -226,6 +226,41 @@
         font-size: 48px; /* 원하는 크기로 설정 */
     }
     
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .modal-close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .modal-close:hover,
+    .modal-close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 </head>
@@ -235,17 +270,17 @@
 	
 		$(function () {
 			
-			var nick = ${param.nick};
-			var room = ${param.room};
+			var nick = '${user.nickname}';
+			//var room = '${param.room}';
 			var data = {};
 			data.nick = nick;
 			data.room = room;
 				
 			//console.log(data);
 				
-			var socket = io('https://www.wewu.life', { path: '/chatting/' });
+			socket = io('https://www.wewu.life', { path: '/chatting/' });
 			
-			socket.emit('join_room', data);
+			//socket.emit('join_room', data);
 			
 			$('#messageInput').focus();
 			
@@ -525,7 +560,7 @@
         		<i class="mdi mdi-close"></i>
         	</div> -->
 				<h3 class="center-text">
-					${param.room}
+					
 				</h3>
 				<div class="messages">
 				<div id="chatBox"></div>
@@ -538,7 +573,7 @@
 				        <!-- 이미지 업로드 버튼 -->
 				        <button type="button" class="btn btn-outline-success btn-icon-text img-btn">
 				            <i class="mdi mdi-file-image btn-icon-prepend"></i>
-				            이미지
+				            
 				        </button>
 				        <!-- 이미지 파일 입력 -->
 				        <input type="file" hidden="hidden" id="fileInput" accept=".jpg,.jpeg,.png,.gif">
@@ -547,7 +582,7 @@
 				        <!-- 영상 업로드 버튼 -->
 				        <button type="button" class="btn btn-outline-success btn-icon-text video-btn">
 				            <i class="mdi mdi-movie btn-icon-prepend"></i>
-				            영상
+				            
 				        </button>
 				        <!-- 영상 파일 입력 -->
 				        <input type="file" hidden="hidden" id="videoInput" accept=".mp4">
