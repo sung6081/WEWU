@@ -92,9 +92,55 @@
         
         #captcha-section {
             display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .spinner {
+            margin: 10px;
+            width: 40px;
+            height: 40px;
+            border: 5px solid lightgray;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .captcha-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .captcha-container img {
+            margin-right: 10px;
+            width: 300px;
+            height: 120px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #reload-captcha {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #3498db;
+        }
+
+        .captcha-input {
+            width: 300px;
+            margin-top: 10px;
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(function() {
             let captchaKey = '';
@@ -222,6 +268,11 @@
                     login();
                 }
             });
+
+            // 새로고침 이미지 클릭 이벤트 추가
+            $("#reload-captcha").on("click", function() {
+                loadCaptcha();
+            });
         });
     </script>
 </head>
@@ -251,10 +302,12 @@
                             <div class="form-group">
                                 <input type="password" class="form-control form-control-lg" name="userPwd" id="password" placeholder="패스워드">
                             </div>
-                            <div id="captcha-section" class="form-group">
-                                <img id="captcha-image" src="" alt="CAPTCHA Image">
-                                <button type="button" id="reload-captcha" class="btn btn-secondary">새로고침</button>
-                                <input type="text" class="form-control form-control-lg" name="captcha" id="captcha" placeholder="캡차 값">
+                            <div id="captcha-section" class="form-group centered">
+                                <div class="captcha-container">
+                                    <img id="captcha-image" src="" alt="CAPTCHA Image">
+                                    <i id="reload-captcha" class="fas fa-sync-alt"></i>
+                                </div>
+                                <input type="text" class="form-control form-control-lg captcha-input" name="captcha" id="captcha" placeholder="캡차 값">
                             </div>
                             <div class="mt-3">
                                 <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn login-btn" href="#">로 그 인</a>
