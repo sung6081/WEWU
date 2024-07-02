@@ -5,12 +5,12 @@
 		
 <mapper namespace = "life.wewu.web.service.plant.QuestDao">
 
-<resultMap id="questResultMap" type="life.wewu.web.domain.plant.Quest">
+<resultMap id="questResultMap" type="life.wewu.web.domain.plant.QuestState">
         <id property="questStateNo" column="quest_state_no" jdbcType="INTEGER"/>
         <result property="questNo" column="quest_no" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
         <result property="questState" column="quest_state" jdbcType="VARCHAR"/>
-        	<association property="quest" javaType="life.wewu.web.domain.plant.Quest" resultMap="questSelectMap"/>	
+        	<association property="quest" javaType="life.wewu.web.domain.plant.QuestState" resultMap="questSelectMap"/>	
         <!-- 추가적인 속성들... -->
     </resultMap>
 
