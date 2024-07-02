@@ -225,8 +225,12 @@ public class BoardController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		search.setSearchCondition("");
-		search.setSearchKeyword("");
+//		search.setSearchCondition("");
+//		String keyword = search.getSearchKeyword() != null ?search.getSearchKeyword() : "";
+//		search.setSearchKeyword(keyword);
+		if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
+		    search.setSearchKeyword("");
+		}
 		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -247,9 +251,9 @@ public class BoardController {
 		
 		List<Board> list = boardService.getBoardList(map);
 		
-		for(Board board : list) {
-			System.out.println("::: board : "+board);
-		}
+//		for(Board board : list) {
+//			System.out.println("::: board : "+board);
+//		}
 		
 		List<BoardFile> fileName = boardService.getBoardFile(map);
 		

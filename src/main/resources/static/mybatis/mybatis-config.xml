@@ -82,5 +82,7 @@
         <mapper resource="static/mybatis/InventoryMapper.xml"/>
         
         <mapper resource="static/mybatis/reportMapper.xml"/>
+        
+        <mapper resource="static/mybatis/QuestStateMapper.xml"/>
 	</mappers>
 </configuration>
