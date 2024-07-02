@@ -30,6 +30,18 @@
             width: 48%;
             display: inline-block;
         }
+        .member-info-title {
+            color: #3b5cff;
+            font-weight: bold;
+            text-align: center;
+                font-size: 30px;
+        }
+        .info-label{
+        	color: #187fff;
+       	 	font-weight: bold;
+           	text-align: center;
+            font-size: 30px;
+        }
     </style>
     
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
@@ -50,7 +62,7 @@
                         <div class="row w-100 mx-0">
                             <div class="col-lg-8 mx-auto">
                                 <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                                    <h4 class="mb-4">회원 정보</h4>
+									<h6 class="text-center mb-4 member-info-title">회원 정보</h6>
                                     <div class="pt-3 form-horizontal">
                                         <input type="hidden" name="userId" value="${viewedUser.userId}">
                                         <div class="form-group row">
