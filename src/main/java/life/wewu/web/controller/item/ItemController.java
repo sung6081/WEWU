@@ -40,6 +40,7 @@ import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.item.ItemService;	
 import life.wewu.web.service.item.ItemPurchaseService;	
 import life.wewu.web.service.item.ShoppingCartService;
+import life.wewu.web.service.user.UserService;
 
 //=> 아이템 Controller
 @Controller
@@ -59,6 +60,9 @@ public class ItemController {
    @Qualifier("shoppingCartServiceImpl") //자동 생성 시 사용. 구현체인 itemPurchaseServiceImpl을 사용. 
    private ShoppingCartService shoppingCartService; //itemService에 itemPurchaseServiceImpl가 담김. 
 
+   @Autowired //처음 spring boot 올라갈 때 autowired 되어있는 애들 올라가면서 생성
+   @Qualifier("userServiceImpl") //자동 생성 시 사용. 구현체인 itemPurchaseServiceImpl을 사용. 
+   private UserService userService; //itemService에 itemPurchaseServiceImpl가 담김. 
    
    @Autowired 
    @Qualifier("s3RepositoryImpl") 
@@ -224,11 +228,22 @@ public class ItemController {
  	
 	   
    @RequestMapping( value="addPurchase", method=RequestMethod.POST ) 
-    public String addPurchase(@ModelAttribute("itemPurchase") ItemPurchase itemPurchase ) throws Exception{
+    public String addPurchase(@ModelAttribute("itemPurchase") ItemPurchase itemPurchase ,@SessionAttribute("user")User user,HttpSession session) throws Exception{
 	
 		System.out.println("/itemPurchase/addPurchase ::POST");
 		Item item = itemService.getItem(itemPurchase.getItemNo()); //itemService의 itemNo와 같은 걸 itemPurchaseService에서 가져오도록. 
 		int currentPoint = ((itemPurchase.getCurrentPoint()) - (item.getItemPrice() * itemPurchase.getItemCnt())); //지금은 session 안 해 놔서 일단 3000으로 설정해 놓은 것. 
+		
+		//세션에 저장된 유저의 정보 중 현재 포인트를 계산한 포인트로 set
+		user.setCurrentPoint(currentPoint);
+		
+		//유저의 포인트를 계산한 포인트로 update 하는 userService 호출
+		userService.updateUserPoint(user.getUserId(), user.getCurrentPoint());
+		
+		//변경된 포인트로 set 된 user 도메인을 기존의 세션의 유저 정보에 덮어 씌움
+		session.setAttribute("user", user);	
+		
+		//구매정보 add
 		itemPurchase.setCurrentPoint(currentPoint);
 		itemPurchaseService.addPurchase(itemPurchase);
 		
@@ -295,7 +310,8 @@ public class ItemController {
 		 map.put("search", search);
 	     map.put("buyerNickname", nickname);
 		 List<ItemPurchase> list = itemPurchaseService.getItemPurchaseHistoryList(map);
-		
+		System.out.println(list);
+		System.out.println(map);
 		model.addAttribute("list", list);
 		
 		return "forward:/item/listItemPurchaseHistory.jsp"; 

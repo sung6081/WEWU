@@ -8,7 +8,30 @@
     <title>My Info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
+    <header>
+        <jsp:include page="/header.jsp"/>
+    </header>
+    
     <style>
+    	 .jumbotron {
+            position: relative;
+            background-color: white; /* 배경 색깔 흰색으로 변경 */
+            padding: 10rem 0rem 11rem 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: -24rem;
+        }
+        
+        .jumbotron img {
+            width: 100%;
+        }
+        
+        .jumbotron-container {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
         .info-label {
             font-weight: bold;
         }
@@ -27,8 +50,20 @@
             width: 50%;
         }
         .btn-block {
-            width: 48%;
             display: inline-block;
+            color: white;
+        }
+        .member-info-title {
+            color: #3b5cff;
+            font-weight: bold;
+            text-align: center;
+                font-size: 30px;
+        }
+        .info-label{
+        	color: #187fff;
+       	 	font-weight: bold;
+           	text-align: center;
+            font-size: 30px;
         }
     </style>
     
@@ -38,10 +73,12 @@
     <script src="../../vendors/js/vendor.bundle.base.js"></script>
 </head>
 <body>
-
-    <!-- HEADER -->
-    <jsp:include page="/header.jsp"/>
-    <!-- HEADER -->
+	
+	<div class="jumbotron">
+        <div class="container">
+            <img src="/images/wewujumbo.jpg" alt="Background Image">
+        </div>
+    </div>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="container-scroller">
@@ -50,7 +87,7 @@
                         <div class="row w-100 mx-0">
                             <div class="col-lg-8 mx-auto">
                                 <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                                    <h4 class="mb-4">회원 정보</h4>
+									<h6 class="text-center mb-4 member-info-title">회원 정보</h6>
                                     <div class="pt-3 form-horizontal">
                                         <input type="hidden" name="userId" value="${viewedUser.userId}">
                                         <div class="form-group row">
@@ -96,7 +133,7 @@
                                                     <input type="hidden" name="userId" value="${viewedUser.userId}">
                                                     <div class="form-group text-center">
                                                         <input type="submit" value="수정 페이지로 이동" class="btn btn-primary btn-block">
-                                                        <a class="btn btn-secondary btn-block" href="#" role="button">취소</a>
+                                                        <a class="btn btn-secondary btn-block" href="/user/listUser" role="button">취소</a>
                                                     </div>
                                                 </form>
                                             </c:when>
@@ -108,7 +145,7 @@
                                                         <input type="password" id="password" name="password" class="form-control password-input d-inline-block" required>
                                                         <div class="mt-3">
                                                             <input type="submit" value="수정 페이지로 이동" class="btn btn-primary btn-block">
-                                                            <a class="btn btn-secondary btn-block" href="/user/listUser" role="button">취소</a>
+                                                            <a class="btn btn-secondary btn-block" href="../index.jsp" role="button">취소</a>
                                                         </div>
                                                     </form>
                                                 </div>

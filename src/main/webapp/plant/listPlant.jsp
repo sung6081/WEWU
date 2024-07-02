@@ -74,6 +74,10 @@ margin:0;
       background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
     }
     
+    .td-pn {
+            width: 10px; /* 원하는 폭으로 설정 */
+        }
+    
 </style>
 </head>
 <body>
@@ -86,10 +90,13 @@ margin:0;
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row">
-        <div class="col-lg-12 grid-margin stretch-card mx-auto">
+        <div class="col-lg-11 grid-margin stretch-card mx-auto">
           <div class="card">
             <div class="card-body">
-              
+              <h4 class="card-title">List Plant</h4>
+                        <p class="card-description">
+                            Manage Plant <code>.식물 수정 & 관리</code>
+                        </p>
               <div class="table-container">
                 <table class="table table-striped">
                   <thead>
@@ -107,7 +114,7 @@ margin:0;
                   <tbody>
                     <c:forEach var="plant" items="${list}" varStatus="status">
                       <tr>
-                      <td>${plant.plantLevl.plantLevlNo}</td>
+                      <td class=td-pn>${plant.plantLevl.plantLevlNo}</td>
                         <td>${plant.plantName}</td>
                         <td>${plant.plantLevl.plantLevl}</td>
                         <td>${plant.plantLevl.plantMaxExp}</td>

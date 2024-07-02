@@ -34,5 +34,5 @@ public class GroupMember {
 	private String frstRepl;		//모임 1번째 답변
 	private String scndRepl;		//모임 2번째 답변
 	private String thrdRepl;		//모임 3번째 답변
-
+	private String gender;			//성별
 }

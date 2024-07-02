@@ -233,7 +233,7 @@ public class UserRestController {
     //아이디 닉네임 중복체크 검사
 	    @GetMapping("/checkId")
 	    public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam String userId) {
-	        if (!userId.matches("^[a-zA-Z가-힣0-9]{2,10}$")) {
+	        if (!userId.matches("^[a-zA-Z가-힣0-9]{2,30}$")) {
 	            Map<String, Boolean> response = new HashMap<>();
 	            response.put("available", false);
 	            return ResponseEntity.ok(response);
@@ -252,7 +252,7 @@ public class UserRestController {
 	    @GetMapping("/checkNickname")
 	    public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam String nickname) {
 	        Map<String, Boolean> response = new HashMap<>();
-	        if (!nickname.matches("^[a-zA-Z가-힣0-9]{2,10}$")) {
+	        if (!nickname.matches("^[a-zA-Z가-힣0-9]{2,20}$")) {
 	            response.put("available", false);
 	            return ResponseEntity.ok(response);
 	        }
@@ -287,7 +287,7 @@ public class UserRestController {
         
         @GetMapping("/validatePassword")
         public ResponseEntity<Map<String, Boolean>> validatePassword(@RequestParam String password) {
-            boolean isValid = password.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,16}$");
+            boolean isValid = password.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,30}$");
             Map<String, Boolean> response = new HashMap<>();
             response.put("isValid", isValid);
             return ResponseEntity.ok(response);

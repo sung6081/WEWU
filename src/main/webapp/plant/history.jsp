@@ -61,7 +61,7 @@ $(document).ready(function() {
                             "<td>" + myPlant.myPlantName + "</td>" +
                             "<td>" + myPlant.plantStartDate + " ~ " + myPlant.plantEndDate + "</td>" +
                             "<td>" + myPlant.myPlantExp + "</td>" +
-                            "<td class='levlImg' data-plant-levl-no='" + myPlant.plantLevlNo + "'>단계별 이미지</td>" +
+                            "<td class='levlImg' data-plant-levl-no='" + myPlant.plantLevl.plantLevlNo + "'>단계별 이미지</td>" +
                             "</tr>";
                             console.log("Appending row:", row);
                         plantList.append(row);

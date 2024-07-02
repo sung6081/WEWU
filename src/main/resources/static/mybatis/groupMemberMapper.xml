@@ -20,6 +20,7 @@
 		<result property="frstRepl"  	   column="frst_repl"  		jdbcType="VARCHAR"/>
 		<result property="scndRepl"   	   column="scnd_repl"   	jdbcType="VARCHAR"/>
 		<result property="thrdRepl"   	   column="thrd_repl"   	jdbcType="VARCHAR"/>
+		<result property="gender"   	   column="member_gender"   jdbcType="VARCHAR"/>
 	</resultMap>
   	
   	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->
@@ -39,7 +40,8 @@
   			thrd_quest, 
   			frst_repl,
   			scnd_repl, 
-  			thrd_repl
+  			thrd_repl,
+  			member_gender
   		)
   		VALUES
   		(
@@ -60,7 +62,8 @@
   			#{thrdQuest},
   			#{frstRepl},
   			#{scndRepl},
-  			#{thrdRepl}
+  			#{thrdRepl},
+  			#{gender}
   		)
   	</insert>
   	<!-- INSERT 매핑구문 (insert SQL 등록) :: insert element -->

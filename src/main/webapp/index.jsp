@@ -56,10 +56,6 @@
               delay: 3000, // 자동 재생 지연 시간 (밀리초)
             },
             loop: true,
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev'
-            }
           });
 
           rankingSwiper.update(); // Swiper 업데이트
@@ -350,18 +346,29 @@
            	</div>
           </c:if>
           <c:if test="${!empty user}">
-            <div class="col-md-4 grid-margin stretch-card">
-              <div class="container">
-                <div class="card-myPlant">
-                  <P>나의 식물</P>
-                  <img src="${myPlant.plantLevl.levlImg}" id="myPlantImg" style="display: block; margin: 0 auto;">
-                  <p>${myPlant.plantLevl.plantLevl} 단계</p>
-                  <p>" ${myPlant.myPlantName} "</p>
-                  <p>현재경험치: ${myPlant.myPlantExp}</p>
-                </div>
-              </div>
-            </div>
-          </c:if>
+            <c:choose>
+                <c:when test="${empty sessionScope.myPlant}">
+                    <div class="card-myPlant">
+                        <div class="centered-button">
+                            <a href="plant/randomPlantModal.jsp" class="btn btn-success">나만의 식물 뽑으러 가기!</a>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="container">
+                            <div class="card-myPlant">
+                                <p>나의 식물</p>
+                                <img src="${myPlant.plantLevl.levlImg}" id="myPlantImg" class="resized-image" style="display: block; margin: 0 auto;">
+                                <p>${myPlant.plantLevl.plantLevl} 단계</p>
+                                <p>" ${myPlant.myPlantName} "</p>
+                                <p>현재경험치: ${myPlant.myPlantExp}</p>
+                            </div>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
         </div>
       </div>
       <!-- swiper -->

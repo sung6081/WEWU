@@ -6,10 +6,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Update User Info</title>
+     <!-- HEADER -->
+    <jsp:include page="/header.jsp"/>
+    <!-- HEADER -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+    
     <style>
-        .info-label {
-            font-weight: bold;
+    
+	    .jumbotron {
+            position: relative;
+            background-color: white; /* 배경 색깔 흰색으로 변경 */
+            padding: 10rem 0rem 11rem 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: -24rem;
+        }
+        
+        .jumbotron img {
+            width: 100%;
+        }
+        
+        .jumbotron-container {
+            padding: 0;
+            margin: 0;
+            width: 100%;
         }
         .info-value {
             border: 1px solid #ccc;
@@ -38,13 +60,28 @@
         .text-success {
             color: #28a745 !important;
         }
+        .mb-4 {
+            margin-top: -8.5rem !important;
+            color: #3b5cff;
+            font-weight: bold;
+            text-align: center;
+                font-size: 30px;
+        }
+        .info-label{
+        	color: #2b8915;
+       	 	font-weight: bold;
+           	text-align: center;
+            font-size: 30px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <jsp:include page="/header.jsp"/>
-    <!-- HEADER -->
+   	  <div class="jumbotron">
+	    <div class="container">
+	      <img src="/images/wewujumbo.jpg" alt="Background Image">
+	    </div>
+	  </div>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="container-scroller">
@@ -59,13 +96,13 @@
                                         <div class="form-group row">
                                             <label for="userName" class="col-sm-3 col-form-label info-label">이름</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${viewedUser.userName}" required>
+                                                <input type="text" class="form-control form-control-lg" id="userName" name="userName" value="${viewedUser.userName}" required readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="nickname" class="col-sm-3 col-form-label info-label">닉네임</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${viewedUser.nickname}" required>
+                                                <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" value="${viewedUser.nickname}" required readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -79,8 +116,8 @@
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" value="${viewedUser.phoneNum}" required readonly>
-                                                    <div class="input-group-append">
-                                                        <button type="button" class="btn btn-primary" onclick="openPhoneNumberModal()">핸드폰 번호 변경</button>
+                                                    <div class="input-group-append" >
+                                                        <button type="button" class="btn btn-primary" onclick="openPhoneNumberModal()" style="background-color:#25ad44;">핸드폰 번호 변경</button>
                                                     </div>
                                                 </div>
                                                 <span id="verificationCodeMsg" class="help-block"></span>
@@ -101,9 +138,9 @@
                                             <label for="addr" class="col-sm-3 col-form-label info-label">주소</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${viewedUser.addr}" required>
+                                                    <input type="text" class="form-control form-control-lg" id="addr" name="addr" value="${viewedUser.addr}" required readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" class="btn btn-primary" id="find-postcode" onclick="execDaumPostcode()">주소 찾기</button>
+                                                        <button type="button" class="btn btn-primary" id="find-postcode" onclick="execDaumPostcode()" style="background-color:#6610f2;">주소 찾기</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -114,10 +151,21 @@
                                                 <input type="text" class="form-control form-control-lg" id="getAddr" name="getAddr" value="${viewedUser.getAddr}" required>
                                             </div>
                                         </div>
-                                        <div class="form-group text-center mt-4">
-                                            <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn">정보 수정</button>
-                                            <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="/user/listUser" role="button">취소</a>
-                                        </div>
+                                        <c:choose>
+										    <c:when test="${sessionScope.isAdmin}">
+										        <div class="form-group text-center mt-4">
+										            <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn" style="background-color:#103ff2;">정보 수정</button>
+										            <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="/user/listUser" role="button">취소</a>
+										        </div>
+										    </c:when>
+										    <c:otherwise>
+										        <div class="form-group text-center user">
+								                    <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn" style="background-color:#103ff2;">정보 수정</button>
+								                    <a class="btn btn-secondary btn-lg font-weight-medium auth-form-btn" href="/user/myInfo" role="button">취소</a>
+										        </div>
+										    </c:otherwise>
+										</c:choose>
+
                                         <div class="form-group text-center mt-4">
                                             <button type="button" class="btn btn-danger btn-lg font-weight-medium auth-form-btn" onclick="openDeleteModal()">회원 탈퇴</button>
                                         </div>

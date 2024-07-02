@@ -15,9 +15,9 @@
 	<!-- HEADER -->
 	
 	<script type="text/javascript">
-	
+		<%--	
 		function fncAddPurchase(){
-			if ("${user.currentPoint}" > ${item.itemPrice}) { <%--식물아이템은 구매가능. 장식아이템은 한 번 구매 기록이 있으면 구매 불가--%>
+			if ("${user.currentPoint}" > ${item.itemPrice}) 
 		        alert("구매 완료되었습니다.");
 		      }else
 		      {
@@ -35,6 +35,7 @@
 				location.href="/item/getShoppingCartList?nickname=${user.nickname}"
 			 });
 		});
+		--%>
 		
 	</script>
 	

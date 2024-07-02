@@ -208,7 +208,9 @@
               <div class="form-group hidden mt-3 plantNameContainer">
                 <label for="myPlantName">나의 식물 이름 :</label>
                 <input type="text" class="form-control myPlantName" name="myPlantName" value="">
+                <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-success btn-sm mt-2 mx-auto savePlant">저장</button>
+                </div>
               </div>
             </div>
           </form>
@@ -225,6 +227,9 @@
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card mx-auto">
               <div class="card">
+              <div style="text-align: center;">
+              <img src = "/images/getPlant.png" style="width: 750px; height: auto;">
+              </div>
                 <button type="button" class="btn btn-primary btn-open-modal">식물 뽑으러 가기!</button>
               </div>
             </div>

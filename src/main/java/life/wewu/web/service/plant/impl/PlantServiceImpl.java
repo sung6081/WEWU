@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import life.wewu.web.common.Search;
+import life.wewu.web.domain.group.GroupAcle;
 import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
@@ -28,6 +29,8 @@ import life.wewu.web.domain.plant.PlantRequest;
 import life.wewu.web.domain.plant.Quest;
 import life.wewu.web.domain.plant.QuestState;
 import life.wewu.web.domain.user.User;
+import life.wewu.web.service.group.GroupAcleDao;
+import life.wewu.web.service.group.GroupDao;
 import life.wewu.web.service.plant.InventoryDao;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
@@ -66,6 +69,11 @@ public class PlantServiceImpl implements PlantService {
 	private InventoryDao inventoryDao;
 	
 	@Autowired
+	@Qualifier("groupAcleDao")
+	private GroupAcleDao groupAcleDao;
+	
+	
+	@Autowired
     private HttpSession session;
 
 	public void setPlantDao(PlantDao plantDao) {
@@ -76,9 +84,14 @@ public class PlantServiceImpl implements PlantService {
 	@Override
 	public void addQuest(Quest quest) throws Exception {
 		questDao.addQuest(quest);
-        // 새로 추가된 퀘스트 상태를 진행 중(Y)으로 설정
+        int questNo = quest.getQuestNo();
+        if (questNo == 0) {
+            throw new Exception("Generated questNo is null or 0");
+        }
+        System.out.println("Generated questNo: " + questNo);
+
         Map<String, Object> questStateMap = new HashMap<>();
-        questStateMap.put("questNo", quest.getQuestNo());
+        questStateMap.put("quest_no", questNo);
         User user = (User) session.getAttribute("user");
         questStateMap.put("nickname", user.getNickname());
         questStateMap.put("questState", "Y");
@@ -114,10 +127,31 @@ public class PlantServiceImpl implements PlantService {
 			quest.setQuestState(questStateDao.getQuestState(map));
 		}
 		
-		
-		List<QuestState> list = questStateDao.getQuestListByUser(map);
-		System.out.println("getQuestListByUser : "+map);
+	
 		return quests;
+	}
+	
+
+	@Override
+	public void checkQuestCompletion(String nickname) throws Exception {
+		List<Quest> activeQuest = questDao.getActiveQuestsByUser(nickname);
+		
+		for(Quest quest : activeQuest) {
+			if(checkAcleCount(quest,nickname)) {
+				completeAndupdateReward(quest.getQuestState().getQuestStateNo());
+			}
+		}
+		
+	}
+
+	@Override
+	public boolean checkAcleCount(Quest quest, String nickname) throws Exception {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("nickname", nickname);
+		map.put("questRegDate", quest.getRegDate());
+		
+		int acleCount = groupAcleDao.getGroupAcleListCnt(map);
+		return acleCount >= quest.getQuestTargetCnt();
 	}
 
 	

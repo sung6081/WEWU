@@ -74,6 +74,16 @@ $(function() {
                                     </span>
                                 </div>
                             </div>
+                            
+                            <script type="text/javascript">
+			                    
+			                    	$('.file-upload-browse').on('click', function() {
+			                    		
+			                    		$('.file-upload-default').click();
+			                    		
+			                    	});
+			                    
+			                </script>
                             <%-- 
                             <button type="button" class="btn btn-success mr-2">수정</button>
                             <button type="button" class="btn btn-light">목록</button>

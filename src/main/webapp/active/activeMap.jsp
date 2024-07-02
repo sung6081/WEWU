@@ -21,6 +21,10 @@
         font-size: 50px; /* 아이콘 크기를 키웁니다 */
     }
     
+    .groupScrab i {
+    	font-size: 30px; /* 아이콘 크기를 키웁니다 */
+    }
+    
     .clickable-text {
         cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
     }
@@ -762,7 +766,7 @@
 							        $('.more-btn').attr('hidden', 'hidden');
 							        $('.card-title').html('채팅 서버 리스트');
 							        $('.btn-label').html('채팅/모임');
-							        $('.btn-label').css('color', '#FFC107');
+							        $('.btn-label').css('color', '#444');
 							    } else {
 							    	//alert('unchecked');
 							    	$('.groupTable').removeAttr('hidden');
@@ -1048,7 +1052,7 @@
 									$('.info-row').remove();
 									
 									if(data.length == 0) {
-										//alert('등록된 활동이 없습니다.');
+										alert('등록된 활동이 없습니다.');
 									}
 				
 							        // 새로운 정보 행 생성
@@ -1211,7 +1215,7 @@
 	    									$('.info-row').remove();
 	    									
 	    									if(data.length == 0) {
-	    										//alert('등록된 활동이 없습니다.');
+	    										alert('등록된 활동이 없습니다.');
 	    									}
 	    				
 	    							        // 새로운 정보 행 생성
@@ -1435,7 +1439,7 @@
 								$('.info-row').remove();
 								
 								if(data.length == 0) {
-									//alert('등록된 활동이 없습니다.');
+									alert('등록된 활동이 없습니다.');
 								}
 			
 						        // 새로운 정보 행 생성
