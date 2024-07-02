@@ -133,7 +133,7 @@
                                                     <input type="hidden" name="userId" value="${viewedUser.userId}">
                                                     <div class="form-group text-center">
                                                         <input type="submit" value="수정 페이지로 이동" class="btn btn-primary btn-block">
-                                                        <a class="btn btn-secondary btn-block" href="#" role="button">취소</a>
+                                                        <a class="btn btn-secondary btn-block" href="/user/listUser" role="button">취소</a>
                                                     </div>
                                                 </form>
                                             </c:when>
