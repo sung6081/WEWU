@@ -135,7 +135,7 @@
 	<update  id = "updateUserPoint" parameterType="map">
        UPDATE user
        SET
-          current_Point = #{point}
+          current_Point = #{points}
           where user_id = #{userId}
     </update>
     
