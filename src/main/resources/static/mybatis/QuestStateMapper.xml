@@ -20,8 +20,7 @@
 		<result property="questTargetCnt" 	column="quest_target_cnt" 	jdbcType="VARCHAR" />
 		<result property="regDate"			column="reg_date"			jdbcType="DATE"	/>
 		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
-		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />
-		
+		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />	
 	</resultMap>
 
 	<select  id="getQuestState"  parameterType="map" resultMap="questStateSelectMap">
@@ -30,7 +29,6 @@
 	  		nickname = #{nickname}
 	  		AND quest_no = #{questNo}
 	  	</where>
-	  	
 	</select>
 	
 	<select  id="getQuestListByUser"  parameterType="map" resultMap="questStateSelectMap">
@@ -39,7 +37,6 @@
 	  	WHERE qs.quest_no = q.quest_no
 	  	AND q.nickname = #{nickname}
 	  	order by quest_state DESC; 
-	  	
 	</select>
 	
 	<!-- 퀘스트 상태 업데이트 -->
