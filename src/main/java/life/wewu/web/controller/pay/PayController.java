@@ -116,8 +116,8 @@ public class PayController {
       return "forward:/pay/listPointCharge.jsp"; 
       }
    
-   	@RequestMapping( value="getPointCharge", method=RequestMethod.GET )
-   	public String getPointCharge(@RequestParam int payNo, Model model) throws Exception{ 
+      @RequestMapping( value="getPointCharge", method=RequestMethod.GET )
+      public String getPointCharge(@RequestParam int payNo, Model model) throws Exception{ 
 
       System.out.println(":: /pay/getPointCharge ::GET");
       
