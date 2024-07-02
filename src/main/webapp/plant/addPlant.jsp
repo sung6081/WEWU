@@ -140,6 +140,13 @@ background-position: center; /* 이미지가 중앙에 위치하도록 */
 .main-panel{
 margin:0;
 }
+
+ .b {
+  font-family: "Nanum Gothic Coding", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+     
 </style>
 </head>
 
