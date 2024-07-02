@@ -88,15 +88,7 @@
 		<!-- UPDATE MYPLANT NAME -->
 	<select id="myPlantListbyLevlNo" parameterType="map" resultMap="myPlantSelectMap">
 	SELECT
-	m.my_plant_no,
-	m.nickname,
-	m.plant_no,
-	m.my_plant_state,
-	m.my_plant_exp,
-	m.plant_start_date,
-	m.plant_end_date,
-	m.my_plant_name,
-	le.plant_levl_no
+	m.* , le.*
 	FROM
 	my_plant m , plant_levl le
 	WHERE
