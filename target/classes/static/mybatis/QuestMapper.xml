@@ -3,41 +3,102 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		
-<mapper namespace = "QuestMapper">
+<mapper namespace = "life.wewu.web.service.plant.QuestDao">
+
+<resultMap id="questResultMap" type="life.wewu.web.domain.plant.QuestState">
+        <id property="questStateNo" column="quest_state_no" jdbcType="INTEGER"/>
+        <result property="questNo" column="quest_no" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="questState" column="quest_state" jdbcType="VARCHAR"/>
+        	<association property="quest" javaType="life.wewu.web.domain.plant.QuestState" resultMap="questSelectMap"/>	
+        <!-- 추가적인 속성들... -->
+    </resultMap>
 
 	<resultMap id="questSelectMap" type="quest">
 		<result property="questNo" 			column="quest_no" 			jdbcType="INTEGER"/>
 		<result property="questContents"	column="quest_contents" 	jdbcType="VARCHAR" />
 		<result property="questTarget" 		column="quest_target" 		jdbcType="VARCHAR" />
-		<result property="questTargetCnt" 	column="quest_targer_cnt" 	jdbcType="VARCHAR" />
+		<result property="questTargetCnt" 	column="quest_target_cnt" 	jdbcType="VARCHAR" />
+		<result property="regDate"			column="reg_date"			jdbcType="DATE"	/>
 		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
+		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />
+		
 	</resultMap>
 
 	<!-- ADD QUEST -->
-	<insert id="addQuest" parameterType ="quest">
-	INSERT 
-	INTO quest(quest_no, quest_contents, quest_target, quest_target_cnt,quest_reward) 
-	VALUE (seq_quest_quest_no.nextval, #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}) 
-	</insert>
+	<insert id="addQuest" parameterType ="quest" useGeneratedKeys="true" keyProperty="questNo">
+	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date,nickname)
+        VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),#{nickname})
+    </insert>
+	
 
 	<!-- UPDATE QUTES -->
-	<update	id="updateQuest" parameterType="quest" >
-	   	UPDATE Quest
+	<update	id="updateQuest" parameterType ="map" >
+	   	UPDATE quest
 	   	<set>
-	   		quest_contents = #{questContents}
-			quest_target = #{questTarget}
-			quest_target_cnt = #{questTargetCnt}
-			quest_reward = #{questReward}
+	   		<if test = "questContents != null and questContents != ''"> 
+	   		quest_contents = #{questContents},
+	   		</if>
+	   		<if test = "questTargetCnt != null and questTargetCnt != ''"> 
+	   		quest_target_cnt = #{questTargetCnt},
+	   		</if> 
+	   		<if test = "questTarget != null and questTarget != ''"> 
+	   		quest_target = #{questTarget},
+	   		</if> 
+	   		<if test = "questReward != null and questReward != ''"> 
+	   		quest_reward = #{questReward},
+	   		</if> 
+	   		quest_no = #{questNo}
 	   	</set>
-	   	WHERE quest_no = #{questNo}
+	   	<where>
+	   	quest_no = #{questNo}
+	   	</where>
 	 </update>
-
-	<!-- GET QUESTLIST -->
-	<select  id="getQuestList"  parameterType="int" resultMap="questSelectMap">
-	  	SELECT * FROM quest	 
+	 
+	 <!-- GET QUESTLIST -->
+	<select  id="getQuest"  parameterType="int" resultMap="questSelectMap">
+	  	SELECT * FROM quest	
+	  	WHERE quest_no = #{questNo} 
 	</select>
-	 
-	 
+	
+	<!-- GET QUESTLIST -->
+	<select  id="getQuestList"  parameterType="map" resultMap="questSelectMap">
+	  	SELECT *
+	  	from quest 
+	</select>
+	
+	<update id = "completeQuest" parameterType ="int">
+		UPDATE quest
+		<set>
+			quest_state = 'N'
+		</set>
+		WHERE quest_no = #{questNo}
+	</update>
+	<!-- 보상까지받는 쿼리를 짜야함 -->
+	
+	<update id = "updateReward" parameterType ="quest">
+		UPDATE quest
+		<set>
+			quest_reward = #{questReward}
+		</set>
+		WHERE quest_no = #{questNo}
+	</update>
+	
+	
+		<select  id="getQuestByUser"  parameterType="String" resultMap="questSelectMap">
+	  	SELECT * FROM quest	
+	  	WHERE nickname = #{nickname}
+	  	LIMIT 1 
+	</select>
+	
+	<select  id="getActiveQuestByUser"  parameterType="String" resultMap="questSelectMap">
+	  	SELECT * FROM q.*,qs.*
+	  	FROM quest q, quest_state qs
+	  	WHERE q.quest_no = qs.quest_no
+	  	AND nickname = #{nickname}
+	  	AND qs.quest_state = 'Y' 
+	</select>
+
 	 
 
 </mapper>

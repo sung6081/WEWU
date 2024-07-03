@@ -16,6 +16,8 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>		
 	</properties>
 	<dependencies>
 		<dependency>
@@ -94,23 +96,67 @@
 		    <version>05Nov2002</version>
 		</dependency>
 		
+		<dependency>
+          <groupId>net.nurigo</groupId>
+          <artifactId>sdk</artifactId>
+          <version>4.3.0</version>
+       </dependency>
+      
+		
+		<dependency>
+          <groupId>com.amazonaws</groupId>
+          <artifactId>aws-java-sdk-s3</artifactId>
+          <version>1.11.238</version>
+      	</dependency>
+      
+      	<!-- json parsing -->
+      	<dependency>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+          <version>2.8.9</version>
+      	</dependency>
+      	
+      	<dependency>
+          <groupId>net.nurigo</groupId>
+          <artifactId>sdk</artifactId>
+          <version>4.3.0</version>
+    	</dependency>
+    	
+    	
+    	<dependency>
+        	<groupId>org.json</groupId>
+        	<artifactId>json</artifactId>
+        	<version>20210307</version>
+    	</dependency>
+			
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+        
+        <!-- Add maven-war-plugin configuration to set finalName to ROOT -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.2.3</version>
+            <configuration>
+                <warName>ROOT</warName>
+            </configuration>
+        </plugin>
+        
+    </plugins>
+</build>
 
 </project>
