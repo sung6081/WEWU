@@ -184,6 +184,8 @@
 	</script>
 	
 	<style>
+	
+	
      .btn-consistent {
             width: 100%; /* 버튼을 카드의 너비에 맞추어 일관되게 설정 */
             padding: 10px;
@@ -204,11 +206,54 @@
         	width: 130px
      
         }
+        
+       	.jumbotron{ /* 점보트론 설정 */
+		background-color: #00A06C;
+		margin-top:160px;
+		margin-bottom:0;
+		background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+		background-image: url('/images/itemshop.jpg'); /* 배경 이미지 경로 */
+		background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+		background-position: center; /* 이미지가 중앙에 위치하도록 */
+		}
+		
+		.main-panel
+		{
+			margin:0;
+			background-color : white;
+		}
+			
+		.display-4    /* 점보트론 안 글씨 */
+		{
+		  color: #FFFFFF; /* 원하는 색상으로 변경 */
+		  font-weight: bold;
+		} 
+		
+		.sidebar {
+		margin-top: 10px;
+		}
+		
+		.page-body-wrapper{ 
+		
+			height:450px;
+			padding-top:0px; /*사이드바와 화면 간 간격 조정*/
+			
+		}
+		
+		.content-wrapper{
+	
+		}
+	
     </style>
     
 </head>
 <body>
 	
+	<div class="jumbotron">
+	 <div class="container">
+	    <p class="display-4"><b>Item Shop</b></p>
+	  </div>
+	</div>
 	
 	
 	<div class="container-fluid page-body-wrapper">
@@ -223,7 +268,8 @@
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="col-lg-4 col-md-6">
 				                <div class="section-title">
-				                    <h4><b>아이템 상점</b></h4>
+				                <br>
+				                    <h4 style="font-size: 24px;"><b>아이템 상점</b></h4>
 				                </div>
 					        </div>
 						</div>

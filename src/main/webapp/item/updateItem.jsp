@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>아이템 판매 수정</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <!-- HEADER -->
     <jsp:include page="/header.jsp" />
