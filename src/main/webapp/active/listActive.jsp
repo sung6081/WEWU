@@ -365,7 +365,7 @@
 			                    				
 			                    				$('.list-body').append(appendEl);
 			                    				
-			                    				//$('.name').css('color', 'blue');
+			                    				$('.name').css('color', '#FFC107');
 						                    	
 						                    	$('.name').on('click', function(event) {
 						                    		
