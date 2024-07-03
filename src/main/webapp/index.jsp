@@ -318,19 +318,7 @@
         <img src="/images/wewujumbo.jpg" alt="Background Image">
       </div>
     </div>
-    <div class="container ranking">
-      <div class="content-wrapper">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="justify-content-end d-flex">
-              <div class="swiper-container ranking">
-                <div class="swiper-wrapper groupRanking">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div class="container">
         <div class="row mx-auto">
           <div class="col-md-8 grid-margin stretch-card">
