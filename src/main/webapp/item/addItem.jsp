@@ -10,7 +10,6 @@
 	<meta charset="UTF-8">
 	<title>아이템 판매 등록</title>
 
-	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 
 	<!-- HEADER -->

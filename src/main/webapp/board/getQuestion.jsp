@@ -5,8 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의 상세 보기</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+	<!-- HEADER -->
+	<jsp:include page="/header.jsp"/>
+	<!-- HEADER -->
+
 <script type="text/javascript">
 	$(function(){
 		$("button.btn:contains('삭제')").on("click",function(){
@@ -27,7 +30,8 @@
 	});
 	$(function(){
 		$("button.btn:contains('목록 보기')").on("click", function() {
-			self.location="/board/listQuestion?questionType=${param.questionType}"
+			//alert('${param.questionType}');
+			self.location="/board/listQuestion?questionType="+'${param.questionType}'
 		});
 
 	});
@@ -37,10 +41,6 @@
 <body>
 <input type="hidden" name="questionNo" value="${param.questionNo}" >
 <input type="hidden" name="questionType" value="${param.questionType}" >
-
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp"/>
-	<!-- HEADER -->
 
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
@@ -88,7 +88,7 @@
 								test="${question.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
 								<button type="button" class="btn btn-primary mr-2">수정</button>
 							</c:if>
-							<button class="btn btn-light" >목록 보기</button>
+							<button type="button" class="btn btn-light" >목록 보기</button>
 						</div>
 					</div>
 				</div>

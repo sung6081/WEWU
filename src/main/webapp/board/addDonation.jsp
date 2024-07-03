@@ -109,9 +109,6 @@
 
 	<div class="container-fluid page-body-wrapper">
 	<jsp:include page="boardSideBar.jsp"/>
-	
-	
-	
 
 	<div class="main-panel">
 			<div class="col-md-12 grid-margin stretch-card">
@@ -125,6 +122,7 @@
 								<input type="hidden" name="payType" value="B" >
 								<input type="hidden" name="payOption" id="payOption"> 
 								<input type="hidden" name="payFlag" id="payFlag"> 
+							
 									<div class="form-group row">
 										<label for="title" class="col-sm-3 col-form-label">이름</label>
 										<div class="col-sm-4">
@@ -183,7 +181,7 @@
 											<option value="30000">30000</option>
 											<option value="50000">50000</option>
 											<option value="100000">100000</option>
-											<option value="직접입력">직접 입력</option>
+											<!-- <option value="직접입력">직접 입력</option> -->
 										</select>
 									</div>
 									</div>

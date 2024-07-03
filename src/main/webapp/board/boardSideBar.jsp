@@ -17,11 +17,11 @@
             <a class="nav-link collapsed" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
               <i class="icon-bar-graph menu-icon"></i>
               <span class="menu-title">공지사항</span>
-              <i class="menu-arrow"></i>
+             
             </a>
             <div class="collapse" id="charts" style="">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link">공지사항</a></li>
+                <li class="nav-item"> <a class="nav-link notice">공지사항</a></li>
               </ul>
             </div>
           </li>
@@ -90,9 +90,12 @@ $(document).ready(function() {
             $(this).closest('.collapse').addClass('show');
         }
     });
-    
-    $('')
 });
+$(function(){
+	$(".notice").on("click", function() {
+        self.location = "/board/listBoard?boardType=1";
+    });
+})
 </script>
 
 </body>

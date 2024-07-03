@@ -66,7 +66,7 @@ public class PayController {
           model.addObject("donation", donation);
           
           //완료 페이지로 이동
-          model.setViewName("redirect:/board/listDonation?payType=1");
+          model.setViewName("redirect:/board/listDonation?payType=B");
           model.addObject("pay", pay);
 
         

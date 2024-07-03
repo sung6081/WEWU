@@ -12,11 +12,18 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$("button.btn:contains('취소')").on("click", function() {
+		$(".btn-light").on("click", function() {
 			self.location="/board/listQuestion?questionType=${param.questionType}"
 		});
+		
+		
 
 	});
+	$(function(){
+		$(".addQ").on("click",function(){
+			$("form").attr("method","POST").attr("action","/board/addQuestion").submit();
+		})
+	})
 </script>
 <style type="text/css">
 .jumbotron{
@@ -83,6 +90,7 @@ background-color: #00A06C;
 								
 								
 								<c:if test="${param.questionType eq '자주'}">
+									<!-- <input type="hidden" name="questionState" value="null"> -->
 									<div class="form-group row">
 										<label class="col-sm-3 col-form-label">답변 내용</label>
 										<div class="col-sm-9">
@@ -90,7 +98,7 @@ background-color: #00A06C;
 										</div>
 									</div>
 								</c:if>
-							  <button type="submit" class="btn btn-primary mr-2">등&nbsp;록</button>
+							  <button type="button" class="btn btn-primary mr-2 addQ">등&nbsp;록</button>
 							  <button class="btn btn-light" >취&nbsp;소</button>
 						</form>
 					</div>

@@ -58,7 +58,7 @@ margin:0;
                                     <th>Quest No</th>
                                     <th>Reg Date</th>
                                     <th>Quest Contents</th>
-                                    <th>Quest State</th>
+                                  
                                     <th>Quest Target</th>
                                     <th>Quest Target Count</th>
                                     <th>Quest Reward</th>
@@ -70,7 +70,7 @@ margin:0;
                                         <td>${quest.questNo}</td>
                                         <td>${quest.regDate}</td>
                                         <td>${quest.questContents}</td>
-                                        <td>${questState.questState}</td>
+                             
                                         <td>${quest.questTarget}</td>
                                         <td>${quest.questTargetCnt}</td>
                                         <td>${quest.questReward}</td>

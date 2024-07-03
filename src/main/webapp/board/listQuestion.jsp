@@ -62,8 +62,33 @@
 </script>
 <style type="text/css">
 .jumbotron {
-	margin: 0 !important; /* 기본 마진 제거 */
 	background-color: #00A06C;
+		margin-top:160px;
+	margin-bottom: 0;
+	background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+	background-image: url('/images/beach.jpg'); /* 배경 이미지 경로 */
+	background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+	background-position: center; /* 이미지가 중앙에 위치하도록 */
+}
+.caption {
+	padding: 10px 0;
+}
+
+.caption h4 {
+	padding: 5px;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.sidebar-offcanvas{
+margin-top:0px;
+}
+.main-panel{
+margin-top:0px;
+}
+.container-fluid.page-body-wrapper{
+margin-top:0px;
 }
 b {
     color: white;
@@ -72,7 +97,14 @@ b {
 </head>
 <body>
 	<input type="hidden" name="questionType" value="${param.questionType}">
-
+<div class="jumbotron">
+						<div class="container">
+							<p class="display-4">
+								<b><h3><c:if test="${param.questionType eq '자주'}"> 자주하는 질문 </c:if>
+							<c:if test="${param.questionType eq '문의'}"> 1:1 문의  </c:if></h3></b>
+							</p>
+						</div>
+					</div>
 	
 
 	<div class="container-fluid page-body-wrapper">
@@ -84,14 +116,7 @@ b {
 
 				<div class="card">
 					<div class="card-body">
-					<div class="jumbotron">
-						<div class="container">
-							<p class="display-4">
-								<b><h3><c:if test="${param.questionType eq '자주'}"> 자주하는 질문 </c:if>
-							<c:if test="${param.questionType eq '문의'}"> 1:1 문의  </c:if></h3></b>
-							</p>
-						</div>
-					</div>
+					
 						<br>
 						<br>
 						<br>

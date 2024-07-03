@@ -220,10 +220,10 @@
 
             $("#userId").on("keyup", debounce(function () {
                 var userId = $(this).val();
-                var idPattern = /^[a-zA-Z가-힣0-9]{2,10}$/;
+                var idPattern = /^[a-zA-Z가-힣0-9]{2,30}$/;
                 if (userId.length > 0) {
                     if (!idPattern.test(userId)) {
-                        $("#idCheckMsg").text("아이디는 2자 이상 10자 이하, 영어, 한글, 숫자만 가능합니다.").removeClass("text-success").addClass("text-danger");
+                        $("#idCheckMsg").text("아이디는 2자 이상 30자 이하, 영어, 한글, 숫자만 가능합니다.").removeClass("text-success").addClass("text-danger");
                     } else {
                         $.ajax({
                             type: "GET",
@@ -248,10 +248,10 @@
 
             $("#nickname").on("keyup", debounce(function () {
                 var nickname = $(this).val();
-                var nicknamePattern = /^[a-zA-Z가-힣0-9]{2,10}$/;
+                var nicknamePattern = /^[a-zA-Z가-힣0-9]{2,20}$/;
                 if (nickname.length > 0) {
                     if (!nicknamePattern.test(nickname)) {
-                        $("#nicknameCheckMsg").text("닉네임은 2자 이상 10자 이하, 영어, 한글, 숫자만 가능합니다.").removeClass("text-success").addClass("text-danger");
+                        $("#nicknameCheckMsg").text("닉네임은 2자 이상 20자 이하, 영어, 한글, 숫자만 가능합니다.").removeClass("text-success").addClass("text-danger");
                     } else {
                         $.ajax({
                             type: "GET",
@@ -285,7 +285,7 @@
                         if (response.isValid) {
                             $("#passwordCheckMsg").text("사용 가능한 비밀번호입니다.").removeClass("text-danger").addClass("text-success");
                         } else {
-                            $("#passwordCheckMsg").text("비밀번호는 8자 이상 16자 이하, 영문과 특수기호를 포함해야 합니다.").removeClass("text-success").addClass("text-danger");
+                            $("#passwordCheckMsg").text("비밀번호는 8자 이상 30자 이하, 영문과 특수기호를 포함해야 합니다.").removeClass("text-success").addClass("text-danger");
                         }
                     },
                     error: function () {
