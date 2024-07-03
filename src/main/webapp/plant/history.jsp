@@ -34,36 +34,37 @@
     margin-bottom: 10px;
     text-align: center;
 }
-
 </style>
 
 <script>
 $(document).ready(function() {
-    function updatePlantList(sortType) {
+    function updatePlantList(sortType, plantLevlNo) {
         var searchCondition = $(".searchCondition").val();
         $.ajax({
             url: "/app/plant/history",
             type: "GET",
             data: { 
                 searchCondition: searchCondition,
-                searchKeyword: sortType 
+                searchKeyword: sortType,
+                plantLevlNo: plantLevlNo // plantLevlNo 추가
             },
             dataType: "json",
             success: function(response) {
-            	console.log("Response received:", response);
+                console.log("Response received:", response);
                 var plantList = $(".plantList");
                 plantList.empty(); 
                 
                 $.each(response, function(index, myPlant) {
-                	console.log("Processing plant:", myPlant);
+                    console.log("Processing plant:", myPlant);
                     if (myPlant.myPlantState === 'N') {
+                        var plantLevlNo = myPlant.plantLevl ? myPlant.plantLevl.plantLevlNo : ''; // Null 체크 추가
                         var row = "<tr class='myPlantlist'>" +
                             "<td>" + myPlant.myPlantName + "</td>" +
                             "<td>" + myPlant.plantStartDate + " ~ " + myPlant.plantEndDate + "</td>" +
                             "<td>" + myPlant.myPlantExp + "</td>" +
-                            "<td class='levlImg' data-plant-levl-no='" + myPlant.plantLevl.plantLevlNo + "'>단계별 이미지</td>" +
+                            "<td class='levlImg' data-plant-levl-no='" + plantLevlNo + "'>단계별 이미지</td>" +
                             "</tr>";
-                            console.log("Appending row:", row);
+                        console.log("Appending row:", row);
                         plantList.append(row);
                     }
                 });
@@ -75,32 +76,44 @@ $(document).ready(function() {
             }
         });
     }
+
     $(".latest").on("click", function() {
-        updatePlantList("latest");
+        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
+        updatePlantList("latest", plantLevlNo);
     });
     
     $(".oldest").on("click", function() {
-        updatePlantList("oldest");
+        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
+        updatePlantList("oldest", plantLevlNo);
     });
     
     $(".highestExp").on("click", function() {
-        updatePlantList("highest");
+        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
+        updatePlantList("highest", plantLevlNo);
     });
     
     $(".lowestExp").on("click", function() {
-        updatePlantList("lowest");
+        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
+        updatePlantList("lowest", plantLevlNo);
     });
     
     function LevlImgClickEvent() {
         $(".levlImg").on("click", function() {
             var $this = $(this);
-            var plantLevlNo = $this.data("plantLevlNo");
+            var plantLevlNo = $this.data("plant-levl-no");
             var $parentRow = $this.closest("tr");
             var $nextRow = $parentRow.next(".levlImgRow");
             var searchCondition = $(".searchCondition").val();
+            
+            alert('${myPlant.plantLevl.plantLevlNo}');
 
             if ($nextRow.length > 0) {
                 $nextRow.remove();
+                return;
+            }
+
+            if (!plantLevlNo) { // plantLevlNo가 없으면 요청하지 않음
+                console.error("plantLevlNo is missing");
                 return;
             }
             
@@ -109,8 +122,10 @@ $(document).ready(function() {
             $.ajax({
                 url: "/app/plant/myPlantListbyLevlNo",
                 method: "GET",
-                data: { plantLevlNo: plantLevlNo ,
-                		searchCondition : searchCondition},
+                data: { 
+                    plantLevlNo: plantLevlNo,
+                    searchCondition: searchCondition 
+                },
                 dataType: "json",
                 success: function(response) {
                     console.log(response); 
@@ -132,6 +147,14 @@ $(document).ready(function() {
             });
         });
     }
+ 
+
+    function getPlantLevlNo() {
+        // plantLevlNo를 가져오는 로직을 여기에 구현합니다.
+        // 예를 들어, 특정 선택자에서 값을 가져온다면:
+        return $(".someSelector").data("plant-levl-no") || null;
+    }
+
     LevlImgClickEvent();
 });
 </script>
