@@ -33,6 +33,7 @@
 	</head>
 	<body bgcolor="#ffffff" text="#000000">
 				
+				<jsp:include page="ItemSideBar.jsp"/>
 						
 				<div class="main-panel">
 	        		<div class="content-wrapper">

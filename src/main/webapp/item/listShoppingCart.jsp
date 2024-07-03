@@ -57,6 +57,12 @@
 				 }
 				 
 			});
+			 
+			 $(function() {
+				 $( "button.btn-success:contains('상품 목록')" ).on("click" , function() {
+					location.href="/item/getItemList"
+				 });
+			});
 		});	
 		
 		
@@ -131,8 +137,10 @@
 		                                    </table>
 		                                </div>
 		                               <div class="text-right mt-4">
+		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">상품 목록</button>
 		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">삭제하기</button>
 		                               <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">구매하기</button>
+		                               
 		                     
 			 					   	
 					            </div>
