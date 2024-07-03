@@ -94,6 +94,7 @@
    </head>
    <body bgcolor="#ffffff" text="#000000">
          
+         <jsp:include page="/item/ItemSideBar.jsp"/>
                
             <div class="main-panel">
                    <div class="content-wrapper">

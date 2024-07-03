@@ -23,7 +23,15 @@
 		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />	
 	</resultMap>
 
-	<select  id="getQuestState"  parameterType="map" resultMap="questStateSelectMap">
+	<select  id="getQuestByState"  parameterType="map" resultMap="questStateSelectMap">
+	  	SELECT * from quest_state
+	  	<where>
+	  		nickname = #{nickname}
+	  		AND quest_state = #{questState}
+	  	</where>
+	</select>
+	
+		<select  id="getQuestState"  parameterType="map" resultMap="questStateSelectMap">
 	  	SELECT * from quest_state
 	  	<where>
 	  		nickname = #{nickname}

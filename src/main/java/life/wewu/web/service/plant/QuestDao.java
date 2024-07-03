@@ -34,6 +34,8 @@ public interface QuestDao {
 	
 	public Quest getQuestByUser(String nickname) throws Exception;
 	
+	public List<Quest> getActiveQuestsByUser(String nickname) throws Exception;
+	
 
 
 }

@@ -24,6 +24,6 @@ public class Quest {
 	private String nickname;
 	private QuestState questState;
 	
-	private int currentCnt;
+	
 
 }

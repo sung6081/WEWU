@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의 상세 보기</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- HEADER -->
+	<jsp:include page="/header.jsp" />
+	<!-- HEADER -->
 <script type="text/javascript">
 	$(function() {
 		$("button.btn:contains('삭제')")
@@ -18,8 +19,8 @@
 	});
 
 	$(function() {
-		$("button.btn:contains('목록 보기')").on("click", function() {
-			self.location = "/board/listDonation?payType=${param.payType}"
+		$(".btn-light").on("click", function() {
+			self.location = "/board/listDonation?payType=B"
 		});
 		//footer고정
 		$('footer').removeClass('fixed-bottom');
@@ -31,11 +32,6 @@
 <body>
 	<input type="hidden" name="payType" value="${param.payType}">
 	<input type="hidden" name="payNo" value="${param.payNo}">
-
-	<!-- HEADER -->
-	<jsp:include page="/header.jsp" />
-	<!-- HEADER -->
-
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
 
