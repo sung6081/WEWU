@@ -336,9 +336,16 @@
 			                    				
 			                					var appendEl = '';
 			                					
+			                					var state = '';
 			                    				for(let i = 0; i < list.length; i++) {
 			                    					
 			                    					let j = (currentPage-1) * 10 + i + 1;
+			                    					
+			                    					if(list[i].stateFlag == '활동중') {
+			                    						state = 'activing';
+			                    					}else {
+			                    						state = 'activeEnd';
+			                    					}
 			                    					
 			                    					appendEl += '<tr class="append">\n'+
 																	'<td>'+j+'</td>\n'+
@@ -349,7 +356,7 @@
 																	'<td>'+list[i].activeStartDate+'</td>\n'+
 																	'<td>'+list[i].activeEndDate+'</td>\n'+
 																	'<td>'+list[i].activeRegDate+'</td>\n'+
-																	'<td class="activeState">'+list[i].stateFlag+'</td>\n'+
+																	'<td class="'+state+'">'+list[i].stateFlag+'</td>\n'+
 																'</tr>';
 			                    					
 			                    				}
