@@ -53,27 +53,7 @@
 		color: white;
 	}
 	
-	.display-4 {
-	  color: #fff; /* 원하는 색상으로 변경 */
-	}
 	
-	.main-panel{
-		margin:0;
-	}
-	
-	.jumbotron{
-		background-color: #00A06C;
-		margin-top:160px;
-		margin-bottom:0;
-		background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
-		background-image: url('/images/plant1.jpg'); /* 배경 이미지 경로 */
-		background-size: cover; /* 이미지가 컨테이너를 덮도록 */
-		background-position: center; /* 이미지가 중앙에 위치하도록 */
-	}
-	
-	.sidebar {
-		margin-top: 30px;
-	}
     
 </style>
 
@@ -523,17 +503,19 @@
 	
 	</script>
 	
-	<div class="jumbotron">
+	<!-- <div class="jumbotron">
 	  <div class="container">
 	    <p class="display-4"><b>getActive</b></p>
 	  </div>
-	</div>
+	</div> -->
 	
 	<!-- SIDE -->
 	<jsp:include page="/group/groupSide.jsp"></jsp:include>
 	<!-- SIDE -->
 	
 	<div class="main-panel">
+	
+		<c:import url="/group/groupJumbo.jsp"></c:import>
 	
        	<div class="content-wrapper">
        	
