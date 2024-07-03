@@ -51,6 +51,8 @@ function fncListItesmSalesHistory(){
 			<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
 			<input type="hidden" name="buyerNickname" value="${item.buyerNickname}">
 		
+		<jsp:include page="ItemSideBar.jsp"/>
+		
 		<div class="main-panel">
         	<div class="content-wrapper">
 		        		 <div class="row">

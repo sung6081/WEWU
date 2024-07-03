@@ -82,7 +82,7 @@
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
 	                  	<div class="form-group">
 	                      <label>게시판 명</label>
-	                      <input type="text" class="form-control" name="boardIntro" placeholder="게시판 명">
+	                      <input type="text" class="form-control" name="boardName" placeholder="게시판 명">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 타입</label>

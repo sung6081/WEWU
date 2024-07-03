@@ -127,9 +127,7 @@ public class PlantServiceImpl implements PlantService {
 			quest.setQuestState(questStateDao.getQuestState(map));
 		}
 		
-		
-		List<QuestState> list = questStateDao.getQuestListByUser(map);
-		System.out.println("getQuestListByUser : "+map);
+	
 		return quests;
 	}
 	

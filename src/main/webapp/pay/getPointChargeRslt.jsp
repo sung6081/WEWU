@@ -43,6 +43,9 @@
 </head>
 
 <body>
+
+	<jsp:include page="/item/ItemSideBar.jsp"/>
+
 	<div class="main-panel">
      	<div class="content-wrapper">
      	

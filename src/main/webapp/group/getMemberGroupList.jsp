@@ -128,7 +128,7 @@
 									  str += "<td><img style='border-radius:0%;' src=/group/img/woman.png></td>";
 								  }
 			          			  str += "<td>" + data[i].memberNickName +"</td>";
-								  str += "<td>" + data[i].joinDate +"</td>";
+								  str += "<td>" + data[i].rsltDate +"</td>";
 								  if(data[i].gender == "M")
 								  {
 									  str += "<td>남</td>";

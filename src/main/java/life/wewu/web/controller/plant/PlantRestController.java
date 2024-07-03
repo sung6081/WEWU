@@ -196,7 +196,6 @@ public class PlantRestController {
 	    List<QuestState> list = plantService.getQuestListByUser(map);
 
 	    model.addAttribute("list", list);
-	    session.setAttribute("questStateList", list); // 세션에 questStateList 추가
 
 	    System.out.println("getQuestListByUserRest : " + list);
 
@@ -310,33 +309,59 @@ public class PlantRestController {
 	}
 
 	@RequestMapping(value = "myPlantListbyLevlNo")
-	public List<MyPlant> myPlantListbyLevlNo(HttpSession session, Model model,
-			@RequestParam(value = "searchCondition", required = false) String searchCondition,
-			@RequestParam(value = "searchKeyword", required = false) String searchKeyword) throws Exception {
+	public List<MyPlant> myPlantListbyLevlNo(HttpSession session
+	                                           ) throws Exception {
 
-		System.out.println("::plant::REST::myPlantListbyLevlNo : POST");
-		User user = (User) session.getAttribute("user");
+	    System.out.println("::plant::REST::myPlantListbyLevlNo : GET");
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("nickname", user.getNickname());
+	    User user = (User) session.getAttribute("user");
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
 
-		Search search = new Search();
-		search.setSearchCondition(searchCondition);
-		search.setSearchKeyword(searchKeyword);
-		map.put("search", search);
+		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+		int plantLevlNo = plantLevl.getPlantLevlNo();
+		myPlant.setPlantLevl(plantLevl);
 
-		System.out.println("map = " + map);
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("plantLevlNo", plantLevlNo); // plantLevlNo 추가
+	    map.put("myPlant", myPlant); // plantLevlNo 추가
+	    map.put("user", user); // plantLevlNo 추가
 
-		List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
+	    System.out.println("plantLevl = " + plantLevl);
+	    System.out.println("plantLevlNo = " + plantLevlNo);
 
-		System.out.println("List = " + list);
 
-		model.addAttribute("list", list);
+	    List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
 
-		return list;
+	    System.out.println("List = " + list);
 
+	    return list;
 	}
+	
+	@RequestMapping(value = "showMyPlant", method = RequestMethod.GET)
+	public String showMyPlant(HttpSession session, Model model) throws Exception {
+	    System.out.println("::plant::REST::showMyPlant : GET");
 
+	    User user = (User) session.getAttribute("user");
+	    if (user == null) {
+	        System.err.println("Error: user is null");
+	        throw new IllegalStateException("User cannot be null");
+	    }
+
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+
+	    if (myPlant != null) {
+	        PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+	        myPlant.setPlantLevl(plantLevl);
+	    }
+
+	    // 모델에 사용자와 나의 식물 정보 추가
+	    model.addAttribute("user", user);
+	    model.addAttribute("myPlant", myPlant);
+
+	    // JSP 페이지로 포워드
+	    return "showMyPlant"; // JSP 페이지 이름
+	}
+	
 	// history.jsp
 	@RequestMapping(value = "history", method = RequestMethod.GET)
 	public List<MyPlant> getMyPlantList(
