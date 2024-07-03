@@ -124,9 +124,7 @@
 		    <if test="groupAddr != null and groupAddr != ''">
 		        group_addr = #{groupAddr},
 		    </if>
-		    <if test="openDate != null and openDate != ''">
 		        open_date = NOW(),
-		    </if>
 		    <if test="groupPlan != null and groupPlan != ''">
 		        group_plan = #{groupPlan},
 		    </if>
@@ -139,9 +137,7 @@
 		    <if test="groupFile != null and groupFile != ''">
 		        group_file = #{groupFile},
 		    </if>
-		    <if test="rsltDate != null and rsltDate != ''">
 		        rslt_date = #{rsltDate},
-		    </if>
 		    <if test="applDate != null and applDate != ''">
 		        appl_date = #{applDate},
 		    </if>
