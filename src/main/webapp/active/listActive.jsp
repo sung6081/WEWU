@@ -250,10 +250,10 @@
 	                    	 	<button type="button" class="more-btn btn btn-secondary btn-lg btn-block">
 	                    			더보기
 	                    		</button>
-	                    		<button type="button" class="hold-btn btn btn-secondary btn-lg btn-block">
+	                    		<button type="button" hidden="hidden" class="hold-btn btn btn-secondary btn-lg btn-block">
 	                    			접기
 	                    		</button>
-	                    		<button type="button" class="spread-btn btn btn-secondary btn-lg btn-block">
+	                    		<button type="button" hidden="hidden" class="spread-btn btn btn-secondary btn-lg btn-block">
 	                    			펼치기
 	                    		</button>
 			                    
