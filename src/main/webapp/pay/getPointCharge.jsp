@@ -8,7 +8,6 @@
 	<head>
 		<meta charset="UTF-8">
 	<title>포인트 충전내역 상세조회</title>
-	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 	<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
@@ -28,6 +27,8 @@
 	</script>
 	</head>
 	<body>
+	
+			<jsp:include page="/item/ItemSideBar.jsp"/>
 						
 				<div class="main-panel">
 	        		<div class="content-wrapper">

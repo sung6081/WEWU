@@ -114,11 +114,11 @@
 <meta charset="UTF-8">
 <title>구매내역 목록조회</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
 </head>
 
 <body>
+
+	<jsp:include page="ItemSideBar.jsp"/>	
 		
 		<div class="main-panel">
         	<div class="content-wrapper">

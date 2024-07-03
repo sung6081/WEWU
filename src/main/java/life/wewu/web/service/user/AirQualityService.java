@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AirQualityService {
 
-    @Value("${env.key}")
+    @Value("${envi.key}")
     private String eskey;
 
     @Cacheable("airQualityData")

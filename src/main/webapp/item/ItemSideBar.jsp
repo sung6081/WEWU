@@ -7,26 +7,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
- <link rel="stylesheet" href="/vendors/feather/feather.css">
-  <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="/text/css" href="/js/select.dataTables.min.css">
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="/images/favicon.png" />
 <title>Insert title here</title>
 </head>
 <body>
-
+<div class="container-fluid">
+<div class="row">
 	<nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/item/getItemPurchaseHistoryList?buyerNickname=${user.nickname}">
               <i class="mdi mdi-checkbox-multiple-marked menu-icon"></i>
               <span class="menu-title">아이템 구매내역</span>

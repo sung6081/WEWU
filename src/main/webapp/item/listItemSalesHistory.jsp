@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>판매내역 목록조회</title>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 	<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
@@ -50,6 +49,8 @@ function fncListItesmSalesHistory(){
 			<form name="detailForm" id="detailForm" method="post">
 			<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
 			<input type="hidden" name="buyerNickname" value="${item.buyerNickname}">
+		
+		<jsp:include page="ItemSideBar.jsp"/>
 		
 		<div class="main-panel">
         	<div class="content-wrapper">

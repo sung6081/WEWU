@@ -271,8 +271,8 @@ public class UserRestController {
        //비밀번호 유효성검사, 같음 검사
         @PostMapping("/pwdCheck")
         public ResponseEntity<String> addUser(@RequestBody User user) {
-            if (!user.getUserPwd().matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,16}$")) {
-                return ResponseEntity.badRequest().body("비밀번호는 8자 이상 16자 이하, 영문과 특수기호를 포함해야 합니다.");
+            if (!user.getUserPwd().matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,30}$")) {
+                return ResponseEntity.badRequest().body("비밀번호는 8자 이상 30자 이하, 영문과 특수기호를 포함해야 합니다.");
             }
             if (!user.getUserPwd().equals(user.getUserPwd())) {
                 return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");

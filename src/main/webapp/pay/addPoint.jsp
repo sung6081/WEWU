@@ -10,7 +10,6 @@
    <meta charset="UTF-8">
    <title>포인트 충전</title>
 
-   <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 
    <!-- HEADER -->
@@ -94,6 +93,7 @@
    </head>
    <body bgcolor="#ffffff" text="#000000">
          
+         <jsp:include page="/item/ItemSideBar.jsp"/>
                
             <div class="main-panel">
                    <div class="content-wrapper">

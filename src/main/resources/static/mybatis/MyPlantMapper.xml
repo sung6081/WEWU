@@ -96,7 +96,7 @@
 	AND
 	m.nickname = #{nickname}
 	AND m.my_plant_state = 'N'
-	AND my_plant_no = #{myPlantNo}
+	AND plant_levl_no = #{plantLevlNo}
 	AND m.my_plant_exp > le.plant_min_exp 
 	</select>
 		

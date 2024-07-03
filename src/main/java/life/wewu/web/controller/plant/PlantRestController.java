@@ -197,8 +197,9 @@ public class PlantRestController {
 
 	    model.addAttribute("list", list);
 	    session.setAttribute("questStateList", list); // 세션에 questStateList 추가
-
 	    System.out.println("getQuestListByUserRest : " + list);
+	    
+	    
 
 	    return list;
 	}
@@ -311,21 +312,21 @@ public class PlantRestController {
 
 	@RequestMapping(value = "myPlantListbyLevlNo")
 	public List<MyPlant> myPlantListbyLevlNo(HttpSession session
-	                                           ) throws Exception {
+	                                           ,@RequestBody MyPlant myPlant) throws Exception {
 
 	    System.out.println("::plant::REST::myPlantListbyLevlNo : GET");
 
 	    User user = (User) session.getAttribute("user");
-	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
 
 		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
 		int plantLevlNo = plantLevl.getPlantLevlNo();
 		myPlant.setPlantLevl(plantLevl);
 
 	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("plantLevlNo", plantLevlNo); // plantLevlNo 추가
-	    map.put("myPlant", myPlant); // plantLevlNo 추가
-	    map.put("user", user); // plantLevlNo 추가
+	    map.put("plantLevlNo", plantLevlNo);
+	    map.put("plantLevl", plantLevl);
+	    map.put("myPlant", myPlant); 
+	    map.put("user", user); 
 
 	    System.out.println("plantLevl = " + plantLevl);
 	    System.out.println("plantLevlNo = " + plantLevlNo);
