@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>판매내역 목록조회</title>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 	<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
