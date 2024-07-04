@@ -6,11 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title>My Info</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <header>
+     <header>
         <jsp:include page="/header.jsp"/>
     </header>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     
     <style>
     	 .jumbotron {
@@ -20,7 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: -24rem;
+            margin-bottom: -27rem;
         }
         
         .jumbotron img {
@@ -57,7 +57,7 @@
             color: #3b5cff;
             font-weight: bold;
             text-align: center;
-                font-size: 30px;
+            font-size: 30px;
         }
         .info-label{
         	color: #187fff;
