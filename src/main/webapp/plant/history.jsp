@@ -34,41 +34,48 @@
     margin-bottom: 10px;
     text-align: center;
 }
+
+.arrow {
+    margin: 0 10px;  // 화살표 양쪽에 마진 추가
+    color: #333;  // 화살표 색상 설정
+    font-size: 24px;  // 화살표 크기 설정
+}
+.table td img {
+    width: 100px;  /* 이미지의 너비를 150픽셀로 설정 */
+    height: auto;  /* 높이는 자동으로 설정하여 비율 유지 */
+}
 </style>
 
 <script>
 $(document).ready(function() {
-    function updatePlantList(sortType, plantLevlNo) {
+
+    
+    function updatePlantList(sortType) {
         var searchCondition = $(".searchCondition").val();
         $.ajax({
             url: "/app/plant/history",
             type: "GET",
             data: { 
                 searchCondition: searchCondition,
-                searchKeyword: sortType,
-                plantLevlNo: plantLevlNo // plantLevlNo 추가
+                searchKeyword: sortType
             },
             dataType: "json",
             success: function(response) {
-                console.log("Response received:", response);
                 var plantList = $(".plantList");
                 plantList.empty(); 
-                
                 $.each(response, function(index, myPlant) {
-                    console.log("Processing plant:", myPlant);
                     if (myPlant.myPlantState === 'N') {
-                        var plantLevlNo = myPlant.plantLevl ? myPlant.plantLevl.plantLevlNo : ''; // Null 체크 추가
                         var row = "<tr class='myPlantlist'>" +
                             "<td>" + myPlant.myPlantName + "</td>" +
-                            "<td>" + myPlant.plantStartDate + " ~ " + myPlant.plantEndDate + "</td>" +
+                            "<td>" + myPlant.plantStartDate + "</td>" +
+                            "<td>" + myPlant.plantEndDate + "</td>" +
                             "<td>" + myPlant.myPlantExp + "</td>" +
-                            "<td class='levlImg' data-plant-levl-no='" + plantLevlNo + "'>단계별 이미지</td>" +
+                            "<td class='levlImg'>"+
+                            "<input type='hidden' class='myPlantNo' value='" + myPlant.myPlantNo + "' />단계별 이미지</td>" +
                             "</tr>";
-                        console.log("Appending row:", row);
                         plantList.append(row);
                     }
                 });
-                LevlImgClickEvent();
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error);
@@ -77,91 +84,57 @@ $(document).ready(function() {
         });
     }
 
-    $(".latest").on("click", function() {
-        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
-        updatePlantList("latest", plantLevlNo);
+    // 기타 정렬 버튼 이벤트 핸들러
+    $(".latest, .oldest, .highestExp, .lowestExp").on("click", function() {
+        var sortType = $(this).attr("name");
+        updatePlantList(sortType);
     });
     
-    $(".oldest").on("click", function() {
-        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
-        updatePlantList("oldest", plantLevlNo);
-    });
-    
-    $(".highestExp").on("click", function() {
-        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
-        updatePlantList("highest", plantLevlNo);
-    });
-    
-    $(".lowestExp").on("click", function() {
-        var plantLevlNo = getPlantLevlNo(); // plantLevlNo 값 가져오기
-        updatePlantList("lowest", plantLevlNo);
-    });
-    
-    function LevlImgClickEvent() {
-        $(".levlImg").on("click", function() {
-            var $this = $(this);
-            var plantLevlNo = $this.data("plant-levl-no");
-            var $parentRow = $this.closest("tr");
-            var $nextRow = $parentRow.next(".levlImgRow");
-            var searchCondition = $(".searchCondition").val();
-            
-            alert('${myPlant.plantLevl.plantLevlNo}');
+	$(".table-container").on("click", ".levlImg", function() {
+        // 히든 필드에서 plantNo 값을 읽음
+        var myPlantNo = $(this).find(".myPlantNo").val();
+        var currentRow = $(this).closest("tr");
+        var imageRow = currentRow.next(".imageRow"); // 이미지 행을 선택
 
-            if ($nextRow.length > 0) {
-                $nextRow.remove();
-                return;
-            }
-
-            if (!plantLevlNo) { // plantLevlNo가 없으면 요청하지 않음
-                console.error("plantLevlNo is missing");
-                return;
-            }
-            
-            console.log("Sending AJAX request with plantLevlNo:", plantLevlNo, "and searchCondition:", searchCondition);
-
+        if (imageRow.length > 0) {
+            imageRow.remove();
+        } else {
+            // AJAX 요청으로 이미지를 가져오기
             $.ajax({
-                url: "/app/plant/myPlantListbyLevlNo",
-                method: "GET",
-                data: { 
-                    plantLevlNo: plantLevlNo,
-                    searchCondition: searchCondition 
-                },
+                url: "/app/plant/myPlantListbyPlantNo",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                	myPlantNo: myPlantNo 
+                }),
                 dataType: "json",
                 success: function(response) {
-                    console.log(response); 
-                    var displayValue = "<tr class='levlImgRow'><td colspan='4' class='image-container'>";
-                    $.each(response, function(index, plantLevl) {
-                        if (index > 0) {
-                            displayValue += "<span class='arrow'>&gt;</span>";
+                    console.log(response); // 전체 응답 로그 출력
+                    var imgs = '';
+                    for (var i = 0; i < response.length; i++) {
+                        imgs += '<img src="' + response[i].plantLevl.levlImg + '" alt="Plant Image"/>';
+                        if (i < response.length - 1) {  // 마지막 이미지가 아니라면, 화살표를 추가
+                            imgs += ' <span class="arrow">></span> ';
                         }
-                        displayValue += "<img src='" + plantLevl.levlImg + "' alt='Plant Level Image' class='level-image' />";
-                    });
-                    displayValue += "</td></tr>";
-
-                    $parentRow.after(displayValue);
+                    }
+                    var imgRow = '<tr class="imageRow"><td colspan="5">' + imgs + '</td></tr>';
+                    $(imgRow).insertAfter(currentRow);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error: " + error);
-                    alert("이미지 데이터를 가져오는 중 오류가 발생했습니다.");
+                    alert("오류가 발생했습니다.");
                 }
             });
-        });
-    }
- 
+        }
+    });
 
-    function getPlantLevlNo() {
-        // plantLevlNo를 가져오는 로직을 여기에 구현합니다.
-        // 예를 들어, 특정 선택자에서 값을 가져온다면:
-        return $(".someSelector").data("plant-levl-no") || null;
-    }
-
-    LevlImgClickEvent();
 });
 </script>
 </head>
 <body>
     <form name="history">
         <input type="hidden" class="searchCondition" value="past" />
+        
         <!-- GetMyPlant -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -181,14 +154,28 @@ $(document).ready(function() {
                                 </p>
                                 <div class="table-container">
                                     <table class="table table-striped">
-                                        <tbody class="plantList">
+                                        
+                                        <thead>
+                                        <tr>
+                                                	<td>이름</td>
+                                                	<td>시작날짜</td>
+                                                	<td>종료날짜</td>
+                                                	<td>경험치</td>
+                                                	<td>단계별이미지</td>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="plantList">
                                             <c:forEach var="myPlant" items="${list}" varStatus="status">
                                                 <c:if test="${myPlant.myPlantState eq 'N'}">
                                                 <tr class="myPlantlist">
                                                     <td>${myPlant.myPlantName}</td>
-                                                    <td>${myPlant.plantStartDate} ~ ${myPlant.plantEndDate}</td>
+                                                    <td>${myPlant.plantStartDate}</td>
+                                                    <td>${myPlant.plantEndDate}</td>
                                                     <td>${myPlant.myPlantExp}</td>
-                                                    <td class="levlImg" data-plant-levl-no="${myPlant.plantLevl.plantLevlNo}">단계별 이미지</td>
+                                                    <td class="levlImg">
+                                                    <input type="hidden" class="myPlantNo" value="${myPlant.myPlantNo}" />
+                                                    단계별 이미지
+                                                    </td>
                                                 </tr>
                                                 </c:if>
                                             </c:forEach>

@@ -167,7 +167,7 @@ public class PlantRestController {
 	}
 
 	@RequestMapping(value = "getQuest", method = RequestMethod.POST)
-	public Quest getQuest(@RequestParam("questNo") int questNo, HttpSession session) throws Exception {
+	public Quest getQuest(@RequestParam("questNo") int questNo, HttpSession session , Model model) throws Exception {
 		System.out.println("::plant::REST::getQuest : POST");
 
 		// 세션에 퀘스트 정보 추가
@@ -175,11 +175,14 @@ public class PlantRestController {
 		User user = (User) session.getAttribute("user");
 
 		// 퀘스트 정보를 서비스에서 가져옴
-		Map<String,Object> map = new HashMap<>();
-		QuestState questState = plantService.getQuestState(map);
-		System.out.println("session questStage: "+quest);
-		// 세션에 퀘스트 정보 업데이트
-		session.setAttribute("questState", questState);
+//		Map<String,Object> map = new HashMap<>();
+//		QuestState questState = plantService.getQuestState(map);
+//		System.out.println("session questStage: "+quest);
+//		// 세션에 퀘스트 정보 업데이트
+		//session.setAttribute("questState", questState);
+		
+		model.addAttribute("quest", quest);
+		model.addAttribute("user", user);
 
 		return quest;
 	}
@@ -310,27 +313,21 @@ public class PlantRestController {
 
 	}
 
-	@RequestMapping(value = "myPlantListbyLevlNo")
-	public List<MyPlant> myPlantListbyLevlNo(HttpSession session
+	@RequestMapping(value = "myPlantListbyPlantNo")
+	public List<MyPlant> myPlantListbyPlantNo(HttpSession session
 	                                           ,@RequestBody MyPlant myPlant) throws Exception {
 
-	    System.out.println("::plant::REST::myPlantListbyLevlNo : GET");
+	    System.out.println("::plant::REST::myPlantListbyPlantNo : POST");
 
 	    User user = (User) session.getAttribute("user");
-
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		int plantLevlNo = plantLevl.getPlantLevlNo();
-		myPlant.setPlantLevl(plantLevl);
-
+		plantService.getMyPlant(user.getNickname());
+		int myPlantNo = myPlant.getMyPlantNo();
+	    
 	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("plantLevlNo", plantLevlNo);
-	    map.put("plantLevl", plantLevl);
-	    map.put("myPlant", myPlant); 
-	    map.put("user", user); 
+	    map.put("myPlantNo", myPlantNo);
+	    map.put("nickname", user.getNickname()); 
 
-	    System.out.println("plantLevl = " + plantLevl);
-	    System.out.println("plantLevlNo = " + plantLevlNo);
-
+	    System.out.println("map = "+map);
 
 	    List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
 

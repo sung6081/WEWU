@@ -95,6 +95,7 @@ public class PlantServiceImpl implements PlantService {
         User user = (User) session.getAttribute("user");
         questStateMap.put("nickname", user.getNickname());
         questStateMap.put("questState", "Y");
+        System.out.println(questStateMap);
         questStateDao.insertQuestState(questStateMap);
 	}
 
@@ -366,9 +367,12 @@ public class PlantServiceImpl implements PlantService {
 		return myPlantDao.getMyPlantList(map);
 	}
 	
-	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception{
-		return myPlantDao.myPlantListbyLevlNo(map);
+	
+	@Override
+	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception {
+		return myPlantDao.myPlantListbyPlantNo(map);
 	}
+
 
 	@Override
 	public void deleteMyPlant(String nickname) throws Exception {
@@ -436,6 +440,7 @@ public class PlantServiceImpl implements PlantService {
 		
 
 	}
+
 
 
 
