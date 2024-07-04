@@ -128,11 +128,11 @@
                                 <td class="text-right">
                                   <button type="button" class="btn btn-success btn-sm delete">삭제</button>
                                 </td>
-                                <c:if test="${myPlant.myPlantExp >= 100}">
+                                <!--<c:if test="${myPlant.myPlantExp >= 100}">
                                   <td class="text-right">
-                                    <button type="button" class="btn btn-success btn-sm donate">식물저장(기부)</button>
+                                     <button type="button" class="btn btn-success btn-sm donate">식물저장(기부)</button> 
                                   </td>
-                                </c:if>
+                                </c:if>-->
                               </tr>
                             </tbody>
                           </table>

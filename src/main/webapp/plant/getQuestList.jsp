@@ -12,6 +12,8 @@ $(document).ready(function () {
         if (form) {
             var formData = new FormData(form);
             var jsonData = Object.fromEntries(formData.entries());
+            console.log(jsonData);
+            
 
             $.ajax({
                 url: "/app/plant/getQuestListByUser",

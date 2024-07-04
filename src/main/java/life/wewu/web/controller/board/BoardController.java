@@ -340,7 +340,7 @@ public class BoardController {
 		
 		System.out.println("/board/addQuestion : GET");
 		
-		return "forward:/board/addQuestion.jsp?questionType="+questionType;
+		return "forward:/board/addQuestion.jsp";
 	}
 	
 	//문의 등록 POST

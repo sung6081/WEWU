@@ -57,7 +57,7 @@
 		margin-top:160px;
 	margin-bottom: 0;
 	background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
-	background-image: url('/images/plant1.jpg'); /* 배경 이미지 경로 */
+	background-image: url('/images/beach.jpg'); /* 배경 이미지 경로 */
 	background-size: cover; /* 이미지가 컨테이너를 덮도록 */
 	background-position: center; /* 이미지가 중앙에 위치하도록 */
 }
@@ -73,6 +73,11 @@ margin-top:0px;
 b {
     color: white;
 }
+.book {
+		color: #FFC100;
+		font-size: 30px;
+	}
+	
 </style>
 <script type="text/javascript">
     var currentPage = 1;
@@ -209,8 +214,8 @@ b {
 							<!-- 검색 폼 -->
 							<div class="form-group">
 								<div class="col-md-6 text-left">
-									<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
-										${resultPage.currentPage} 페이지</p>
+								<%-- 	<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
+										${resultPage.currentPage} 페이지</p> --%>
 								</div>
 
 								<form id="listSearchForm" action="/board/listBoard" method="get">
@@ -281,13 +286,11 @@ b {
 											</div>
 											<div class="caption">
 												<c:if test="${board.bookmarkFlag}">
-													<button class="btn btn-outline-danger btn-fw"
-														onclick="deleteBookmark(${board.boardNo});">북마크
-														삭제</button>
+												<i class="mdi mdi-star book" onclick="deleteBookmark(${board.boardNo});"></i>
+								
 												</c:if>
 												<c:if test="${!board.bookmarkFlag}">
-													<button class="btn btn-outline-primary btn-fw"
-														onclick="addBookmark(${board.boardNo});">북마크</button>
+													<i class="mdi mdi-star-outline book" onclick="addBookmark(${board.boardNo});"></i>
 												</c:if>
 											</div>
 										</div>

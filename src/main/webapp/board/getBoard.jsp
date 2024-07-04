@@ -86,7 +86,7 @@
         });
         
         $("button.btn:contains('후원하기')").on("click", function() {
-            self.location = "/board/addDonation";
+            self.location = "/board/addDonation.jsp";
         });
     });
 

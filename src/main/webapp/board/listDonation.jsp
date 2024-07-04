@@ -10,8 +10,33 @@
 	<!-- HEADER -->
 <style type="text/css">
 .jumbotron {
-	margin: 0 !important; /* 기본 마진 제거 */
 	background-color: #00A06C;
+	margin-top:160px;
+	margin-bottom: 0;
+	background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
+	background-image: url('/images/beach.jpg'); /* 배경 이미지 경로 */
+	background-size: cover; /* 이미지가 컨테이너를 덮도록 */
+	background-position: center; /* 이미지가 중앙에 위치하도록 */
+}
+.caption {
+	padding: 10px 0;
+}
+
+.caption h4 {
+	padding: 5px;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.sidebar-offcanvas{
+margin-top:0px;
+}
+.main-panel{
+margin-top:0px;
+}
+.container-fluid.page-body-wrapper{
+margin-top:0px;
 }
 b {
     color: white;
@@ -31,7 +56,7 @@ $(function() {
 	$("td:nth-child(2)").on(
 			"click",
 			function() {
-				self.location = "/board/getDonation?payType=후원"
+				self.location = "/board/getDonation?payType=B"
 						+"&payNo="
 						+ $($(this).children()).val();
 
@@ -45,7 +70,14 @@ $(function() {
 </head>
 <body>
 <input type="hidden" name="payType" value="${param.payType}" >
-	
+<div class="jumbotron">
+						<div class="container">
+							<p class="display-4">
+								<b>후원 내역 보기</b>
+							</p>
+						</div>
+						
+					</div>	
 
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
@@ -55,14 +87,7 @@ $(function() {
 
 				<div class="card">
 					<div class="card-body">
-						<div class="jumbotron">
-						<div class="container">
-							<p class="display-4">
-								<b>후원 내역 보기</b>
-							</p>
-						</div>
 						
-					</div>
 					<br>
 						<br>
 						<div class="table-responsive">
