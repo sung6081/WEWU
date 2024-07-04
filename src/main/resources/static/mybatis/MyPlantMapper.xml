@@ -19,6 +19,14 @@
 		<result property="weatherImg"			column="weather_img"		jdbcType="VARCHAR"/>
 		<result property="plantLevl.plantLevlNo" column="plant_levl_no"		jdbcType="INTEGER"/>
 		<result property="plant.plantNo" 		column="plant_no"			jdbcType="INTEGER"/>
+		<association property="plantLevl" javaType="plantLevl">
+            <id property="plantLevlNo" column="plant_levl_no" jdbcType="INTEGER"/>
+            <result property="plantLevl" column="plant_levl" jdbcType="VARCHAR"/>
+            <result property="plantMaxExp" column="plant_max_exp" jdbcType="INTEGER"/>
+            <result property="plantMinExp" column="plant_min_exp" jdbcType="INTEGER"/>
+            <result property="plantFinalLevl" column="plant_final_levl" jdbcType="VARCHAR"/>
+            <result property="levlImg" column="levl_img" jdbcType="VARCHAR"/>
+        </association>
 	</resultMap>	
 	
 	
@@ -86,18 +94,27 @@
 	</select>
 	
 		<!-- UPDATE MYPLANT NAME -->
-	<select id="myPlantListbyLevlNo" parameterType="map" resultMap="myPlantSelectMap">
+	<select id="myPlantListbyPlantNo" parameterType="map" resultMap="myPlantSelectMap">
 	SELECT
-	m.* , le.*
+	m.my_plant_no,
+	m.nickname,
+	m.plant_no,
+	m.my_plant_state,
+	m.my_plant_exp,
+	m.plant_start_date,
+	m.plant_end_date,
+	m.my_plant_name,
+	le.plant_levl_no,
+	le.levl_img
 	FROM
 	my_plant m , plant_levl le
 	WHERE
 	m.plant_no = le.plant_no
-	AND
-	m.nickname = #{nickname}
+	AND m.my_plant_no = #{myPlantNo}
+	AND m.nickname = #{nickname}
 	AND m.my_plant_state = 'N'
-	AND plant_levl_no = #{plantLevlNo}
-	AND m.my_plant_exp > le.plant_min_exp 
+	AND m.my_plant_exp > le.plant_min_exp
+
 	</select>
 		
 	<!-- UPDATE MYPLANT NAME -->
