@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,9 @@ import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.group.GroupService;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
+
+
+
 
 @RestController
 @RequestMapping("/app/plant/")
@@ -209,44 +213,62 @@ public class PlantRestController {
 	
 
 	@RequestMapping(value = "getQuestListByUser", method = RequestMethod.POST)
-	public List<QuestState> getQuestListByUser(@RequestBody Quest quest, Model model, 
-			HttpSession session)
-			throws Exception {
-	      	System.out.println("::plant::REST::getQuestListByUser : POST");
-	        
+	public ResponseEntity<?> getQuestListByUser(HttpSession session) {
+	    try {
+	        System.out.println("::plant::REST::getQuestListByUser : POST");
+
 	        User user = (User) session.getAttribute("user");
 	        System.out.println("User: " + user);
-	        
-	        Search searchCriteria = new Search();
-	        if (searchCriteria.getSearchKeyword() == null) {
-	            searchCriteria.setSearchKeyword("");
+
+	        if (user == null) {
+	            throw new Exception("User not found in session");
 	        }
-	        
+
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("nickname", user.getNickname());
-	     
-	        
+	        System.out.println("Fetching quests for nickname: " + user.getNickname());
+
 	        List<QuestState> list = plantService.getQuestListByUser(map);
-	        
+
 	        for (QuestState questState : list) {
-	            int currentCnt = groupService.memberAcleListCnt(map);  // currentCnt 계산
-	            questState.setCurrentCnt(currentCnt);  // currentCnt 설정
-	            System.out.println(currentCnt);
+	            map.put("questNo", questState.getQuestNo());
+	            int currentCnt = groupService.memberAcleListCnt(map); // currentCnt 계산
+	            questState.setCurrentCnt(currentCnt); // currentCnt 설정
+	            System.out.println("Current Count for Quest " + questState.getQuestNo() + ": " + currentCnt);
 	        }
+
 	        System.out.println("getQuestListByUserRest : " + list);
-	        
-	        return list; // JSON 형식으로 반환됩니다.
+
+	        // 세션에 사이드바 데이터 저장
+	        session.setAttribute("sidebarQuestList", list);
+
+	        return ResponseEntity.ok(list); // JSON 형식으로 반환됩니다.
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+	    }
 	}
+    @RequestMapping(value = "completeQuest", method = RequestMethod.POST)
+    public ResponseEntity<?> completeQuest(@RequestBody Map<String, Object> params, HttpSession session) {
+        try {
+            System.out.println("::plant::REST::completeQuest : POST");
 
-	@RequestMapping(value = "completeQuest", method = RequestMethod.POST)
-	public Quest completeQuest(@RequestBody Quest quest) throws Exception {
-		System.out.println("::plant::REST::completeQuest : POST");
+            User user = (User) session.getAttribute("user");
+            System.out.println("User: " + user);
 
-		plantService.completeAndupdateReward(quest.getQuestNo());
+            if (user == null) {
+                throw new Exception("User not found in session");
+            }
 
-		return quest;
-	}
+            int questStateNo = (int) params.get("questStateNo");
+            plantService.completeAndupdateReward(questStateNo);
 
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 	@RequestMapping(value = "updateQuest", method = RequestMethod.POST)
 	public Map<String, Object> updateQuest(@RequestBody Quest quest) throws Exception {
 		System.out.println("::plant::REST::updateQuest : POST");

@@ -85,7 +85,7 @@ $(document).ready(function() {
     }
 
     // 기타 정렬 버튼 이벤트 핸들러
-    $(".latest, .oldest, .highestExp, .lowestExp").on("click", function() {
+    $(".latest, .oldest, .highest, .lowest").on("click", function() {
         var sortType = $(this).attr("name");
         updatePlantList(sortType);
     });
@@ -149,8 +149,8 @@ $(document).ready(function() {
                                 <p class="sort-links">                                
                                     <button type="button" class="btn btn-primary btn-sm latest" name="latest">최신순</button>                           
                                     <button type="button" class="btn btn-primary btn-sm oldest" name="oldest">과거순</button>                                    
-                                    <button type="button" class="btn btn-primary btn-sm highestExp" name="highestExp">경험치높은순</button>                                   
-                                    <button type="button" class="btn btn-primary btn-sm lowestExp" name="lowestExp">경험치낮은순</button>
+                                    <button type="button" class="btn btn-primary btn-sm highest" name="highest">경험치높은순</button>                                   
+                                    <button type="button" class="btn btn-primary btn-sm lowest" name="lowest">경험치낮은순</button>
                                 </p>
                                 <div class="table-container">
                                     <table class="table table-striped">

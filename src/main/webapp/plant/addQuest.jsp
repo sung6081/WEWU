@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +12,6 @@
 	padding-left: 20px; /* 20px의 왼쪽 여백을 설정 */
 }
 .jumbotron{
-
 background-color: #00A06C;
 margin-top:160px;
 margin-bottom:0;
@@ -28,7 +26,6 @@ background-position: center; /* 이미지가 중앙에 위치하도록 */
 .main-panel{
 margin:0;
 }
-
 </style>
 </head>
 <body>
@@ -53,7 +50,7 @@ margin:0;
 	<jsp:include page="/plant/plantSide.jsp" />
 	<div class="main-panel">
 		<div class="content-wrapper">
-			<form name="addQuest" method="post" action="/plant/addQuest">
+			<form name="addQuest" method="post" action="/plant/addQuestWithState">
 				<div class="row mt-5">
 					<div class="col-lg-6 grid-margin stretch-card mx-auto">
 						<div class="card">
@@ -86,9 +83,8 @@ margin:0;
 		</div>
 	</div>
 
-	
-		<!-- FOOTER -->
-	    <jsp:include page="/footer.jsp" />
+	<!-- FOOTER -->
+	<jsp:include page="/footer.jsp" />
 	<!-- FOOTER -->
 </body>
 </html>
