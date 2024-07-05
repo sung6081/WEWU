@@ -141,6 +141,7 @@
         ip.item_purchase_date,
         i.item_name,
         ip.item_cnt,
+        ip.item_stock,
         i.item_price,
         ip.buyer_nickname,
         ip.refund_flag,
