@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 
+import life.wewu.web.common.Page;
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
@@ -57,6 +58,13 @@ public class PlantController {
 	@Autowired
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
+	
+	@Value("${pageUnit}") 
+	int pageUnit;
+
+	@Value("${pageSize}") 
+	int pageSize;
+	
 
 	public PlantController() {
 		System.out.println(this.getClass());
@@ -251,31 +259,45 @@ public class PlantController {
 	}
 
 //----------------Inventory
-	@RequestMapping(value = "inventory", method = RequestMethod.GET)
-	public String getInventory(HttpSession session, Model model) throws Exception {
+	 @RequestMapping(value = "inventory", method = RequestMethod.GET)
+	    public String getInventory(HttpSession session, Model model, @ModelAttribute Search search) throws Exception {
+	        User user = (User) session.getAttribute("user");
 
-		System.out.println("::plant::inventory : GET");
-		User user = (User) session.getAttribute("user");
+	        
+	        
+	        if (user != null) {
+	            if (search.getCurrentPage() == 0) {
+	                search.setCurrentPage(1);
+	            }
+	            search.setPageSize(pageSize);
+	            if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
+	                search.setSearchKeyword("");
+	            }
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("nickname", user.getNickname());
+	            Map<String, Object> map = new HashMap<>();
+	            map.put("nickname", user.getNickname());
+	            map.put("offset", (search.getCurrentPage() - 1) * 3);
+	            map.put("pageSize", 3);
 
-		List<Inventory> list = plantService.getInventoryList(user.getNickname());
+	            int totalCount = plantService.getTotalCount(map);
 
-		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		System.out.println(myPlant);
-		System.out.println(plantLevl);
-		System.out.println(list);
+	            Page resultPage = new Page(search.getCurrentPage(), totalCount, 5, 3);
+	            System.out.println("RESULT PAGE: " + resultPage);
 
-		System.out.println("list: " + list);
+	            List<Inventory> list = plantService.getInventoryList(map);
 
-		model.addAttribute("user", user);
-		model.addAttribute("list", list);
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("plantLevl", plantLevl);
+	            MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	            PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
 
-		return "forward:/plant/inventory.jsp";
+	            model.addAttribute("user", user);
+	            model.addAttribute("list", list);
+	            model.addAttribute("myPlant", myPlant);
+	            model.addAttribute("plantLevl", plantLevl);
+	            model.addAttribute("resultPage", resultPage);
 
-	}
+	            return "forward:/plant/inventory.jsp";
+	        } else {
+	            return "redirect:/login";
+	        }
+	    }
 }
