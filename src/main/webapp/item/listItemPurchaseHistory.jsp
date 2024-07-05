@@ -40,7 +40,7 @@
 						alert("취소가 완료되었습니다");
 						location.reload();
 					}else{
-						alert("취소 실패");
+						alert("장식 아이템은 구매를 취소할 수 없습니다. ");
 					}
 				},
 				error	: function(xhr, status, error) {
@@ -128,7 +128,7 @@
 		                            <div class="card-body">
 		                                <h4 class="card-title">구매내역 목록조회</h4>
 		                                <p class="card-description">
-		                                   
+		                                <code>※</code>장식 아이템, 사용 완료된 아이템, 환불된 아이템은 구매를 취소할 수 없습니다. 
 		                                </p>
 		                                <div class="table-responsive">
 		                                    <table class="table">
@@ -138,6 +138,7 @@
 														<th>아이템명</th>
 														<th>개수</th>
 														<th>가격</th>
+														<th>아이템 사용상태</th>
 														<th>구매상태</th>
 														<th></th>
 													</tr>
@@ -151,9 +152,19 @@
 												 	  <td>${itemPurchase.itemCnt}</td>
 												 	  <td>${itemPurchase.itemPrice}</td>
 												 	  <td>
+												 	  <c:choose>
+		                                                        <c:when test="${itemPurchase.itemCnt == itemPurchase.itemStock}">
+		                                                        미사용
+		                                                        </c:when>
+		                                                        <c:when test="${itemPurchase.itemCnt != itemPurchase.itemStock}">
+		                                                        사용완료
+		                                                        </c:when>
+		                                               	</c:choose>
+												 	  </td>
+												 	  <td>
 												 	     <c:choose>
 		                                                        <c:when test="${itemPurchase.refundFlag == 'Y'}">
-		                                                         환불 성공
+		                                                        환불 완료
 		                                                        </c:when>
 		                                                        <c:when test="${itemPurchase.refundFlag == 'Z'}">
 		                                                        환불 실패
@@ -171,7 +182,12 @@
 												 	  <td>
 												 	  	<div class="form-check">
 								                          <label class="form-check-label text-muted">
-								                            <input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}">
+								                          	<c:if test='${itemPurchase.itemCnt == itemPurchase.itemStock && itemPurchase.refundFlag == "N"}'>
+	                                                        	<input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}" >
+	                                                        </c:if>
+	                                                        <c:if test='${itemPurchase.itemCnt != itemPurchase.itemStock || itemPurchase.refundFlag != "N"}'>
+	                                                        	<input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}" disabled>
+	                                                        </c:if>
 								                          </label>
 								                        </div>
 													  </td>
@@ -181,7 +197,7 @@
 	                                        </tbody>
 	                                    </table>
 	                                </div>
-	                                 <div class="text-right mt-4">
+	                                 <div class="text-right mt-4" style="display:;">
                                 <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">상세조회</button>
                                 <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;">구매취소</button>
                                 <!-- 
