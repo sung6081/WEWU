@@ -281,7 +281,7 @@ public class PlantController {
 
 	            int totalCount = plantService.getTotalCount(map);
 
-	            Page resultPage = new Page(search.getCurrentPage(), totalCount, 5, 3);
+	            Page resultPage = new Page(search.getCurrentPage(), totalCount, 3, 3);
 	            System.out.println("RESULT PAGE: " + resultPage);
 
 	            List<Inventory> list = plantService.getInventoryList(map);
