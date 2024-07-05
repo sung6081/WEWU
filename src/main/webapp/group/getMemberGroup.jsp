@@ -243,7 +243,8 @@
 					  timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
 					  data  : JSON.stringify(
 							  	{groupNo:${groupMember.groupNo},
-							  	 currentPage:currentPage}
+							  	 currentPage:currentPage,
+							  	 memberNickName:"${groupMember.memberNickName}"}
 				 				), // 요청 시 전달할 데이터
 					  processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
 					  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
@@ -284,7 +285,8 @@
 					  timeout : 3000, // (ms) 요청 제한 시간 안에 완료되지 않으면 요청을 취소하거나 error 콜백 호출
 					  data  : JSON.stringify(
 							  	{groupNo:${groupMember.groupNo},
-							  	 currentPage:currentPage}
+							  	 currentPage:currentPage,
+							  	 memberNickName:"${groupMember.memberNickName}"}
 				 				), // 요청 시 전달할 데이터
 					  processData : true, // (default: true) 데이터를 컨텐트 타입에 맞게 변환 여부
 					  contentType : "application/json", // (default: 'application/x-www-form-urlencoded; charset=UTF-8')
@@ -451,7 +453,8 @@
 		                        ${groupMember.memberNickName}
 		                    <p class="card-description">
 		                        가입날짜 : #${groupMember.rsltDate}<br>
-		                       	성별 : 남성
+		                        
+		                       	성별 : <c:if test="${groupMember.gender == 'M' ? '남성':'여성'}"></c:if>
 		                    </p>
 	                        
 	                        <c:if test="${groupMember != null }">
