@@ -65,6 +65,19 @@ $(function() {
 	$(".ct_list_pop:nth-child(4n-6)").css("background-color", "whitesmoke");
 
 });
+
+function fncQuestionList(page) {
+	
+    var form = $('form');
+    form.method = 'GET';
+    form.action = '/board/listDonation';
+
+    $('.currentPage').val(page);
+    
+    //alert($('.currentPage').val());
+
+    form.submit();
+}
 </script>
 
 </head>
@@ -89,6 +102,29 @@ $(function() {
 					<div class="card-body">
 						
 					<br>
+					<!-- 검색 폼 -->
+						<div class="form-group">
+								<div class="col-md-6 text-left">
+								<%-- 	<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
+										${resultPage.currentPage} 페이지</p> --%>
+								</div>
+
+								<form id="listSearchForm" action="/board/listDonation" method="get">
+									<div class="input-group">
+										
+										<input type="hidden" class="currentPage" name="currentPage"
+											value="${search.currentPage}"> 
+											<input type="text" class="form-control" placeholder="검색어 입력"
+											aria-label="Recipient's username" name="searchKeyword"
+											value="${!empty search.searchKeyword ? search.searchKeyword: '' }">
+
+										<input type="hidden" name="payType" value="${param.payType}">
+										<div class="input-group-append">
+											<button class="btn btn-sm btn-success searchBtn" type="button">Search</button>
+										</div>
+									</div>
+								</form>
+							</div>
 						<br>
 						<div class="table-responsive">
 							<table class="table table-striped">
@@ -120,9 +156,7 @@ $(function() {
 								</tbody>
 							</table>
 						</div>
-						
-					</div>
-					<div align="center">
+						<div align="center">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <c:if test="${resultPage.currentPage > 1}">
                                     <button type="button" class="btn btn-outline-secondary" onclick="fncQuestionList(${resultPage.currentPage - 1})">&lt;</button>
@@ -142,6 +176,8 @@ $(function() {
                                 </c:if>
                             </div>
                         </div> 
+					</div>
+					
 				</div>
 
 			</div>

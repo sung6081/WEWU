@@ -45,8 +45,8 @@
                         
                         <div class="form-group row">
                             <label for="title" class="col-sm-3 col-form-label">답변</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="reply"><br>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="exampleTextarea1" name="reply" rows="20"></textarea><br>
                             </div>
                         </div>
                         

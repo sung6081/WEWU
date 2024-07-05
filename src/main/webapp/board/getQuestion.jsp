@@ -29,9 +29,9 @@
 		});
 	});
 	$(function(){
-		$("button.btn:contains('목록 보기')").on("click", function() {
+		$(".list").on("click", function() {
 			//alert('${param.questionType}');
-			self.location="/board/listQuestion?questionType="+'${param.questionType}'
+			self.location="/board/listQuestion?questionType=${param.questionType}"
 		});
 
 	});
@@ -85,10 +85,10 @@
 								<button type="button" class="btn btn-primary mr-2">답변등록</button>
 							</c:if>
 							<c:if
-								test="${question.nickName eq sessionScope.user.nickname || sessionScope.isAdmin}">
+								test="${(question.nickName eq sessionScope.user.nickname || sessionScope.isAdmin) && question.replyState ne 3}">
 								<button type="button" class="btn btn-primary mr-2">수정</button>
 							</c:if>
-							<button type="button" class="btn btn-light" >목록 보기</button>
+							<button type="button" class="btn btn-light list" >목록 보기</button>
 						</div>
 					</div>
 				</div>

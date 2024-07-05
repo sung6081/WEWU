@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WEWU</title>
 <!-- HEADER -->
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->

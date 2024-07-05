@@ -220,9 +220,15 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override//
-	public List<Donation> getDonationList(String payType) throws Exception {
-		return donationDao.getDonationList(payType);
+	public List<Donation> getDonationList(Map map) throws Exception {
+		return donationDao.getDonationList(map);
 	}
+	
+	@Override
+	public int getTotalCountD(Map map) throws Exception{
+		return donationDao.getTotalCountD(map);
+	}
+
 
 	/*
 	 * QuestionDao

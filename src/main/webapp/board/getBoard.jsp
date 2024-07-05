@@ -241,6 +241,8 @@
 		<jsp:include page="boardSideBar.jsp" />
 
 		<div class="main-panel">
+		<div class="content-wrapper">
+		<div class="row">
 			<div class="col-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
@@ -252,7 +254,7 @@
 							<c:if test="${param.boardType eq '4'}"> 후원 </c:if>
 						</p>
 
-						<h1 class="card-title">${board.title}</h1>
+						<h1 class="card-title">${board.title}</h1>						
 						<div class="form-group row">
 							<div class="col-sm-9">
 								<p class="card-description">${board.nickName }&nbsp;&nbsp;
@@ -269,6 +271,7 @@
 						<hr>
 						<br>
 						<div class="form-group row">
+						
 							<div class="col-sm-9">
 								<c:forEach var="file" items="${boardFile}">
 									<img src="${file.fileName}">
@@ -336,7 +339,7 @@
 
 			</div>
 
-		</div>
+		</div></div></div>
 	</div>
 	<!-- FOOTER -->
 	<jsp:include page="/footer.jsp" />

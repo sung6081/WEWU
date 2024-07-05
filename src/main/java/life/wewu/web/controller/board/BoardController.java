@@ -225,7 +225,7 @@ public class BoardController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-//		search.setSearchCondition("");
+		search.setSearchCondition("");
 //		String keyword = search.getSearchKeyword() != null ?search.getSearchKeyword() : "";
 //		search.setSearchKeyword(keyword);
 		if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
@@ -321,10 +321,33 @@ public class BoardController {
 	//후원 내역 목록 보기
 	@GetMapping(value = "listDonation")
 	public String getDonationList(@RequestParam("payType")String payType,
-			Model model) throws Exception{
+			Model model,@ModelAttribute Search search) throws Exception{
 		System.out.println("/board/getDonationList : GET");
 		
-		List<Donation> list = boardService.getDonationList(payType);
+		System.out.println(":::::: search_donation : "+search);
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		search.setSearchCondition("");
+		//search.setSearchKeyword("");
+		if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
+		    search.setSearchKeyword("");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		//map.put("questionType",questionType);
+		//map.put("questionType", "문의");
+		map.put("offset", (search.getCurrentPage() - 1) * 8);
+		map.put("search", search);
+		map.put("payType", payType);
+		
+		int totalCount = boardService.getTotalCountD(map);
+		Page resultPage = new Page(search.getCurrentPage(), totalCount, pageUnit, pageSize);
+		System.out.println("\n::::::::::::RESULT PAGE"+resultPage);
+		
+		List<Donation> list = boardService.getDonationList(map);
 		System.out.println(":::::::::::::;"+list.size());
 		model.addAttribute("list",list);
 		return "forward:/board/listDonation.jsp";
@@ -416,7 +439,9 @@ public class BoardController {
 		}
 		search.setPageSize(pageSize);
 		search.setSearchCondition("");
-		search.setSearchKeyword("");
+		if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
+		    search.setSearchKeyword("");
+		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("questionType",questionType);

@@ -9,15 +9,17 @@
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->
 <script type="text/javascript">
+	var currentPage = 1;
+	var isLoading = false;
 	$(function() {
 
 		//검색 event연결 처리부분
 		//dom object get 3가지 방법: $(tagName)/(#id)/$(.className)
 		//$("tagName.className:filter함수")사용함
-		$("button:contains('검색')").on("click", function() {
-			//alter($("td.ct_btn01:contains('검색')").html());
-			//fncGetUserList(1);
-		});
+		$(".searchBtn").on("click",function(){
+        	//alert(${search.searchKeyword}));
+    		fncGetList(1);
+    	})
 
 		$("td:nth-child(2)")
 				.on(
@@ -122,20 +124,27 @@ b {
 						<br>
 						<!-- 검색 폼 -->
 						<div class="form-group">
-							<form id="listSearchForm" action="/board/listQuestion" method="get">
-								<div class="input-group">
-									<input type="hidden" class="currentPage" name="currentPage" value="${search.currentPage}" >
-									<input type="hidden" class="form-control" placeholder="검색어 입력"
-										aria-label="Recipient's username" name="searchKeyword"
-										value="${search.searchKeyword}"> <input type="hidden"
-										name="questionType" value="${param.questionType}">
-									<!-- <div class="input-group-append">
-										<button class="btn btn-sm btn-primary" type="submit">Search</button>
-									</div> -->
+								<div class="col-md-6 text-left">
+								<%-- 	<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
+										${resultPage.currentPage} 페이지</p> --%>
 								</div>
-							</form>
-						</div>
-						<!-- 검색 폼 끝 -->
+
+								<form id="listSearchForm" action="/board/listQuestion" method="get">
+									<div class="input-group">
+										
+										<input type="hidden" class="currentPage" name="currentPage"
+											value="${search.currentPage}"> 
+											<input type="text" class="form-control" placeholder="검색어 입력"
+											aria-label="Recipient's username" name="searchKeyword"
+											value="${!empty search.searchKeyword ? search.searchKeyword: '' }">
+
+										<input type="hidden" name="questionType" value="${param.questionType}">
+										<div class="input-group-append">
+											<button class="btn btn-sm btn-success searchBtn" type="button">Search</button>
+										</div>
+									</div>
+								</form>
+							</div>
 
 						<div class="table-responsive">
 							<table class="table table-striped">
@@ -152,6 +161,7 @@ b {
 								<tbody>
 									<c:set var="i" value="0" />
 									<c:forEach var="question" items="${list}">
+										<c:if test="${param.questionType eq '문의' && user.nickname eq question.nickName }">
 										<c:set var="i" value="${ i+1 }" />
 										<tr>
 											<td>${i}</td>
@@ -165,6 +175,18 @@ b {
 												<c:if test="${question.replyState eq '3'}">답변 완료</c:if>
 												</td></c:if>
 										</tr>
+										</c:if>
+										<c:if test="${param.questionType eq '자주'}">
+										<c:set var="i" value="${ i+1 }" />
+										<tr>
+											<td>${i}</td>
+											<td>${question.title} <input type="hidden" value="${question.questionNo}">
+											</td>
+											<td>${question.nickName}</td>
+											<td>${question.regDate}</td>											
+										</tr>
+										</c:if>
+
 									</c:forEach>
 								</tbody>
 							</table>

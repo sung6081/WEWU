@@ -44,10 +44,42 @@
     </select>
     
     <!-- Donation : SELECT LIST ( 후원 목록 ) -->
-    <select id="getDonationList" parameterType="String" resultMap="donationSelectMap">
+    <select id="getDonationList" parameterType="map" resultMap="donationSelectMap">
         SELECT pay_no, buyer_nickname, pay_name, pay_option, pay_type, pay_birth, pay_phone, pay_email, pay_amount, current_point, after_charge_point, pay_flag, pay_date, delete_pay_date
         FROM pay
-        WHERE pay_type = #{payType}
+        <where>
+        <if test="search.searchCondition != null and search.searchKeyword != ''">
+            <choose>
+                <when test="search.searchCondition == 0">
+                    AND INSTR(title, #{search.searchKeyword}) > 0
+                </when>
+                <when test="search.searchCondition == 1">
+                    AND INSTR(nickname, #{search.searchKeyword}) > 0
+                </when>
+            </choose>
+        </if>
+        <if test="search.searchCondition == null and search.searchKeyword != ''">
+            AND INSTR(title, #{search.searchKeyword}) > 0
+        </if>
+        <if test="payType != null">
+            AND pay_type = #{payType}
+        </if>
+    </where>
+        ORDER BY pay_no DESC
+        LIMIT #{offset}, 8
     </select>
+    
+    <select id="getTotalCountD" parameterType="Map" resultType="int">
+		SELECT COUNT(pay_no)
+		FROM pay
+		<where>
+			pay_type = 'B'
+			<if test="userName != null">
+				pay_name = #{userName}
+			</if>
+			
+		</where>
+		
+	</select>
 	
 </mapper>

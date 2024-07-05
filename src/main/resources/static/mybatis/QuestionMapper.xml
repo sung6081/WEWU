@@ -70,7 +70,24 @@
 	  	SELECT 
 	  	question_no, nickname, question_type, question_category, title, reg_date, question_state
 	  	FROM question
-		WHERE  question_type = #{questionType}
+	  	<where>
+        <if test="search.searchCondition != null and search.searchKeyword != ''">
+            <choose>
+                <when test="search.searchCondition == 0">
+                    AND INSTR(title, #{search.searchKeyword}) > 0
+                </when>
+                <when test="search.searchCondition == 1">
+                    AND INSTR(nickname, #{search.searchKeyword}) > 0
+                </when>
+            </choose>
+        </if>
+        <if test="search.searchCondition == null and search.searchKeyword != ''">
+            AND INSTR(title, #{search.searchKeyword}) > 0
+        </if>
+        <if test="questionType != null">
+            AND question_type = #{questionType}
+        </if>
+    </where>
 		ORDER BY question_no DESC
 		LIMIT #{offset}, 8;
 	 </select>

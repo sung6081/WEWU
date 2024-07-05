@@ -96,7 +96,7 @@
 			</if>
 		</where>
 		AND m.nickname = #{nickName})
-		ORDER BY board_no;
+		ORDER BY board_no DESC;
 	</select>
 
 	<!-- Bookmark : SELECT CNT( 북마크 개수 ) -->
@@ -240,7 +240,7 @@
 		SELECT * FROM comment
 		WHERE comment_nickname =
 		#{commentNickName}
-		ORDER BY comment_date;
+		ORDER BY comment_date
 	</select>
 
 	<!-- Comment : COUNT (게시글 별 댓글 수 ) -->
@@ -385,7 +385,7 @@
         </if>
     </where>
     ORDER BY b.board_no DESC
-    LIMIT #{offset}, 8;
+    LIMIT #{offset}, 8
 </select>
 
 

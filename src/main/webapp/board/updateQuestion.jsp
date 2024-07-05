@@ -42,34 +42,35 @@
 							<input type="hidden" name="nickName" value="${question.nickName }">
 							<div class="form-group row">
 								<label for="title" class="col-sm-3 col-form-label">제목</label>
-								<div class="col-sm-3">
+								<div class="col-sm-9">
 									<input type="text" class="form-control" name="title" value="${question.title}">
 								</div>
 							</div>
 							
 							<div class="form-group row">
 								<label class="col-sm-3 col-form-label">문의 카테고리</label>
-								<div class="col-sm-3">
+								<div class="col-sm-9">
 									<select id="questionCategory" name="questionCategory" class="form-control">
 										<option value="회원" ${question.questionCategory == '회원' ? 'selected' : ''}>회원 정보</option>
 										<option value="환불" ${question.questionCategory == '환불' ? 'selected' : ''}>환불</option>
 										<option value="주문" ${question.questionCategory == '주문' ? 'selected' : ''}>주문/결제</option>
+										<option value="기타" ${question.questionCategory == '기타' ? 'selected' : ''}>기타 문의</option>
 									</select>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<label for="contents" class="col-sm-3 col-form-label">내용</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" name="contents" value="${question.contents}">
+								<div class="col-sm-9">
+									<textarea class="form-control" id="exampleTextarea1" name="contents" rows="10">${question.contents}</textarea>
 								</div>
 							</div>
 
 							<c:if test="${param.questionType eq '자주' || isAdmin}">
 								<div class="form-group row">
 									<label class="col-sm-3 col-form-label">답변 내용</label>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" name="reply" value="${question.reply}">
+									<div class="col-sm-9">
+										${question.reply}
 									</div>
 								</div>
 							</c:if>

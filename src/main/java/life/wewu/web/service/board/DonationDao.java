@@ -18,6 +18,7 @@ public interface DonationDao {
 	
 	public Donation getDonationById(int payNo) throws Exception;
 	
-	public List<Donation> getDonationList(String payType) throws Exception;
+	public List<Donation> getDonationList(Map map) throws Exception;
 
+	public int getTotalCountD(Map map)throws Exception;
 }

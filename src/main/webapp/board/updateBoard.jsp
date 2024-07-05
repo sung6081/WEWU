@@ -76,6 +76,15 @@
 										value="${board.title}">
 								</div>
 							</div>
+							
+							<div class="row">
+								<button type="button" onclick="upload()"
+									class="upload-btn btn btn-outline-danger btn-icon-text">
+									<i class="ti-upload btn-icon-prepend"></i> 파일 등록
+								</button>
+								<input class="file" type="file" hidden="true" name="file"
+									accept=".jpg,.jpeg,.png,.gif" multiple>
+							</div>
 
 							<c:if test="${param.boardType eq '3'}">
 								<div class="form-group row">
@@ -83,9 +92,7 @@
 									<div class="col-sm-3">
 										<select id="userGroupNo" name="userGroupNo"
 											class="form-control">
-											<option value="1" ${board.userGroupNo eq 1 ? 'selected' : ''}>플로깅</option>
-											<option value="2" ${board.userGroupNo eq 2 ? 'selected' : ''}>리필스테이션</option>
-										</select>
+																					</select>
 									</div>
 								</div>
 							</c:if>
@@ -120,14 +127,7 @@
 								</div>
 							</div>
 
-							<div class="row">
-								<button type="button" onclick="upload()"
-									class="upload-btn btn btn-outline-danger btn-icon-text">
-									<i class="ti-upload btn-icon-prepend"></i> 파일 등록
-								</button>
-								<input class="file" type="file" hidden="true" name="file"
-									accept=".jpg,.jpeg,.png,.gif" multiple>
-							</div>
+							
 
 							<button type="button" class="btn btn-primary mr-2">수&nbsp;정</button>
 							<button type="button" class="btn btn-light cancle-btn">취&nbsp;소</button>
