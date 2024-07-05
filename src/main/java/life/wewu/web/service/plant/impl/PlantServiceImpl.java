@@ -410,8 +410,8 @@ public class PlantServiceImpl implements PlantService {
 	// ---------------------------------------------------------------------------------------//
 
 	@Override
-	public List<Inventory> getInventoryList(String nickname) throws Exception {
-		return inventoryDao.getInventoryList(nickname);
+	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception {
+		return inventoryDao.getInventoryList(map);
 	}
 
 	@Override
@@ -456,6 +456,12 @@ public class PlantServiceImpl implements PlantService {
 		
 
 	}
+
+	@Override
+	public int getTotalCount(Map<String, Object> map) throws Exception {
+		return inventoryDao.getTotalCount(map);
+	}
+
 
 
 

@@ -106,9 +106,9 @@ public interface PlantService {
 
 	public Inventory UseItem(Inventory inventory) throws Exception;
 
-	public List<Inventory> getInventoryList(String nickname) throws Exception;
+	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception;
 
-	
+	public int getTotalCount(Map<String, Object> map) throws Exception;
 
 	
 
