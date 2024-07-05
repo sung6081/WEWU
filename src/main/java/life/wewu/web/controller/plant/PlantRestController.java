@@ -226,15 +226,14 @@ public class PlantRestController {
 
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("nickname", user.getNickname());
-	        System.out.println("Fetching quests for nickname: " + user.getNickname());
 
 	        List<QuestState> list = plantService.getQuestListByUser(map);
 
 	        for (QuestState questState : list) {
-	            map.put("questNo", questState.getQuestNo());
-	            int currentCnt = groupService.memberAcleListCnt(map); // currentCnt 계산
-	            questState.setCurrentCnt(currentCnt); // currentCnt 설정
-	            System.out.println("Current Count for Quest " + questState.getQuestNo() + ": " + currentCnt);
+	            map.put("questRegDate", questState.getQuest().getRegDate());
+	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            questState.setAcleCount(acleCount); // currentCnt 설정
+	            System.out.println(acleCount);
 	        }
 
 	        System.out.println("getQuestListByUserRest : " + list);

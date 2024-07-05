@@ -156,7 +156,7 @@ public class PlantServiceImpl implements PlantService {
 		map.put("nickname", nickname);
 		map.put("questRegDate", quest.getRegDate());
 		
-		int acleCount = groupAcleDao.getGroupAcleListCnt(map);
+		int acleCount = groupAcleDao.memberAcleListCnt(map);
 		return acleCount >= quest.getQuestTargetCnt();
 	}
 

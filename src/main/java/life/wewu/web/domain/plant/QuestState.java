@@ -20,5 +20,5 @@ public class QuestState {
 	private String nickname;		//유저닉네임
 	private String questState;		//퀘스트 상태 ('N','Y')
 	private Quest quest;
-	private int currentCnt;
+	private int acleCount;
 }

@@ -28,7 +28,7 @@ $(document).ready(function () {
                         str += "    식물 경험치 +" + data[i].quest.questReward;
                         str += "  </div>";
                         str += "  <p class='mb-0 font-weight-thin text-gray questContents'>" + data[i].quest.questContents + "</p>";
-                        str += "  <p class='mb-0 font-weight-thin text-gray'>" + data[i].currentCnt + " / " + data[i].quest.questTargetCnt + "</p>";
+                        str += "  <p class='mb-0 font-weight-thin text-gray'>" + data[i].acleCount + " / " + data[i].quest.questTargetCnt + "</p>";
                         str += "</div>";
                     } else if (data[i].questState === 'Y') {
                         console.log("Quest state is 'Y':", data[i]);
@@ -40,7 +40,7 @@ $(document).ready(function () {
                         str += "    <span>식물 경험치 +" + data[i].quest.questReward + "</span>";
                         str += "  </div>";
                         str += "  <p class='mb-0 font-weight-thin text-gray questContents'>" + data[i].quest.questContents + "</p>";
-                        str += "  <p class='mb-0 font-weight-thin text-gray'>" + data[i].currentCnt + " / " + data[i].quest.questTargetCnt + "</p>";
+                        str += "  <p class='mb-0 font-weight-thin text-gray'>" + data[i].acleCount + " / " + data[i].quest.questTargetCnt + "</p>";
                         str += "  <div class='quest-item'>";
                         str += "    <button type='button' class='btn-complete btn-primary btn-sm' onclick='completeQuest(" + data[i].questStateNo + ")'> 완료 </button>";
                         str += "  </div>";
