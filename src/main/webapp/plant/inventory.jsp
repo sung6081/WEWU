@@ -39,7 +39,6 @@
             myPlantNo: parseInt(myPlantNo),
             itemExp: itemExp,
             itemNum: itemNum,
-            useItemNum: useItemNum,
             itemType: itemType,
             itemName: itemName
           }),
