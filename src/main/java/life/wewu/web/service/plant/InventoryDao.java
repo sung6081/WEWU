@@ -17,7 +17,7 @@ import life.wewu.web.domain.plant.Quest;
 public interface InventoryDao {
 
 	
-	public List<Inventory> getInventoryList(String nickname) throws Exception;
+	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception;
 	
 	public void updateInventory(Inventory inventory) throws Exception;
 
@@ -25,5 +25,5 @@ public interface InventoryDao {
 	
 	public Inventory getInventory(int inventoryNo);
 
-
+	public int getTotalCount(Map<String, Object> map) throws Exception;
 }

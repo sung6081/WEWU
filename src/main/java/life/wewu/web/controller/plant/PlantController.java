@@ -39,12 +39,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 
+import life.wewu.web.common.Page;
 import life.wewu.web.common.Search;
 import life.wewu.web.domain.plant.Inventory;
 import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.plant.QuestState;
 import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.plant.PlantService;
@@ -56,6 +58,13 @@ public class PlantController {
 	@Autowired
 	@Qualifier("plantServiceImpl")
 	private PlantService plantService;
+	
+	@Value("${pageUnit}") 
+	int pageUnit;
+
+	@Value("${pageSize}") 
+	int pageSize;
+	
 
 	public PlantController() {
 		System.out.println(this.getClass());
@@ -63,24 +72,55 @@ public class PlantController {
 
 //----------------Quest
 	
-	@RequestMapping(value = "addQuest", method = RequestMethod.GET)
-	public String addQuest() throws Exception {
-		System.out.println("::plant::addQuest : GET");
-		return "forward:/plant/addQuest.jsp";
-	}
+    @RequestMapping(value = "addQuestWithState", method = RequestMethod.GET)
+    public String addQuestWithState(Model model) throws Exception {
+        System.out.println("::plant::addQuestWithState : GET");
+        model.addAttribute("quest", new Quest());
+        return "forward:/plant/addQuest.jsp";
+    }
 
-	@RequestMapping(value = "addQuest", method = RequestMethod.POST)
-	public String addQuest(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
-		System.out.println("::plant::addQuest : POST");
+    @RequestMapping(value = "addQuestWithState", method = RequestMethod.POST)
+    public String addQuestWithState(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
+        System.out.println("::plant::addQuestWithState : POST");
 
-		User user = (User) session.getAttribute("user");
-		quest.setNickname(user.getNickname());
-		plantService.addQuest(quest);
-		model.addAttribute("quest", quest);
-		model.addAttribute("user", user);
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            quest.setNickname(user.getNickname());
 
-		return "forward:/plant/addQuest.jsp";
-	}
+            // 퀘스트 상태 초기화
+            QuestState questState = new QuestState();
+            questState.setQuestState("N");
+            questState.setNickname(user.getNickname());
+
+            // 퀘스트와 퀘스트 상태를 동시에 추가
+            plantService.addQuestWithState(quest, questState);
+            System.out.println(quest);
+            System.out.println(questState);
+
+            model.addAttribute("quest", quest);
+            model.addAttribute("user", user);
+        }
+
+        return "forward:/plant/addQuest.jsp";
+    }
+//	@RequestMapping(value = "addQuest", method = RequestMethod.GET)
+//	public String addQuest() throws Exception {
+//		System.out.println("::plant::addQuest : GET");
+//		return "forward:/plant/addQuest.jsp";
+//	}
+//
+//	@RequestMapping(value = "addQuest", method = RequestMethod.POST)
+//	public String addQuest(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
+//		System.out.println("::plant::addQuest : POST");
+//
+//		User user = (User) session.getAttribute("user");
+//		quest.setNickname(user.getNickname());
+//		plantService.addQuest(quest);
+//		model.addAttribute("quest", quest);
+//		model.addAttribute("user", user);
+//
+//		return "forward:/plant/addQuest.jsp";
+//	}
 
 	@RequestMapping(value = "updateQuest", method = RequestMethod.GET)
 	public String GETupdateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception {
@@ -219,31 +259,45 @@ public class PlantController {
 	}
 
 //----------------Inventory
-	@RequestMapping(value = "inventory", method = RequestMethod.GET)
-	public String getInventory(HttpSession session, Model model) throws Exception {
+	 @RequestMapping(value = "inventory", method = RequestMethod.GET)
+	    public String getInventory(HttpSession session, Model model, @ModelAttribute Search search) throws Exception {
+	        User user = (User) session.getAttribute("user");
 
-		System.out.println("::plant::inventory : GET");
-		User user = (User) session.getAttribute("user");
+	        
+	        
+	        if (user != null) {
+	            if (search.getCurrentPage() == 0) {
+	                search.setCurrentPage(1);
+	            }
+	            search.setPageSize(pageSize);
+	            if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
+	                search.setSearchKeyword("");
+	            }
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("nickname", user.getNickname());
+	            Map<String, Object> map = new HashMap<>();
+	            map.put("nickname", user.getNickname());
+	            map.put("offset", (search.getCurrentPage() - 1) * 3);
+	            map.put("pageSize", 3);
 
-		List<Inventory> list = plantService.getInventoryList(user.getNickname());
+	            int totalCount = plantService.getTotalCount(map);
 
-		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		System.out.println(myPlant);
-		System.out.println(plantLevl);
-		System.out.println(list);
+	            Page resultPage = new Page(search.getCurrentPage(), totalCount, 3, 3);
+	            System.out.println("RESULT PAGE: " + resultPage);
 
-		System.out.println("list: " + list);
+	            List<Inventory> list = plantService.getInventoryList(map);
 
-		model.addAttribute("user", user);
-		model.addAttribute("list", list);
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("plantLevl", plantLevl);
+	            MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	            PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
 
-		return "forward:/plant/inventory.jsp";
+	            model.addAttribute("user", user);
+	            model.addAttribute("list", list);
+	            model.addAttribute("myPlant", myPlant);
+	            model.addAttribute("plantLevl", plantLevl);
+	            model.addAttribute("resultPage", resultPage);
 
-	}
+	            return "forward:/plant/inventory.jsp";
+	        } else {
+	            return "redirect:/login";
+	        }
+	    }
 }

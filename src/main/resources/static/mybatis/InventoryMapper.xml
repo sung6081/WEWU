@@ -8,6 +8,7 @@
 	<resultMap id="InventorySelectMap" type="inventory" >
 		<result property="itemNo"			column="item_no" 			jdbcType="INTEGER" />
 		<result property="itemPurNo"		column="item_purchase_no" 	jdbcType="VARCHAR" />
+		<result property="itemName"   		column="item_name"    		jdbcType="VARCHAR" />
 		<result property="itemExp"			column="item_effect"		jdbcType="VARCHAR" />
 		<result property="itemType"			column="item_category" 		jdbcType="VARCHAR" />
 		<result property="itemNum"			column="item_stock" 		jdbcType="INTEGER" />
@@ -16,16 +17,17 @@
 	</resultMap>
 
 	<!-- GET INVENTORY -->
-	<select id="getInventoryList" parameterType="string" resultMap="InventorySelectMap">
-		SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no,SUM(item_stock) item_stock
-		FROM item_purchase p, item i
-		WHERE 
-		p.item_no = i.item_no
-		AND p.buyer_nickname = #{nickname}
-		AND item_stock > 0 
-		GROUP BY i.item_no, i.item_name, i.item_effect, i.item_img,p.item_purchase_no
-		ORDER BY item_purchase_no
-	</select>
+<!-- InventoryMapper.xml -->
+<select id="getInventoryList" parameterType="map" resultMap="InventorySelectMap">
+    SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no, SUM(item_stock) AS itemNum, i.item_category
+    FROM item_purchase p
+    JOIN item i ON p.item_no = i.item_no
+    WHERE p.buyer_nickname = #{nickname}
+    AND item_stock > 0 
+    GROUP BY i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no
+    ORDER BY item_purchase_no
+    LIMIT #{offset}, #{pageSize};
+</select>
 	
 	<update id="updateInventory" parameterType="inventory">
 		UPDATE item_purchase
@@ -38,6 +40,13 @@
 	<select id="getInventory" parameterType="int" resultMap="InventorySelectMap">
 		SELECT * FROM inventory
 		WHERE inventory_no = #{inventoryNo}
+	</select>
+	
+	
+	<select id = "getTotalCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*) FROM item_purchase ip , item i
+		WHERE i.item_no = ip.item_no 
+		AND item_category = 'Y'
 	</select>
 	
 </mapper>

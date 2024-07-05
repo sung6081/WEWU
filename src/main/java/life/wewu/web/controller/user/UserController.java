@@ -57,35 +57,6 @@ public class UserController {
         return "/user/loginView"; // login.jsp 페이지를 반환
     }
 
-//    @RequestMapping(value="/login", method=RequestMethod.POST)
-//    public String login(@ModelAttribute("user") User user, HttpSession session) {
-//        System.out.println("/user/login : POST");
-//
-//        try {
-//            // 로그인 서비스 호출
-//            User dbUser = userService.login(user);
-//
-//            if (dbUser != null) {
-//                session.setAttribute("user", dbUser);
-//                session.setAttribute("isAdmin", "1".equals(dbUser.getRole()));
-//                System.out.println("로그인 성공: " + dbUser.getUserId());
-//                return "redirect:/index.jsp";
-//            } else {
-//                System.out.println("로그인 실패: 비밀번호 불일치 또는 사용자 없음");
-//                return "redirect:/user/loginView.jsp?error=login_failed";
-//            }
-//        } catch (IllegalArgumentException e) {
-//            // 유효하지 않은 사용자 정보 예외 처리
-//            System.out.println("유효하지 않은 사용자 정보: " + e.getMessage());
-//            return "redirect:/user/loginView.jsp?error=invalid_user";
-//        } catch (Exception e) {
-//            // 일반 예외 처리
-//            System.out.println("로그인 중 예외 발생: " + e.getMessage());
-//            return "redirect:/user/loginView.jsp?error=unexpected_error";
-//        }
-//    }
-
-
     
 	@RequestMapping( value="/logout", method=RequestMethod.GET )
 	public String logout(HttpSession session ) throws Exception{
@@ -96,6 +67,12 @@ public class UserController {
 		
 		return "redirect:/user/loginView.jsp";
 	}
+	
+    @PostMapping("/user/findUserId")
+    public String findUserId(@RequestParam String userId, Model model) {
+        model.addAttribute("userId", userId);
+        return "user/findUserId";
+    }
 	
 	@RequestMapping(value = "/findUserId", method =RequestMethod.GET)
 	public String verification() throws Exception {
@@ -153,6 +130,11 @@ public class UserController {
 		
 		return "redirect:/user/login";
 	}
+	 @PostMapping("/user/findPwd")
+	    public String findPwd(@RequestParam String userId, Model model) {
+	        model.addAttribute("userId", userId);
+	        return "user/updatePwdView";
+	    }
 	
 	//user 내정보조회페이지로 이동
 	@GetMapping("/myInfo")

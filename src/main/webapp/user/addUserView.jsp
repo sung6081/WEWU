@@ -11,32 +11,37 @@
   <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
   <style>
   
-  .jumbotron {
-      position: relative;
-      background: none;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 0;
-    }
-
-    .jumbotron img {
-      width: 100%;
-      height: auto;
-    }
-
-    .jumbotron-container {
-      background-color: #FBFBFB;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-    }
-
-  .content-wrapper {
-    padding-top: 0; /* content-wrapper 위쪽 여백 제거 */
-    margin-top: 0; /* content-wrapper 위쪽 여백 제거 */
-  }
+	.jumbotron {
+	    position: relative;
+	    background: none;
+	    padding: 0;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin-bottom: 0;
+	  }
+	
+	  .jumbotron img {
+	    width: 100%;
+	    height: auto;
+	  }
+	
+	  .jumbotron-container {
+	    background-color: #FBFBFB;
+	    padding: 0;
+	    margin: 0;
+	    width: 75%;
+	  }
+	
+	.content-wrapper {
+	  padding-top: 0; /* content-wrapper 위쪽 여백 제거 */
+	  margin-top: 0; /* content-wrapper 위쪽 여백 제거 */
+	}
+  	.btn.btn-lg{
+  		font-size: 0.875rem;
+	    padding: 1.375rem 3.4rem;
+	    width: 100%;
+  	}
 
     .input-group-append .btn {
       position: relative;

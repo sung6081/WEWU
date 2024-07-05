@@ -34,15 +34,21 @@ public interface PlantService {
 	
 	public boolean checkAcleCount(Quest quest,String nickname) throws Exception;
 	
+	public Quest getQuestByStateNo(int questStateNo) throws Exception;
+	
 	//---------------------------------------------------------------------------------------//
 	
 	public List<QuestState> getQuestListByUser(Map<String,Object> map) throws Exception;
 	
-	public void updateQuestState(Map<String,Object> map) throws Exception;
+	public void updateQuestState(int questStateNo, String string) throws Exception;
 	
 	public void insertQuestState(Map<String,Object> map) throws Exception;
 	
 	public QuestState getQuestState(Map<String,Object> map) throws Exception;
+	
+	public void addQuestState(QuestState questState) throws Exception;
+	
+	public void addQuestWithState(Quest quest, QuestState questState) throws Exception;
 	
 	//---------------------------------------------------------------------------------------//
 	
@@ -100,7 +106,9 @@ public interface PlantService {
 
 	public Inventory UseItem(Inventory inventory) throws Exception;
 
-	public List<Inventory> getInventoryList(String nickname) throws Exception;
+	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception;
+
+	public int getTotalCount(Map<String, Object> map) throws Exception;
 
 	
 

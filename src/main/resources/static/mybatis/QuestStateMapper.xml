@@ -22,6 +22,11 @@
 		<result property="questReward" 		column="quest_reward" 		jdbcType="INTEGER" />
 		<result property="nickname" 		column="nickname" 			jdbcType="VARCHAR" />	
 	</resultMap>
+	
+	<insert id="addQuestState" parameterType="life.wewu.web.domain.plant.QuestState">
+        INSERT INTO quest_state (quest_no, quest_state, nickname)
+        VALUES (#{questNo}, #{questState}, #{nickname});
+    </insert>
 
 	<select  id="getQuestByState"  parameterType="map" resultMap="questStateSelectMap">
 	  	SELECT * from quest_state
@@ -43,7 +48,7 @@
 	  	SELECT q.*, qs.*
 	  	from quest q , quest_state qs
 	  	WHERE qs.quest_no = q.quest_no
-	  	AND q.nickname = #{nickname}
+	  	AND qs.nickname = #{nickname}
 	  	order by quest_state DESC; 
 	</select>
 	

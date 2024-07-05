@@ -172,8 +172,17 @@ public class GroupController {
 		// Business logic 수행
 		ModelAndView model = new ModelAndView("forward:/group/getMemberGroup.jsp");
 		
+		
+		
 		Group group = groupService.getGroup(groupNo);
 		int cnt = groupService.groupMemberCnt(groupNo);
+		
+		GroupMember groupMember = groupService.getMemberGroup(memberNo);
+		System.out.println(groupMember);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("groupNo", groupNo);
+		map.put("memberNickName",groupMember.getMemberNickName());
+		map.put("nickname",groupMember.getMemberNickName());
 		
 		group.setGroupPers(cnt);
 		
@@ -190,7 +199,9 @@ public class GroupController {
 		}
 		
 		model.addObject("group", group);
-		model.addObject("groupMember", groupService.getMemberGroup(memberNo));
+		model.addObject("groupMember", groupMember);
+		model.addObject("acleCount", groupService.memberAcleListCnt(map));
+		model.addObject("commentCount", groupService.memberCommentListCnt(map));
 		return model;
 	}
 	

@@ -114,11 +114,11 @@
 		 });
 	
 		 $( ".btn-fw:contains('식물 아이템')" ).on("click" , function() {
-			location.href="/item/getItemList?searchCondition=식물" 
+			location.href="/item/getItemList?searchCondition=Y" 
 		 });
 		 
 		 $( ".btn-fw:contains('장식 아이템')" ).on("click" , function() {
-				location.href="/item/getItemList?searchCondition=장식" 
+				location.href="/item/getItemList?searchCondition=N" 
 	     });
 		 
 		 $( ".btn-sm:contains('Search')" ).on("click" , function() {

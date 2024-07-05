@@ -42,4 +42,7 @@ public interface UserDao {
 	public void updateRole(User user) throws Exception;
 
 	public void updateUserPoint(Map<String, Object> params) throws Exception;
+	
+	public List<User> getAllUsers() throws Exception;
+
 }

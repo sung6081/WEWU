@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,9 @@ import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.group.GroupService;
 import life.wewu.web.service.plant.PlantDao;
 import life.wewu.web.service.plant.PlantService;
+
+
+
 
 @RestController
 @RequestMapping("/app/plant/")
@@ -167,7 +171,7 @@ public class PlantRestController {
 	}
 
 	@RequestMapping(value = "getQuest", method = RequestMethod.POST)
-	public Quest getQuest(@RequestParam("questNo") int questNo, HttpSession session) throws Exception {
+	public Quest getQuest(@RequestParam("questNo") int questNo, HttpSession session , Model model) throws Exception {
 		System.out.println("::plant::REST::getQuest : POST");
 
 		// 세션에 퀘스트 정보 추가
@@ -175,11 +179,14 @@ public class PlantRestController {
 		User user = (User) session.getAttribute("user");
 
 		// 퀘스트 정보를 서비스에서 가져옴
-		Map<String,Object> map = new HashMap<>();
-		QuestState questState = plantService.getQuestState(map);
-		System.out.println("session questStage: "+quest);
-		// 세션에 퀘스트 정보 업데이트
-		session.setAttribute("questState", questState);
+//		Map<String,Object> map = new HashMap<>();
+//		QuestState questState = plantService.getQuestState(map);
+//		System.out.println("session questStage: "+quest);
+//		// 세션에 퀘스트 정보 업데이트
+		//session.setAttribute("questState", questState);
+		
+		model.addAttribute("quest", quest);
+		model.addAttribute("user", user);
 
 		return quest;
 	}
@@ -206,44 +213,61 @@ public class PlantRestController {
 	
 
 	@RequestMapping(value = "getQuestListByUser", method = RequestMethod.POST)
-	public List<QuestState> getQuestListByUser(@RequestBody Quest quest, Model model, 
-			HttpSession session)
-			throws Exception {
-	      	System.out.println("::plant::REST::getQuestListByUser : POST");
-	        
+	public ResponseEntity<?> getQuestListByUser(HttpSession session) {
+	    try {
+	        System.out.println("::plant::REST::getQuestListByUser : POST");
+
 	        User user = (User) session.getAttribute("user");
 	        System.out.println("User: " + user);
-	        
-	        Search searchCriteria = new Search();
-	        if (searchCriteria.getSearchKeyword() == null) {
-	            searchCriteria.setSearchKeyword("");
+
+	        if (user == null) {
+	            throw new Exception("User not found in session");
 	        }
-	        
+
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("nickname", user.getNickname());
-	     
-	        
+
 	        List<QuestState> list = plantService.getQuestListByUser(map);
-	        
+
 	        for (QuestState questState : list) {
-	            int currentCnt = groupService.memberAcleListCnt(map);  // currentCnt 계산
-	            questState.setCurrentCnt(currentCnt);  // currentCnt 설정
-	            System.out.println(currentCnt);
+	            map.put("questRegDate", questState.getQuest().getRegDate());
+	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            questState.setAcleCount(acleCount); // currentCnt 설정
+	            System.out.println(acleCount);
 	        }
+
 	        System.out.println("getQuestListByUserRest : " + list);
-	        
-	        return list; // JSON 형식으로 반환됩니다.
+
+	        // 세션에 사이드바 데이터 저장
+	        session.setAttribute("sidebarQuestList", list);
+
+	        return ResponseEntity.ok(list); // JSON 형식으로 반환됩니다.
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+	    }
 	}
+    @RequestMapping(value = "completeQuest", method = RequestMethod.POST)
+    public ResponseEntity<?> completeQuest(@RequestBody Map<String, Object> params, HttpSession session) {
+        try {
+            System.out.println("::plant::REST::completeQuest : POST");
 
-	@RequestMapping(value = "completeQuest", method = RequestMethod.POST)
-	public Quest completeQuest(@RequestBody Quest quest) throws Exception {
-		System.out.println("::plant::REST::completeQuest : POST");
+            User user = (User) session.getAttribute("user");
+            System.out.println("User: " + user);
 
-		plantService.completeAndupdateReward(quest.getQuestNo());
+            if (user == null) {
+                throw new Exception("User not found in session");
+            }
 
-		return quest;
-	}
+            int questStateNo = (int) params.get("questStateNo");
+            plantService.completeAndupdateReward(questStateNo);
 
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 	@RequestMapping(value = "updateQuest", method = RequestMethod.POST)
 	public Map<String, Object> updateQuest(@RequestBody Quest quest) throws Exception {
 		System.out.println("::plant::REST::updateQuest : POST");
@@ -310,27 +334,21 @@ public class PlantRestController {
 
 	}
 
-	@RequestMapping(value = "myPlantListbyLevlNo")
-	public List<MyPlant> myPlantListbyLevlNo(HttpSession session
+	@RequestMapping(value = "myPlantListbyPlantNo")
+	public List<MyPlant> myPlantListbyPlantNo(HttpSession session
 	                                           ,@RequestBody MyPlant myPlant) throws Exception {
 
-	    System.out.println("::plant::REST::myPlantListbyLevlNo : GET");
+	    System.out.println("::plant::REST::myPlantListbyPlantNo : POST");
 
 	    User user = (User) session.getAttribute("user");
-
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		int plantLevlNo = plantLevl.getPlantLevlNo();
-		myPlant.setPlantLevl(plantLevl);
-
+		plantService.getMyPlant(user.getNickname());
+		int myPlantNo = myPlant.getMyPlantNo();
+	    
 	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("plantLevlNo", plantLevlNo);
-	    map.put("plantLevl", plantLevl);
-	    map.put("myPlant", myPlant); 
-	    map.put("user", user); 
+	    map.put("myPlantNo", myPlantNo);
+	    map.put("nickname", user.getNickname()); 
 
-	    System.out.println("plantLevl = " + plantLevl);
-	    System.out.println("plantLevlNo = " + plantLevlNo);
-
+	    System.out.println("map = "+map);
 
 	    List<MyPlant> list = plantService.myPlantListbyLevlNo(map);
 

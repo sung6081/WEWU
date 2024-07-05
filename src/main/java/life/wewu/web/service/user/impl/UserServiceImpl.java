@@ -212,5 +212,5 @@ public class UserServiceImpl implements UserService {
 		        params.put("points", afterPoint);
 		        userDao.updateUserPoint(params);
 		   }
-	
+
 }
