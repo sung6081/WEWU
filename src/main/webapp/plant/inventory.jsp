@@ -17,7 +17,7 @@
       margin: 10px; /* 카드 간격 조정 */
     }
     .card-img-top {
-      height: 100px; /* 이미지 높이 조정 */
+      height: 130px; /* 이미지 높이 조정 */
     }
     .card-body {
       padding: 10px; /* 카드 내부 여백 조정 */
@@ -115,7 +115,6 @@
                       <h5 class="card-title">${inventory.itemName}</h5>
                       <p class="card-itemExp">사용 시 경험치가 +${inventory.itemExp}이 된다!</p>
                       <input type="hidden" name="itemExp" class="itemExp" value="${inventory.itemExp}">
-                      <p class="card-itemNum">남은 수량 : ${inventory.itemNum}</p>
                       <input type="hidden" name="itemNum" class="itemNum" value="${inventory.itemNum}">
                       <input type="hidden" name="itemType" class="itemType" value="${inventory.itemType}">
                       <input type="hidden" name="itemName" class="itemName" value="${inventory.itemName}">
