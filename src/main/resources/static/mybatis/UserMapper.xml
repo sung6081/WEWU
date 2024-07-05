@@ -139,4 +139,8 @@
           where user_id = #{userId}
     </update>
     
+    <select id="getAllUsers" resultType="life.wewu.web.domain.user.User">
+        SELECT * FROM user
+    </select>
+    
 </mapper>
