@@ -82,7 +82,9 @@
           </div>
         </div>
         <div class="container">
+        
           <c:forEach var="inventory" items="${list}" varStatus="status">
+          <c:if test = "${inventory.itemType eq 'Y'}">
             <c:if test="${status.index % 3 == 0}">
               <div class="row justify-content-center">
             </c:if>
@@ -108,7 +110,9 @@
             <c:if test="${status.index % 3 == 2 || status.last}">
               </div>
             </c:if>
+            </c:if>
           </c:forEach>
+          
         </div>
       </div>
     </div>
