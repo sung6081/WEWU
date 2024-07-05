@@ -616,11 +616,11 @@ public class GroupRestController {
 	}
 	
 	@RequestMapping(value="memberGroupAcle",method = RequestMethod.POST)
-	public List<Object> memberGroupAcle(@RequestBody Map<String, Object> rslt , HttpSession session) throws Exception 
+	public List<Object> memberGroupAcle(@RequestBody Map<String, Object> rslt) throws Exception 
 	{
 		System.out.println(":: /app/group/memberGroupAcle ::");
 		int groupNo = (int)rslt.get("groupNo");
-		
+		String nickname = (String)rslt.get("memberNickName");
 		int currentPage = 1;
 		
 		if(rslt.get("currentPage") != null && rslt.get("currentPage") != "" && Integer.parseInt((String.valueOf(rslt.get("currentPage")))) > 1){
@@ -632,7 +632,7 @@ public class GroupRestController {
 		search.setCurrentPage(((currentPage - 1)*5)); // 0
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("groupNo", groupNo);
-		map.put("nickname", ((User)session.getAttribute("user")).getNickname());
+		map.put("nickname", nickname);
 		map.put("search", search);
 		
 		// Business logic 수행
@@ -647,11 +647,11 @@ public class GroupRestController {
 	}
 	
 	@RequestMapping(value="memberCommentList",method = RequestMethod.POST)
-	public List<Object> memberCommentList(@RequestBody Map<String, Object> rslt , HttpSession session) throws Exception 
+	public List<Object> memberCommentList(@RequestBody Map<String, Object> rslt) throws Exception 
 	{
 		System.out.println(":: /app/group/memberCommentList ::");
 		int groupNo = (int)rslt.get("groupNo");
-		
+		String nickname = (String)rslt.get("memberNickName");
 		int currentPage = 1;
 		
 		if(rslt.get("currentPage") != null && rslt.get("currentPage") != "" && Integer.parseInt((String.valueOf(rslt.get("currentPage")))) > 1){
@@ -664,9 +664,9 @@ public class GroupRestController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("groupNo", groupNo);
-		map.put("nickname", ((User)session.getAttribute("user")).getNickname());
+		map.put("nickname", nickname);
 		map.put("search", search);
-		
+		System.out.println(search);
 		// Business logic 수행
 		List<Comment> comment = groupService.memberCommentList(map);
 		List<Object> list = new ArrayList<Object>();

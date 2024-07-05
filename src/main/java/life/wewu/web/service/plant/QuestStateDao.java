@@ -24,5 +24,7 @@ public interface QuestStateDao {
 	public void updateQuestState(Map<String,Object> map) throws Exception;
 	
 	public void insertQuestState(Map<String,Object> map) throws Exception;
+	
+	public void addQuestState(QuestState questState) throws Exception;
 
 }

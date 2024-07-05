@@ -8,6 +8,7 @@
 	<resultMap id="InventorySelectMap" type="inventory" >
 		<result property="itemNo"			column="item_no" 			jdbcType="INTEGER" />
 		<result property="itemPurNo"		column="item_purchase_no" 	jdbcType="VARCHAR" />
+		<result property="itemName"   		column="item_name"    		jdbcType="VARCHAR" />
 		<result property="itemExp"			column="item_effect"		jdbcType="VARCHAR" />
 		<result property="itemType"			column="item_category" 		jdbcType="VARCHAR" />
 		<result property="itemNum"			column="item_stock" 		jdbcType="INTEGER" />
@@ -17,7 +18,7 @@
 
 	<!-- GET INVENTORY -->
 	<select id="getInventoryList" parameterType="string" resultMap="InventorySelectMap">
-		SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no,SUM(item_stock) item_stock
+		SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no,SUM(item_stock) item_stock ,i.item_category
 		FROM item_purchase p, item i
 		WHERE 
 		p.item_no = i.item_no

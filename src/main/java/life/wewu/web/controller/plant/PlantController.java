@@ -45,6 +45,7 @@ import life.wewu.web.domain.plant.MyPlant;
 import life.wewu.web.domain.plant.Plant;
 import life.wewu.web.domain.plant.PlantLevl;
 import life.wewu.web.domain.plant.Quest;
+import life.wewu.web.domain.plant.QuestState;
 import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.plant.PlantService;
@@ -63,24 +64,55 @@ public class PlantController {
 
 //----------------Quest
 	
-	@RequestMapping(value = "addQuest", method = RequestMethod.GET)
-	public String addQuest() throws Exception {
-		System.out.println("::plant::addQuest : GET");
-		return "forward:/plant/addQuest.jsp";
-	}
+    @RequestMapping(value = "addQuestWithState", method = RequestMethod.GET)
+    public String addQuestWithState(Model model) throws Exception {
+        System.out.println("::plant::addQuestWithState : GET");
+        model.addAttribute("quest", new Quest());
+        return "forward:/plant/addQuest.jsp";
+    }
 
-	@RequestMapping(value = "addQuest", method = RequestMethod.POST)
-	public String addQuest(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
-		System.out.println("::plant::addQuest : POST");
+    @RequestMapping(value = "addQuestWithState", method = RequestMethod.POST)
+    public String addQuestWithState(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
+        System.out.println("::plant::addQuestWithState : POST");
 
-		User user = (User) session.getAttribute("user");
-		quest.setNickname(user.getNickname());
-		plantService.addQuest(quest);
-		model.addAttribute("quest", quest);
-		model.addAttribute("user", user);
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            quest.setNickname(user.getNickname());
 
-		return "forward:/plant/addQuest.jsp";
-	}
+            // 퀘스트 상태 초기화
+            QuestState questState = new QuestState();
+            questState.setQuestState("N");
+            questState.setNickname(user.getNickname());
+
+            // 퀘스트와 퀘스트 상태를 동시에 추가
+            plantService.addQuestWithState(quest, questState);
+            System.out.println(quest);
+            System.out.println(questState);
+
+            model.addAttribute("quest", quest);
+            model.addAttribute("user", user);
+        }
+
+        return "forward:/plant/addQuest.jsp";
+    }
+//	@RequestMapping(value = "addQuest", method = RequestMethod.GET)
+//	public String addQuest() throws Exception {
+//		System.out.println("::plant::addQuest : GET");
+//		return "forward:/plant/addQuest.jsp";
+//	}
+//
+//	@RequestMapping(value = "addQuest", method = RequestMethod.POST)
+//	public String addQuest(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
+//		System.out.println("::plant::addQuest : POST");
+//
+//		User user = (User) session.getAttribute("user");
+//		quest.setNickname(user.getNickname());
+//		plantService.addQuest(quest);
+//		model.addAttribute("quest", quest);
+//		model.addAttribute("user", user);
+//
+//		return "forward:/plant/addQuest.jsp";
+//	}
 
 	@RequestMapping(value = "updateQuest", method = RequestMethod.GET)
 	public String GETupdateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception {

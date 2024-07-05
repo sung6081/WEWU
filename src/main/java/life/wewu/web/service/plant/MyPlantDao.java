@@ -27,7 +27,7 @@ public interface MyPlantDao {
 	
 	public String getWeather(String location);
 	
-	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception;
+	public List<MyPlant> myPlantListbyPlantNo(Map<String, Object> map) throws Exception;
 
 	public void updateMyPlantExp(Map<String,Object> map) throws Exception;
 

@@ -30,6 +30,19 @@
 	INSERT INTO quest (quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date,nickname)
         VALUES ( #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(),#{nickname})
     </insert>
+    
+    <insert id="addQuestWithState" parameterType="map">
+        <!-- MyBatis가 트랜잭션을 처리하도록 하기 위해 두 개의 INSERT를 포함 -->
+        <selectKey keyProperty="questNo" resultType="int" order="BEFORE">
+            SELECT nextval('quest_seq') AS questNo
+        </selectKey>
+        INSERT INTO quest (quest_no, quest_contents, quest_target, quest_target_cnt, quest_reward, reg_date, nickname)
+        VALUES (#{questNo}, #{questContents}, #{questTarget}, #{questTargetCnt}, #{questReward}, now(), #{nickname});
+
+        INSERT INTO quest_state (quest_no, quest_state, nickname)
+        VALUES (#{questNo}, 'N' , #{nickname});
+    </insert>
+    
 	
 
 	<!-- UPDATE QUTES -->
@@ -99,6 +112,11 @@
 	  	AND qs.quest_state = 'Y' 
 	</select>
 
-	 
+	 <select id="getQuestByStateNo" parameterType="int" resultType="life.wewu.web.domain.plant.Quest">
+    SELECT q.*
+    FROM quest q
+    JOIN quest_state qs ON q.quest_no = qs.quest_no
+    WHERE qs.quest_state_no = #{questStateNo}
+</select>
 
 </mapper>
