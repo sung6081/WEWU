@@ -71,9 +71,11 @@
                 <li class="nav-item"> 
                     <a class="nav-link" href="/board/listBoard?boardType=4"> 후원 하기 </a>
                 </li>
-                <li class="nav-item"> 
-                    <a class="nav-link" href="/board/listDonation?payType=B"> 후원 내역 보기 </a>
-                </li>
+                <c:if test="${isAdmin}">
+	                <li class="nav-item"> 
+	                    <a class="nav-link" href="/board/listDonation?payType=B"> 후원 내역 보기 </a>
+	                </li>
+	             </c:if>
               </ul>
             </div>
         </li>

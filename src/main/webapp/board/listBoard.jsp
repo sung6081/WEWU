@@ -53,34 +53,38 @@
 
 .jumbotron {
 	background-color: #00A06C;
-		margin-top:160px;
+	margin-top: 160px;
 	margin-bottom: 0;
 	background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
 	background-image: url('/images/jumbo2.jpg'); /* 배경 이미지 경로 */
 	background-size: cover; /* 이미지가 컨테이너를 덮도록 */
 	background-position: center; /* 이미지가 중앙에 위치하도록 */
 }
-.sidebar-offcanvas{
-margin-top:0px;
+
+.sidebar-offcanvas {
+	margin-top: 0px;
 }
-.main-panel{
-margin-top:0px;
+
+.main-panel {
+	margin-top: 0px;
 }
-.container-fluid.page-body-wrapper{
-margin-top:0px;
+
+.container-fluid.page-body-wrapper {
+	margin-top: 0px;
 }
+
 b {
-    color: white;
+	color: white;
 }
+
 .book {
-		color: #FFC100;
-		font-size: 30px;
-	}
-	
-.order{
-	margin-top:30px;
+	color: #FFC100;
+	font-size: 30px;
 }
-	
+
+.order {
+	margin-top: 30px;
+}
 </style>
 <script type="text/javascript">
     var currentPage = 1;
@@ -115,14 +119,32 @@ b {
         }); */
         
         $(".orderDef").on("click",function(){
+        	var orderText = $(this).text().trim();
+            var orderVal = $(this).attr("data-order");
+
+            // 버튼 텍스트 변경
+            $(".orderName").text(orderText);
+            
         	$("input[name='searchOrderBy']").val('1');
         	fncGetList(1);
         })
          $(".orderPop").on("click",function(){
+        	 var orderText = $(this).text().trim();
+             var orderVal = $(this).attr("data-order");
+
+             // 버튼 텍스트 변경
+             $(".orderName").text(orderText);
+             
         	$("input[name='searchOrderBy']").val('2');
         	fncGetList(1);
         })
          $(".orderBook").on("click",function(){
+        	 var orderText = $(this).text().trim();
+             var orderVal = $(this).attr("data-order");
+
+             // 버튼 텍스트 변경
+             $(".orderName").text(orderText);
+        	 
         	$("input[name='searchOrderBy']").val('3');
         	fncGetList(1);
         })
@@ -196,6 +218,8 @@ b {
         // 검색 후 텍스트 입력창 비우기
         form.find('input[name="searchKeyword"]').val('');
     }  
+    
+
  
 </script>
 </head>
@@ -272,7 +296,7 @@ b {
 																
 								<div align="right">
 								<div class="btn-group order">
-									<button type="button" class="btn btn-success">최신순</button>
+									<button type="button" class="btn btn-success orderName">최신순</button>
 									<button type="button"
 										class="btn btn-success dropdown-toggle dropdown-toggle-split"
 										id="dropdownMenuSplitButton3" data-toggle="dropdown"

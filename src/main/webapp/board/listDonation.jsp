@@ -11,10 +11,10 @@
 <style type="text/css">
 .jumbotron {
 	background-color: #00A06C;
-	margin-top:160px;
+	margin-top: 160px;
 	margin-bottom: 0;
 	background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
-	background-image: url('/images/jumbo2.png'); /* 배경 이미지 경로 */
+	background-image: url('/images/jumbo2.jpg'); /* 배경 이미지 경로 */
 	background-size: cover; /* 이미지가 컨테이너를 덮도록 */
 	background-position: center; /* 이미지가 중앙에 위치하도록 */
 }
@@ -83,14 +83,14 @@ function fncQuestionList(page) {
 </head>
 <body>
 <input type="hidden" name="payType" value="${param.payType}" >
-<div class="jumbotron">
-						<div class="container">
-							<p class="display-4">
-								<b>후원 내역 보기</b>
-							</p>
-						</div>
-						
-					</div>	
+	<div class="jumbotron">
+		<div class="container">
+			<p class="display-4">
+				<b>후원 내역 보기</b>
+			</p>
+		</div>
+
+	</div>
 
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
