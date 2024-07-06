@@ -259,45 +259,38 @@ public class PlantController {
 	}
 
 //----------------Inventory
-	 @RequestMapping(value = "inventory", method = RequestMethod.GET)
-	    public String getInventory(HttpSession session, Model model, @ModelAttribute Search search) throws Exception {
-	        User user = (User) session.getAttribute("user");
+	@RequestMapping(value = "inventory", method = RequestMethod.GET)
+	public String getInventory(HttpSession session, Model model, @ModelAttribute Search search) throws Exception {
+	    User user = (User) session.getAttribute("user");
 
-	        
-	        
-	        if (user != null) {
-	            if (search.getCurrentPage() == 0) {
-	                search.setCurrentPage(1);
-	            }
-	            search.setPageSize(pageSize);
-	            if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
-	                search.setSearchKeyword("");
-	            }
-
-	            Map<String, Object> map = new HashMap<>();
-	            map.put("nickname", user.getNickname());
-	            map.put("offset", (search.getCurrentPage() - 1) * 3);
-	            map.put("pageSize", 3);
-
-	            int totalCount = plantService.getTotalCount(map);
-
-	            Page resultPage = new Page(search.getCurrentPage(), totalCount, 3, 3);
-	            System.out.println("RESULT PAGE: " + resultPage);
-
-	            List<Inventory> list = plantService.getInventoryList(map);
-
-	            MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-	            PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-
-	            model.addAttribute("user", user);
-	            model.addAttribute("list", list);
-	            model.addAttribute("myPlant", myPlant);
-	            model.addAttribute("plantLevl", plantLevl);
-	            model.addAttribute("resultPage", resultPage);
-
-	            return "forward:/plant/inventory.jsp";
-	        } else {
-	            return "redirect:/login";
-	        }
+	    if (search.getCurrentPage() == 0) {
+	        search.setCurrentPage(1);
 	    }
+	    search.setPageSize(5); // 페이지 사이즈를 5로 설정
+
+	    int offset = (search.getCurrentPage() - 1) * search.getPageSize();
+	    int pageSize = search.getPageSize();
+
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("nickname", user.getNickname());
+	    map.put("offset", offset);
+	    map.put("pageSize", pageSize);
+
+	    int totalCount = plantService.getTotalCount(map);
+
+	    Page resultPage = new Page(search.getCurrentPage(), totalCount, 5, 5);
+	    List<Inventory> list = plantService.getInventoryList(map);
+	    System.out.println("page : "+resultPage);
+
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+
+	    model.addAttribute("user", user);
+	    model.addAttribute("list", list);
+	    model.addAttribute("myPlant", myPlant);
+	    model.addAttribute("plantLevl", plantLevl);
+	    model.addAttribute("resultPage", resultPage);
+
+	    return "forward:/plant/inventory.jsp";
+	}
 }
