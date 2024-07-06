@@ -55,11 +55,16 @@
 
           $(".delete").on("click", function() {
             var plantNo = $(".plantNo").val();
+            var myPlantNo = $(".myPlantNo").val();
             $.ajax({
               url: "/app/plant/deleteMyPlant",
               type: "POST",
               contentType: "application/json",
-              data: JSON.stringify({ plantNo: plantNo }),
+              data: JSON.stringify({ 
+            	  
+            	  plantNo: plantNo,
+            	  myPlantNo : myPlantNo
+            	  }),
               success: function(response) {
                 alert("식물 삭제 성공.");
                 location.reload(); // 페이지를 새로고침하여 삭제된 식물 정보를 반영합니다.
@@ -85,6 +90,7 @@
             <jsp:include page="/plant/plantNavi.jsp" />
             <input type="hidden" class="plantLevlNo" id="plantLevlNo" name="plantLevlNo" value="${myPlant.plantLevl.plantLevlNo}">
             <input type="hidden" class="plantNo" name="plantNo" value="${myPlant.plant.plantNo}">
+            <input type="hidden" class="myPlantNo" name="myPlantNo" value="${myPlant.myPlantNo}">
               <div class="container mt-4">
                 <div class="row">
                   <div class="col-lg-10 grid-margin stretch-card mx-auto">

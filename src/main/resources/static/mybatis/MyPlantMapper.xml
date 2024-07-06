@@ -59,7 +59,7 @@
             m.my_plant_state,
             MAX(m.my_plant_exp) AS my_plant_exp,
             MIN(m.plant_start_date) AS plant_start_date,
-            MAX(m.plant_end_date) AS plant_end_date,
+            m.plant_end_date,
             m.my_plant_name,
             GROUP_CONCAT(le.plant_levl_no) AS plant_levl_no_list
         FROM 
@@ -68,12 +68,9 @@
         	 m.plant_no = le.plant_no
         AND 
             m.nickname = #{nickname} 
-        <if test="search.searchCondition == 'current'">
-            AND m.my_plant_state = 'Y'
-        </if>
-        <if test="search.searchCondition == 'past'">
-            AND m.my_plant_state = 'N'
-        </if>
+
+        AND m.my_plant_state = 'N'
+  
         GROUP BY 
             m.my_plant_no, m.nickname, m.plant_no, m.my_plant_state, m.my_plant_name
         <if test="search.searchKeyword == 'latest'">
@@ -133,13 +130,14 @@
 	 </update>
 	 
 	 <!-- DELETE MYPLANT -->
-	 <update id="deleteMyPlant" parameterType="String">
+	 <update id="deleteMyPlant" parameterType="map">
 	 	UPDATE my_plant
 	 	<set>	
 	 		my_plant_state = 'N',
 	 		plant_end_date = NOW()
 	 	</set>
 	 	WHERE nickname = #{nickname}
+	 	AND my_plant_no = #{myPlantNo}
 	 </update>
 	
 	 <update id="donateMyPlant" parameterType="int">

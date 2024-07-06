@@ -353,11 +353,6 @@ public class PlantServiceImpl implements PlantService {
 		plantDao.deletePlantLevl(plantNo);
 		
 	}
-	@Override
-	public void deleteMyPlant(int plantNo) throws Exception {
-		plantDao.deleteMyPlant(plantNo);
-		
-	}
 
 
 
@@ -391,9 +386,11 @@ public class PlantServiceImpl implements PlantService {
 
 
 	@Override
-	public void deleteMyPlant(String nickname) throws Exception {
-		myPlantDao.deleteMyPlant(nickname);
+	public void deleteMyPlant(Map<String, Object> map) throws Exception {
+		myPlantDao.deleteMyPlant(map);
+		
 	}
+
 
 	@Override
 	public String getWeather(String location) throws Exception {
@@ -422,47 +419,43 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public Inventory UseItem(Inventory inventory) throws Exception {
-		
-		int currentStock = inventory.getItemNum();
-		int useItemNum = inventory.getUseItemNum();
-		int itemEffect = Integer.parseInt(inventory.getItemExp());
-		User user = (User) session.getAttribute("user");
-		
-		System.out.println("UserItem currentStock : "+currentStock);
-		System.out.println("UserItem useItemNum : "+useItemNum);
-		System.out.println("UserItem itemEffect : "+itemEffect);
-		
-		if(currentStock>0) {
-			inventory.setItemNum(currentStock - useItemNum);
-			System.out.println("::::inventory Before update : "+inventory);
-            inventoryDao.updateInventory(inventory);
-		}
-		System.out.println("UserItem inventory : "+inventory);
-		
-		 MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
-         int newExp = myPlant.getMyPlantExp() + itemEffect;
-         System.out.println("UserItem newExp : "+newExp);
-         myPlant.setMyPlantExp(newExp);
-         myPlantDao.updateMyPlant(myPlant);
-         
-         Map<String,Object> map = new HashMap<String, Object>();
-         map.put("myPlantNo", inventory.getMyPlant().getMyPlantNo());
-         map.put("myPlantExp", inventory.getItemExp());
-		
-		myPlantDao.updateMyPlantExp(map);
-		
-		
-		return inventory;
-		
+	    int currentStock = inventory.getItemNum();
+	    int useItemNum = inventory.getUseItemNum();
+	    int itemEffect = Integer.parseInt(inventory.getItemExp());
+	    User user = (User) session.getAttribute("user");
 
+	    System.out.println("UserItem currentStock : " + currentStock);
+	    System.out.println("UserItem useItemNum : " + useItemNum);
+	    System.out.println("UserItem itemEffect : " + itemEffect);
+
+	    if (currentStock > 0) {
+	        inventory.setItemNum(currentStock - useItemNum);
+	        System.out.println("::::inventory Before update : " + inventory);
+	        inventoryDao.updateInventory(inventory);
+	       
+	    }
+	    System.out.println("UserItem inventory : " + inventory);
+
+	    MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
+	    int newExp = myPlant.getMyPlantExp() + itemEffect;
+	    System.out.println("UserItem newExp : " + newExp);
+	    myPlant.setMyPlantExp(newExp);
+	    myPlantDao.updateMyPlant(myPlant);
+
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("myPlantNo", inventory.getMyPlant().getMyPlantNo());
+	    map.put("myPlantExp", inventory.getItemExp());
+
+	    myPlantDao.updateMyPlantExp(map);
+
+	    return inventory;
 	}
+		
 
 	@Override
 	public int getTotalCount(Map<String, Object> map) throws Exception {
 		return inventoryDao.getTotalCount(map);
 	}
-
-
 
 
 
