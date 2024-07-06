@@ -53,7 +53,7 @@
       }
       
        if (confirm("후원 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
-          
+    	  var userName = $("#userName").val();
           var IMP = window.IMP;
           let uuid = self.crypto.randomUUID();
             IMP.init("imp04155511"); // 가맹점 식별코드
@@ -64,7 +64,7 @@
                 name: '후원', // 제품명
                 amount: payAmount, // 가격
                 //구매자 정보 ↓
-                buyer_name: "${donation.userName}",
+                buyer_name: userName,
                 
             }, async function (rsp) { // callback
                console.log(rsp);
@@ -72,7 +72,7 @@
                {
                   console.log(rsp);
                   //성공
-                  $("#userName").val("${donation.userName}");
+                  $("#userName").val(rsp.buyer_name);
                   if(rsp.pg_provider == "kakaopay")
                   {
                      $("#payOption").val("P");

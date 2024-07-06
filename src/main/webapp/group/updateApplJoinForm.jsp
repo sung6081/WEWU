@@ -48,6 +48,7 @@
 						},
 						success : function(data, status, xhr) {
 							alert("수정이 완료되었습니다. \n변경된 내용을 확인하세요");
+							$("#updateApplJoinForm").attr("method","POST").attr("action","/group/updateApplJoinForm").submit();
 						},
 						error	: function(xhr, status, error) {
 						  // 응답을 받지 못하거나, 정상 응답이지만 데이터 형식을 확인할 수 없는 경우
@@ -97,7 +98,9 @@
 	            </div>
         	</div>
         </div>
-        
+        <form id="updateApplJoinForm">
+        	<input type="hidden" name="groupNo" value="${group.groupNo}"/>
+        </form>
         <!-- FOOTER -->
 	    <jsp:include page="/footer.jsp" />
 	    <!-- FOOTER -->

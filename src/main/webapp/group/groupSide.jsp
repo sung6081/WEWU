@@ -207,8 +207,8 @@
 				  <hr>
 				  <h4>
 				  	&nbsp;&nbsp;<b>게시판</b> 
-				  	<c:if test="${!empty groupMember}">
-						<c:if test="${user.nickname == group.leaderNick}">
+				  	<c:if test="${!empty groupMember || isAdmin == true }">
+						<c:if test="${user.nickname == group.leaderNick || isAdmin == true }">
 				      		<i class="menu-icon" style="float:right;"><span><img class="sideIcon" src="/group/img/add.png"></span></i>
 				      		
 				    	</c:if>
@@ -222,18 +222,19 @@
 					     	<i class="menu-icon"><img class="sideIcon" src="/group/img/information.png"></i>
 				            <span class="menu-title">모임정보</span>
 					     </a>
-				      <c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
+				      <c:if test="${isAdmin == true || !empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
 				        	<a class="group_nav">
 					            <i class="menu-icon"><img class="sideIcon" src="/group/img/profile.png"></i>
 					            <span class="menu-title">내 정보</span>
 				            </a>
+				            <a class="group_nav">
+				        		<i class="menu-icon"><img class="sideIcon" src="/group/img/memberList.png"></i>
+				            	<span class="menu-title">모임원목록</span>
+				       		</a>
 	                  </c:if>
-				      <c:if test="${!empty groupMember}">
-	                  	<c:if test="${user.nickname == group.leaderNick}">
-						    	<a class="group_nav">
-						        	<i class="menu-icon"><img class="sideIcon" src="/group/img/memberList.png"></i>
-						            <span class="menu-title">모임원목록</span>
-						        </a>
+	                  	
+				      <c:if test="${isAdmin == true || !empty groupMember}">
+	                  	<c:if test="${user.nickname == group.leaderNick || isAdmin == true}">
 					          <a class="group_nav">
 					            <i class="menu-icon"><img class="sideIcon" src="/group/img/form.png"></i>
 					            <span class="menu-title">가입신청서 양식</span>

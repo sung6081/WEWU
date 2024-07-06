@@ -68,7 +68,7 @@
 		margin-top:160px;
 	margin-bottom: 0;
 	background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
-	background-image: url('/images/beach.jpg'); /* 배경 이미지 경로 */
+	background-image: url('/images/jumbo2.jpg'); /* 배경 이미지 경로 */
 	background-size: cover; /* 이미지가 컨테이너를 덮도록 */
 	background-position: center; /* 이미지가 중앙에 위치하도록 */
 }
@@ -99,15 +99,17 @@ b {
 </head>
 <body>
 	<input type="hidden" name="questionType" value="${param.questionType}">
-<div class="jumbotron">
-						<div class="container">
-							<p class="display-4">
-								<b><h3><c:if test="${param.questionType eq '자주'}"> 자주하는 질문 </c:if>
-							<c:if test="${param.questionType eq '문의'}"> 1:1 문의  </c:if></h3></b>
-							</p>
-						</div>
-					</div>
-	
+	<div class="jumbotron">
+		<div class="container">
+			<p class="display-4">
+				<b><h3>
+						<c:if test="${param.questionType eq '자주'}"> 자주하는 질문 </c:if>
+						<c:if test="${param.questionType eq '문의'}"> 1:1 문의  </c:if>
+					</h3></b>
+			</p>
+		</div>
+	</div>
+
 
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="boardSideBar.jsp" />
@@ -161,7 +163,7 @@ b {
 								<tbody>
 									<c:set var="i" value="0" />
 									<c:forEach var="question" items="${list}">
-										<c:if test="${param.questionType eq '문의' && user.nickname eq question.nickName }">
+										<%-- <c:if test="${param.questionType eq '문의' && user.nickname eq question.nickName }">
 										<c:set var="i" value="${ i+1 }" />
 										<tr>
 											<td>${i}</td>
@@ -176,16 +178,20 @@ b {
 												</td></c:if>
 										</tr>
 										</c:if>
-										<c:if test="${param.questionType eq '자주'}">
+										<c:if test="${param.questionType eq '자주'}"> --%>
 										<c:set var="i" value="${ i+1 }" />
 										<tr>
 											<td>${i}</td>
 											<td>${question.title} <input type="hidden" value="${question.questionNo}">
 											</td>
 											<td>${question.nickName}</td>
-											<td>${question.regDate}</td>											
+											<td>${question.regDate}</td>
+											<c:if test="${param.questionType eq '문의' }">
+											<td><c:if test="${question.replyState eq '1'}">접수 완료</c:if>
+												<c:if test="${question.replyState eq '3'}">답변 완료</c:if>
+												</td></c:if>											
 										</tr>
-										</c:if>
+										<%-- </c:if> --%>
 
 									</c:forEach>
 								</tbody>
@@ -221,7 +227,7 @@ b {
 								<button type="button" class="btn btn-inverse-primary btn-fw">
 									FAQ 등록</button>
 							</c:if>
-							<c:if test="${param.questionType eq '문의'}">
+							<c:if test="${param.questionType eq '문의' && sessionScope.user }">
 								<button type="button" class="btn btn-outline-primary btn-fw">
 									1:1 문의하기</button>
 							</c:if>

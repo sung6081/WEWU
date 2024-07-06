@@ -128,6 +128,16 @@
         	<artifactId>json</artifactId>
         	<version>20210307</version>
     	</dependency>
+
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		
+		
+
 			
 	</dependencies>
 
@@ -145,8 +155,8 @@
                 </excludes>
             </configuration>
         </plugin>
-        
-        <!-- Add maven-war-plugin configuration to set finalName to ROOT -->
+
+			<!-- Add maven-war-plugin configuration to set finalName to ROOT -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>

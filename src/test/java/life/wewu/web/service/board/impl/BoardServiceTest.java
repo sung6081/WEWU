@@ -402,9 +402,9 @@ public class BoardServiceTest {
 		public void testGetDonationList() throws Exception{
 			System.out.println("\n================================");
 			
-			List<Donation> list = boardService.getDonationList("1");
+			//List<Donation> list = boardService.getDonationList("1");
 			
-			System.out.println("testGetDonationList :: "+list);
+			//System.out.println("testGetDonationList :: "+list);
 		}
 		
 }

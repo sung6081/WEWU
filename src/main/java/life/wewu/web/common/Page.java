@@ -1,17 +1,17 @@
 package life.wewu.web.common;
 
 
-//==> PageNavigation À» À§ÇÑ Bean
+//==> PageNavigation ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Bean
 public class Page {
 	
 	///Field
-	private int currentPage;		// ÇöÀçÆäÀÌÁö
-	private int totalCount;			// ÃÑ °Ô½Ã¹° ¼ö
-	private int pageUnit;			// ÇÏ´Ü ÆäÀÌÁö ¹øÈ£ È­¸é¿¡ º¸¿©Áö´Â ¼ö
-	private int pageSize;			// ÇÑ ÆäÀÌÁö´ç º¸¿©Áö´Â °Ô½Ã¹°¼ö
-	private int maxPage;			// ÃÖ´ë ÆäÀÌÁö ¹øÈ£(ÀüÃ¼ ÆäÀÌÁö)
-	private int beginUnitPage;	//È­¸é¿¡ º¸¿©Áö´Â ÆäÀÌÁö ¹øÈ£ÀÇ ÃÖ¼Ò¼ö
-	private int endUnitPage;		//È­¸é¿¡ º¸¿©Áö´Â ÆäÀÌÁö ¹øÈ£ÀÇ ÃÖ´ë¼ö
+	private int currentPage;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int totalCount;			// ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½
+	private int pageUnit;			// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private int pageSize;			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ï¿½ï¿½
+	private int maxPage;			// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£(ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	private int beginUnitPage;		//È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ö¼Ò¼ï¿½
+	private int endUnitPage;		//È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½
 	
 	///Constructor
 	public Page() {

@@ -57,12 +57,10 @@
             contentType: "application/json",
             dataType: "json",
             success: function(data, status, xhr) {
-                var str = "<ul class='list-group'>";
+                var str = "";
                 for (var i = 0; i < data.length; i++) {
-                    str += "<li class='list-group-item'>" + 
-                           "<input type='radio' id='groupNo" + data[i].groupNo + "' name='groupNo' value='" + data[i].groupNo + "'>" +
-                           "<label for='groupNo" + data[i].groupNo + "'> " + data[i].groupName + "</label>" +
-                           "</li>";
+                    str += "<a class='dropdown-item' id='groupNo" + data[i].groupNo + "' name='groupNo' value='" + data[i].groupNo + "'>" +
+                    		 data[i].groupName + "</a>" ;
                 }
                 str += "</ul>";
                 $('#groupList').append(str);
@@ -104,14 +102,20 @@
 							</div>
 
 							<c:if test="${param.boardType eq '3'}">
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">모임 명</label>
-									<div class="col-sm-3">
+								<div class="row">
+								<label for="title" class="col-sm-3 col-form-label">모임명</label>
+								<div class="btn-group">
+									<button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									모임명</button>
+
+									 <div class="dropdown-menu" style="">
 										<div id="groupList">
 										
 										</div>
 									</div>
+									</div>
 								</div>
+								<br><br>
 							</c:if>
 							
 							<div class="row">
@@ -127,6 +131,7 @@
 							<div class="form-group row">
 								<div class="col-sm-12">
 									<!-- <textarea class="form-control" id="exampleTextarea1" name="contents" rows="40"></textarea> -->
+									<label for="title" class="col-sm-3 col-form-label">내용</label>
 									<textarea class="form-control" id="contents" name="contents" style="width:100%;"></textarea>
 									<script type="text/javascript">
 										var oEditors = [];

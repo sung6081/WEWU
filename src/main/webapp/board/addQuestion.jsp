@@ -8,8 +8,7 @@
 <jsp:include page="/header.jsp" />
 <!-- HEADER -->
 <meta charset="UTF-8">
-<title>WEWU</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <script type="text/javascript">
 	$(function(){
 		$(".btn-light").on("click", function() {
@@ -43,19 +42,17 @@ background-color: #00A06C;
 	<div class="main-panel mb-5">
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card">
-					<div class="jumbotron">
-						<div class="container">
-							<p class="display-4">
-								<b><h3><c:if test="${param.questionType eq '자주'}"> 자주하는 질문 등록하기 </c:if>
-							<c:if test="${param.questionType eq '문의'}"> 1:1 문의 등록하기 </c:if></h3></b>
-							</p>
-						</div>
-					</div>
-					<div class="card-body">
+				<div class="card-body">
 						<h1 class="card-title">
+					
+								<c:if test="${param.questionType eq '자주'}"> 자주하는 질문 등록하기 </c:if>
+							<c:if test="${param.questionType eq '문의'}"> 1:1 문의 등록하기 </c:if>
+							</h1>
+						
+					
 							
 							
-						</h1>
+						
 							<p class="card-description">${sessionScpoe.user.nickname}</p>
 							
 							
