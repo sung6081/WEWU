@@ -173,7 +173,7 @@
 			                        "<div class='comment-date'>작성날짜 : " + data[i].commentDate + "</div>" +
 			                        "<div class='comment-actions'>";
 			                    
-			                    if (data[i].commentNickName === '${user.nickname}') {
+			                    if (${isAdmin} == true || data[i].commentNickName == '${user.nickname}') {
 			                        str += "<a href='javascript:deleteComment(" + data[i].commentNo + ");'>댓글 삭제</a>" +
 			                               "<a href='javascript:showUpdateForm(" + data[i].commentNo + ");'>댓글 수정</a>";
 			                    }
@@ -367,8 +367,7 @@
                            <div class="card">
                                <div class="card-body">
                                		<div class="form-group row">
-										<c:if
-											test="${user != null && user !=''}">
+										<c:if test="${groupMember != null || groupMember !='' || isAdmin == true}">
 											<h1 class="card-title">${user.nickname}</h1>
 											<div class="col-sm-12">
 												<form id="commentForm">
@@ -383,10 +382,6 @@
 												<button class="btn btn-link btn-fw" onClick="addComment();">댓글
 													쓰기</button>
 											</div>
-										</c:if>
-										<c:if
-											test="${groupMember == null || groupMember ==''}">
-											<p>로그인 후 댓글을 작성할 수 있습니다.</p>
 										</c:if>
 									</div>
 	                               	<div id="commentList">

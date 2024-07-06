@@ -6,6 +6,7 @@
 		<!-- HEADER -->
 		<jsp:include page="/header.jsp"/>
 		<!-- HEADER -->
+		<link rel="stylesheet" href="/group/css/group.css" type="text/css" />
 		<style>
 			.sideIcon
 			{
@@ -26,10 +27,56 @@
 			})
 			function addApplGroup()
 			{
+				if($("#groupName").val().trim() == "" || $("#groupName").val() == null)
+	        	{
+	        		alert("모임명을 완성해서 작성하세요.");
+        		    $("#groupName").focus();
+        		    return;
+	        	}else
+	        	{
+	        		var pattern = /([^가-힣a-z\x20])/i;
+	        		var groupName = $("#groupName").val();
+	        		if (pattern.test(groupName)) 
+	        		{ 
+	        		    alert("모임명에 자음, 모음만 사용할 수 없습니다.");
+	        		    $("#groupName").focus();
+	        		    return;
+	        		}
+	        	}
+	        	
+	        	if($("#groupIntro").val().trim() == "" || $("#groupIntro").val() == null)
+	        	{
+	        		alert("모임소개를 작성하세요.");
+        		    $("#groupIntro").focus();
+        		    return;
+	        	}
+	        	
+	        	if($("#groupHash").val().trim() == "" || $("#groupHash").val() == null)
+	        	{
+	        		alert("모임태그를 작성하세요.");
+        		    $("#groupHash").focus();
+        		    return;
+	        	}
+	        	
+	        	if($("#groupAddr").val().trim() == "" || $("#groupAddr").val() == null)
+	        	{
+	        		alert("모임주소를 작성하세요.");
+        		    $("#groupAddr").focus();
+        		    return;
+	        	}
+	        	
+	        	if($("#groupPlan").val().trim() == "" || $("#groupPlan").val() == null)
+	        	{
+	        		alert("모임주소를 작성하세요.");
+        		    $("#groupPlan").focus();
+        		    return;
+	        	}
+	        	
 		        if(!confirm("정말 개설신청 하시겠습니까?")){
 					return;
 					
 		        }else{
+		        	
 		        	// form 데이터 가져오기
 		        	var form = document.getElementById('addApplGroup');
 		        	var formData = new FormData(form);
@@ -90,24 +137,29 @@
 			                  	
 			                  	<input type="hidden" name="leaderNick" id="leaderNick" value="${user.nickname }">
 			                    <div class="form-group">
-			                      <label>모임명</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
-			                      <input type="text" class="form-control" name="groupName" placeholder="모임명">
+			                      <label>모임명</label>&nbsp;&nbsp;<img class="sideIcon arrow" src="/group/img/important.png">
+			                      <p class="arrow_box">독특한 자신만의 모임명을 작성하세요!</p>
+			                      <input type="text" class="form-control" id="groupName" name="groupName" placeholder="모임명">
 			                    </div>
 			                    <div class="form-group">
-			                      <label>모임소개</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
-			                      <input type="text" class="form-control" name="groupIntro" placeholder="모임소개">
+			                      <label>모임소개</label>&nbsp;&nbsp;<img class="sideIcon arrow" src="/group/img/important.png">
+			                      <p class="arrow_box">내 모임을 소개할 특별한 내용을 작성하세요!</p>
+			                      <input type="text" class="form-control" id="groupIntro" name="groupIntro" placeholder="모임소개">
 			                    </div>
 			                    <div class="form-group">
-			                      <label>모임태그</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
-			                      <input type="text" class="form-control" name="groupHash" placeholder="모임태그">
+			                      <label>모임태그</label>&nbsp;&nbsp;<img class="sideIcon arrow" src="/group/img/important.png">
+			                      <p class="arrow_box">모임명과 함께 검색에 사용할 모임을 설명할 수 있는 태그를 작성하세요!</p>
+			                      <input type="text" class="form-control" id="groupHash" name="groupHash" placeholder="#모임태그">
 			                    </div>
 			                    <div class="form-group">
-			                      <label>모임주소</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
-			                      <input type="text" class="form-control" name="groupAddr" placeholder="모임주소">
+			                      <label>모임주소</label>&nbsp;&nbsp;<img class="sideIcon arrow" src="/group/img/important.png">
+			                      <p class="arrow_box">자주 모임을 가질 주소를 입력하세요!</p>
+			                      <input type="text" class="form-control" id="groupAddr" name="groupAddr" placeholder="모임주소">
 			                    </div>
 			                    <div class="form-group">
-			                      <label>모임계획</label>&nbsp;&nbsp;<img class="sideIcon" src="/group/img/important.png">
-			                      <input type="text" class="form-control" name="groupPlan" placeholder="모임계획">
+			                      <label>모임계획</label>&nbsp;&nbsp;<img class="sideIcon arrow" src="/group/img/important.png">
+			                      <p class="arrow_box">내 모임의 활동 계획을 작성하세요!</p>
+			                      <input type="text" class="form-control" id="groupPlan" name="groupPlan" placeholder="모임계획">
 			                    </div>
 			                  </form>
 			                  <form id="getAddAppl" method="post" action="/group/getAddAppl">

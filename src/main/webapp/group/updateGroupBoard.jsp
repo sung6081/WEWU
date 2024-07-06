@@ -18,6 +18,44 @@
 			
 			function updateGroupBoard()
 			{
+				if($("#boardName").val().trim() == "" || $("#boardName").val() == null)
+	        	{
+	        		alert("게시판명을 완성해서 작성하세요.");
+        		    $("#boardName").focus();
+        		    return;
+	        	}else
+	        	{
+	        		var pattern = /([^가-힣a-z\x20])/i;
+	        		var groupName = $("#boardName").val();
+	        		if (pattern.test(groupName)) 
+	        		{ 
+	        		    alert("게시판명에 자음, 모음만 사용할 수 없습니다.");
+	        		    $("#boardName").focus();
+	        		    return;
+	        		}
+	        	}
+				
+	        	if($('input[name="boardType"]:checked').val() == null)
+	        	{
+	        		alert("게시판 뷰 타입을 작성하세요.");
+        		    $("#boardType").focus();
+        		    return;
+	        	}
+	        	
+	        	if($("#boardIntro").val().trim() == "" || $("#boardIntro").val() == null)
+	        	{
+	        		alert("게시판 소개를 작성하세요.");
+        		    $("#boardIntro").focus();
+        		    return;
+	        	}
+	        	
+	        	if($('input[name="boardRole"]:checked').val() == null)
+	        	{
+	        		alert("작성권한을 선택하세요.");
+        		    $("#boardRole").focus();
+        		    return;
+	        	}
+	        	
 		        if(!confirm("정말 수정하시겠습니까?")){
 					return;
 					
@@ -85,7 +123,7 @@
 	                  	<input type="hidden" name="typeNo" value="${groupBoard.typeNo}">
 	                  	<div class="form-group">
 	                      <label>게시판 명</label>
-	                      <input type="text" class="form-control" name="boardName" value="${groupBoard.boardName}" placeholder="게시판 명">
+	                      <input type="text" class="form-control" id="boardName" name="boardName" value="${groupBoard.boardName}" placeholder="게시판 명">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 타입</label>
@@ -106,7 +144,7 @@
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 소개</label>
-	                      <input type="text" class="form-control"  placeholder="게시판 소개" name="boardIntro" value="${groupBoard.boardIntro}">
+	                      <input type="text" class="form-control"  placeholder="게시판 소개" id="boardIntro" name="boardIntro" value="${groupBoard.boardIntro}">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 권한</label>

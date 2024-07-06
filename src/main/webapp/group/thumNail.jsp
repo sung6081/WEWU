@@ -7,6 +7,13 @@
 	<meta charset="UTF-8">
 	<title>WEWU</title>
 	<style>
+	
+	@media (min-width: 1200px) {
+	    .col-lg-2-4 {
+	        width: 20%;
+	        max-width: 20%;
+	    }
+	}
 	.thumbnail {
 		padding: 10px;
 		border: 1px solid #ddd;
@@ -76,9 +83,9 @@
 				        
 			        </div>
 					<div class="col-lg-12 grid-margin stretch-card">
-			        	<div class="col-lg-2">
+			        	<div class="col-lg-1">
 			        	</div>
-			        	<div class="col-lg-8" style="margin-top:20px;">
+			        	<div class="col-lg-10" style="margin-top:20px;">
 				        	<div class="form-group">
 								<div class="input-group">
 			                    	<input type="text" class="form-control searchKeyword" placeholder="게시글 이름" aria-label="게시글 이름">
@@ -88,7 +95,7 @@
 								</div>
 			                </div>
 		                </div>
-		                <div class="col-lg-2">
+		                <div class="col-lg-1">
 			        	</div>
 			        </div>		
 				</div>

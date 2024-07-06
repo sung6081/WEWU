@@ -13,10 +13,10 @@
 		<div class="card-body">
 		    <h4 class="card-title"><i class='menu-icon'><img class='sideIcon' src='/group/img/board.png'></i>${groupBoard.boardName}</h4>
 		    <div style="float:right;">
-		    	<c:if test="${!empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
+		    	<c:if test="${isAdmin == true || !empty groupMember && groupMember.joinFlag == 'T' || groupMember.joinFlag == 'L'}">
 		    	
 		    		<c:if test="${groupBoard.boardRole == 'G' }">
-		    			<c:if test="${user.nickname == group.leaderNick}">
+		    			<c:if test="${isAdmin == true || user.nickname == group.leaderNick}">
 		    				<span><img style="width:11px; height:11px;" src="/group/img/pencil.png">작성</span>&nbsp;
 		    			</c:if>
 		    		</c:if>
@@ -25,7 +25,7 @@
 		    			<span><img style="width:11px; height:11px;" src="/group/img/pencil.png">작성</span>&nbsp;
 		    		</c:if>
 		    		
-		           	<c:if test="${user.nickname == group.leaderNick}">
+		           	<c:if test="${isAdmin == true || user.nickname == group.leaderNick}">
 			           	<img style="width:11px; height:11px;" src="/group/img/change.png"><span>게시판 수정</span>&nbsp;
 			           	<img style="width:11px; height:11px;" src="/group/img/delete.png"><span>게시판 삭제</span>
 			       </c:if>

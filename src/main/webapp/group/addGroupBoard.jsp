@@ -17,6 +17,44 @@
 			
 			function addGroupBoard()
 			{
+				if($("#boardName").val().trim() == "" || $("#boardName").val() == null)
+	        	{
+	        		alert("게시판명을 완성해서 작성하세요.");
+        		    $("#boardName").focus();
+        		    return;
+	        	}else
+	        	{
+	        		var pattern = /([^가-힣a-z\x20])/i;
+	        		var groupName = $("#boardName").val();
+	        		if (pattern.test(groupName)) 
+	        		{ 
+	        		    alert("게시판명에 자음, 모음만 사용할 수 없습니다.");
+	        		    $("#boardName").focus();
+	        		    return;
+	        		}
+	        	}
+				
+	        	if($('input[name="boardType"]:checked').val() == null)
+	        	{
+	        		alert("게시판 뷰 타입을 작성하세요.");
+        		    $("#boardType").focus();
+        		    return;
+	        	}
+	        	
+	        	if($("#boardIntro").val().trim() == "" || $("#boardIntro").val() == null)
+	        	{
+	        		alert("게시판 소개를 작성하세요.");
+        		    $("#boardIntro").focus();
+        		    return;
+	        	}
+	        	
+	        	if($('input[name="boardRole"]:checked').val() == null)
+	        	{
+	        		alert("작성권한을 선택하세요.");
+        		    $("#boardRole").focus();
+        		    return;
+	        	}
+	        	
 		        if(!confirm("정말 개설신청 하시겠습니까?")){
 					return;
 					
@@ -82,26 +120,26 @@
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
 	                  	<div class="form-group">
 	                      <label>게시판 명</label>
-	                      <input type="text" class="form-control" name="boardName" placeholder="게시판 명">
+	                      <input type="text" class="form-control" id="boardName" name="boardName" placeholder="게시판 명">
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 타입</label>
 	                      <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardType" value="L">
+		                      <input type="radio" class="form-check-input" id="boardType" name="boardType" value="L">
 		                      리스트
 		                    </label>
 		                  </div>
 		                  <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardType" value="T">
+		                      <input type="radio" class="form-check-input" id="boardType" name="boardType" value="T">
 		                      썸네일
 		                    </label>
 		                  </div>
 	                    </div>
 	                    <div class="form-group">
 	                      <label>게시판 소개</label>
-	                      <input type="text" class="form-control" name="boardIntro" placeholder="게시판 소개">
+	                      <input type="text" class="form-control" id="boardIntro" name="boardIntro" placeholder="게시판 소개">
 	                    </div>
 	                    
 	                    <div class="form-group">
@@ -109,13 +147,13 @@
 	                      
 	                      <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardRole" value="G">
+		                      <input type="radio" class="form-check-input" id="boardRole" name="boardRole" value="G">
 		                      모임장
 		                    </label>
 		                  </div>
 		                  <div class="form-check">
 		                    <label class="form-check-label text-muted">
-		                      <input type="radio" class="form-check-input" name="boardRole" value="A">
+		                      <input type="radio" class="form-check-input" id="boardRole" name="boardRole" value="A">
 		                      전체
 		                    </label>
 		                  </div>
