@@ -534,7 +534,7 @@
 							<div class="col-md-6 grid-margin" >
 								<div class="form-group">
 			                      <label>활동 이름</label>
-			                      <input type="text" name="activeName" class="form-control" value="${active.activeName}" placeholder="활동 이름">
+			                      <input type="text" name="activeName" class="form-control activeName" value="${active.activeName}" placeholder="활동 이름">
 			                      <input type="hidden" name="activeNo" value="${active.activeNo}">
 			                      <input type="hidden" name="groupNo" value="${active.groupNo}" >
 			                      <input type="hidden" class="activeLocal" name="activeLocal" value="${active.activeLocal}" >
@@ -574,7 +574,7 @@
 	                   		
 	                    		<div class="col-md-6 grid-margin" >
 	                    			<label>활동 시작일</label>
-	                    			<input type="text" name="activeStartDate" class="datepicker form-control" value="${active.activeStartDate}" placeholder="활동 시작일" >
+	                    			<input type="text" name="activeStartDate" class="datepicker form-control activeStartDate" value="${active.activeStartDate}" placeholder="활동 시작일" >
 	                    		</div>
 	                    		<div class="col-md-6 grid-margin" >
 	                    			<label>활동 종료일</label>
