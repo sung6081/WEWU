@@ -96,7 +96,6 @@ public interface PlantService {
 
 	public void deleteMyPlant(Map<String, Object> map) throws Exception;
 
-	public String getWeather(String location) throws Exception;
 	
 	//---------------------------------------------------------------------------------------//
 

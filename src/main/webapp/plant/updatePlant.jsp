@@ -100,7 +100,7 @@
 	    });
 
 	    $("button[name='cancel']").on("click", function () {
-	      $("form")[0].reset();
+	      self.location = "/plant/listPlant"
 	    });
 
 	    $("form#updatePlant").on("submit", function (event) {
@@ -110,22 +110,42 @@
 	  });
   </script>
     <style>
-.jumbotron{
-margin: 0 !important; /* 기본 마진 제거 */
-background-color: #00A06C;
-}
+ .jumbotron {
+
+        background-color: #00A06C;
+        margin-top: 160px;
+        margin-bottom: 0;
+        background-size: contain;
+        /* 이미지가 컨테이너 안에 맞도록 */
+        background-image: url('/images/jumbo3.jpg');
+        /* 배경 이미지 경로 */
+        background-size: cover;
+        /* 이미지가 컨테이너를 덮도록 */
+        background-position: center;
+        /* 이미지가 중앙에 위치하도록 */
+
+      }
+      
+
+      .display-4 {
+        color: #fff;
+        /* 원하는 색상으로 변경 */
+      }
+
+      .main-panel {
+        margin: 0;
+      }
 </style>
 </head>
 
 <body>
-  <jsp:include page="/plant/plantSide.jsp" />
-
+<div class="jumbotron">
+      <div class="container">
+        <p class="display-4"><b>UPDATE PLANT</b></p>
+      </div>
+    </div>
+    <jsp:include page="/plant/plantSide.jsp" />
   <div class="main-panel">
-   <div class="jumbotron">
-  <div class="container">
-    <p class="display-4"><b>UPDATE PLANT</b></p>
-  </div>
-  </div>
     <div class="content-wrapper title-card">
       <form name="updatePlant" id="updatePlant" enctype="multipart/form-data">
         <div class="flex-container">

@@ -27,8 +27,6 @@ public class MyPlant {
 	private Date plantStartDate;	//나의식물키우기시작한날짜
 	private Date plantEndDate;		//나의식물종료날짜
 	private String myPlantLevl;		//나의식물현재단계
-	private int weatherNo;			//날씨식별번호
-	private String weatherImg;		//날씨이미지
 	private PlantLevl plantLevl;	//PlantLevl
 	private Plant plant; 			//Plant
 	

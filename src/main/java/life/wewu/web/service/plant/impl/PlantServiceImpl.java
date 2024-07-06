@@ -393,11 +393,6 @@ public class PlantServiceImpl implements PlantService {
 
 
 	@Override
-	public String getWeather(String location) throws Exception {
-		return myPlantDao.getWeather(location);
-	}
-
-	@Override
 	public void addMyPlant(MyPlant myPlant) throws Exception {
 
 		myPlantDao.addMyPlant(myPlant);
