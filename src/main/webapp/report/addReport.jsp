@@ -95,10 +95,9 @@
 		              </div>
 		              <form class="pt-3" id="addReport">
 		              	<input type="hidden" name="targetNo" value="${targetNo}">
-						<input type="hidden" name="reportNickname" value="nick1">
+						<input type="hidden" name="reportNickname" value="${user.nickname}">
 						<input type="hidden" name="reportType" value="${reportType}">
 						<input type="hidden" name="targetNickname" value="${groupAcle.wrteName }">
-						<input type="hidden" name="reportContents" value="${groupAcle.acleContents }">
 			            <div class="col-md-12 grid-margin stretch-card">
 			              <div class="card">
 			                <div class="card-body">
