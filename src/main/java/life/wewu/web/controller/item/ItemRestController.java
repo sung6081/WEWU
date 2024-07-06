@@ -98,40 +98,48 @@ public class ItemRestController {
 		System.out.println(itemPurchase);
         Item item = itemService.getItem(itemPurchase.getItemNo());
         String flag = "";
-        if(item.getItemCategory().equals("Y") && itemPurchase.getRefundFlag().equals("N"))
+        if(item.getItemCategory().equals("Y"))
         {
-        	//구매정보 리스트 중 선택한 구매정보의 상품이 식물이고 환불을 신청하지 않았다면
-        	if(itemPurchase.getItemStock() == itemPurchase.getItemCnt())
+        	//구매정보 리스트 중 선택한 구매정보의 상품이 식물이라면
+        	
+        	if(itemPurchase.getRefundFlag().equals("N"))
         	{
-        		//구매한 식물의 구매갯수와 재고량이 같다면
-        		System.out.println("환불가능");
-        		ItemPurchase afterItemPurchase = ItemPurchase.builder()
-	        				.itemPurchaseNo(itemPurchase.getItemPurchaseNo())
-	                        .refundFlag("Y")
-	                        .refundPoint(item.getItemPrice())
-	                        .beforeRefundpoint(user.getCurrentPoint())
-	                        .afterRefundpoint(user.getCurrentPoint()+item.getItemPrice())
-	                        .currentPoint(user.getCurrentPoint() + item.getItemPrice())
-	                        .refundAskdate(Date.valueOf("2024-04-02"))
-	                        .refundCompdate(Date.valueOf("2024-04-02"))
-	                        .build();
-        		itemPurchaseService.updatePurchase(afterItemPurchase);
-        		user.setCurrentPoint(user.getCurrentPoint()+item.getItemPrice());
-        		session.setAttribute("user", user);
-        		userService.updateUserPoint(user.getUserId(),user.getCurrentPoint()+item.getItemPrice());
-        		
-        		flag="Y";
+        		//환불하지 않은 상품이라면
+        		if(itemPurchase.getItemStock() == itemPurchase.getItemCnt())
+            	{
+            		//구매한 식물의 구매갯수와 재고량이 같다면
+            		System.out.println("환불가능");
+            		ItemPurchase afterItemPurchase = ItemPurchase.builder()
+    	        				.itemPurchaseNo(itemPurchase.getItemPurchaseNo())
+    	                        .refundFlag("Y")
+    	                        .refundPoint(item.getItemPrice())
+    	                        .beforeRefundpoint(user.getCurrentPoint())
+    	                        .afterRefundpoint(user.getCurrentPoint()+item.getItemPrice())
+    	                        .currentPoint(user.getCurrentPoint() + item.getItemPrice())
+    	                        .refundAskdate(Date.valueOf("2024-04-02"))
+    	                        .refundCompdate(Date.valueOf("2024-04-02"))
+    	                        .build();
+            		itemPurchaseService.updatePurchase(afterItemPurchase);
+            		user.setCurrentPoint(user.getCurrentPoint()+item.getItemPrice());
+            		session.setAttribute("user", user);
+            		userService.updateUserPoint(user.getUserId(),user.getCurrentPoint()+item.getItemPrice());
+            		
+            		flag="yes";
+            	}else
+            	{
+            		//구매한 식물의 구매갯수와 재고량이 다르다면
+            		System.out.println("사용한 아이템은 환불 불가능");
+            		flag="use";
+            	}
         	}else
         	{
-        		//구매한 식물의 구매갯수와 재고량이 다르다면
-        		System.out.println("사용한 아이템은 환불 불가능");
-        		flag="N";
+        		//환불한 상품이라면
+        		flag="refund";
         	}
         }else
         {
         	//구매정보 리스트 중 선택한 구매정보의 상품이 장식이라면
-        	System.out.println("장식 아이템 및 환불된 아이템은 환불 불가능");
-        	flag="N";
+        	flag="deco";
         }
 		
 		// JSON 형식의 응답 반환

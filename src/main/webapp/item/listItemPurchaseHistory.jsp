@@ -36,11 +36,19 @@
 				},
 				success : function(data, status, xhr) {
 					
-					if(data.flag == "Y"){
+					if(data.flag == "yes"){
 						alert("취소가 완료되었습니다");
 						location.reload();
-					}else{
+					}else
+					if(data.flag == "deco"){
 						alert("장식 아이템은 구매를 취소할 수 없습니다. ");
+					}else
+					if(data.flag == "use"){
+						alert("사용한 아이템은 구매를 취소할 수 없습니다. ");
+					}
+					else
+					if(data.flag == "refund"){
+						alert("이미 구매 취소한 아이템입니다.");
 					}
 				},
 				error	: function(xhr, status, error) {
@@ -157,7 +165,7 @@
 		                                                        미사용
 		                                                        </c:when>
 		                                                        <c:when test="${itemPurchase.itemCnt != itemPurchase.itemStock}">
-		                                                        사용완료
+		                                                        사용 완료
 		                                                        </c:when>
 		                                               	</c:choose>
 												 	  </td>
@@ -182,12 +190,7 @@
 												 	  <td>
 												 	  	<div class="form-check">
 								                          <label class="form-check-label text-muted">
-								                          	<c:if test='${itemPurchase.itemCnt == itemPurchase.itemStock && itemPurchase.refundFlag == "N"}'>
 	                                                        	<input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}" >
-	                                                        </c:if>
-	                                                        <c:if test='${itemPurchase.itemCnt != itemPurchase.itemStock || itemPurchase.refundFlag != "N"}'>
-	                                                        	<input type="radio" class="form-check-input" name="pno" value="${itemPurchase.itemPurchaseNo}" disabled>
-	                                                        </c:if>
 								                          </label>
 								                        </div>
 													  </td>

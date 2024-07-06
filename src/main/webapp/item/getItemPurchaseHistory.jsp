@@ -42,18 +42,56 @@
 			                                    <table class="table">
 			                                        <thead>
 			                                            <tr>
-			                                            	<th>구매날짜</th>
+			                                            	<th>환불신청날짜</th>
+			                                            	<th>환불완료날짜</th>
 															<th>아이템명</th>
 															<th>개수</th>
 															<th>가격</th>
+															<th>아이템 사용상태</th>
+															<th>구매상태</th>
+															<th>환불된 포인트</th>
+															<th>환불 전 포인트</th>
+															<th>환불 후 포인트</th>
+															
 														</tr>
 													</thead>
 												<tbody>
 														<tr>
-													 	  <td>${itemPurchase.itemPurchaseDate}</td>
+													 	  <td>${itemPurchase.refundAskdate}</td>
+													 	  <td>${itemPurchase.refundCompdate}</td>
 													 	  <td>${itemPurchase.itemName}</td>
 													 	  <td>${itemPurchase.itemCnt}</td>
 													 	  <td>${itemPurchase.itemPrice}</td>
+													 	  <td>
+													 	  	<c:choose>
+			                                                        <c:when test="${itemPurchase.itemCnt == itemPurchase.itemStock}">
+			                                                        미사용
+			                                                        </c:when>
+			                                                        <c:when test="${itemPurchase.itemCnt != itemPurchase.itemStock}">
+			                                                        사용 완료
+			                                                        </c:when>
+			                                               	</c:choose>
+											 	 	 	 </td>
+											 	 	 	 <td>
+												 	     <c:choose>
+		                                                        <c:when test="${itemPurchase.refundFlag == 'Y'}">
+		                                                        환불 완료
+		                                                        </c:when>
+		                                                        <c:when test="${itemPurchase.refundFlag == 'Z'}">
+		                                                        환불 실패
+		                                                        </c:when>
+		                                                        <c:otherwise>
+	                                                            환불 미신청
+	                                                        	</c:otherwise>
+		                                               	</c:choose>
+												 	    </td>
+												 	    <td>${itemPurchase.refundPoint}</td>
+												 	    <td>${itemPurchase.beforeRefundpoint}</td>
+												 	    <td>${itemPurchase.afterRefundpoint}</td>
+												 	    
+												 	  
+												 	  
+												 	  
 													 	</tr>
 				                                     </tbody>
 				                                   	</table>
