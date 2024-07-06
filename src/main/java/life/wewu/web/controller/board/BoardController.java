@@ -4,9 +4,11 @@
  */
 package life.wewu.web.controller.board;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
@@ -37,6 +39,7 @@ import life.wewu.web.domain.board.Question;
 import life.wewu.web.domain.user.User;
 import life.wewu.web.repository.S3Repository;
 import life.wewu.web.service.board.BoardService;
+import life.wewu.web.service.board.MailService;
 
 @Controller
 @RequestMapping("/board/*")
@@ -50,6 +53,10 @@ public class BoardController {
 	@Autowired
 	@Qualifier("s3RepositoryImpl")
 	private S3Repository s3Repository;
+	
+	@Autowired
+	@Qualifier("mailService")
+	private MailService mailService;
 	
 	@Value("${pageUnit}") //
 	int pageUnit;
@@ -231,7 +238,9 @@ public class BoardController {
 		if (search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()) {
 		    search.setSearchKeyword("");
 		}
-		
+		 if (search.getSearchOrderBy() == null || search.getSearchOrderBy().isEmpty()) {
+		        search.setSearchOrderBy("1"); // 기본값 설정
+		    }
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
@@ -321,10 +330,12 @@ public class BoardController {
 	//후원 내역 목록 보기
 	@GetMapping(value = "listDonation")
 	public String getDonationList(@RequestParam("payType")String payType,
-			Model model,@ModelAttribute Search search) throws Exception{
+			Model model,@ModelAttribute Search search
+			) throws Exception{
 		System.out.println("/board/getDonationList : GET");
 		
 		System.out.println(":::::: search_donation : "+search);
+		
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -343,6 +354,7 @@ public class BoardController {
 		map.put("search", search);
 		map.put("payType", payType);
 		
+		
 		int totalCount = boardService.getTotalCountD(map);
 		Page resultPage = new Page(search.getCurrentPage(), totalCount, pageUnit, pageSize);
 		System.out.println("\n::::::::::::RESULT PAGE"+resultPage);
@@ -350,6 +362,9 @@ public class BoardController {
 		List<Donation> list = boardService.getDonationList(map);
 		System.out.println(":::::::::::::;"+list.size());
 		model.addAttribute("list",list);
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
 		return "forward:/board/listDonation.jsp";
 	}
 	
@@ -494,33 +509,119 @@ public class BoardController {
 		return "redirect:/board/getQuestion?questionType="+questionType+"&questionNo="+question.getQuestionNo();
 	}
 	
-	
-	
-	
-	
 	/*
-	 * BoardFile
+	 * Mail
 	 */
-	//파일 등록
-	 
-	
-	
-	/*	
-	public void addDonation(@ModelAttribute Donation donation)throws Exception
-	{
-		boardService.addDonation(donation);		
+	@RequestMapping(value="donationMail")
+	public String donationMail(@ModelAttribute("donation")Donation donation, Model model,@RequestParam("payNo")int payNo) throws Exception {
+		String title ="WEWU 후원 확인 메일";
 		
-		this.goMail(donation);
-
-		ModelAndView model = new ModelAndView();
-		model.addObject("donation", donation);
-		//return "~~~.jsp";
+		System.out.println("donation :: " + donation);
+		
+		String user_name="dtbsmf01@gmail.com";
+		String password="iavd gqcj ymbv qjdv";
+		
+		donation = boardService.getDonationById(payNo);
+		String content= makeMailContents(donation.getUserName(), donation.getPayDate(), donation.getPayAmount());
+		
+		mailService.goMail(mailService.setting(new Properties(), user_name, password), 
+				title, content, donation.getEmail());
+		
+		model.addAttribute("donation", donation);
+		
+		return "forward:/board/donationMail.jsp";
 	}
 	
-	public void goMail(Donation donation)
-	{
-		//
+	public String makeMailContents(String userName, Date payDate, int payAmount) {
+		
+		String content = "<div class='mail_view_body'><div class='mail_view_contents'><div class='mail_view_contents_inner' data-translate-body-25271=''><div>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='border-top:4px solid #FFCA00;max-width:679px;margin:auto;width:100%'>"
+			    + "<tbody><tr><td><img src='http://localhost:8000/images/wewu.png' width='120' height='35' style='padding:30px 39px' alt='nicepay' loading='lazy'></td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='border-top:1px solid #eee;border-bottom:1px solid #eee;'>"
+			    + "<tbody><tr><td width='39'></td><td width='600' style='font-size:28px;color:#666;padding:25px 0;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"
+			    + "<span>"+userName+"</span>님,<br><span style='color:#00A06C;font-weight: bold;'>후원 완료</span>되었습니다."
+			    + "</td><td width='39'></td></tr>"
+			    + "</tbody></table>"
+			    + "</td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td width='39'></td><td width='600' style='font-size:15px;color:#666;word-break: keep-all;padding: 25px 0;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>고객님이 <span style='font-weight:bold'>WEWU</span>에서 후원하신 내역입니다.</td><td width='39'></td></tr>"
+			    + "</tbody></table>"
+			    + "</td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td width='39'></td><td width='600'>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td colspan='2' style='font-size:15px;color:#000;font-weight: bold;padding-bottom: 10px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>결제정보</td></tr>"
+			    + "<tr><td colspan='2' width='100%' height='1' style='background: #000'></td></tr>"
+			    + "<tr><td width='100' style='font-size:13px;color:#666;padding-bottom:10px;padding-top:15px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>구매자명</td><td align='right' width='500' style='font-size:13px;color:#666;font-weight: bold;padding-bottom:10px;padding-top:15px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"+userName+"</td></tr>"
+			    + "<tr><td width='100' style='font-size:13px;color:#666;padding-bottom:10px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>결제일시</td><td align='right' width='500' style='font-size:13px;color:#666;font-weight: bold;padding-bottom:10px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"+payDate+"일 </td></tr>"
+			    + "<tr><td width='100' style='font-size:13px;color:#666;padding-bottom:15px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>결제수단</td><td align='right' width='500' style='font-size:13px;color:#666;font-weight: bold;padding-bottom:15px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>카카오 페이</td></tr>"
+			    + "<tr><td colspan='2' width='100%' height='1' style='background: #ccc'></td></tr>"
+			    + "<tr><td width='100' style='font-size:19px;color:#00A06C;font-weight: bold;padding:15px 0;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>결제금액</td><td align='right' width='500' style='font-size:19px;color:#666;font-weight: bold;color:#00A06C;padding:15px 0;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"
+			    + "<span>"+payAmount+"원</span>"
+			    + "</td></tr>"
+			    + "</tbody></table>"
+			    + "</td><td width='39'></td></tr>"
+			    + "</tbody></table>"
+			    + "</td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "</td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td width='39'></td><td width='600'>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td colspan='2' style='font-size:15px;color:#000;font-weight: bold;padding-bottom: 10px;padding-top:40px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>상점정보</td></tr>"
+			    + "<tr><td colspan='2' width='100%' height='1' style='background: #000'></td></tr>"
+			    + "<tr><td width='100' style='font-size:13px;color:#666;padding-bottom:10px;padding-top:15px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>상점명</td><td align='right' width='500' style='font-size:13px;color:#666;font-weight: bold;padding-bottom:10px;padding-top:15px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>(사)WEWU</td></tr>"
+			    + "<tr><td width='100' style='font-size:13px;color:#666;padding-bottom:10px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>사이트주소</td><td align='right' width='500' style='font-size:13px;color:#666;font-weight: bold;padding-bottom:10px;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'><a href='https://www.wewu.life' target='_blank' rel='noopener noreferrer'>https://www.wewu.life</a></td></tr>"
+			    + "<tr><td colspan='2' width='100%' height='1' style='background: #ccc"
+			    + "<tr><td colspan='2' width='100%' height='1' style='background: #ccc'></td></tr>"
+			    + "</tbody></table>"
+			    + "</td><td width='39'></td></tr>"
+			    + "</tbody></table>"
+			    + "</td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td height='20px'></td></tr>"
+			    + "<tr><td width='39'></td><td valign='middle' width='600' style='height:42px;background: #FFCA00;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"
+			    + "<a href='https://www.wewu.life/' target='_blank' style='color:#fff;font-size:15px;text-align:center;text-decoration: none;:600px;display: block;' rel='noreferrer noopener'>WEWU 바로가기</a>"
+			    + "</td><td width='39'></td></tr>"
+			    + "</tbody></table>"
+			    + "</td></tr>"
+			    + "<tr><td>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eee;'>"
+			    + "<tbody><tr><td width='39'></td><td valign='middle' width='600' style='padding:40px 0;'>"
+			    + "<a href='https://www.wewu.life' target='_blank' style=':600px;display: block;' rel='noreferrer noopener'>"
+			    + "<img src='https://www.wewu.life/images/wewujumbo.jpg' alt='wewu' loading='lazy' width='600' height='120'>"
+			    + "</a>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td width='39'>&nbsp;</td><td width='600'>"
+			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
+			    + "<tbody><tr><td width='20'></td><td width='150'>"
+			    + "<img src='https://www.wewu.life/images/wewu.png' width='120' height='35' style='border:0;vertical-align:middle' alt='nicepay' loading='lazy'>"
+			    + "</td><td align='left' style='font-size:11px;color:#aaa;padding:30px 0;;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"
+			    + "사업자 등록번호: 000-00-0000 ㅣ 결제대금예치업 등록번호: 02-0000-0000<br>"
+			    + "04117 강남구 역삼동 819-3 삼오빌딩 비트캠프 5-9층<br>"
+			    + "Copyright@2019 . All rights reserved."
+			    + "</td><td width='20'></td></tr></tbody>"
+			    + "</table>"
+			    + "</td><td width='39'>&nbsp;</td></tr>"
+			    + "</tbody></table>"
+			    + "</td></tr>"
+			    + "</tbody></table>"
+			    + "</div></div></div></div>";
+
+
+				
+		return content;
 	}
-	*/
+	
+	
+
 	
 }

@@ -164,6 +164,7 @@ public class BoardRestController {
 		Search search = new Search();
 		search.setSearchCondition("");
 		search.setSearchKeyword("");
+		search.setSearchOrderBy("1");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardType", 1);

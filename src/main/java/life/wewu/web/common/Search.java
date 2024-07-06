@@ -1,18 +1,19 @@
 package life.wewu.web.common;
 
 
-//==>¸®½ºÆ®È­¸éÀ» ¸ðµ¨¸µ(Ãß»óÈ­/Ä¸½¶È­)ÇÑ Bean 
+//==>ï¿½ï¿½ï¿½ï¿½Æ®È­ï¿½ï¿½ï¿½ï¿½ ï¿½ðµ¨¸ï¿½(ï¿½ß»ï¿½È­/Ä¸ï¿½ï¿½È­)ï¿½ï¿½ Bean 
 public class Search {
 	
 	///Field
 	private int currentPage;
 	private String searchCondition;
 	private String searchKeyword;
+	private String searchOrderBy;
 	private int pageSize;
-	//==> ¸®½ºÆ®È­¸é currentPage¿¡ ÇØ´çÇÏ´Â È¸¿øÁ¤º¸¸¦ ROWNUM »ç¿ë SELECT À§ÇØ Ãß°¡µÈ Field 
-	//==> UserMapper.xml ÀÇ 
+	//==> ï¿½ï¿½ï¿½ï¿½Æ®È­ï¿½ï¿½ currentPageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ROWNUM ï¿½ï¿½ï¿½ SELECT ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ Field 
+	//==> UserMapper.xml ï¿½ï¿½ 
 	//==> <select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
-	//==> ÂüÁ¶
+	//==> ï¿½ï¿½ï¿½ï¿½
 	private int endRowNum;
 	private int startRowNum;
 	
@@ -49,11 +50,21 @@ public class Search {
 		this.searchKeyword = searchKeyword;
 	}
 	
-	//==> Select Query ½Ã ROWNUM ¸¶Áö¸· °ª 
+	
+	
+	public String getSearchOrderBy() {
+		return searchOrderBy;
+	}
+
+	public void setSearchOrderBy(String searchOrderBy) {
+		this.searchOrderBy = searchOrderBy;
+	}
+
+	//==> Select Query ï¿½ï¿½ ROWNUM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 	public int getEndRowNum() {
 		return getCurrentPage()*getPageSize();
 	}
-	//==> Select Query ½Ã ROWNUM ½ÃÀÛ °ª
+	//==> Select Query ï¿½ï¿½ ROWNUM ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	public int getStartRowNum() {
 		return (getCurrentPage()-1)*getPageSize()+1;
 	}
@@ -63,6 +74,6 @@ public class Search {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
 				+ searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+				+ ", startRowNum=" + startRowNum + ", searchOrderBy="+searchOrderBy+"]";
 	}
 }

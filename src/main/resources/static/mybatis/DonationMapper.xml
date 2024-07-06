@@ -49,21 +49,20 @@
         FROM pay
         <where>
         <if test="search.searchCondition != null and search.searchKeyword != ''">
-            <choose>
+            <!-- <choose>
                 <when test="search.searchCondition == 0">
                     AND INSTR(title, #{search.searchKeyword}) > 0
                 </when>
                 <when test="search.searchCondition == 1">
                     AND INSTR(nickname, #{search.searchKeyword}) > 0
                 </when>
-            </choose>
+            </choose> -->
         </if>
         <if test="search.searchCondition == null and search.searchKeyword != ''">
-            AND INSTR(title, #{search.searchKeyword}) > 0
+            AND INSTR(pay_name, #{search.searchKeyword}) > 0
         </if>
-        <if test="payType != null">
-            AND pay_type = #{payType}
-        </if>
+        pay_type = 'B'
+     
     </where>
         ORDER BY pay_no DESC
         LIMIT #{offset}, 8

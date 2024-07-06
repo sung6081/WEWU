@@ -384,7 +384,18 @@
             AND b.type_no = #{boardType}
         </if>
     </where>
-    ORDER BY b.board_no DESC
+	ORDER BY
+	<choose>
+		<when test="search.searchOrderBy == 1">
+			b.board_no DESC
+		</when>
+		<when test="search.searchOrderBy == 2">
+			b.views DESC
+		</when>
+		<when test="search.searchOrderBy == 3">
+			b.bookmark_cnt DESC
+		</when>
+	</choose>
     LIMIT #{offset}, 8
 </select>
 
@@ -404,9 +415,5 @@
 			</where>
 		</if>
 	</select>
-
-
-
-
 
 </mapper>

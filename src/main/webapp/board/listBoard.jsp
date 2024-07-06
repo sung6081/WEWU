@@ -77,11 +77,15 @@ b {
 		font-size: 30px;
 	}
 	
+.order{
+	margin-top:30px;
+}
+	
 </style>
 <script type="text/javascript">
     var currentPage = 1;
     var isLoading = false;
- 
+
     function onScroll() {
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
             loadMoreData();
@@ -109,7 +113,22 @@ b {
             var boardNo = $(this).data("board-no");
             self.location = "/board/listBoard?boardType=${param.boardType}";
         }); */
+        
+        $(".orderDef").on("click",function(){
+        	$("input[name='searchOrderBy']").val('1');
+        	fncGetList(1);
+        })
+         $(".orderPop").on("click",function(){
+        	$("input[name='searchOrderBy']").val('2');
+        	fncGetList(1);
+        })
+         $(".orderBook").on("click",function(){
+        	$("input[name='searchOrderBy']").val('3');
+        	fncGetList(1);
+        })
+        
     });
+
     function addBookmark(boardNo) {    	
         var bookmark = {
             boardNo: boardNo,
@@ -162,7 +181,6 @@ b {
         });
     }
 
-
     $(function(){
         $("div.boardClick").on("click",function(){
             self.location ="/board/getBoard?boardType=${param.boardType}&boardNo="+$($(this).children()).val();
@@ -213,7 +231,7 @@ b {
 							<!-- 검색 폼 -->
 							<div class="form-group">
 								<div class="col-md-6 text-left">
-								<%-- 	<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
+									<%-- 	<p class="text-primary">전체 ${resultPage.totalCount } 건수, 현재
 										${resultPage.currentPage} 페이지</p> --%>
 								</div>
 
@@ -245,14 +263,39 @@ b {
 
 										<input type="hidden" name="boardType"
 											value="${param.boardType}">
+										<input type="hidden" name="searchOrderBy" value="${!empty search.searchOrderBy ? search.searchOrderBy: 'A' }">
 										<div class="input-group-append">
 											<button class="btn btn-sm btn-success searchBtn"
 												type="button">Search</button>
 										</div>
 									</div>
+																
+								<div align="right">
+								<div class="btn-group order">
+									<button type="button" class="btn btn-success">최신순</button>
+									<button type="button"
+										class="btn btn-success dropdown-toggle dropdown-toggle-split"
+										id="dropdownMenuSplitButton3" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false">
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<div class="dropdown-menu"
+										aria-labelledby="dropdownMenuSplitButton3" style="">
+										<a class="dropdown-item orderDef" href="#">최신순</a>
+										<a class="dropdown-item orderPop" href="#">인기순								
+										</a> 
+										<a class="dropdown-item orderBook" href="#">북마크순</a>
+																				
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#">Separated link</a>
+									</div>
+								</div>
+							</div>
+									
 								</form>
 							</div>
 							<!-- 검색 폼 끝 -->
+							
 
 							<!-- <button type="button" class="btn btn-success" name="" value="0">Success</button>
 						<button type="button" class="btn btn-success" name="" value="1">Success</button>
