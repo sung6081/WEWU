@@ -18,18 +18,31 @@
   });
 </script>
 <style>
-.jumbotron{
-background-color: #00A06C;
-margin-top:160px;
-margin-bottom:0;
-}
-.display-4 {
-  color: #fff; /* 원하는 색상으로 변경 */
-}
+.jumbotron {
 
-.main-panel{
-margin:0;
-}
+        background-color: #00A06C;
+        margin-top: 160px;
+        margin-bottom: 0;
+        background-size: contain;
+        /* 이미지가 컨테이너 안에 맞도록 */
+        background-image: url('/images/jumbo2.jpg');
+        /* 배경 이미지 경로 */
+        background-size: cover;
+        /* 이미지가 컨테이너를 덮도록 */
+        background-position: center;
+        /* 이미지가 중앙에 위치하도록 */
+
+      }
+      
+
+      .display-4 {
+        color: #fff;
+        /* 원하는 색상으로 변경 */
+      }
+
+      .main-panel {
+        margin: 0;
+      }
 </style>
 </head>
 <body>

@@ -303,6 +303,13 @@
     body {
       margin-bottom: 100px; /* 아래쪽에 여백 추가 */
     }
+    
+    .card-title {
+    text-align: center; /* 중앙 정렬 */
+}
+.card-body {
+    border-radius: 15px; /* 카드의 라운드 모서리 */
+}
   </style>
 </head>
 
@@ -314,16 +321,17 @@
 
   <div class="main-panel">
     <div class="jumbotron">
-      <div class="container ">
+      <div class="container">
         <img src="/images/wewujumbo.jpg" alt="Background Image">
       </div>
     </div>
 
       <div class="container">
-        <div class="row mx-auto">
+        <div class="row mx-auto mt-5">
           <div class="col-md-8 grid-margin stretch-card">
             <div class="container" style=" height: auto;">
               <div id="naverMap">
+              <p class="text-light bg-primary pl-1">모임 활동 지도</p>
                 <c:import url="/active/map"></c:import>
               </div>
             </div>
@@ -363,7 +371,9 @@
       <div class="container">
         <div class="row mx-auto">
           <div class="col-lg-12 slide">
-            <h4 class="boardList"> 공지사항 </h4>
+          <ul class="list-star">
+            <li class="boardList"> 공지사항 </li>
+            </ul>
             <div class="swiper-container">
               <div class="swiper-wrapper boardListMain">
                 <!-- Slides will be injected here by JavaScript -->
@@ -382,6 +392,10 @@
           <!-- main-panel ends -->
         </div>
       </div>
+      <div class="col-md-8 stretch-card grid-margin mx-auto">
+      <div class ="card">
+      <div class = "card-body">
+      <p class = "card-title">공기 질 데이터</p>
       <div class="container">
         <div class="row mx-auto">
           <div class="col-lg-12">
@@ -391,6 +405,9 @@
             </div>
           </div>
         </div>
+      </div>
+      </div>
+      </div>
       </div>
     </div>
     <!-- footer.jsp -->

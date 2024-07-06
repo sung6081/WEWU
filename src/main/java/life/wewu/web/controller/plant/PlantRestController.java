@@ -238,8 +238,9 @@ public class PlantRestController {
 	        for (QuestState questState : list) {
 	            map.put("questRegDate", questState.getQuest().getRegDate());
 	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            System.out.println(map);
 	            questState.setAcleCount(acleCount); // currentCnt 설정
-	            System.out.println(acleCount);
+	            System.out.println("현재작성한게시물수 : "+acleCount);
 	        }
 
 	        System.out.println("getQuestListByUserRest : " + list);
@@ -297,26 +298,6 @@ public class PlantRestController {
 		return quest;
 	}
 
-	// getMyPlant.jsp
-	@RequestMapping(value = "getMyPlant", method = RequestMethod.GET)
-	public MyPlant getMyPlant(Model model, HttpSession session) throws Exception {
-		System.out.println("::plant::REST::getMyPlant : POST");
-
-		User user = (User) session.getAttribute("user");
-		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		myPlant.setPlantLevl(plantLevl);
-
-		System.out.println("myPlant : " + myPlant);
-		session.setAttribute("myPlant", myPlant);
-
-		model.addAttribute("user", user);
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("plantLevl", plantLevl);
-
-		return myPlant;
-	}
 
 	@RequestMapping(value = "getMyPlant", method = RequestMethod.POST)
 	public MyPlant getMyPlant(HttpSession session, Model model) throws Exception {
@@ -363,30 +344,6 @@ public class PlantRestController {
 	    return list;
 	}
 	
-	@RequestMapping(value = "showMyPlant", method = RequestMethod.GET)
-	public String showMyPlant(HttpSession session, Model model) throws Exception {
-	    System.out.println("::plant::REST::showMyPlant : GET");
-
-	    User user = (User) session.getAttribute("user");
-	    if (user == null) {
-	        System.err.println("Error: user is null");
-	        throw new IllegalStateException("User cannot be null");
-	    }
-
-	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-
-	    if (myPlant != null) {
-	        PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-	        myPlant.setPlantLevl(plantLevl);
-	    }
-
-	    // 모델에 사용자와 나의 식물 정보 추가
-	    model.addAttribute("user", user);
-	    model.addAttribute("myPlant", myPlant);
-
-	    // JSP 페이지로 포워드
-	    return "showMyPlant"; // JSP 페이지 이름
-	}
 	
 	// history.jsp
 	@RequestMapping(value = "history", method = RequestMethod.GET)

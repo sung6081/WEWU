@@ -46,7 +46,7 @@ background-color: #00A06C;
 margin-top:160px;
 margin-bottom:0;
 background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
-background-image: url('/images/plant1.jpg'); /* 배경 이미지 경로 */
+background-image: url('/images/jumbo7.jpg'); /* 배경 이미지 경로 */
 background-size: cover; /* 이미지가 컨테이너를 덮도록 */
 background-position: center; /* 이미지가 중앙에 위치하도록 */
 }
@@ -83,7 +83,7 @@ margin:0;
 <body>
 <div class="jumbotron">
   <div class="container">
-    <p class="display-4"><b>ADD PLANT</b></p>
+    <p class="display-4"><b>PLANT LIST</b></p>
   </div>
   </div>
   <jsp:include page="/plant/plantSide.jsp" />
