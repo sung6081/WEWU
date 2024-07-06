@@ -82,7 +82,7 @@ public class ActiveController {
 		return "/active/map";
 	}
 	
-	//Ȱ�� ��� ������ �׺� GET
+	//활동 등록 페이지 네비 GET
 	@GetMapping(value = "addActive/{groupNo}")
 	public String addActive(@PathVariable int groupNo, Model model, HttpSession session) throws Exception {
 		
@@ -104,7 +104,7 @@ public class ActiveController {
 		
 	}
 	
-	//Ȱ�� ��� ����Ͻ� ����
+	//활동 등록 비즈니스 로직
 	@PostMapping(value = "addActive")
 	public String addActive(@ModelAttribute Active active, @RequestParam String hash, @RequestPart(required = false) MultipartFile file) throws Exception {
 		
