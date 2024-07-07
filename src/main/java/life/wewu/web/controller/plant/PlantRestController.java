@@ -232,6 +232,7 @@ public class PlantRestController {
 
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("nickname", user.getNickname());
+	        map.put("groupNo", 0);
 
 	        List<QuestState> list = plantService.getQuestListByUser(map);
 
