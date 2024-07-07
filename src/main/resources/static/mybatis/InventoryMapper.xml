@@ -18,19 +18,16 @@
 
 	<!-- GET INVENTORY -->
 <!-- InventoryMapper.xml -->
-<select id="getInventoryList" parameterType="map" resultMap="InventorySelectMap">
-SELECT item_no, item_name, item_effect, item_img, item_purchase_no, item_stock, item_category
-FROM (
-    SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no, SUM(p.item_stock) AS item_stock, i.item_category
-    FROM item_purchase p
-    JOIN item i ON p.item_no = i.item_no
-    WHERE p.buyer_nickname = #{nickname}
-    AND p.item_stock > 0 
-    GROUP BY i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no
-) AS grouped_result
-ORDER BY item_purchase_no
-LIMIT #{pageSize} OFFSET #{offset};
-</select>
+<select id="getInventoryList" parameterType="string" resultMap="InventorySelectMap">
+		SELECT i.item_no, i.item_name, i.item_effect, i.item_img, p.item_purchase_no,SUM(item_stock) item_stock ,i.item_category
+		FROM item_purchase p, item i
+		WHERE 
+		p.item_no = i.item_no
+		AND p.buyer_nickname = #{nickname}
+		AND item_stock > 0 
+		GROUP BY i.item_no, i.item_name, i.item_effect, i.item_img,p.item_purchase_no
+		ORDER BY item_purchase_no
+	</select>
 	
 	<update id="updateInventory" parameterType="inventory">
 		UPDATE item_purchase

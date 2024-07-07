@@ -245,11 +245,11 @@ public class PlantController {
 
 		System.out.println("map = " + map);
 
-		List<MyPlant> list = plantService.getMyPlantList(map);
+		List<MyPlant> myPlantList = plantService.getMyPlantList(map);
 
-		System.out.println("List = " + list);
+		System.out.println("List = " + myPlantList);
 
-		model.addAttribute("list", list);
+		model.addAttribute("myPlantList", myPlantList);
 		model.addAttribute("search", search);
 
 		return "forward:/plant/history.jsp";
@@ -257,40 +257,30 @@ public class PlantController {
 
 //----------------Inventory
 	@RequestMapping(value = "inventory", method = RequestMethod.GET)
-	public String getInventory(HttpSession session, Model model, @ModelAttribute Search search) throws Exception {
-	    User user = (User) session.getAttribute("user");
-	    
-	   
+	public String getInventory(HttpSession session, Model model) throws Exception {
 
-	    if (search.getCurrentPage() == 0) {
-	        search.setCurrentPage(1);
-	    }
-	    search.setPageSize(5); // 페이지 사이즈를 5로 설정
+		System.out.println("::plant::inventory : GET");
+		User user = (User) session.getAttribute("user");
 
-	    int offset = (search.getCurrentPage() - 1) * search.getPageSize();
-	    int pageSize = search.getPageSize();
+		Map<String, Object> map = new HashMap<>();
+		map.put("nickname", user.getNickname());
 
-	    Map<String, Object> map = new HashMap<>();
-	    map.put("nickname", user.getNickname());
-	    map.put("offset", offset);
-	    map.put("pageSize", pageSize);
+		List<Inventory> list = plantService.getInventoryList(user.getNickname());
 
-	    int totalCount = plantService.getTotalCount(map);
+		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+		System.out.println(myPlant);
+		System.out.println(plantLevl);
+		System.out.println(list);
 
-	    Page resultPage = new Page(search.getCurrentPage(), totalCount, 5, 5);
-	    List<Inventory> list = plantService.getInventoryList(map);
-	    System.out.println("page : "+resultPage);
-	    System.out.println("item list : "+list);
+		System.out.println("list: " + list);
 
-	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+		model.addAttribute("user", user);
+		model.addAttribute("list", list);
+		model.addAttribute("myPlant", myPlant);
+		model.addAttribute("plantLevl", plantLevl);
 
-	    model.addAttribute("user", user);
-	    model.addAttribute("list", list);
-	    model.addAttribute("myPlant", myPlant);
-	    model.addAttribute("plantLevl", plantLevl);
-	    model.addAttribute("resultPage", resultPage);
+		return "forward:/plant/inventory.jsp";
 
-	    return "forward:/plant/inventory.jsp";
 	}
 }

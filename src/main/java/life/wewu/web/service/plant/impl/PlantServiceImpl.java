@@ -402,8 +402,8 @@ public class PlantServiceImpl implements PlantService {
 	// ---------------------------------------------------------------------------------------//
 
 	@Override
-	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception {
-		return inventoryDao.getInventoryList(map);
+	public List<Inventory> getInventoryList(String nickname) throws Exception {
+		return inventoryDao.getInventoryList(nickname);
 	}
 
 	@Override
