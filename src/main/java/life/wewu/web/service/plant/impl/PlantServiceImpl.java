@@ -457,6 +457,12 @@ public class PlantServiceImpl implements PlantService {
 		return inventoryDao.getTotalCount(map);
 	}
 
+	@Override
+	public int memberAcleListCnt(Map<String, Object> map) throws Exception {
+		
+		return questDao.memberAcleListCnt(map);
+	}
+
 
 
 

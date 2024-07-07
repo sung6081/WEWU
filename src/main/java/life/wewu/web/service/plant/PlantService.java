@@ -109,6 +109,6 @@ public interface PlantService {
 	public int getTotalCount(Map<String, Object> map) throws Exception;
 
 	
-
+	public int memberAcleListCnt(Map<String,Object> map) throws Exception;
 
 }
