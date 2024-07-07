@@ -47,16 +47,19 @@ $(document).ready(function () {
     });
 
     window.completeQuest = function(questStateNo) {
+        console.log("Sending request to complete quest:", questStateNo);
         $.ajax({
             url: "/app/plant/completeQuest",
             type: "POST",
-            data: $.param({ questStateNo: questStateNo }),
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: { questStateNo: questStateNo },
             success: function (data, status, xhr) {
+                console.log("Request successful. Data received:", data);
                 updateQuestList();
             },
             error: function (xhr, status, error) {
                 console.error("퀘스트 완료 중 오류 발생: ", xhr.responseText);
+                console.error("Status: ", status);
+                console.error("Error: ", error);
             }
         });
     }

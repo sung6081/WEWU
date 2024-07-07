@@ -23,6 +23,7 @@ public class Quest {
 	private Date regDate;			//등록일
 	private String nickname;
 	private QuestState questState;
+	private int questStateNo;
 	
 	
 
