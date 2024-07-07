@@ -50,17 +50,16 @@ $(document).ready(function () {
         $.ajax({
             url: "/app/plant/completeQuest",
             type: "POST",
-            data: JSON.stringify({ questStateNo: questStateNo }),
-            contentType: "application/json",
+            data: $.param({ questStateNo: questStateNo }),
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             success: function (data, status, xhr) {
                 updateQuestList();
             },
             error: function (xhr, status, error) {
-                console.error("Error occurred while completing quest: ", xhr.responseText);
+                console.error("퀘스트 완료 중 오류 발생: ", xhr.responseText);
             }
         });
     }
-
     // 주기적으로 퀘스트 상태 확인
     setInterval(function() {
         $.ajax({
