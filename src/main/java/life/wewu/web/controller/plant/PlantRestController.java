@@ -238,7 +238,7 @@ public class PlantRestController {
 
 	        for (QuestState questState : list) {
 	            map.put("questRegDate", questState.getQuest().getRegDate());
-	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            int acleCount = plantService.memberAcleListCnt(map); // acleCount 계산
 	            System.out.println(map);
 	            questState.setAcleCount(acleCount); // currentCnt 설정
 	            System.out.println("현재작성한게시물수 : "+acleCount);

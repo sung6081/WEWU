@@ -119,4 +119,22 @@
     WHERE qs.quest_state_no = #{questStateNo}
 </select>
 
+<select id="memberAcleListCnt" parameterType="MAP" resultType="INT">
+  		SELECT 
+  			COUNT(*)
+  		FROM board 
+  		WHERE 
+  		type_no IN (
+  						SELECT 
+  							type_no 
+  						FROM 
+  							board_type 
+  	
+  							
+  					)
+  		AND 
+  			nickname = '${nickname}'
+  		
+  	</select>
+
 </mapper>
