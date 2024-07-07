@@ -228,7 +228,7 @@
 		margin-top:160px;
 		margin-bottom:0;
 		background-size: contain; /* 이미지가 컨테이너 안에 맞도록 */
-		background-image: url('/images/itemshop.jpg'); /* 배경 이미지 경로 */
+		background-image: url('/images/jumbo3.jpg'); /* 배경 이미지 경로 */
 		background-size: cover; /* 이미지가 컨테이너를 덮도록 */
 		background-position: center; /* 이미지가 중앙에 위치하도록 */
 		}

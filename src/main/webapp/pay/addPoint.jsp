@@ -28,6 +28,13 @@
    
    function pay() {
       
+   if($('input[name="pamount"]:checked').val() == null)
+  	{
+  		alert("충전할 포인트를 선택하세요.");
+	    return;
+  	}
+   
+	  <%--
       var pointAmount = $("#pointAmount").val();
       
       if(pointAmount == "" || pointAmount == 0 || pointAmount == null)
@@ -35,6 +42,8 @@
          alert("충전할 액수를 입력하세요");
          return;
       }
+      --%>
+      
       
        if (confirm("구매 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
           
@@ -46,7 +55,7 @@
                 pay_method: 'card', // 결제 방식
                 merchant_uid: uuid, // 결제 고유 번호
                 name: '포인트', // 제품명
-                amount: pointAmount, // 가격
+                amount: $('input[name="pamount"]:checked').val(), // 가격
                 //구매자 정보 ↓
                 buyer_name: "${user.userName}",
                 
@@ -108,23 +117,57 @@
                                </p>
                                <br>
                               <div class="form-group">
-                                <label for="exampleitemName" style="font-size: 15px;">충전할 포인트 양</label>
-                                <input type="text" name="pointAmount" class="form-control" id="pointAmount">
-                              </div>
-                              
-                              <div class="form-group row">
                                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label" style="font-size: 15px;">현재 포인트</label>
                                  <div class="col-sm-12">
                                      <label for="exampleInputUsername2" class="form-control">${user.currentPoint}p</label>
                                   </div>
                              </div>
-                               
-                            <h4 style="font-size: 15px;">결제 수단</h4>
-                               
+                             
+                            <br>
+                            <div class="col-sm-12">
+                             <div class="form-group">
+		                      <label>충전할 포인트</label>		                     
+		                      <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="pamount" id="pamount" value="100">
+			                      100p
+			                    </label>
+			                  </div>
+		                      <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="pamount" id="pamount" value="500">
+			                      500p
+			                    </label>
+			                  </div>
+			                  <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="pamount" id="pamount" value="1000">
+			                      1000p
+			                    </label>
+			                  </div>
+			                  <div class="form-check">
+			                    <label class="form-check-label text-muted">
+			                      <input type="radio" class="form-check-input" name="pamount" value="5000">
+			                      5000p
+			                    </label>
+			                  </div>
+		                    </div>
+                             <%-- 
+                              <div class="form-group">
+                                <label for="exampleitemName" class="col-sm-3 col-form-label" style="font-size: 15px;">충전할 포인트</label>
+                                <div class="col-sm-12">
+                                <input type="text" name="pointAmount" class="form-control" id="pointAmount">
+                                </div>
+                              </div>                           	                         	
+                          	--%>
+                          	
+                             <br>
+                             <br> 
                              <div class="text-right mt-4">
-                                  <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;" onclick="javascript:pay();">카카오페이</button>
+                                  <button type="button" class="btn btn-success" style="float: right; margin-left: 10px;" onclick="javascript:pay();">충전하기</button>
                             </div> 
-                            
+                            <br>
+                            <br>
                             <form class="paySuccess">
                                <input type="hidden" name="buyerNickname" id="buyerNickname">   <!-- 구매자 닉네임 -->
                                <input type="hidden" name="payOption" id="payOption">      <!-- 카카오? 네이버? -->
@@ -133,6 +176,7 @@
                                <input type="hidden" name="currentPoint" id="currentPoint">   <!-- 현재 포인트 -->
                                <input type="hidden" name="payFlag" id="payFlag">      <!-- 성공여부 -->
                             </form>
+                            </div>
                      </div>
                     </div>
                  </div>

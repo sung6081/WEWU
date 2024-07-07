@@ -45,7 +45,7 @@ $(function() {
                         <p class="card-description">
 					                       
 					    </p>
-                        <form class="forms-sample" name="detailForm" method="post">
+                        <form class="forms-sample" name="detailForm" method="post" encType="multipart/form-data">
                             <input type="hidden" name="itemNo" value="${item.itemNo}">
                             <div class="form-group">
                                 <label for="itemName">아이템명</label>
@@ -65,7 +65,7 @@ $(function() {
                             </div>
                             <div class="form-group">
                                 <label>아이템 이미지</label>
-                                <input type="file" name="file" class="file-upload-default">
+                                <input type="file" name="file" class="file-upload-default" value=${item.itemImg}>
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled placeholder="이미지 파일 첨부">
                                     <span class="input-group-append">

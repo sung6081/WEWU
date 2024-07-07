@@ -162,9 +162,18 @@ public class ItemController {
    
    
  	@RequestMapping( value="updateItem", method=RequestMethod.POST)
- 	 public String updateItem(@ModelAttribute("item") Item item , Model model) throws Exception{ //HttpSession이 로그인 상태를 그대로 유지하기 위해서? ==> HttpSession: session에 있는 정보를 담아올 때. session  없으면 로그인한 유저 정보 계속 들고 다녀야 함. 근데 updateItem에는 필요X. updateItem은 관리자만 들어올 수 있음. 이미 여기 접근했다는 거 자체가, role 검증이 끝난 거임.  
- 		
+ 	 public String updateItem(@ModelAttribute("item") Item item , Model model, @RequestPart MultipartFile file) throws Exception{ //HttpSession이 로그인 상태를 그대로 유지하기 위해서? ==> HttpSession: session에 있는 정보를 담아올 때. session  없으면 로그인한 유저 정보 계속 들고 다녀야 함. 근데 updateItem에는 필요X. updateItem은 관리자만 들어올 수 있음. 이미 여기 접근했다는 거 자체가, role 검증이 끝난 거임.  
+ 		 		
  		System.out.println("item updateItem :: POST"); 
+ 		
+ 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("file", file);
+		map.put("folderName", "item");
+		
+		String url = s3Repository.uplodaFile(map);
+		
+		item.setItemImg(s3Repository.getShortUrl(url));
  		
  		itemService.updateItem(item); //지금은 updateItem을 먼저 getItem을 받아서 view 보여주고, 나중에 수정만 하는 걸로 바꿔놓음. 근데 2개 합쳐서 못 만드나?=> 화면정의서 단계에서 계획했어야 함. 
  		
