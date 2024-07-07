@@ -144,7 +144,7 @@
 									   "</tr>";
 							  }else
 							  {
-								  str  += '<div class="col-sm-6 col-md-4 col-lg-3 mb-4 acle" id="' + data[i].boardNo + '">' +
+								  str  += '<div class="col-sm-6 col-md-4 col-lg-2-4 mb-4 acle" id="' + data[i].boardNo + '">' +
 								              '<div class="thumbnail">' +
 								                  '<div class="boardClick">';
 								                  	if(data[i].imgSrc != null)

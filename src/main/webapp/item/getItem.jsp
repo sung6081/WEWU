@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
     
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,20 @@
 		<!-- HEADER -->
 		
 		<script>
+		var loginCheck = "F";
+		if(${empty user == true})
+		{
+			loginCheck = "Y";
+		}
+		
+		
+		
 		function addShoppingCart(itemNo){
+			if(loginCheck == "Y")
+			{
+				alert("로그인 후 사용할 수 있습니다.");
+				return;
+			}
 			
 			$.ajax ({
 				url	: "/app/item/addShoppingCart", // (Required) 요청이 전송될 URL 주소
@@ -35,7 +49,7 @@
 						alert("장바구니 담기가 완료되었습니다.");
 						
 					}else{
-						alert("로그인 후 시도하세요.");
+						alert("로그인 후 사용할 수 있습니다.");
 					}
 				},
 				error	: function(xhr, status, error) {
@@ -50,6 +64,11 @@
 		
 		$(function() {
 			$( "button.btn-success:contains('구매하기')" ).on("click" , function() {
+				if(loginCheck == "Y")
+				{
+					alert("로그인 후 사용할 수 있습니다.");
+					return;
+				}
 				location.href="/item/addPurchase?itemNo="+${item.itemNo}
 		 	});	 
 		});
@@ -57,17 +76,36 @@
 		</script>
 		
 		<style>
-	     .btn-consistent {
-	            margin-top: 50px; /* 버튼 간의 간격 조절 */ 
-	     }
+	   
 	     
 	    .large.mb-1 {
         		color: grey; /* 회색으로 설정할 색상 */
    		 }
    		  
    		.button-spacing {
-        margin-right: 10px; /* 버튼 사이의 간격 조절 */
+        margin-right: 20px; /* 버튼 사이의 간격 조절 */
  		}
+ 		
+ 		.button-container {
+            display: flex;
+            gap: 10px; /* 버튼 간의 간격 */
+            margin-top: 20px; /* 버튼 그룹의 상단 여백 */
+        }
+        
+        .btn {
+            flex: 1;
+            white-space: nowrap; /* 버튼 내 텍스트가 줄 바꿈 되지 않도록 설정 */
+            min-width: 150px; 
+        }
+        
+        .btn-equal-width {
+            flex: 1; /* 컨테이너 안에서 동일한 비율로 공간을 차지 */
+            display: flex;
+            justify-content: center; /* 텍스트 중앙 정렬 */
+            align-items: center;
+            height: 50px; /* 버튼 높이 설정 */
+            min-width: 200px; /* 동일한 너비 설정 (너무 좁지 않도록 최소 너비 설정) */
+        }
 	    </style>
 	    
 	</head>
@@ -95,19 +133,28 @@
 				                    </select>
 				                </div>
 		                        <br>
-		                        <p class="lead" style="font-style: italic;">"${item.itemEffect}"</p>
-		                        <div class="d-flex">
-		                            <button class="btn btn-success btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">
+		                        <p class="lead" style="font-style: italic;">
+                        			<c:choose>
+	                                    <c:when test="${item.itemCategory == 'Y'}">
+	                                    경험치 ${item.itemEffect}회 충족
+	                                    </c:when>
+                                        <c:when test="${item.itemCategory == 'N'}">
+                                        ${item.itemEffect}
+                                        </c:when>
+                               		</c:choose>
+                               </p>		
+		                        <div class="button-container">
+		                            <button class="btn btn-success btn-equal-width" type="button" onclick="addShoppingCart(${item.itemNo})">
 		                             장바구니 담기
 		                            </button>
-		                            <button class="btn btn-success btn-consistent" type="button">
+		                            <button class="btn btn-success btn-equal-width" type="button">
 		                             구매하기
 		                            </button>
 		                     	</div>
 		                    </div>   
 	                     </div>	
 	                 </div>
-        		</div>
+        			</div>
         		</div>
         	</div>
         

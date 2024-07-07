@@ -215,10 +215,19 @@ public class ItemController {
  	}
 	*/
     @RequestMapping( value="addPurchase", method=RequestMethod.GET )
-   	public String addPurchase(@RequestParam("itemNo") int itemNo, Model model) throws Exception{ 
+   	public String addPurchase(@RequestParam("itemNo") int itemNo, Model model,@RequestParam(value="shoppingCartNo",required = false) String shoppingCartNo) throws Exception{ 
 	 	
 		System.out.println(":: /itemPurchase/addPurchase ::GET");
+		//required => 없으면 원래 에러가 생기는데, 얘는 없으면 null로 받아줄게
+		//있으면 값 받아줄게
 		
+		if(shoppingCartNo == null) //장바구니 목록에서 구매 안 하고, 바로 구매할 경우
+		{
+			
+		}else //장바구니 목록에서 구매할 경우
+		{
+			model.addAttribute("shoppingCartNo", shoppingCartNo);
+		}
 		Item item = itemService.getItem(itemNo);
 		
 		model.addAttribute("item", item);
@@ -228,11 +237,19 @@ public class ItemController {
  	
 	   
    @RequestMapping( value="addPurchase", method=RequestMethod.POST ) 
-    public String addPurchase(@ModelAttribute("itemPurchase") ItemPurchase itemPurchase ,@SessionAttribute("user")User user,HttpSession session) throws Exception{
+    public String addPurchase(@ModelAttribute("itemPurchase") ItemPurchase itemPurchase ,@SessionAttribute("user")User user,HttpSession session, @RequestParam(value="shoppingCartNo",required = false) String shoppingCartNo) throws Exception{
 	
 		System.out.println("/itemPurchase/addPurchase ::POST");
 		Item item = itemService.getItem(itemPurchase.getItemNo()); //itemService의 itemNo와 같은 걸 itemPurchaseService에서 가져오도록. 
 		int currentPoint = ((itemPurchase.getCurrentPoint()) - (item.getItemPrice() * itemPurchase.getItemCnt())); //지금은 session 안 해 놔서 일단 3000으로 설정해 놓은 것. 
+		
+		if(shoppingCartNo == null) //장바구니 목록에서 구매 안 하고 바로 구입
+		{
+			
+		}else //장바구니 목록에서 구매
+		{
+			shoppingCartService.deleteShoppingCartList(Integer.parseInt(shoppingCartNo));
+		}
 		
 		//세션에 저장된 유저의 정보 중 현재 포인트를 계산한 포인트로 set
 		user.setCurrentPoint(currentPoint);
@@ -242,7 +259,7 @@ public class ItemController {
 		
 		//변경된 포인트로 set 된 user 도메인을 기존의 세션의 유저 정보에 덮어 씌움
 		session.setAttribute("user", user);	
-		
+		System.out.println(itemPurchase);
 		//구매정보 add
 		itemPurchase.setCurrentPoint(currentPoint);
 		itemPurchaseService.addPurchase(itemPurchase);

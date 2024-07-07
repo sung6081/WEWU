@@ -23,7 +23,7 @@ public interface MyPlantDao {
 
 	public List<MyPlant> getMyPlantList(Map<String, Object> map) throws Exception;
 
-	public void deleteMyPlant(String nickname) throws Exception;
+	public void deleteMyPlant(Map<String, Object> map) throws Exception;
 	
 	public String getWeather(String location);
 	

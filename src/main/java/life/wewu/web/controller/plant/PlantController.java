@@ -84,6 +84,9 @@ public class PlantController {
         System.out.println("::plant::addQuestWithState : POST");
 
         User user = (User) session.getAttribute("user");
+        if (user == null || !"1".equals(user.getRole())) {
+            return "redirect:/user/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
+        }
         if (user != null) {
             quest.setNickname(user.getNickname());
 
@@ -103,24 +106,7 @@ public class PlantController {
 
         return "forward:/plant/addQuest.jsp";
     }
-//	@RequestMapping(value = "addQuest", method = RequestMethod.GET)
-//	public String addQuest() throws Exception {
-//		System.out.println("::plant::addQuest : GET");
-//		return "forward:/plant/addQuest.jsp";
-//	}
-//
-//	@RequestMapping(value = "addQuest", method = RequestMethod.POST)
-//	public String addQuest(@ModelAttribute("quest") Quest quest, Model model, HttpSession session) throws Exception {
-//		System.out.println("::plant::addQuest : POST");
-//
-//		User user = (User) session.getAttribute("user");
-//		quest.setNickname(user.getNickname());
-//		plantService.addQuest(quest);
-//		model.addAttribute("quest", quest);
-//		model.addAttribute("user", user);
-//
-//		return "forward:/plant/addQuest.jsp";
-//	}
+
 
 	@RequestMapping(value = "updateQuest", method = RequestMethod.GET)
 	public String GETupdateQuest(@RequestParam("questNo") int questNo, Model model) throws Exception {
@@ -151,15 +137,24 @@ public class PlantController {
 	// ----------------Plant
 
 	@RequestMapping(value = "addPlant", method = RequestMethod.GET)
-	public String GetAddPlant() throws Exception {
+	public String GetAddPlant(HttpSession session) throws Exception {
 		System.out.println("::plant::addPlant : GET");
+		 User user = (User) session.getAttribute("user");
+	       if (user == null || !"1".equals(user.getRole())) {
+	           return "redirect:/user/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
+	       }
 
 		return "forward:/plant/addPlant.jsp";
 	}
 
 	@RequestMapping(value = "getPlant", method = RequestMethod.GET)
-	public String getPlant(@RequestParam("plantNo") int plantNo, Model model) throws Exception {
+	public String getPlant(@RequestParam("plantNo") int plantNo, Model model,HttpSession session) throws Exception {
 		System.out.println("::plant::getPlant : GET");
+		
+		  User user = (User) session.getAttribute("user");
+	       if (user == null || !"1".equals(user.getRole())) {
+	           return "redirect:/user/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
+	       }
 		Plant plant = plantService.getPlant(plantNo);
 		model.addAttribute("plant", plant);
 
@@ -171,7 +166,7 @@ public class PlantController {
 
 		System.out.println("::plant::listPlant : GET");
 
-// plantService를 통해 Plant 리스트를 가져옴
+		// plantService를 통해 Plant 리스트를 가져옴
 		List<Plant> list = plantService.getPlantList(map);
 
 		// 가져온 Plant 리스트를 모델에 추가
@@ -213,6 +208,7 @@ public class PlantController {
 
 		User user = (User) session.getAttribute("user");
 		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
+		  
 
 		if (myPlant == null) {
 			System.out.println("myPlant가 없습니다");
@@ -239,6 +235,7 @@ public class PlantController {
 		System.out.println("::plant::history : GET");
 
 		User user = (User) session.getAttribute("user");
+	    
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		search.setSearchCondition("past");
@@ -262,6 +259,8 @@ public class PlantController {
 	@RequestMapping(value = "inventory", method = RequestMethod.GET)
 	public String getInventory(HttpSession session, Model model, @ModelAttribute Search search) throws Exception {
 	    User user = (User) session.getAttribute("user");
+	    
+	   
 
 	    if (search.getCurrentPage() == 0) {
 	        search.setCurrentPage(1);
@@ -281,6 +280,7 @@ public class PlantController {
 	    Page resultPage = new Page(search.getCurrentPage(), totalCount, 5, 5);
 	    List<Inventory> list = plantService.getInventoryList(map);
 	    System.out.println("page : "+resultPage);
+	    System.out.println("item list : "+list);
 
 	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
 	    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());

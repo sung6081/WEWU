@@ -101,7 +101,9 @@
 			   	   	<input type="hidden" id="itemStock" name="itemStock" value="1">
 			   	   	<input type="hidden" id="refundFlag" name="refundFlag" value="N">
 			   	   	<input type="hidden" id="itemCnt" name="itemCnt" value="1">
-			   	   		
+					<c:if test="${!empty shoppingCartNo }">
+						<input type="hidden" id="shoppingCartNo" name="shoppingCartNo" value="${shoppingCartNo}">
+					</c:if>			   	   		
                    <div class="form-group row">
                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">구매 아이템</label>
                      <div class="col-sm-9">

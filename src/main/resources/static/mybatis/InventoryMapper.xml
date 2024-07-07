@@ -12,7 +12,7 @@
 		<result property="itemExp"			column="item_effect"		jdbcType="VARCHAR" />
 		<result property="itemType"			column="item_category" 		jdbcType="VARCHAR" />
 		<result property="itemNum"			column="item_stock" 		jdbcType="INTEGER" />
-		<result property="itemImg"			column="item_Img" 			jdbcType="INTEGER" />
+		<result property="itemImg"			column="item_img" 			jdbcType="INTEGER" />
 		<result property="nickname"			column="buyer_nickname" 	jdbcType="INTEGER" />
 	</resultMap>
 
@@ -34,10 +34,8 @@ LIMIT #{pageSize} OFFSET #{offset};
 	
 	<update id="updateInventory" parameterType="inventory">
 		UPDATE item_purchase
-		<set>
-			item_stock = #{itemNum}
-		</set>
-		WHERE item_purchase_no = #{itemPurNo}
+    	SET item_stock = item_stock - 1
+    	WHERE item_purchase_no = #{itemPurNo}
 	</update>
 	
 	<select id="getInventory" parameterType="int" resultMap="InventorySelectMap">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -34,8 +35,17 @@
 			
 			$(function() 
 			{
-				getMemberGroupList("");
-				$(".btn-success").text("전체");
+				if("${user.nickname}" == "${group.leaderNick}")
+				{
+					getMemberGroupList("");
+					$(".btn-success").text("전체");
+				}else
+				{
+					getMemberGroupList("T");
+					$(".btn-success").text("가입인원");
+				}
+				
+				
 				
 				$(".dropdown-item").on("click",function(){
 					if($(this).text() == "전체")
@@ -218,9 +228,13 @@
                         		
                         </button>
                         <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                        <c:if test="${user.nickname == group.leaderNick}">
                           <a class="dropdown-item">전체</a>
+                        </c:if>
                           <a class="dropdown-item">가입인원</a>
+                         <c:if test="${user.nickname == group.leaderNick}">
                           <a class="dropdown-item">신청인원</a>
+                         </c:if>
                         </div>
                       </div>
 	                  <div class="table-responsive">

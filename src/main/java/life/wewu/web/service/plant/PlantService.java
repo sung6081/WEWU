@@ -77,7 +77,6 @@ public interface PlantService {
 	
 	public void deletePlantLevl(int plantNo) throws Exception;
 	
-	public void deleteMyPlant(int plantNo) throws Exception;
 	
 	//---------------------------------------------------------------------------------------//
 
@@ -95,9 +94,8 @@ public interface PlantService {
 	
 	public List<MyPlant> myPlantListbyLevlNo(Map<String, Object> map) throws Exception;
 
-	public void deleteMyPlant(String nickname) throws Exception;
+	public void deleteMyPlant(Map<String, Object> map) throws Exception;
 
-	public String getWeather(String location) throws Exception;
 	
 	//---------------------------------------------------------------------------------------//
 

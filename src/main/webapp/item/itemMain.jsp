@@ -12,6 +12,12 @@
 	<title>Insert title here</title>
 	
 	<script>
+	var loginCheck = "F";
+	if(${empty user == true})
+	{
+		loginCheck = "Y";
+	}
+	
 	function deleteItem(itemNo){ 	//function은 restcontroller이든, 그냥 controller이든 상관 없음. 이 형태로 function 만들면, function 이름 호출해서 사용 가능함. function deleteItem(itemNo)에서 괄호 앞에는 function 이름, 괄호 안에는 인자. 인자가 있어야 function 작동시킬 수 있으므로. 얘네는 function을 호출해야 쓸 수 있음.  
 		
 	    if(!confirm("정말 삭제하시겠습니까?")){
@@ -57,6 +63,11 @@
 	
 	
 	function addShoppingCart(itemNo){
+		if(loginCheck == "Y")
+		{
+			alert("로그인 후 사용할 수 있습니다.");
+			return;
+		}
 		
     	var input = "<input type=hidden name=itemNo value="+itemNo+">";
 		input+= "<input type=hidden name=nickname value='${user.nickname}'>";
@@ -88,7 +99,7 @@
 					alert("장바구니 담기 완료");
 					
 				}else{
-					alert("장바구니 담기 실패");
+					alert("장바구니에 담을 수 없습니다.");
 				}
 			},
 			error	: function(xhr, status, error) {
@@ -109,6 +120,7 @@
 	--%>
 	
 	$(function() {  //얘는 실행하기 위한 조건 없음. function의 이름 없음. 괄호 안에 인자도 없음.왜 앞에  $ 쓰는지는 jquery라서 아직 설명 불가.   function을 작동하기 위한 조건 없음. 그리고 온클릭하면 바로 작동함. 즉 위의 호출되는 function처럼 호출을 해야 작동하는 게 아니라, 이미 호출되어 있는 상태임. 그래서 온클릭 이벤트만 발생하면 바로 작동하는 것. 일반 controller라서 이렇게 쓴 게 아님. 일반 컨트롤러든 restcontroller든 종류 상관없음. 쓸 수 있음. 그리고 여러 function들을 함께 적어놓은 것도, 이 function들이 모두 조건이 없고, 온클릭 이벤트 발생하면 바로 작동하므로 가능함(이미 호출되어 있으므로 온클릭 하면 호출할 필요 없이 바로 function이 기능함). 
+	
 		 $( ".btn-fw:contains('전체')" ).on("click" , function() {
 			location.href="/item/getItemList" 
 		 });
@@ -129,10 +141,14 @@
 		
 		 
 		 $( ".mt-auto:contains('구매하기')" ).on("click" , function() {
-				
-			 var itemNo = $(this).attr("id");
+			if(loginCheck == "Y")
+			{
+				alert("로그인 후 사용할 수 있습니다.");
+				return;
+			}
+			var itemNo = $(this).attr("id");
 			 
-			 location.href="/item/addPurchase?itemNo="+itemNo;
+			location.href="/item/addPurchase?itemNo="+itemNo;
 						
 		 });
 		 
@@ -240,10 +256,28 @@
 			
 		}
 		
-		.content-wrapper{
-	
+		.card-img-top{
+			border-radius: 20px;
+			width: 100% /* 이미지를 카드의 너비에 맞추고 */
+    		height: 296px;
+    		object-fit: cover;
+		}
+		
+		.card {
+	    
 		}
 	
+		.card-body {
+	    display: flex;
+	    flex-direction: column;
+		}
+	
+		.card-footer {
+	    margin-top: auto;
+		}
+		
+		
+		
     </style>
     
 </head>
@@ -286,7 +320,9 @@
 					     	</c:if>	
 					    </div>
 					</div>
-					<div class="col-lg-14 stretch-card">
+					<div class="col-lg-12 stretch-card">
+						<div class="col-lg-1 stretch-card">
+						</div>
 						<div class="col-lg-4 stretch-card" style="margin:0 0 20px 0;">
 							<div class="btn-group" role="group" aria-label="Basic example">
 								 <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">전체</button> 
@@ -294,7 +330,7 @@
 					             <button type="button" class="btn btn-outline-secondary btn-yoon btn-fw">장식 아이템</button>
 					        </div>
 					    </div>
-					    <div class="col-lg-5 stretch-card" style="margin:0 0 20px 0;">
+					    <div class="col-lg-3 stretch-card" style="margin:0 0 20px 0;">
 						</div>
 					    <div class="col-lg-3 stretch-card" style="margin:0 0 20px 0x; ">
 					    	<div class="form-group">
@@ -306,15 +342,24 @@
 						       </div>
 						     </div> 
 						</div>
+						<div class="col-lg-1 stretch-card">
+						</div>
 					</div>
-			
 					<div class="col-lg-12 stretch-card">
-		                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+						<div class="col-lg-1 stretch-card"></div>
+						<div class="col-lg-10 stretch-card">
+		                <div class="row">
 		                    <c:set var="i" value="0" />
 		                    <c:forEach var="item" items="${item}">
-			                    <div class="col mb-5">
+			                    <div class="col-md-4 col-sm-6 col-xs-12 mb-4">
 			                        <div class="card h-100" style="border: 1px solid #e3e3e3;">
-			                            <!-- Product image-->
+			                        
+			                      	<c:if test="${item.itemCategory == 'N'}">
+			                         <!-- Sale badge-->
+                            		 <div class="badge bg-dark text-white position-absolute" style="top: 0.8rem; right: 0.8rem">재고 소진</div>
+                            		 </c:if>
+                            		 
+			                       
 			                             <c:if test="${isAdmin}">
 			                            <div class="mb-4" style="margin: 0 0 0 10px;">
 							                  <div class="form-check">
@@ -326,6 +371,7 @@
 							                </div>
 							             </c:if>   
 			                            <img class="card-img-top" src="${item.itemImg}" alt="${item.itemName}" />
+			                            
 			                            <!-- Product details-->
 			                            <div class="card-body p-4">
 			                                <div class="text-left">
@@ -348,13 +394,15 @@
 			                                <!-- Product actions-->
 				                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 				                                <div class="text-center">
-				                                	<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})">장바구니</button> <%--이 버튼은 on click을 여기서 잡아줌. 그래서 onclick 어디서 거는지는 따로 안 넣어줘도 됨. 대신 function 호출하는 건 있어야 함.   --%>
+				                                	<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" onclick="addShoppingCart(${item.itemNo})" 
+				                                	${item.itemCategory == 'N' ? 'disabled':''} >장바구니</button> <%--이 버튼은 on click을 여기서 잡아줌. 그래서 onclick 어디서 거는지는 따로 안 넣어줘도 됨. 대신 function 호출하는 건 있어야 함.   --%>
 				                           		</div>
 				                           	</div>
 			                            	<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 		                               			<div class="text-center">
-		                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" id="${item.itemNo}" >구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
-		                            			</div>  
+		                               				<button class="btn btn-outline-dark mt-auto btn-consistent" type="button" id="${item.itemNo}" 
+		                               				${item.itemCategory == 'N' ? 'disabled':''}>구매하기</button><%-- card-footer가 약간의 여백과 함께 공간 잡아줌. 처음에 card footer 안에, 또 card footer 넣어서 모양 안 잡혔음.--%>
+		                            			</div> 
 		                            		</div>
 			                            </div>
 			                    	</div> 
@@ -362,6 +410,9 @@
 		                    </c:forEach>
 		                </div>
 		           	 </div>
+		           	 <div class="col-lg-1 stretch-card"></div>
+					</div>
+					
 		         </div>
 		      </div>
           </div>

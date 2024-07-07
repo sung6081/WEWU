@@ -61,6 +61,7 @@ public class S3RepositoryImpl implements S3Repository {
 	
 	//�޼ҵ�
 	//���� ���ε�
+	@Override
 	public String uplodaFile(Map<String, Object> map) {
 		
 		//���� ���ε� ����

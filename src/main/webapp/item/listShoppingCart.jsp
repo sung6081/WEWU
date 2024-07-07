@@ -46,14 +46,15 @@
 			 
 			 $( "button.btn-success:contains('구매하기')" ).on("click" , function() {
 				 //fncListRefundPoint();
-				 var itemNo = $("input[type='radio']:checked").attr("id"); //여기서는 구매하기는 requestParam이 itemNo고, 삭제하기는 shoppingCartNo임. 그럼 checked 되는 게 달라야 하지 않나...?
-				 if(itemNo == undefined)
+				var itemNo = $("input[type='radio']:checked").attr("id"); //여기서는 구매하기는 requestParam이 itemNo고, 삭제하기는 shoppingCartNo임. 그럼 checked 되는 게 달라야 하지 않나...?
+				var shoppingCartNo = $("input[type='radio']:checked").val(); 
+				if(itemNo == undefined)
 				 {
 				 	alert("구매할 상품을 선택하세요.");
 				 	return;
 				 }else
 				 {
-					 addPurchase(itemNo);  
+					 addPurchase(itemNo,shoppingCartNo);  
 				 }
 				 
 			});
@@ -66,7 +67,7 @@
 		});	
 		
 		
-		function addPurchase(itemNo){
+		function addPurchase(itemNo,shoppingCartNo){
 			var itemPrice = $("."+itemNo).find("td").eq(3).text().trim();
 			if ("${user.currentPoint}" > itemPrice) { 
 		      }else
@@ -75,7 +76,7 @@
 	        	return;
 		      }
 			
-			location.href="/item/addPurchase?itemNo="+itemNo;
+			location.href="/item/addPurchase?itemNo="+itemNo+"&shoppingCartNo="+shoppingCartNo;
 		}
 		
 		

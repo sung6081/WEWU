@@ -36,41 +36,41 @@
     }
 
     $(document).ready(function () {
-      $(".use-item-btn").click(function () {
-        var itemPurNo = $(this).data("itempurno");
-        var nickname = $("input[name='nickname']").val();
-        var myPlantNo = $("input[name='myPlantNo']").val();
-        var itemExp = $(this).closest(".card-body").find(".itemExp").val();
-        var itemNum = $(this).closest(".card-body").find(".itemNum").val();
-        var itemType = $(this).closest(".card-body").find(".itemType").val();
-        var itemName = $(this).closest(".card-body").find(".itemName").val();
+        $(".use-item-btn").click(function () {
+            var $button = $(this);
+            var itemPurNo = $button.data("itempurno");
+            var nickname = $("input[name='nickname']").val();
+            var myPlantNo = $("input[name='myPlantNo']").val();
+            var itemExp = $button.closest(".card-body").find(".itemExp").val();
+            var itemNum = $button.closest(".card-body").find(".itemNum").val();
+            var itemType = $button.closest(".card-body").find(".itemType").val();
+            var itemName = $button.closest(".card-body").find(".itemName").val();
 
-        // 기본적으로 1개의 아이템을 사용하도록 설정합니다.
-        var useItemNum = 1;
+            var useItemNum = 1; // 기본적으로 1개의 아이템을 사용
 
-        $.ajax({
-          type: "POST",
-          url: "/app/plant/useItem",
-          contentType: "application/json",
-          data: JSON.stringify({
-            itemPurNo: itemPurNo,
-            pageSize: useItemNum,
-            nickname: nickname,
-            myPlantNo: parseInt(myPlantNo),
-            itemExp: itemExp, 
-            itemNum: itemNum,
-            itemType: itemType,
-            itemName: itemName
-          }),
-          success: function (response) {
-            alert("아이템을 성공적으로 사용했습니다.");
-            location.reload();
-          },
-          error: function (error) {
-            alert("아이템 사용에 실패했습니다.");
-          }
+            $.ajax({
+                type: "POST",
+                url: "/app/plant/useItem",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    itemPurNo: itemPurNo,
+                    useItemNum: useItemNum,
+                    nickname: nickname,
+                    myPlantNo: parseInt(myPlantNo),
+                    itemExp: itemExp,
+                    itemNum: itemNum,
+                    itemType: itemType,
+                    itemName: itemName
+                }),
+                success: function (response) {
+                    alert("아이템을 성공적으로 사용했습니다.");
+                    location.reload(); // 페이지 새로고침
+                },
+                error: function (error) {
+                    alert("아이템 사용에 실패했습니다.");
+                }
+            });
         });
-      });
     });
   </script>
 </head>
@@ -106,10 +106,13 @@
       </div>
       <div class="container">
         <div class="row justify-content-center">
+          <c:if test="${empty list}">
+            <p>아이템이 없습니다.</p>
+          </c:if>
           <c:forEach var="inventory" items="${list}" varStatus="status">
-            <c:if test="${inventory.itemType eq 'Y'}">
+            <c:if test="${inventory.itemType.toUpperCase() eq 'Y'}">
               <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-                <div class="card">
+                <div class="card" id="item-${inventory.itemPurNo}">
                   <img class="card-img-top" src="${inventory.itemImg}" alt="Card image cap">
                   <div class="card-body">
                     <h5 class="card-title">${inventory.itemName}</h5>

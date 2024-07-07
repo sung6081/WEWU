@@ -22,6 +22,9 @@ public class PlantRequest {
 
     @JsonProperty("plantLevl")
     private PlantLevl plantLevl;
+    
+    @JsonProperty("myPlantNo") 
+    private int myPlantNo;
 
 
 	}

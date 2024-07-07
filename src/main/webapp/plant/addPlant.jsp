@@ -131,7 +131,7 @@
         margin-bottom: 0;
         background-size: contain;
         /* 이미지가 컨테이너 안에 맞도록 */
-        background-image: url('/images/plant4.jpg');
+        background-image: url('/images/jumbo6.jpg');
         /* 배경 이미지 경로 */
         background-size: cover;
         /* 이미지가 컨테이너를 덮도록 */

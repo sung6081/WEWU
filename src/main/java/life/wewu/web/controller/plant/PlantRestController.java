@@ -67,6 +67,12 @@ public class PlantRestController {
 	@Autowired
 	@Qualifier("s3RepositoryImpl")
 	private S3Repository s3Repository;
+	
+	@Value("${pageUnit}") 
+	int pageUnit;
+
+	@Value("${pageSize}") 
+	int pageSize;
 
 	public PlantRestController() {
 		System.out.println(this.getClass());
@@ -232,8 +238,9 @@ public class PlantRestController {
 	        for (QuestState questState : list) {
 	            map.put("questRegDate", questState.getQuest().getRegDate());
 	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            System.out.println(map);
 	            questState.setAcleCount(acleCount); // currentCnt 설정
-	            System.out.println(acleCount);
+	            System.out.println("현재작성한게시물수 : "+acleCount);
 	        }
 
 	        System.out.println("getQuestListByUserRest : " + list);
@@ -291,26 +298,6 @@ public class PlantRestController {
 		return quest;
 	}
 
-	// getMyPlant.jsp
-	@RequestMapping(value = "getMyPlant", method = RequestMethod.GET)
-	public MyPlant getMyPlant(Model model, HttpSession session) throws Exception {
-		System.out.println("::plant::REST::getMyPlant : POST");
-
-		User user = (User) session.getAttribute("user");
-		MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-
-		PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-		myPlant.setPlantLevl(plantLevl);
-
-		System.out.println("myPlant : " + myPlant);
-		session.setAttribute("myPlant", myPlant);
-
-		model.addAttribute("user", user);
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("plantLevl", plantLevl);
-
-		return myPlant;
-	}
 
 	@RequestMapping(value = "getMyPlant", method = RequestMethod.POST)
 	public MyPlant getMyPlant(HttpSession session, Model model) throws Exception {
@@ -357,30 +344,6 @@ public class PlantRestController {
 	    return list;
 	}
 	
-	@RequestMapping(value = "showMyPlant", method = RequestMethod.GET)
-	public String showMyPlant(HttpSession session, Model model) throws Exception {
-	    System.out.println("::plant::REST::showMyPlant : GET");
-
-	    User user = (User) session.getAttribute("user");
-	    if (user == null) {
-	        System.err.println("Error: user is null");
-	        throw new IllegalStateException("User cannot be null");
-	    }
-
-	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
-
-	    if (myPlant != null) {
-	        PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
-	        myPlant.setPlantLevl(plantLevl);
-	    }
-
-	    // 모델에 사용자와 나의 식물 정보 추가
-	    model.addAttribute("user", user);
-	    model.addAttribute("myPlant", myPlant);
-
-	    // JSP 페이지로 포워드
-	    return "showMyPlant"; // JSP 페이지 이름
-	}
 	
 	// history.jsp
 	@RequestMapping(value = "history", method = RequestMethod.GET)
@@ -411,41 +374,47 @@ public class PlantRestController {
 		return list;
 	}
 
-	@RequestMapping(value = "deleteMyPlant")
+	@RequestMapping(value = "deleteMyPlant", method = RequestMethod.POST)
 	public MyPlant deleteMyPlant(@RequestBody PlantRequest plantRequest, Model model, HttpSession session)
-			throws Exception {
-		System.out.println("::plant::REST::deleteMyPlant : POST");
+	        throws Exception {
+	    System.out.println("::plant::REST::deleteMyPlant : POST");
 
-		int plantNo = plantRequest.getPlantNo();
-		MyPlant myPlant = new MyPlant();
-		myPlant.setPlantNo(plantNo);
+	    int plantNo = plantRequest.getPlantNo();
+	    int myPlantNo = plantRequest.getMyPlantNo(); // myPlantNo 받아오기
+	    MyPlant myPlant = new MyPlant();
+	    myPlant.setPlantNo(plantNo);
+	    myPlant.setMyPlantNo(myPlantNo); // myPlantNo 설정하기
 
-		User user = (User) session.getAttribute("user");
-		System.out.println("User: " + user);
-		plantService.getMyPlant(user.getNickname());
-		System.out.println(myPlant);
-		plantService.deleteMyPlant(user.getNickname());
-		
-		session.setAttribute("myPlant", myPlant);
+	    User user = (User) session.getAttribute("user");
+	    System.out.println("User: " + user);
+	    plantService.getMyPlant(user.getNickname());
+	    System.out.println(myPlant);
 
-		model.addAttribute("myPlant", myPlant);
-		model.addAttribute("user", user.getNickname());
-		return myPlant;
+	    // myPlantNo를 사용하여 식물 삭제
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("nickname", user.getNickname());
+	    params.put("myPlantNo", myPlantNo);
+	    plantService.deleteMyPlant(params);
+	    
+	    session.setAttribute("myPlant", myPlant);
+
+	    model.addAttribute("myPlant", myPlant);
+	    model.addAttribute("user", user.getNickname());
+	    return myPlant;
 	}
-
 	@RequestMapping(value = "useItem", method = RequestMethod.POST)
 	public Map<String, Object> useItem(@RequestBody Inventory inventory, HttpSession session, Model model)
 			throws Exception {
 
 		System.out.println("::plant::REST::useItem : POST");
-		System.out.println("::::::: "+inventory);
+		System.out.println("inventory : "+inventory);
 
 		plantService.updateInventory(inventory);
 		User user = (User) session.getAttribute("user");
 		
 		inventory.setMyPlant(plantService.getMyPlant(user.getNickname()));
 		
-		System.out.println("::::: myplant: "+inventory.getMyPlant());
+		System.out.println(":inventory myplant: "+inventory.getMyPlant());
 		
 		plantService.UseItem(inventory);
 		
@@ -508,60 +477,5 @@ public class PlantRestController {
 	    return plant;
 	}
 
-//	@RequestMapping(value = "getWeather", method = RequestMethod.POST)
-//	public ResponseEntity<List<String>> getWeather() throws Exception {
-//
-//		String serviceKey = "zJ7JeCt+LM11LqlWrFNTradlea58rNZ036NPWmX33rg3BEgPgLlLJLIqvRsZrPec0aUIB+t91pjA0iQg1j9E1Q==";
-//		StringBuilder urlBuilder = new StringBuilder(
-//				"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst");
-//		urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + serviceKey);
-//		urlBuilder.append("&" + URLEncoder.encode("dataType", "UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8"));
-//		urlBuilder.append("&" + URLEncoder.encode("base_date", "UTF-8") + "=" + URLEncoder.encode("20240614", "UTF-8"));
-//		urlBuilder.append("&" + URLEncoder.encode("base_time", "UTF-8") + "=" + URLEncoder.encode("0500", "UTF-8"));
-//		urlBuilder.append("&" + URLEncoder.encode("nx", "UTF-8") + "=" + URLEncoder.encode("55", "UTF-8"));
-//		urlBuilder.append("&" + URLEncoder.encode("ny", "UTF-8") + "=" + URLEncoder.encode("127", "UTF-8"));
-//
-//		String url = urlBuilder.toString();
-//		String result = restTemplate.getForObject(url, String.class);
-//
-//		// 응답 출력
-//		System.out.println(result);
-//
-//		// JSON 파싱
-//		JSONObject jsonObj = new JSONObject(result);
-//		JSONObject response = jsonObj.getJSONObject("response");
-//		JSONObject body = response.getJSONObject("body");
-//		JSONObject items = body.getJSONObject("items");
-//		JSONArray itemArray = items.getJSONArray("item");
-//
-//		List<String> weatherConditions = new ArrayList<>();
-//		for (int i = 0; i < itemArray.length(); i++) {
-//			JSONObject item = itemArray.getJSONObject(i);
-//			String fcstValue = item.getString("fcstValue");
-//			String category = item.getString("category");
-//
-//			String weather = "";
-//			if (category.equals("SKY")) {
-//				weather = "현재 날씨는 ";
-//				switch (fcstValue) {
-//				case "1":
-//					weather += "맑은 상태로";
-//					break;
-//				case "2":
-//					weather += "비가 오는 상태로 ";
-//					break;
-//				case "3":
-//					weather += "구름이 많은 상태로 ";
-//					break;
-//				case "4":
-//					weather += "흐린 상태로 ";
-//					break;
-//				}
-//				weatherConditions.add(weather);
-//			}
-//		}
-//
-//		return ResponseEntity.ok(weatherConditions);
-//	}
 
 }

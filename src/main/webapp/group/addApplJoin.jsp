@@ -18,6 +18,37 @@
 			
 			function addApplJoin()
 			{
+				if($("#frstQuest").val() != "")
+				{
+					if($("#frstRepl").val().trim() == "" || $("#frstRepl").val() == null)
+					{
+						alert("첫 번째 질문에 답을 해주세요~");
+						$("#frstRepl").focus();
+						return;
+					}
+				}
+				
+				if($("#scndQuest").val() != "")
+				{
+					alert($("#scndQuest").val());
+					if($("#scndRepl").val().trim() == "" || $("#scndRepl").val() == null)
+					{
+						alert("두 번째 질문에 답을 해주세요~");
+						$("#scndRepl").focus();
+						return;
+					}
+				}
+				
+				if($("#thrdQuest").val() != "")
+				{
+					if($("#thrdRepl").val().trim() == "" || $("#thrdRepl").val() == null)
+					{
+						alert("세 번째 질문에 답을 해주세요~");
+						$("#thrdRepl").focus();
+						return;
+					}
+				}
+				
 		        if(!confirm("정말 가입신청 하시겠습니까?")){
 					return;
 					
@@ -84,40 +115,43 @@
 	                  	<input type="hidden" name="groupNo" value="${group.groupNo}">
 						<input type="hidden" name="memberNickName" value="${user.nickname }">
 						<input type="hidden" name="gender" value="${user.gender }">
-						<input type="hidden" name="frstQuest" value="${group.frstQuest}">
-						<input type="hidden" name="scndQuest" value="${group.scndQuest}">
-						<input type="hidden" name="thrdQuest" value="${group.thrdQuest}">
+						<input type="hidden" id="frstQuest" name="frstQuest" value="${group.frstQuest}">
+						<input type="hidden" id="scndQuest" name="scndQuest" value="${group.scndQuest}">
+						<input type="hidden" id="thrdQuest" name="thrdQuest" value="${group.thrdQuest}">
 						<c:if test="${group.frstQuest != '' && group.frstQuest != null}">
 							<div class="form-group">
 		                      <label>${group.frstQuest}</label>
-		                      <input type="text" class="form-control" name="frstRepl" placeholder="1번 답변">
+		                      <input type="text" class="form-control" id="frstRepl" name="frstRepl" placeholder="1번 답변">
 		                    </div>
 						</c:if>
 						<c:if test="${group.frstQuest == '' || group.frstQuest == null}">
 							<div class="form-group">
 		                      <label>1번 질문 없음</label>
+		                      <input type="hidden" id="frstRepl" name="frstRepl" value="">
 		                    </div>
 						</c:if>
 						<c:if test="${group.scndQuest != '' && group.scndQuest != null}">
 							<div class="form-group">
 		                      <label>${group.scndQuest}</label>
-		                      <input type="text" class="form-control" name="scndRepl" placeholder="2번 답변">
+		                      <input type="text" class="form-control" id="scndRepl" name="scndRepl" placeholder="2번 답변">
 		                    </div>
 						</c:if>
 						<c:if test="${group.scndQuest == '' || group.scndQuest == null}">
 							<div class="form-group">
 		                      <label>2번 질문 없음</label>
+		                      <input type="hidden" id="scndRepl" name="scndRepl" value="">
 		                    </div>
 						</c:if>
 						<c:if test="${group.thrdQuest != '' && group.thrdQuest != null}">
 							<div class="form-group">
 		                      <label>${group.thrdQuest}</label>
-		                      <input type="text" class="form-control" name="thrdRepl" placeholder="3번 답변">
+		                      <input type="text" class="form-control" id="thrdRepl" name="thrdRepl" placeholder="3번 답변">
 		                    </div>
 						</c:if>
 						<c:if test="${group.thrdQuest == '' || group.thrdQuest == null}">
 							<div class="form-group">
 		                      <label>3번 질문 없음</label>
+		                      <input type="hidden" id="thrdRepl" name="thrdRepl" value="">
 		                    </div>
 						</c:if>
 	                  </form>
