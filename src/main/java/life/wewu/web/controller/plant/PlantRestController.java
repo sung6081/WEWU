@@ -404,28 +404,33 @@ public class PlantRestController {
 	    return myPlant;
 	}
 	@RequestMapping(value = "useItem", method = RequestMethod.POST)
-	public Map<String, Object> useItem(@RequestBody Inventory inventory, HttpSession session, Model model)
-			throws Exception {
+	public Map<String, Object> useItem(@RequestBody Inventory inventory, HttpSession session, Model model) throws Exception {
+	    System.out.println("::plant::REST::useItem : POST");
+	    System.out.println("inventory : " + inventory);
 
-		System.out.println("::plant::REST::useItem : POST");
-		System.out.println("inventory : "+inventory);
+	    plantService.updateInventory(inventory);
+	    User user = (User) session.getAttribute("user");
 
-		plantService.updateInventory(inventory);
-		User user = (User) session.getAttribute("user");
-		
-		inventory.setMyPlant(plantService.getMyPlant(user.getNickname()));
-		
-		System.out.println(":inventory myplant: "+inventory.getMyPlant());
-		
-		plantService.UseItem(inventory);
-		
-		model.addAttribute("inventory", inventory);
+	    // 현재 키우고 있는 식물을 가져오기
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("inventory", inventory);
-		map.put("user", user);
+	    // 현재 키우고 있는 식물이 있는 경우에만 설정
+	    if (myPlant != null && "Y".equals(myPlant.getMyPlantState())) {
+	        inventory.setMyPlant(myPlant);
+	        System.out.println(":inventory myplant: " + inventory.getMyPlant());
 
-		return map;
+	        plantService.UseItem(inventory);
+	    } else {
+	        System.out.println("현재 키우고 있는 식물이 없습니다.");
+	    }
+
+	    model.addAttribute("inventory", inventory);
+
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("inventory", inventory);
+	    map.put("user", user);
+
+	    return map;
 	}
 
 	@RequestMapping(value = "saveMyPlant", method = RequestMethod.POST)
