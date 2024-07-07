@@ -60,14 +60,13 @@ public class PayController {
 
       
       if(pay.getPayType().equals("B")) {
-         System.out.println("::::"+donation);
-         donation = boardService.addDonation(donation);
-        
-          model.addObject("donation", donation);
-          
-          //완료 페이지로 이동
-          model.setViewName("redirect:/board/listDonation?payType=B");
-          model.addObject("pay", pay);
+    	  donation = boardService.addDonation(donation);
+          System.out.println("::::"+donation);
+         model.addObject("donation", donation);
+           
+         //완료 페이지로 이동
+         model.setViewName("forward:/board/donationMail?payNo="+donation.getPayNo());
+         model.addObject("pay", pay);
 
         
       }
