@@ -25,8 +25,6 @@ public interface MyPlantDao {
 
 	public void deleteMyPlant(Map<String, Object> map) throws Exception;
 	
-	public String getWeather(String location);
-	
 	public List<MyPlant> myPlantListbyPlantNo(Map<String, Object> map) throws Exception;
 
 	public void updateMyPlantExp(Map<String,Object> map) throws Exception;
