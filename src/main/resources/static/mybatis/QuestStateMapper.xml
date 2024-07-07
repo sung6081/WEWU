@@ -36,6 +36,8 @@
 	  	</where>
 	</select>
 	
+	
+	
 		<select  id="getQuestState"  parameterType="map" resultMap="questStateSelectMap">
 	  	SELECT * from quest_state
 	  	<where>
@@ -64,5 +66,12 @@
         INSERT INTO quest_state (quest_no, nickname, quest_state)
         VALUES (#{quest_no}, #{nickname}, #{quest_state})
     </insert>
+    
+     <select id="getQuestByStateNo" parameterType="int" resultMap="questStateSelectMap">
+        SELECT q.quest_reward ,qs.quest_state ,qs.nickname
+		from quest q, quest_state qs
+		where q.quest_no = qs.quest_no
+		and  qs.quest_state_no = #{qusetStateNo}
+    </select>
 	
 </mapper>

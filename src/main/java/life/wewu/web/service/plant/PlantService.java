@@ -34,7 +34,7 @@ public interface PlantService {
 	
 	public boolean checkAcleCount(Quest quest,String nickname) throws Exception;
 	
-	public Quest getQuestByStateNo(int questStateNo) throws Exception;
+	public QuestState getQuestByStateNo(int questStateNo) throws Exception;
 	
 	//---------------------------------------------------------------------------------------//
 	

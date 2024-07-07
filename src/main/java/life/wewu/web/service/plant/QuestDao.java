@@ -36,10 +36,6 @@ public interface QuestDao {
 	
 	public List<Quest> getActiveQuestsByUser(String nickname) throws Exception;
 	
-	public Quest getQuestByStateNo(int questStateNo) throws Exception;
-	
-	
-	
 	public int memberAcleListCnt(Map<String,Object> map) throws Exception;
 
 }
