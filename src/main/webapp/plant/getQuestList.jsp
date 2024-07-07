@@ -7,19 +7,15 @@
 <script>
 $(document).ready(function () {
     function updateQuestList() {
-        console.log("Sending request to update quest list...");
         $.ajax({
             url: "/app/plant/getQuestListByUser",
             type: "POST",
             contentType: "application/json",
             dataType: "json",
             success: function (data, status, xhr) {
-                console.log("Request successful. Data received:", data);
                 var str = "";
                 for (var i = 0; i < data.length; i++) {
-                    console.log("Processing quest:", data[i]);
                     if (data[i].questState === 'N') {
-                        console.log("Quest state is 'N':", data[i]);
                         str += "<div class='events pt-4 px-3'>";
                         str += "  <div class='wrapper d-flex mb-2'>";
                         str += "    <input type='hidden' class='questStateNo' name='questStateNo' value='" + data[i].questStateNo + "'>";
@@ -29,45 +25,35 @@ $(document).ready(function () {
                         str += "  </div>";
                         str += "  <p class='mb-0 font-weight-thin text-gray questContents'>" + data[i].quest.questContents + "</p>";
                         str += "  <p class='mb-0 font-weight-thin text-gray'>" + data[i].acleCount + " / " + data[i].quest.questTargetCnt + "</p>";
-                        str += "</div>";
-                    } else if (data[i].questState === 'Y') {
-                        console.log("Quest state is 'Y':", data[i]);
-                        str += "<div class='events pt-4 px-3'>";
-                        str += "  <div class='wrapper d-flex mb-2'>";
-                        str += "    <input type='hidden' class='questStateNo' name='questStateNo' value='" + data[i].questStateNo + "'>";
-                        str += "    <input type='hidden' class='questNo' name='questNo' value='" + data[i].quest.questNo + "'>";
-                        str += "    <i class='ti-control-record text-primary mr-2'></i>";
-                        str += "    <span>식물 경험치 +" + data[i].quest.questReward + "</span>";
-                        str += "  </div>";
-                        str += "  <p class='mb-0 font-weight-thin text-gray questContents'>" + data[i].quest.questContents + "</p>";
-                        str += "  <p class='mb-0 font-weight-thin text-gray'>" + data[i].acleCount + " / " + data[i].quest.questTargetCnt + "</p>";
-                        str += "  <div class='quest-item'>";
-                        str += "    <button type='button' class='btn-complete btn-primary btn-sm' onclick='completeQuest(" + data[i].questStateNo + ")'> 완료 </button>";
-                        str += "  </div>";
+                        if (data[i].acleCount >= data[i].quest.questTargetCnt) {
+                            str += "  <div class='quest-item'>";
+                            str += "    <button type='button' class='btn-complete btn-primary btn-sm' onclick='completeQuest(" + data[i].questStateNo + ")'> 완료 </button>";
+                            str += "  </div>";
+                        }
                         str += "</div>";
                     }
                 }
-                $("#questResult").html(str); // 데이터를 화면에 즉시 반영
+                $("#questResult").html(str);
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred while fetching quest list: ", xhr.responseText);
-            },
-            complete: function (xhr, status) {
-                console.log("Quest list update completed.");
             }
         });
     }
+    
+    $(document).on('click', '.complete-quest-btn', function() {
+        var questStateNo = $(this).data('quest-state-no');
+        completeQuest(questStateNo);
+    });
 
     window.completeQuest = function(questStateNo) {
-        console.log("Sending request to complete quest:", questStateNo);
         $.ajax({
             url: "/app/plant/completeQuest",
             type: "POST",
             data: JSON.stringify({ questStateNo: questStateNo }),
             contentType: "application/json",
             success: function (data, status, xhr) {
-                console.log("Quest completion successful.");
-                updateQuestList(); // 퀘스트 상태를 다시 업데이트
+                updateQuestList();
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred while completing quest: ", xhr.responseText);
@@ -75,8 +61,23 @@ $(document).ready(function () {
         });
     }
 
+    // 주기적으로 퀘스트 상태 확인
+    setInterval(function() {
+        $.ajax({
+            url: "/app/plant/checkQuestState",
+            type: "POST",
+            data: JSON.stringify({ nickname: '사용자 닉네임' }),
+            contentType: "application/json",
+            success: function (data, status, xhr) {
+                updateQuestList();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred while checking quest state: ", xhr.responseText);
+            }
+        });
+    }, 60000); // 매 1분마다 퀘스트 리스트를 업데이트
+
     updateQuestList();
-    setInterval(updateQuestList, 60000); // 매 1분마다 퀘스트 리스트를 업데이트
 });
 </script>
   <style>

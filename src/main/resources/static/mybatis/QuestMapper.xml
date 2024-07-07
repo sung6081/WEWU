@@ -85,7 +85,7 @@
 		<set>
 			quest_state = 'N'
 		</set>
-		WHERE quest_no = #{questNo}
+		WHERE quest_state_no = #{questStateNo}
 	</update>
 	<!-- 보상까지받는 쿼리를 짜야함 -->
 	
