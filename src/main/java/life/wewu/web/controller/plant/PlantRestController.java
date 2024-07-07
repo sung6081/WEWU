@@ -466,13 +466,21 @@ public class PlantRestController {
 		return myPlant;
 	}
 
-	@RequestMapping(value = "updateMyPlant", method = RequestMethod.POST)
-	public MyPlant updateMyPlant(@RequestBody MyPlant myPlant) throws Exception {
+	@RequestMapping(value = "updateMyPlant", method = RequestMethod.GET)
+	public MyPlant updateMyPlant(@RequestParam("plantName") String plantName,
+	                             @RequestParam("plantLevlNo") int plantLevlNo,
+	                             @RequestParam("myPlantNo") int myPlantNo) throws Exception {
 
-		System.out.println("::plant::REST::updateMyPlant : POST");
-		plantService.updateMyPlant(myPlant);
+	    System.out.println("::plant::REST::updateMyPlant : GET");
+	    
+	    MyPlant myPlant = new MyPlant();
+	    myPlant.setMyPlantName(plantName);
+	    myPlant.setPlantLevlNo(plantLevlNo);
+	    myPlant.setMyPlantNo(myPlantNo);
+	    
+	    plantService.updateMyPlant(myPlant);
 
-		return myPlant;
+	    return myPlant;
 	}
 
 	@RequestMapping(value = "selectRandomPlant", method = RequestMethod.POST)

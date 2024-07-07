@@ -190,8 +190,11 @@ public class PlantController {
 
 		PlantLevl plantLevl = plantService.getPlantLevl(plantLevlNo);
 		Plant plant = plantService.getPlant(plantLevl.getPlantNo());
+		
 
 		System.out.println(plantLevl);
+		System.out.println(plant);
+		
 
 		model.addAttribute("plantLevl", plantLevl);
 		model.addAttribute("plant", plant);
