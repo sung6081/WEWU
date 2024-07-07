@@ -538,7 +538,7 @@ public class BoardController {
 			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"
 			    + "<tbody><tr><td>"
 			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='border-top:4px solid #FFCA00;max-width:679px;margin:auto;width:100%'>"
-			    + "<tbody><tr><td><img src='http://localhost:8000/images/wewu.png' width='120' height='35' style='padding:30px 39px' alt='nicepay' loading='lazy'></td></tr>"
+			    + "<tbody><tr><td><img src='https://www.wewu.life/images/wewu.png' width='120' height='35' style='padding:30px 39px' alt='nicepay' loading='lazy'></td></tr>"
 			    + "<tr><td>"
 			    + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='border-top:1px solid #eee;border-bottom:1px solid #eee;'>"
 			    + "<tbody><tr><td width='39'></td><td width='600' style='font-size:28px;color:#666;padding:25px 0;font-family: 나눔고딕,NanumGothic,맑은고딕,Malgun Gothic,돋움,Dotum,Helvetica,Apple SD Gothic Neo,Sans-serif;'>"
