@@ -27,31 +27,40 @@
       </style>
       <script>
       $(document).ready(function() {
-          $(".edit").on("click", function() {
-            var currentPlantName = $("#myPlantName").text();
-            var inputField = '<input type="text" class="form-control form-control-sm w-60 plantNameInput" value="' + currentPlantName + '" />';
-            $("#myPlantName").html(inputField);
-            $(".edit").hide();
-            $(".save").show();
-          });
+    	    // 'edit' 버튼 클릭 이벤트
+    	    $(".edit").on("click", function() {
+    	        var currentPlantName = $("#myPlantName").text();
+    	        var inputField = '<input type="text" class="form-control form-control-sm w-60 plantNameInput" value="' + currentPlantName + '" />';
+    	        $("#myPlantName").html(inputField);
+    	        $(".edit").hide();
+    	        $(".save").show();
+    	    });
 
-          $(".save").on("click", function() {
-            var updatedPlantName = $(".plantNameInput").val();
-            var plantLevlNo = $(".plantLevlNo").val();
-            $.ajax({
-              url: "/plant/updatePlant",
-              type: "GET",
-              data: { plantName: updatedPlantName, plantLevlNo: plantLevlNo },
-              success: function(response) {
-                $("#myPlantName").text(updatedPlantName);
-                $(".save").hide();
-                $(".edit").show();
-              },
-              error: function() {
-                alert("식물 이름을 업데이트하는 중 오류가 발생했습니다.");
-              }
-            });
-          });
+    	    // 'save' 버튼 클릭 이벤트
+    	    $(".save").on("click", function() {
+    	        var updatedPlantName = $(".plantNameInput").val();
+    	        var plantLevlNo = $(".plantLevlNo").val();
+    	        var myPlantNo = $(".myPlantNo").val();
+
+    	        $.ajax({
+    	            url: "/app/plant/updateMyPlant",
+    	            type: "GET", // GET 요청으로 변경
+    	            data: {
+    	                plantName: updatedPlantName,
+    	                plantLevlNo: plantLevlNo,
+    	                myPlantNo: myPlantNo
+    	            },
+    	            success: function(response) {
+    	                $("#myPlantName").text(updatedPlantName);
+    	                $(".save").hide();
+    	                $(".edit").show();
+    	            },
+    	            error: function() {
+    	                alert("식물 이름을 업데이트하는 중 오류가 발생했습니다.");
+    	            }
+    	        });
+    	    });
+
 
           $(".delete").on("click", function() {
             var plantNo = $(".plantNo").val();

@@ -402,8 +402,8 @@ public class PlantServiceImpl implements PlantService {
 	// ---------------------------------------------------------------------------------------//
 
 	@Override
-	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception {
-		return inventoryDao.getInventoryList(map);
+	public List<Inventory> getInventoryList(String nickname) throws Exception {
+		return inventoryDao.getInventoryList(nickname);
 	}
 
 	@Override
@@ -432,16 +432,21 @@ public class PlantServiceImpl implements PlantService {
 	    System.out.println("UserItem inventory : " + inventory);
 
 	    MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
-	    int newExp = myPlant.getMyPlantExp() + itemEffect;
-	    System.out.println("UserItem newExp : " + newExp);
-	    myPlant.setMyPlantExp(newExp);
-	    myPlantDao.updateMyPlant(myPlant);
 
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("myPlantNo", inventory.getMyPlant().getMyPlantNo());
-	    map.put("myPlantExp", inventory.getItemExp());
+	    if (myPlant != null && "Y".equals(myPlant.getMyPlantState())) {
+	        int newExp = myPlant.getMyPlantExp() + itemEffect;
+	        System.out.println("UserItem newExp : " + newExp);
+	        myPlant.setMyPlantExp(newExp);
+	        myPlantDao.updateMyPlant(myPlant);
 
-	    myPlantDao.updateMyPlantExp(map);
+	        Map<String, Object> map = new HashMap<>();
+	        map.put("myPlantNo", myPlant.getMyPlantNo());
+	        map.put("myPlantExp", newExp);
+
+	        myPlantDao.updateMyPlantExp(map);
+	    } else {
+	        System.out.println("현재 키우고 있는 식물이 없습니다.");
+	    }
 
 	    return inventory;
 	}
