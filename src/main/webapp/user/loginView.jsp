@@ -4,13 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>loginView</title>
-    <header>
-        <jsp:include page="/header.jsp"/>
-    </header>
+        
+    <jsp:include page="/header.jsp"/>
+    
+<!--     <script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    
     <style>
         .jumbotron {
             position: relative;
-            background-color: white; /* 배경 색깔 흰색으로 변경 */
+            background-color: white;
             padding: 10rem 0rem 11rem 0px;
             display: flex;
             justify-content: center;
@@ -139,8 +142,6 @@
             justify-content: center;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(function() {
             let captchaKey = '';
@@ -200,8 +201,24 @@
                     }
                     requestData.captcha = captchaValue;
                     requestData.captchaKey = captchaKey;
-                }
 
+                    // 캡차 값 검증
+                    $.post("/captcha/compare", {captcha: captchaValue, key: captchaKey}, function(response) {
+                        if (!response.success) {
+                            alert('캡차 검증에 실패하였습니다.');
+                            loadCaptcha(); // 새로운 캡차 로드
+                            $("#captcha").val('').focus();
+                            return;
+                        } else {
+                            processLogin(requestData);
+                        }
+                    });
+                } else {
+                    processLogin(requestData);
+                }
+            }
+
+            function processLogin(requestData) {
                 $.ajax({
                     url: "/user/login",
                     method: "POST",
@@ -273,8 +290,28 @@
             $("#reload-captcha").on("click", function() {
                 loadCaptcha();
             });
+
+            // 페이지 로드 시 아이디 입력란에 포커스
+            $("#userId").focus();
+            
+            // 네이버 로그인 초기화
+           /*  function initializeNaverLogin() {
+                var naver_id_login = new naver_id_login("id", "http://localhost:8080/user/naverCallBack.jsp");
+                var state = naver_id_login.getUniqState();
+                naver_id_login.setButton("white", 2, 40);
+                naver_id_login.setDomain("http://localhost:8080");
+                naver_id_login.setState(state);
+                naver_id_login.setPopup();
+                naver_id_login.init_naver_id_login();
+            }
+
+            // 페이지 로드 후 네이버 로그인 초기화
+            $(document).ready(function() {
+                initializeNaverLogin();
+            }); */
         });
     </script>
+    
 </head>
 <body>
     <div class="jumbotron">
@@ -317,7 +354,11 @@
                                 <a href="#" class="auth-link find-id">아이디 찾기</a>
                                 <a href="#" class="auth-link find-pw">비밀번호 찾기</a>
                             </div>
+                            
+<%--                               <jsp:include page="/user/naverLogin.jsp" />
+ --%>                            
                         </form>
+                        
                     </div>
                 </div>
             </div>

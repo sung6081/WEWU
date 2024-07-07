@@ -217,16 +217,23 @@ public class UserController {
 
 	
 	@RequestMapping(value="listUser")
-	public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
+	public String listUser(@ModelAttribute("search") Search search, Model model, 
+									HttpServletRequest request, HttpSession session) throws Exception {
+		
 	    System.out.println("/user/listUser : GET / POST");
-
+	    
+	    User user = (User) session.getAttribute("user");
+	    if (user == null || !"1".equals(user.getRole())) {
+	        return "redirect:/user/login"; // 관리자가 아니면 로그인 페이지로 리디렉션
+	    }
+	    
 	    int pageSize = 8;
 	    int pageUnit = 5;
 	    if (search.getCurrentPage() == 0) {
 	        search.setCurrentPage(1);
 	    }
 	    search.setPageSize(pageSize);
-
+	    
 	    // Start Row Num 계산
 	    int startRowNum = (search.getCurrentPage() - 1) * pageSize;
 
