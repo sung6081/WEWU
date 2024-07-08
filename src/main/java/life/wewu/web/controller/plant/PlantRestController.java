@@ -238,7 +238,7 @@ public class PlantRestController {
 
 	        for (QuestState questState : list) {
 	            map.put("questRegDate", questState.getQuest().getRegDate());
-	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            int acleCount = plantService.memberAcleListCnt(map); // acleCount 계산
 	            System.out.println(map);
 	            questState.setAcleCount(acleCount); // currentCnt 설정
 	            System.out.println("현재작성한게시물수 : "+acleCount);
@@ -255,25 +255,17 @@ public class PlantRestController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 	    }
 	}
-    @RequestMapping(value = "completeQuest", method = RequestMethod.POST)
-    public ResponseEntity<?> completeQuest(@RequestBody Map<String, Object> params, HttpSession session) {
+	@RequestMapping(value = "completeQuest", method = RequestMethod.POST)
+    public ResponseEntity<String> completeQuest(@RequestParam("questStateNo") int questStateNo) {
+        System.out.println("::plant::REST::completeQuest : POST");
+        System.out.println("questStateNo : " + questStateNo);
+
         try {
-            System.out.println("::plant::REST::completeQuest : POST");
-
-            User user = (User) session.getAttribute("user");
-            System.out.println("User: " + user);
-
-            if (user == null) {
-                throw new Exception("User not found in session");
-            }
-
-            int questStateNo = (int) params.get("questStateNo");
             plantService.completeAndupdateReward(questStateNo);
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("Quest completion and reward update successful.");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Quest completion failed.");
         }
     }
 	@RequestMapping(value = "updateQuest", method = RequestMethod.POST)

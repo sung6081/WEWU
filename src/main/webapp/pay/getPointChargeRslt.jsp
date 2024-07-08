@@ -44,7 +44,7 @@
 
 <body>
 
-	<jsp:include page="/item/ItemSideBar.jsp"/>
+	<jsp:include page="/item/itemSideBar.jsp"/>
 
 	<div class="main-panel">
      	<div class="content-wrapper">
@@ -55,10 +55,12 @@
                <div class="card-body">
                  <h4 class="card-title">포인트 충전 결과</h4>
                  <p class="card-description">
-                  축하드립니다. 포인트 충전을 성공하셨습니다. 
+                  축하드립니다. 포인트 충전에 성공하셨습니다. 
                  
                   
                  </p>
+                 <br>
+                 <br>
                  <form id="forms-sample" method="POST">
                  	<input type="hidden" name="buyerNickname" value="nick1">
 					<input type="hidden" name="payNo" value="${pay.payNo}">

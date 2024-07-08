@@ -84,11 +84,11 @@
         
           <c:forEach var="inventory" items="${list}" varStatus="status">
           <c:if test = "${inventory.itemType.toUpperCase() eq 'Y'}">
-            <c:if test="${status.index % 3 == 0}">
+            <c:if test="${status.index % 5 == 0}">
               <div class="row justify-content-center">
             </c:if>
             
-            <div class="col-lg-4 grid-margin">
+            <div class="col-lg-2 grid-margin">
               <div class="card">
                 <img class="card-img-top" src="${inventory.itemImg}" alt="Card image cap">
                 <div class="card-body">
@@ -106,7 +106,7 @@
               </div>
             </div>
             
-            <c:if test="${status.index % 3 == 2 || status.last}">
+            <c:if test="${status.index % 5 == 4 || status.last}">
               </div>
             </c:if>
             </c:if>

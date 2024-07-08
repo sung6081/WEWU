@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>구매내역 상세조회</title>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 	<!-- HEADER -->
 	<jsp:include page="/header.jsp"/>
@@ -26,7 +25,7 @@
 	
 	<body bgcolor="#ffffff" text="#000000">
 	
-	<jsp:include page="ItemSideBar.jsp"/>
+	<jsp:include page="itemSideBar.jsp"/>
 	
 		<div class="main-panel">
 		        	<div class="content-wrapper">
