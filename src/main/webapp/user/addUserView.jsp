@@ -43,7 +43,7 @@
     .btn.btn-lg {
       font-size: 0.875rem;
       padding: 1.375rem 3.4rem;
-      width: 100%;
+      width: 74%;
     }
 
     .input-group-append .btn {

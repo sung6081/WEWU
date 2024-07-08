@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>loginView</title>
-        
     <jsp:include page="/header.jsp"/>
-    
-<!--     <script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    <script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     
     <style>
         .jumbotron {
@@ -141,175 +138,171 @@
             display: flex;
             justify-content: center;
         }
+        #naverImg img {
+	        width: 100%;
+		    height: 60px;
+		    margin-top: 15px;
+        }
     </style>
     <script type="text/javascript">
-        $(function() {
-            let captchaKey = '';
-            let loginAttempts = 0; // 로그인 시도 횟수
+    $(function() {
+        let captchaKey = '';
+        let loginAttempts = 0; // 로그인 시도 횟수
 
-            function loadCaptcha() {
-                $.get("/captcha/key", function(data) {
-                    if (data.success) {
-                        captchaKey = data.key.match(/"key":"(\w+)"/)[1];
-                        $("#captcha-image").attr("src", "https://naveropenapi.apigw.ntruss.com/captcha-bin/v1/ncaptcha?key=" + captchaKey);
+        function loadCaptcha() {
+            $.get("/captcha/key", function(data) {
+                if (data.success) {
+                    captchaKey = data.key.match(/"key":"(\w+)"/)[1];
+                    $("#captcha-image").attr("src", "https://naveropenapi.apigw.ntruss.com/captcha-bin/v1/ncaptcha?key=" + captchaKey);
+                } else {
+                    alert("캡차를 불러오는 중 오류가 발생했습니다.");
+                }
+            });
+        }
+        
+        function showCaptcha() {
+            $("#captcha-section").show();
+            loadCaptcha();
+        }
+
+        function hideCaptcha() {
+            $("#captcha-section").hide();
+        }
+
+        hideCaptcha(); // 초기에는 캡차를 숨김
+
+        $("#userId").focus();
+
+        function login() {
+            var id = $("#userId").val();
+            var pw = $("#password").val();
+            var captchaValue = $("#captcha").val();
+
+            if (id == null || id.length < 1) {
+                alert('ID 를 입력하지 않으셨습니다.');
+                $("#userId").focus();
+                return;
+            }
+
+            if (pw == null || pw.length < 1) {
+                alert('패스워드를 입력하지 않으셨습니다.');
+                $("#password").focus();
+                return;
+            }
+
+            var requestData = {
+                userId: id,
+                userPwd: pw
+            };
+
+            if (loginAttempts >= 3) {
+                if (captchaValue == null || captchaValue.length < 1) {
+                    alert('캡차 값을 입력하지 않으셨습니다.');
+                    $("#captcha").focus();
+                    return;
+                }
+                requestData.captcha = captchaValue;
+                requestData.captchaKey = captchaKey;
+
+                // 캡차 값 검증
+                $.post("/captcha/compare", {captcha: captchaValue, key: captchaKey}, function(response) {
+                    if (!response.success) {
+                        alert('캡차 검증에 실패하였습니다.');
+                        loadCaptcha(); // 새로운 캡차 로드
+                        $("#captcha").val('').focus();
+                        return;
                     } else {
-                        alert("캡차를 불러오는 중 오류가 발생했습니다.");
+                        processLogin(requestData);
                     }
                 });
+            } else {
+                processLogin(requestData);
             }
+        }
 
-            function showCaptcha() {
-                $("#captcha-section").show();
-                loadCaptcha();
-            }
-
-            function hideCaptcha() {
-                $("#captcha-section").hide();
-            }
-
-            hideCaptcha(); // 초기에는 캡차를 숨김
-
-            $("#userId").focus();
-
-            function login() {
-                var id = $("#userId").val();
-                var pw = $("#password").val();
-                var captchaValue = $("#captcha").val();
-
-                if (id == null || id.length < 1) {
-                    alert('ID 를 입력하지 않으셨습니다.');
-                    $("#userId").focus();
-                    return;
-                }
-
-                if (pw == null || pw.length < 1) {
-                    alert('패스워드를 입력하지 않으셨습니다.');
-                    $("#password").focus();
-                    return;
-                }
-
-                var requestData = {
-                    userId: id,
-                    userPwd: pw
-                };
-
-                if (loginAttempts >= 3) {
-                    if (captchaValue == null || captchaValue.length < 1) {
-                        alert('캡차 값을 입력하지 않으셨습니다.');
-                        $("#captcha").focus();
-                        return;
-                    }
-                    requestData.captcha = captchaValue;
-                    requestData.captchaKey = captchaKey;
-
-                    // 캡차 값 검증
-                    $.post("/captcha/compare", {captcha: captchaValue, key: captchaKey}, function(response) {
-                        if (!response.success) {
-                            alert('캡차 검증에 실패하였습니다.');
-                            loadCaptcha(); // 새로운 캡차 로드
-                            $("#captcha").val('').focus();
-                            return;
-                        } else {
-                            processLogin(requestData);
-                        }
-                    });
-                } else {
-                    processLogin(requestData);
-                }
-            }
-
-            function processLogin(requestData) {
-                $.ajax({
-                    url: "/user/login",
-                    method: "POST",
-                    data: requestData,
-                    success: function(response) {
-                        if (response.success) {
-                            window.location.href = "/index.jsp";
+        function processLogin(requestData) {
+            $.ajax({
+                url: "/user/login",
+                method: "POST",
+                data: requestData,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = "/index.jsp";
+                    } else {
+                        if (response.error === "null_myplant") {
+                            window.location.href = "/plant/randomPlantModal.jsp";
                         } else {
                             loginAttempts++;
                             alert('로그인에 실패하였습니다. \n' + response.error);
-                            if (response.error === "삭제처리 되었습니다." || response.error === "정지처리 되었습니다.") {
+                            if (response.error === "로그인이 제한된 계정입니다") {
                                 alert("로그인이 제한된 계정입니다");
                             }
                             if (loginAttempts >= 3) {
                                 showCaptcha();
                             }
                         }
-                    },
-                    error: function() {
-                        loginAttempts++;
-                        alert('로그인 중 오류가 발생했습니다.');
-                        if (loginAttempts >= 3) {
-                            showCaptcha();
-                        }
                     }
-                });
-            }
-
-            $("a.login-btn").on("click", function(event) {
-                event.preventDefault();
-                login();
-            });
-
-            $("a.register-link").on("click", function(event) {
-                event.preventDefault();
-                self.location = "/user/addUser";
-            });
-
-            $("a.find-id").on("click", function(event) {
-                event.preventDefault();
-                self.location = "/user/findUserId";
-            });
-
-            $("a.find-pw").on("click", function(event) {
-                event.preventDefault();
-                self.location = "/user/findPwd";
-            });
-
-            $("#reload-captcha").on("click", function() {
-                loadCaptcha();
-            });
-
-            // 페이지 로드 시 로그인 시도 횟수 확인
-            $.get("/user/loginAttempts", function(data) {
-                loginAttempts = data.loginAttempts;
-                if (loginAttempts >= 3) {
-                    showCaptcha();
+                },
+                error: function() {
+                    loginAttempts++;
+                    alert('로그인 중 오류가 발생했습니다.');
+                    if (loginAttempts >= 3) {
+                        showCaptcha();
+                    }
                 }
             });
+        }
 
-            // 엔터 키 이벤트 처리
-            $(document).on("keypress", function(event) {
-                if (event.which === 13) {
-                    login();
-                }
-            });
-
-            // 새로고침 이미지 클릭 이벤트 추가
-            $("#reload-captcha").on("click", function() {
-                loadCaptcha();
-            });
-
-            // 페이지 로드 시 아이디 입력란에 포커스
-            $("#userId").focus();
-            
-            // 네이버 로그인 초기화
-           /*  function initializeNaverLogin() {
-                var naver_id_login = new naver_id_login("id", "http://localhost:8080/user/naverCallBack.jsp");
-                var state = naver_id_login.getUniqState();
-                naver_id_login.setButton("white", 2, 40);
-                naver_id_login.setDomain("http://localhost:8080");
-                naver_id_login.setState(state);
-                naver_id_login.setPopup();
-                naver_id_login.init_naver_id_login();
-            }
-
-            // 페이지 로드 후 네이버 로그인 초기화
-            $(document).ready(function() {
-                initializeNaverLogin();
-            }); */
+        $("a.login-btn").on("click", function(event) {
+            event.preventDefault();
+            login();
         });
+
+        $("a.register-link").on("click", function(event) {
+            event.preventDefault();
+            self.location = "/user/addUser";
+        });
+
+        $("a.find-id").on("click", function(event) {
+            event.preventDefault();
+            self.location = "/user/findUserId";
+        });
+
+        $("a.find-pw").on("click", function(event) {
+            event.preventDefault();
+            self.location = "/user/findPwd";
+        });
+
+        $("#reload-captcha").on("click", function() {
+            loadCaptcha();
+        });
+
+        // 페이지 로드 시 로그인 시도 횟수 확인
+        $.get("/user/loginAttempts", function(data) {
+            loginAttempts = data.loginAttempts;
+            if (loginAttempts >= 3) {
+                showCaptcha();
+            }
+        });
+
+        // 엔터 키 이벤트 처리
+        $(document).on("keypress", function(event) {
+            if (event.which === 13) {
+                login();
+            }
+        });
+
+        // 새로고침 이미지 클릭 이벤트 추가
+        $("#reload-captcha").on("click", function() {
+            loadCaptcha();
+        });
+
+        // 페이지 로드 시 아이디 입력란에 포커스
+        $("#userId").focus();
+    });
+
+
+
     </script>
     
 </head>
@@ -354,11 +347,8 @@
                                 <a href="#" class="auth-link find-id">아이디 찾기</a>
                                 <a href="#" class="auth-link find-pw">비밀번호 찾기</a>
                             </div>
-                            
-<%--                               <jsp:include page="/user/naverLogin.jsp" />
- --%>                            
-                        </form>
-                        
+                            <a id=naverImg href="/nlogin/login/naver"><img src="/images/btn_Nlogin.png"/></a>
+ 						</form>
                     </div>
                 </div>
             </div>
@@ -367,3 +357,4 @@
     <jsp:include page="/footer.jsp"/>
 </body>
 </html>
+
