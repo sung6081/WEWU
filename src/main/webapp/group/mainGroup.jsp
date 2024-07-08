@@ -412,7 +412,7 @@
 			                        		}
 			                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 			                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
-							            	str +=  "  <td>"+ data[i+1].joinDate +"</td>";
+							            	str +=  "  <td>"+ data[i+1].rsltDate +"</td>";
 							            	str +=  " <td><label class='badge badge-success'>가입승인</label></td>";
 							            }else
 							            if(data[i+1].joinFlag == "L"){
@@ -428,7 +428,7 @@
 				                        		}
 				                        		str +=  "  <td>"+ data[i].groupName +"</td>";
 				                        		str +=  "  <td class=font-weight-bold>"+ data[i].groupLevel +"</td>";
-								            	str +=  "  <td>"+ data[i+1].applDate +"</td>";
+								            	str +=  "  <td>"+ data[i+1].rsltDate +"</td>";
 								            	str +=  " <td><label class='badge badge-warning'>모임장</label></td>";	
 							            	}
 							            	
@@ -788,11 +788,9 @@
 					    <div class="col-md-10 grid-margin stretch-card" id="ranking">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title"><img class="sideIcon" src="/group/img/medal_13461118.png">모임랭킹 <code>* 상위 10위</code></h4>
+									<h4 class="card-title"><img class="sideIcon" src="/group/img/medal_13461118.png">모임랭킹 </h4>
 					                <div class="form-group">
-										<div class="btn-group" role="group" aria-label="Basic example">
-				                        <button type="button" class="btn btn-outline-secondary btn-inverse-info">인원 수</button>
-				                        </div>
+										<code>랭킹 :: 등급과 인원 수를 기준</code>
 					                </div>
 									<div class="list-wrapper pt-2" style="max-height:310px;">
 										<table class="table table-striped table-borderless todo-list todo-list-custom">
