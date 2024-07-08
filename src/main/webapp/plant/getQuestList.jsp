@@ -57,9 +57,12 @@ $(document).ready(function () {
                 updateQuestList();
             },
             error: function (xhr, status, error) {
-                console.error("퀘스트 완료 중 오류 발생: ", xhr.responseText);
-                console.error("Status: ", status);
-                console.error("Error: ", error);
+            	console.error("퀘스트 완료 중 오류 발생:");
+                console.error("Status: ", xhr.status);            // 상태 코드 출력
+                console.error("Status Text: ", xhr.statusText);   // 상태 텍스트 출력
+                console.error("Response Text: ", xhr.responseText); // 응답 본문 출력
+                console.error("Error: ", error);                 // 오류 메시지 출력
+
             }
         });
     }
