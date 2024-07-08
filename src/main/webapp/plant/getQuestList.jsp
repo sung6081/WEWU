@@ -34,6 +34,7 @@ $(document).ready(function () {
                     }
                 }
                 $("#questResult").html(str);
+                window.location.reload();
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred while fetching quest list: ", xhr.responseText);
@@ -54,6 +55,7 @@ $(document).ready(function () {
             data: { questStateNo: questStateNo },
             success: function (data, status, xhr) {
                 console.log("Request successful. Data received:", data);
+                window.location.reload();
                 updateQuestList();
             },
             error: function (xhr, status, error) {
