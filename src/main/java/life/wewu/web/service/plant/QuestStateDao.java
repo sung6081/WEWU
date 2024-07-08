@@ -27,4 +27,8 @@ public interface QuestStateDao {
 	
 	public void addQuestState(QuestState questState) throws Exception;
 
+	public QuestState getQuestByStateNo(int questStateNo);
+	
+	
+
 }

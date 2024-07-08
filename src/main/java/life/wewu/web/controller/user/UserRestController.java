@@ -3,6 +3,7 @@ package life.wewu.web.controller.user;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,14 +90,28 @@ public class UserRestController {
                 session.setAttribute("isAdmin", "1".equals(dbUser.getRole()));
                 session.setAttribute("userNickname", dbUser.getNickname()); // 사용자 닉네임 세션에 저장
                 session.removeAttribute("loginAttempts"); // 로그인 성공 시 로그인 시도 횟수 초기화
+
+                if ("1".equals(dbUser.getRole())) { // Admin일 경우
+                    response.put("success", true);
+                    return response;
+                }
+
                 try {
-                	MyPlant myPlant = plantService.getMyPlant(dbUser.getNickname());
-                	PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
+                    MyPlant myPlant = plantService.getMyPlant(dbUser.getNickname());
+                    if (myPlant == null) {
+                        response.put("success", false);
+                        response.put("error", "null_myplant");
+                        return response;
+                    }
+                    PlantLevl plantLevl = plantService.getPlantLevl(myPlant.getPlantLevl().getPlantLevlNo());
                     myPlant.setPlantLevl(plantLevl);
                     session.setAttribute("myPlant", myPlant);
                 } catch (Exception e) {
                     System.out.println("MyPlant 가져오기 중 예외 발생 : " + e.getMessage());
                     e.printStackTrace();
+                    response.put("success", false);
+                    response.put("error", "myplant_error");
+                    return response;
                 }
                 System.out.println("로그인 성공: " + dbUser.getUserId());
                 response.put("success", true);
@@ -104,7 +119,7 @@ public class UserRestController {
                 System.out.println("로그인 실패: 비밀번호 불일치 또는 사용자 없음");
                 session.setAttribute("loginAttempts", ++loginAttempts); // 로그인 실패 시 로그인 시도 횟수 증가
                 response.put("success", false);
-                response.put("error", "\n 아이디 또는 비밀번호가 틀렸습니다.");
+                response.put("error", "아이디 또는 비밀번호가 틀렸습니다.");
             }
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 사용자 정보 예외 처리
@@ -119,6 +134,10 @@ public class UserRestController {
         }
         return response;
     }
+
+
+
+
 
     // 캡차 검증 메서드
     private boolean verifyCaptcha(String captchaKey, String captchaValue) {

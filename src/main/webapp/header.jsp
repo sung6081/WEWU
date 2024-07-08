@@ -162,7 +162,7 @@
                    </div>
                    <!-- Menu 2 with nested dropdown -->
                    <div class="dropdown">
-                     <a class="dropdown-item" href="/board/listDonation?payType=1">후원관리</a>
+                     <a class="dropdown-item" href="/board/listDonation?payType=B">후원관리</a>
                    </div>
                    <!-- Menu 3 with nested dropdown -->
                    <div class="dropdown">
@@ -219,7 +219,7 @@
                        <div class="dropdown-menu" aria-labelledby="userDropdown">
                          <a class="dropdown-item" href="/user/myInfo">마이페이지</a>
                          <a class="dropdown-item" href="/group/mainGroup.jsp">내모임</a>
-                         <a class="dropdown-item" href="#">결제관리</a>
+                         <a class="dropdown-item" href="/pay/getPointChargeList">결제관리</a>
                          <a class="dropdown-item" href="/user/logout">LogOut</a>
                        </div>
                      <li class="nav-settings">

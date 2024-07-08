@@ -42,6 +42,7 @@
             width: 100%;
             background-color: #f8f9fa;
             border: 1px solid #ddd;
+             margin: 50px 0px 100px;
             margin-bottom: 20px; /* 테이블과 네비게이션 바 사이 여백 추가 */
         }
         .table th, .table td {

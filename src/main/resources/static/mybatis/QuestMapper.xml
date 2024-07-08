@@ -85,7 +85,7 @@
 		<set>
 			quest_state = 'N'
 		</set>
-		WHERE quest_no = #{questNo}
+		WHERE quest_state_no = #{questStateNo}
 	</update>
 	<!-- 보상까지받는 쿼리를 짜야함 -->
 	
@@ -112,11 +112,25 @@
 	  	AND qs.quest_state = 'Y' 
 	</select>
 
-	 <select id="getQuestByStateNo" parameterType="int" resultType="life.wewu.web.domain.plant.Quest">
-    SELECT q.*
-    FROM quest q
-    JOIN quest_state qs ON q.quest_no = qs.quest_no
-    WHERE qs.quest_state_no = #{questStateNo}
-</select>
+
+
+
+<select id="memberAcleListCnt" parameterType="MAP" resultType="INT">
+  		SELECT 
+  			COUNT(*)
+  		FROM board 
+  		WHERE 
+  		type_no IN (
+  						SELECT 
+  							type_no 
+  						FROM 
+  							board_type 
+  	
+  							
+  					)
+  		AND 
+  			nickname = '${nickname}'
+  		
+  	</select>
 
 </mapper>

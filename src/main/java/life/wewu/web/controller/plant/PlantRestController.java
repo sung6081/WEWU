@@ -232,12 +232,13 @@ public class PlantRestController {
 
 	        Map<String, Object> map = new HashMap<>();
 	        map.put("nickname", user.getNickname());
+	        map.put("groupNo", 0);
 
 	        List<QuestState> list = plantService.getQuestListByUser(map);
 
 	        for (QuestState questState : list) {
 	            map.put("questRegDate", questState.getQuest().getRegDate());
-	            int acleCount = groupService.memberAcleListCnt(map); // acleCount 계산
+	            int acleCount = plantService.memberAcleListCnt(map); // acleCount 계산
 	            System.out.println(map);
 	            questState.setAcleCount(acleCount); // currentCnt 설정
 	            System.out.println("현재작성한게시물수 : "+acleCount);
@@ -254,25 +255,17 @@ public class PlantRestController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 	    }
 	}
-    @RequestMapping(value = "completeQuest", method = RequestMethod.POST)
-    public ResponseEntity<?> completeQuest(@RequestBody Map<String, Object> params, HttpSession session) {
+	@RequestMapping(value = "completeQuest", method = RequestMethod.POST)
+    public ResponseEntity<String> completeQuest(@RequestParam("questStateNo") int questStateNo) {
+        System.out.println("::plant::REST::completeQuest : POST");
+        System.out.println("questStateNo : " + questStateNo);
+
         try {
-            System.out.println("::plant::REST::completeQuest : POST");
-
-            User user = (User) session.getAttribute("user");
-            System.out.println("User: " + user);
-
-            if (user == null) {
-                throw new Exception("User not found in session");
-            }
-
-            int questStateNo = (int) params.get("questStateNo");
             plantService.completeAndupdateReward(questStateNo);
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("Quest completion and reward update successful.");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Quest completion failed.");
         }
     }
 	@RequestMapping(value = "updateQuest", method = RequestMethod.POST)
@@ -403,28 +396,33 @@ public class PlantRestController {
 	    return myPlant;
 	}
 	@RequestMapping(value = "useItem", method = RequestMethod.POST)
-	public Map<String, Object> useItem(@RequestBody Inventory inventory, HttpSession session, Model model)
-			throws Exception {
+	public Map<String, Object> useItem(@RequestBody Inventory inventory, HttpSession session, Model model) throws Exception {
+	    System.out.println("::plant::REST::useItem : POST");
+	    System.out.println("inventory : " + inventory);
 
-		System.out.println("::plant::REST::useItem : POST");
-		System.out.println("inventory : "+inventory);
+	    plantService.updateInventory(inventory);
+	    User user = (User) session.getAttribute("user");
 
-		plantService.updateInventory(inventory);
-		User user = (User) session.getAttribute("user");
-		
-		inventory.setMyPlant(plantService.getMyPlant(user.getNickname()));
-		
-		System.out.println(":inventory myplant: "+inventory.getMyPlant());
-		
-		plantService.UseItem(inventory);
-		
-		model.addAttribute("inventory", inventory);
+	    // 현재 키우고 있는 식물을 가져오기
+	    MyPlant myPlant = plantService.getMyPlant(user.getNickname());
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("inventory", inventory);
-		map.put("user", user);
+	    // 현재 키우고 있는 식물이 있는 경우에만 설정
+	    if (myPlant != null && "Y".equals(myPlant.getMyPlantState())) {
+	        inventory.setMyPlant(myPlant);
+	        System.out.println(":inventory myplant: " + inventory.getMyPlant());
 
-		return map;
+	        plantService.UseItem(inventory);
+	    } else {
+	        System.out.println("현재 키우고 있는 식물이 없습니다.");
+	    }
+
+	    model.addAttribute("inventory", inventory);
+
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("inventory", inventory);
+	    map.put("user", user);
+
+	    return map;
 	}
 
 	@RequestMapping(value = "saveMyPlant", method = RequestMethod.POST)
@@ -460,13 +458,21 @@ public class PlantRestController {
 		return myPlant;
 	}
 
-	@RequestMapping(value = "updateMyPlant", method = RequestMethod.POST)
-	public MyPlant updateMyPlant(@RequestBody MyPlant myPlant) throws Exception {
+	@RequestMapping(value = "updateMyPlant", method = RequestMethod.GET)
+	public MyPlant updateMyPlant(@RequestParam("plantName") String plantName,
+	                             @RequestParam("plantLevlNo") int plantLevlNo,
+	                             @RequestParam("myPlantNo") int myPlantNo) throws Exception {
 
-		System.out.println("::plant::REST::updateMyPlant : POST");
-		plantService.updateMyPlant(myPlant);
+	    System.out.println("::plant::REST::updateMyPlant : GET");
+	    
+	    MyPlant myPlant = new MyPlant();
+	    myPlant.setMyPlantName(plantName);
+	    myPlant.setPlantLevlNo(plantLevlNo);
+	    myPlant.setMyPlantNo(myPlantNo);
+	    
+	    plantService.updateMyPlant(myPlant);
 
-		return myPlant;
+	    return myPlant;
 	}
 
 	@RequestMapping(value = "selectRandomPlant", method = RequestMethod.POST)

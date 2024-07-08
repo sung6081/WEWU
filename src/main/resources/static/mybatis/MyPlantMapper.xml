@@ -73,6 +73,7 @@
   
         GROUP BY 
             m.my_plant_no, m.nickname, m.plant_no, m.my_plant_state, m.my_plant_name
+       <if test="search != null">
         <if test="search.searchKeyword == 'latest'">
             ORDER BY MAX(m.plant_end_date) DESC
         </if>
@@ -87,6 +88,7 @@
         </if>
         <if test="search.searchKeyword != 'latest' and search.searchKeyword != 'oldest' and search.searchKeyword != 'highest' and search.searchKeyword != 'lowest'">
             ORDER BY m.my_plant_no DESC
+        </if>
         </if>
 	</select>
 	
@@ -124,9 +126,9 @@
 	   		<if test='myPlantExp != 0'>
 	   			my_plant_exp = #{myPlantExp},
 	   		</if>
-	   	 nickname = #{nickname}
+	   	  my_plant_no = #{myPlantNo}
 	   	</set>
-	   	WHERE nickname = #{nickname}
+	   	WHERE my_plant_no = #{myPlantNo}
 	 </update>
 	 
 	 <!-- DELETE MYPLANT -->
@@ -140,13 +142,6 @@
 	 	AND my_plant_no = #{myPlantNo}
 	 </update>
 	
-	 <update id="donateMyPlant" parameterType="int">
-	 	UPDATE my_plant
-	 	<set>	
-	 		my_plant_state = 'N'
-	 	</set>
-	 	WHERE my_plant_no = #{myPlantNo}
- 	</update>
  	
  	<update id="updateMyPlantExp" parameterType="map">
         UPDATE my_plant

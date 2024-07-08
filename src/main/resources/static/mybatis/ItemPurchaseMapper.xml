@@ -139,6 +139,8 @@
     SELECT
         ip.item_purchase_no,
         ip.item_purchase_date,
+        ip.refund_compdate, 
+	    ip.refund_askdate, 
         i.item_name,
         ip.item_cnt,
         ip.item_stock,
@@ -146,6 +148,9 @@
         ip.buyer_nickname,
         ip.refund_flag,
         i.item_no
+        
+        
+        
     FROM item_purchase ip
     INNER JOIN item i ON ip.item_no = i.item_no 
     <where>
@@ -161,6 +166,8 @@
 	<select id="getItemPurchaseHistory" parameterType="INT" resultMap="itemPurchaseSelectMap">
 	    SELECT
 	        ip.item_purchase_no,
+	        ip.refund_compdate, 
+	    	ip.refund_askdate, 
 	        ip.item_purchase_date,
 	        i.item_name,
 	        ip.item_cnt,
@@ -168,7 +175,10 @@
 	        i.item_price,
 	        ip.buyer_nickname,
 	        ip.refund_flag,
-	        i.item_no
+	        i.item_no,
+	        ip.refund_point, 
+	        ip.before_refundpoint, 
+	        ip.after_refundpoint
 	    FROM item_purchase ip
 	    INNER JOIN item i ON ip.item_no = i.item_no  <!--  item_purchase 테이블과 item 테이블을 item_no로 INNER JOIN--> 
 	    <where>

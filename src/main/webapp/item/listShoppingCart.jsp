@@ -127,7 +127,7 @@
 														  <td>
 													 	  	<div class="form-check">
 									                          <label class="form-check-label text-muted">
-									                            <input type="radio" class="form-check-input" id="${shoppingCart.itemNo }" name="pno" value="${shoppingCart.shoppingCartNo}"> <%--shoppingCartNo여야 하나? 장바구니 삭제는 requestParam이 ShoppingCartNo이고, 구매하기는 itemNo임. --%> 
+									                            <input type="radio" class="form-check-input" id="${shoppingCart.itemNo}" name="pno" value="${shoppingCart.shoppingCartNo}"> <%--shoppingCartNo여야 하나? 장바구니 삭제는 requestParam이 ShoppingCartNo이고, 구매하기는 itemNo임. --%> 
 									                          </label>
 									                        </div>
 														  </td>

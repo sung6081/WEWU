@@ -174,15 +174,22 @@ public class PlantServiceImpl implements PlantService {
 	    }
 
 	    int currentExp = myPlant.getMyPlantExp();
-	    Quest quest = questDao.getQuestByStateNo(questStateNo); // questStateNo를 이용해 퀘스트 가져오기
-	    int questReward = quest.getQuestReward();
+	    QuestState questState = questStateDao.getQuestByStateNo(questStateNo);
+	    System.out.println(questState.getQuestState());
+	    System.out.println(questState);
+	    System.out.println(questState.getQuest().getQuestReward());
 
+	    int questReward = questState.getQuest().getQuestReward();
 	    int newExp = currentExp + questReward;
+	    System.out.println(currentExp);
+	    System.out.println(questReward);
+	    System.out.println(newExp);
 
 	    Map<String, Object> expMap = new HashMap<>();
 	    expMap.put("nickname", user.getNickname());
 	    expMap.put("myPlantExp", newExp);
 	    myPlantDao.updateMyPlantExp(expMap);
+	    System.out.println("퀘스트완료후 경험치 : "+expMap);
 	}
 
 	// ---------------------------------------------------------------------------------------//
@@ -267,8 +274,8 @@ public class PlantServiceImpl implements PlantService {
 
 
 	@Override
-	public Quest getQuestByStateNo(int questStateNo) throws Exception {
-		return questDao.getQuestByStateNo(questStateNo);
+	public QuestState getQuestByStateNo(int questStateNo) throws Exception {
+		return questStateDao.getQuestByStateNo(questStateNo);
 	}
 
 
@@ -402,8 +409,8 @@ public class PlantServiceImpl implements PlantService {
 	// ---------------------------------------------------------------------------------------//
 
 	@Override
-	public List<Inventory> getInventoryList(Map<String,Object> map) throws Exception {
-		return inventoryDao.getInventoryList(map);
+	public List<Inventory> getInventoryList(String nickname) throws Exception {
+		return inventoryDao.getInventoryList(nickname);
 	}
 
 	@Override
@@ -432,16 +439,21 @@ public class PlantServiceImpl implements PlantService {
 	    System.out.println("UserItem inventory : " + inventory);
 
 	    MyPlant myPlant = myPlantDao.getMyPlant(user.getNickname());
-	    int newExp = myPlant.getMyPlantExp() + itemEffect;
-	    System.out.println("UserItem newExp : " + newExp);
-	    myPlant.setMyPlantExp(newExp);
-	    myPlantDao.updateMyPlant(myPlant);
 
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("myPlantNo", inventory.getMyPlant().getMyPlantNo());
-	    map.put("myPlantExp", inventory.getItemExp());
+	    if (myPlant != null && "Y".equals(myPlant.getMyPlantState())) {
+	        int newExp = myPlant.getMyPlantExp() + itemEffect;
+	        System.out.println("UserItem newExp : " + newExp);
+	        myPlant.setMyPlantExp(newExp);
+	        myPlantDao.updateMyPlant(myPlant);
 
-	    myPlantDao.updateMyPlantExp(map);
+	        Map<String, Object> map = new HashMap<>();
+	        map.put("myPlantNo", myPlant.getMyPlantNo());
+	        map.put("myPlantExp", newExp);
+
+	        myPlantDao.updateMyPlantExp(map);
+	    } else {
+	        System.out.println("현재 키우고 있는 식물이 없습니다.");
+	    }
 
 	    return inventory;
 	}
@@ -450,6 +462,12 @@ public class PlantServiceImpl implements PlantService {
 	@Override
 	public int getTotalCount(Map<String, Object> map) throws Exception {
 		return inventoryDao.getTotalCount(map);
+	}
+
+	@Override
+	public int memberAcleListCnt(Map<String, Object> map) throws Exception {
+		
+		return questDao.memberAcleListCnt(map);
 	}
 
 

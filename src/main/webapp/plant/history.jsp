@@ -165,7 +165,7 @@ $(document).ready(function() {
                                                 </tr>
                                                 </thead>
                                                 <tbody class="plantList">
-                                            <c:forEach var="myPlant" items="${list}" varStatus="status">
+                                            <c:forEach var="myPlant" items="${myPlantList}" varStatus="status">
                                                 <c:if test="${myPlant.myPlantState eq 'N'}">
                                                 <tr class="myPlantlist">
                                                     <td>${myPlant.myPlantName}</td>
