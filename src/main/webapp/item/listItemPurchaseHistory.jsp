@@ -126,7 +126,7 @@
 
 <body>
 
-	<jsp:include page="ItemSideBar.jsp"/>	
+	<jsp:include page="itemSideBar.jsp"/>	
 		
 		<div class="main-panel">
         	<div class="content-wrapper">

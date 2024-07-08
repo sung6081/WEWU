@@ -102,7 +102,7 @@
    </head>
    <body bgcolor="#ffffff" text="#000000">
          
-         <jsp:include page="/item/ItemSideBar.jsp"/>
+         <jsp:include page="/item/itemSideBar.jsp"/>
                
             <div class="main-panel">
                    <div class="content-wrapper">

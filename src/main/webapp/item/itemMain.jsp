@@ -291,7 +291,7 @@
 	
 	
 	<div class="container-fluid page-body-wrapper">
-	<jsp:include page="ItemSideBar.jsp"/>
+	<jsp:include page="itemSideBar.jsp"/>
 	
 	
 	<div class="main-panel">
@@ -303,7 +303,7 @@
 							<div class="col-lg-4 col-md-6">
 				                <div class="section-title">
 				                <br>
-				                    <h4 style="font-size: 24px;"><b>아이템 상점</b></h4>
+				                    <h4 style="font-size: 24px;"><b> </b></h4>
 				                </div>
 					        </div>
 						</div>

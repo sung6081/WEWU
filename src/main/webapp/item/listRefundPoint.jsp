@@ -48,7 +48,7 @@ function fncListRefundPoint(){
 			<input type="hidden" name="buyerNickname" value="nick1">
 			<input type="hidden" name="itemPurchaseNo" value="${item.itemPurchaseNo}">
 			
-			<jsp:include page="ItemSideBar.jsp"/>
+			<jsp:include page="itemSideBar.jsp"/>
 			
 			<div class="main-panel">
 	        		<div class="content-wrapper">
