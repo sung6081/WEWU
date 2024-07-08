@@ -479,6 +479,7 @@ public class PlantServiceImpl implements PlantService {
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("nickname", nickname);
 	    map.put("questRegDate", questRegDate);
+	    System.out.println("countboardAfter : "+ map);
         return questDao.memberAcleListCnt(map);
     }
 
