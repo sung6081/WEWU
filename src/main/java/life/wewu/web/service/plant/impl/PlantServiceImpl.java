@@ -232,13 +232,16 @@ public class PlantServiceImpl implements PlantService {
 		
 		
 		for(Quest quest : quests) {
-			
-			map.put("questNo", quest.getQuestNo());
-			quest.setQuestState(questStateDao.getQuestState(map));
+		    map.put("questNo", quest.getQuestNo());
+		    QuestState questState = questStateDao.getQuestState(map);
+		    if (questState == null) {
+		        System.out.println("No quest state found for questNo: " + quest.getQuestNo());
+		    }
+		    quest.setQuestState(questState);
 		}
 		
 		map.put("quest", quests);
-		map.put("user", user);
+		map.put("user", user.getNickname());
 		
 		
 		List<QuestState> list = questStateDao.getQuestListByUser(map);

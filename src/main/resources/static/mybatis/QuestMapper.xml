@@ -131,7 +131,7 @@
   		AND 
   			nickname = #{nickname}
 		AND 
-        	regDate > #{questRegDate}
+        	reg_date > #{questRegDate}
   		
   	</select>
 
