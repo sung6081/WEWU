@@ -98,6 +98,20 @@ b {
 
     $(function() {
         $(window).on('scroll', onScroll);
+        
+        var orderBy = '${search.searchOrderBy}';
+        
+        //alert(orderBy);
+        
+        if(orderBy != '') {
+        	if(orderBy == '2'){
+        		// 버튼 텍스트 변경
+                $(".orderName").text('인기순');
+        	}else if(orderBy == '3') {
+        		// 버튼 텍스트 변경
+                $(".orderName").text('북마크순');
+        	}
+        }
 
         $("td:nth-child(2)").on("click", function() {
             self.location = "/board/getBoard?boardType=${param.boardType}" + "&boardNo=" + $($(this).children()).val();
@@ -165,6 +179,9 @@ b {
             success: function(response) {
                 if (response.flag === "Y") {
                     alert("북마크 등록 완료");
+                    $('#book'+boardNo).removeClass('mdi-star-outline');
+                    $('#book'+boardNo).addClass('mdi-star');
+                    $('#book'+boardNo).attr('onclick', 'deleteBookmark('+boardNo+')');
                 } else {
                     alert("북마크 등록 실패");
                 }
@@ -193,6 +210,9 @@ b {
             success: function(response) {
                 if (response.flag === "Y") {
                     alert("북마크 삭제 완료");
+                    $('#book'+boardNo).removeClass('mdi-star');
+                    $('#book'+boardNo).addClass('mdi-star-outline');
+                    $('#book'+boardNo).attr('onclick', 'addBookmark('+boardNo+')');
                 } else {
                     alert("북마크 삭제 실패");
                 }
@@ -306,12 +326,12 @@ b {
 									<div class="dropdown-menu"
 										aria-labelledby="dropdownMenuSplitButton3" style="">
 										<a class="dropdown-item orderDef" href="#">최신순</a>
+										<div class="dropdown-divider"></div>
 										<a class="dropdown-item orderPop" href="#">인기순								
 										</a> 
-										<a class="dropdown-item orderBook" href="#">북마크순</a>
-																				
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Separated link</a>
+										<a class="dropdown-item orderBook" href="#">북마크순</a>
+										
 									</div>
 								</div>
 							</div>
@@ -352,11 +372,11 @@ b {
 											</div>
 											<div class="caption">
 												<c:if test="${board.bookmarkFlag}">
-												<i class="mdi mdi-star book" onclick="deleteBookmark(${board.boardNo});"></i>
+												<i class="mdi mdi-star book" id="book${board.boardNo}" onclick="deleteBookmark(${board.boardNo});"></i>
 								
 												</c:if>
 												<c:if test="${!board.bookmarkFlag}">
-													<i class="mdi mdi-star-outline book" onclick="addBookmark(${board.boardNo});"></i>
+													<i class="mdi mdi-star-outline book" id="book${board.boardNo}" onclick="addBookmark(${board.boardNo});"></i>
 												</c:if>
 											</div>
 										</div>
