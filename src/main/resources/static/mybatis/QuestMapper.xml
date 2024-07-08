@@ -129,7 +129,9 @@
   							
   					)
   		AND 
-  			nickname = '${nickname}'
+  			nickname = #{nickname}
+		AND 
+        	regDate > #{questRegDate}
   		
   	</select>
 

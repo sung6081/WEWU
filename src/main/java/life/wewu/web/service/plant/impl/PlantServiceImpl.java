@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +157,7 @@ public class PlantServiceImpl implements PlantService {
 		map.put("nickname", nickname);
 		map.put("questRegDate", quest.getRegDate());
 		
-		int acleCount = groupAcleDao.memberAcleListCnt(map);
+		int acleCount = countBoardAfterQuestRegDate(nickname, quest.getRegDate());
 		return acleCount >= quest.getQuestTargetCnt();
 	}
 
@@ -469,6 +470,15 @@ public class PlantServiceImpl implements PlantService {
 		
 		return questDao.memberAcleListCnt(map);
 	}
+
+	@Override
+	public int countBoardAfterQuestRegDate(String nickname, Date questRegDate) throws Exception {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("nickname", nickname);
+	    map.put("questRegDate", questRegDate);
+        return questDao.memberAcleListCnt(map);
+    }
+
 
 
 

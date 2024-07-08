@@ -1,5 +1,6 @@
 package life.wewu.web.service.plant;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ public interface PlantService {
 	public void checkQuestCompletion(String nickname) throws Exception;
 	
 	public boolean checkAcleCount(Quest quest,String nickname) throws Exception;
+	
+	public int countBoardAfterQuestRegDate(String nickname, Date questRegDate) throws Exception;
 	
 	public QuestState getQuestByStateNo(int questStateNo) throws Exception;
 	
