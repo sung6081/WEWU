@@ -395,7 +395,7 @@
       <div class="col-md-8 stretch-card grid-margin mx-auto">
       <div class ="card">
       <div class = "card-body">
-      <p class = "card-title">공기 질 데이터</p>
+      <p class = "card-title">air Quality Chart</p>
       <div class="container">
         <div class="row mx-auto">
           <div class="col-lg-12">

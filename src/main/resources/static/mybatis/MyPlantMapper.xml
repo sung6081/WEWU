@@ -73,6 +73,7 @@
   
         GROUP BY 
             m.my_plant_no, m.nickname, m.plant_no, m.my_plant_state, m.my_plant_name
+       <if test="search != null">
         <if test="search.searchKeyword == 'latest'">
             ORDER BY MAX(m.plant_end_date) DESC
         </if>
@@ -87,6 +88,7 @@
         </if>
         <if test="search.searchKeyword != 'latest' and search.searchKeyword != 'oldest' and search.searchKeyword != 'highest' and search.searchKeyword != 'lowest'">
             ORDER BY m.my_plant_no DESC
+        </if>
         </if>
 	</select>
 	
