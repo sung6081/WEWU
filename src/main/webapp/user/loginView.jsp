@@ -138,11 +138,20 @@
             display: flex;
             justify-content: center;
         }
-        #naverImg img {
-	        width: 100%;
-		    height: 55px;
-		    margin-top: 15px;
+        #naverImg {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
         }
+
+        #naverImg img {
+            width: 60%;
+            height: 50px;
+        }
+        .btn-primary, .wizard > .actions a {
+		    color: #fff;
+		    background-color: #6e4def;
+		    border-color: #4B49AC;
     </style>
     <script type="text/javascript">
     $(function() {
