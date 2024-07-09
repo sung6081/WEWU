@@ -58,8 +58,8 @@
                 </when>
             </choose> -->
         </if>
-        <if test="search.searchCondition == null and search.searchKeyword != ''">
-            AND INSTR(pay_name, #{search.searchKeyword}) > 0
+        <if test="search.searchKeyword != ''">
+            INSTR(pay_name, #{search.searchKeyword}) > 0 AND
         </if>
         pay_type = 'B'
      
@@ -72,11 +72,10 @@
 		SELECT COUNT(pay_no)
 		FROM pay
 		<where>
+			<if test="search.searchKeyword != ''">
+	            INSTR(pay_name, #{search.searchKeyword}) > 0 AND
+	        </if>
 			pay_type = 'B'
-			<if test="userName != null">
-				pay_name = #{userName}
-			</if>
-			
 		</where>
 		
 	</select>

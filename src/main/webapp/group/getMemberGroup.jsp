@@ -186,7 +186,7 @@
 			
 			function deleteMemberGroup(){
 				
-		        if(!confirm("정말 삭제하시겠습니까?")){
+		        if(!confirm("정말 탈퇴하시겠습니까?")){
 					return;
 					
 		        }else{
@@ -217,10 +217,10 @@
 						},
 						success : function(data, status, xhr) {
 							if(data.flag == "Y"){
-								alert("삭제가 완료되었습니다");
+								alert("탈퇴가 완료되었습니다");
 								$("#getGroup").submit();
 							}else{
-								alert("삭제 실패 : 기타 원인.");
+								alert("탈퇴실패 : 게시글과 댓글을 전부 삭제해주세요.");
 							}
 						},
 						error	: function(xhr, status, error) {
@@ -453,8 +453,7 @@
 		                        ${groupMember.memberNickName}
 		                    <p class="card-description">
 		                        가입날짜 : #${groupMember.rsltDate}<br>
-		                        
-		                       	성별 : <c:if test="${groupMember.gender == 'M' ? '남성':'여성'}"></c:if>
+		                       	성별 : ${groupMember.gender == "M" ? "남성":"여성"}
 		                    </p>
 	                        
 	                        <c:if test="${groupMember != null }">

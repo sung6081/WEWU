@@ -51,7 +51,7 @@
 	  	from quest q , quest_state qs
 	  	WHERE qs.quest_no = q.quest_no
 	  	AND qs.nickname = #{nickname}
-	  	order by quest_state DESC; 
+	 
 	</select>
 	
 	<!-- 퀘스트 상태 업데이트 -->

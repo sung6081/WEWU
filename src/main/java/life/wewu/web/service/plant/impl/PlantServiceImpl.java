@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +157,7 @@ public class PlantServiceImpl implements PlantService {
 		map.put("nickname", nickname);
 		map.put("questRegDate", quest.getRegDate());
 		
-		int acleCount = groupAcleDao.memberAcleListCnt(map);
+		int acleCount = countBoardAfterQuestRegDate(nickname, quest.getRegDate());
 		return acleCount >= quest.getQuestTargetCnt();
 	}
 
@@ -231,13 +232,16 @@ public class PlantServiceImpl implements PlantService {
 		
 		
 		for(Quest quest : quests) {
-			
-			map.put("questNo", quest.getQuestNo());
-			quest.setQuestState(questStateDao.getQuestState(map));
+		    map.put("questNo", quest.getQuestNo());
+		    QuestState questState = questStateDao.getQuestState(map);
+		    if (questState == null) {
+		        System.out.println("No quest state found for questNo: " + quest.getQuestNo());
+		    }
+		    quest.setQuestState(questState);
 		}
 		
 		map.put("quest", quests);
-		map.put("user", user);
+		map.put("user", user.getNickname());
 		
 		
 		List<QuestState> list = questStateDao.getQuestListByUser(map);
@@ -469,6 +473,16 @@ public class PlantServiceImpl implements PlantService {
 		
 		return questDao.memberAcleListCnt(map);
 	}
+
+	@Override
+	public int countBoardAfterQuestRegDate(String nickname, Date questRegDate) throws Exception {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("nickname", nickname);
+	    map.put("questRegDate", questRegDate);
+	    System.out.println("countboardAfter : "+ map);
+        return questDao.memberAcleListCnt(map);
+    }
+
 
 
 

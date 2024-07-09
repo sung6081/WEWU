@@ -227,7 +227,7 @@ b {
 								<button type="button" class="btn btn-inverse-primary btn-fw">
 									FAQ 등록</button>
 							</c:if>
-							<c:if test="${param.questionType eq '문의' && sessionScope.user }">
+							<c:if test="${param.questionType eq '문의' && sessionScope.user != null}">
 								<button type="button" class="btn btn-outline-primary btn-fw">
 									1:1 문의하기</button>
 							</c:if>

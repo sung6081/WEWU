@@ -48,10 +48,6 @@ $(function() {
 	//검색 event연결 처리부분
 	//dom object get 3가지 방법: $(tagName)/(#id)/$(.className)
 	//$("tagName.className:filter함수")사용함
-	$("button:contains('검색')").on("click", function() {
-		//alter($("td.ct_btn01:contains('검색')").html());
-		//fncGetUserList(1);
-	});
 
 	$("td:nth-child(2)").on(
 			"click",
@@ -61,11 +57,16 @@ $(function() {
 						+ $($(this).children()).val();
 
 	});
+	
+	$(".searchBtn").on("click",function(){
+    	//alert(${search.searchKeyword}));
+		fncQuestionList(1);
+	});
 
 	$(".ct_list_pop:nth-child(4n-6)").css("background-color", "whitesmoke");
+	
 
 });
-
 function fncQuestionList(page) {
 	
     var form = $('form');
@@ -78,6 +79,9 @@ function fncQuestionList(page) {
 
     form.submit();
 }
+
+
+
 </script>
 
 </head>

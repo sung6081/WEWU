@@ -30,7 +30,6 @@
 				
 				if($("#scndQuest").val() != "")
 				{
-					alert($("#scndQuest").val());
 					if($("#scndRepl").val().trim() == "" || $("#scndRepl").val() == null)
 					{
 						alert("두 번째 질문에 답을 해주세요~");
