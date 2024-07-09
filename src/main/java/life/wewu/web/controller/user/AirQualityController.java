@@ -22,7 +22,6 @@ public class AirQualityController {
     public String getAirQuality() {
         try {
             String data = airQualityService.getAirQualityData();
-            System.out.println("Air Quality Data: " + data);
             return data; // JSON 데이터를 그대로 반환
         } catch (IOException e) {
             e.printStackTrace();

@@ -212,5 +212,9 @@ public class UserServiceImpl implements UserService {
 		        params.put("points", afterPoint);
 		        userDao.updateUserPoint(params);
 		   }
+	   
+		public User getUserNick(String nickname) throws Exception{
+			return userDao.getUserNick(nickname);
+		}
 
 }

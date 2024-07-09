@@ -219,29 +219,30 @@
 
             <!-- 페이지 네비게이션 Start -->
             <nav aria-label="Page navigation" class="mt-3">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" href="#" onclick="fncGetList(${resultPage.currentPage > 1 ? resultPage.currentPage - 1 : 1})" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <c:forEach begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" var="i">
-                        <c:choose>
-                            <c:when test="${i == resultPage.currentPage}">
-                                <li class="page-item active"><a class="page-link" href="#">${i}</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="page-item"><a class="page-link" href="#" onclick="fncGetList(${i})">${i}</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    <li class="page-item">
-                        <a class="page-link" href="#" onclick="fncGetList(${resultPage.currentPage < resultPage.maxPage ? resultPage.currentPage + 1 : resultPage.maxPage})" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" href="#" onclick="fncGetList(${resultPage.currentPage > 1 ? resultPage.currentPage - 1 : 1})" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <c:forEach begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" var="i">
+            <c:choose>
+                <c:when test="${i == resultPage.currentPage}">
+                    <li class="page-item active"><a class="page-link" href="#">${i}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item"><a class="page-link" href="#" onclick="fncGetList(${i})">${i}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <li class="page-item">
+            <a class="page-link" href="#" onclick="fncGetList(${resultPage.currentPage < resultPage.maxPage ? resultPage.currentPage + 1 : resultPage.maxPage})" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
             <!-- 페이지 네비게이션 End -->
         </div>
     </div>

@@ -62,6 +62,7 @@ public interface UserService {
 	public void updateRole(User user) throws Exception;
 	
 	public void updateUserPoint(String userId, int currentPoint) throws Exception;
-
+	
+	public User getUserNick(String nickname) throws Exception;
 
 }

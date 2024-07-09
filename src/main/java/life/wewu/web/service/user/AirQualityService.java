@@ -53,10 +53,8 @@ public class AirQualityService {
         }
 
         String rawJsonData = sb.toString();
-        System.out.println("Raw JSON Data: " + rawJsonData);
 
         if (!rawJsonData.trim().startsWith("{")) {
-            System.out.println("Invalid JSON format: " + rawJsonData);
             return getDefaultAirQualityData();
         }
 

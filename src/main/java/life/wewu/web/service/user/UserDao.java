@@ -44,5 +44,7 @@ public interface UserDao {
 	public void updateUserPoint(Map<String, Object> params) throws Exception;
 	
 	public List<User> getAllUsers() throws Exception;
+	
+	public User getUserNick(String nickname) throws Exception;
 
 }

@@ -143,4 +143,10 @@
         SELECT * FROM user
     </select>
     
+    <select id="getUserNick" parameterType="String" resultMap="UserResultMap">
+        SELECT * 
+        FROM user 
+        WHERE nickname = #{nickname}
+    </select>
+    
 </mapper>

@@ -140,7 +140,7 @@
         }
         #naverImg img {
 	        width: 100%;
-		    height: 60px;
+		    height: 55px;
 		    margin-top: 15px;
         }
     </style>

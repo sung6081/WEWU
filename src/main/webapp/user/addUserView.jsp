@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-    <!-- HEADER -->
+  <!-- HEADER -->
   <jsp:include page="/header.jsp" />
   <!-- HEADER -->
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
@@ -76,10 +76,19 @@
     .auth-form-light {
       margin-top: 0;
     }
-
   </style>
   <script type="text/javascript">
     $(function() {
+      $(window).on("load", function() {
+        var oauthFlag = "${oauthFlag}";
+        if (oauthFlag == "Y") {
+          alert("추가 정보를 입력하여 회원가입을 진행하세요.");
+          $("#userId").keyup();
+        }
+        
+      });
+
+      var duplResult = 'F';
       let captchaKey = '';
 
       function loadCaptcha() {
@@ -254,7 +263,7 @@
               });
             }
           } else {
-            $("#idCheckMsg").text("입력전 중복확인 부터..").removeClass("text-success").addClass("text-danger");
+            $("#idCheckMsg").text("아이디는 영어만 가능합니다.").removeClass("text-success").addClass("text-danger");
           }
         }, 300));
 
@@ -327,6 +336,8 @@
 
         $("#sendVerificationCode").click(function() {
           var phoneNum = $("#phoneNum").val();
+          // 메시지 초기화
+          $("#phoneNumMsg").text("").removeClass("text-success text-danger");
           $.ajax({
             url: "/user/send-verification-code",
             type: "POST",
@@ -343,6 +354,9 @@
         $("#verifyCode").click(function() {
           var phoneNum = $("#phoneNum").val();
           var code = $("#verificationCode").val();
+          // 메시지 초기화
+          $("#phoneNumMsg").text("").removeClass("text-success text-danger");
+          $("#verificationCodeMsg").text("").removeClass("text-success text-danger");
           $.ajax({
             url: "/user/verify-code-user",
             type: "POST",
@@ -355,7 +369,7 @@
               }
             },
             error: function(xhr, status, error) {
-              $("#verificationCodeMsg").text("인증 과정에서 오류가 발생했습니다.");
+              $("#verificationCodeMsg").text("인증 과정에서 오류가 발생했습니다.").removeClass("text-success").addClass("text-danger");
             }
           });
         });
@@ -386,6 +400,14 @@
             $("#phoneNumMsg").text("").removeClass("text-success text-danger");
             $("#sendVerificationCode").prop("disabled", true);
           }
+        });
+
+
+        $("#userId").on("keyup", function() {
+          var id = $(this).val();
+          $(this).val(id.replace(/[^a-z0-9^_-]/gi, ''));
+
+          checkDupl($(this).val());
         });
 
       });
@@ -452,14 +474,15 @@
               <div class="form-group">
                 <label for="userId" class="col-sm-3 control-label">아 이 디</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-lg" id="userId" name="userId" placeholder="중복확인하세요">
+                  <input type="text" class="form-control form-control-lg" id="userId" name="userId" placeholder="중복확인하세요" value="${oauth.userId}">
                   <span id="idCheckMsg" class="help-block"></span>
+                  <b id="duplResult"></b>
                 </div>
               </div>
               <div class="form-group">
                 <label for="nickname" class="col-sm-3 control-label">닉네임</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" placeholder="중복확인하세요">
+                  <input type="text" class="form-control form-control-lg" id="nickname" name="nickname" placeholder="중복확인하세요" value="${oauth.nickname}">
                   <span id="nicknameCheckMsg" class="help-block"></span>
                 </div>
               </div>
@@ -480,7 +503,7 @@
               <div class="form-group">
                 <label for="userName" class="col-sm-3 control-label">이름</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-lg" id="userName" name="userName" placeholder="회원이름">
+                  <input type="text" class="form-control form-control-lg" id="userName" name="userName" placeholder="회원이름" value="${oauth.userName}">
                 </div>
               </div>
               <div class="form-group">
@@ -526,7 +549,7 @@
                 <label for="phoneNum" class="col-sm-3 control-label">휴대전화번호</label>
                 <div class="col-sm-9">
                   <div class="input-group">
-                    <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" placeholder="휴대전화번호">
+                    <input type="text" class="form-control form-control-lg" id="phoneNum" name="phoneNum" placeholder="휴대전화번호" value="${oauth.phoneNum}">
                     <div class="input-group-append">
                       <button type="button" class="btn btn-primary" id="sendVerificationCode" disabled>인증번호 전송</button>
                     </div>
@@ -550,7 +573,7 @@
               <div class="form-group">
                 <label for="email" class="col-sm-3 control-label">이메일</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-lg" id="email" name="email" placeholder="이메일">
+                  <input type="text" class="form-control form-control-lg" id="email" name="email" placeholder="이메일" value="${oauth.email}">
                 </div>
               </div>
               <div class="form-group">
@@ -578,7 +601,6 @@
                 <a class="btn btn-block btn-secondary btn-lg font-weight-medium auth-form-btn" href="#" role="button" id="cancelButton">취소</a>
               </div>
             </form>
-
           </div>
         </div>
       </div>
